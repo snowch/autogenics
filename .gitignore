@@ -10,3 +10,7 @@ voices/
 # secrets — the ElevenLabs key belongs in the environment, never in the repo
 .env
 *.key
+
+# python bytecode
+__pycache__/
+*.py[cod]
