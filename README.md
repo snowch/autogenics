@@ -11,7 +11,7 @@ edit the markdown, re-run the tool.
 
 | Exercise | Script | Recording | Length |
 | --- | --- | --- | --- |
-| 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 12:24 |
+| 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 13:18 |
 
 > **Safety.** Do not listen while driving. Autogenic training lowers blood
 > pressure and heart rate — check with a clinician first if you have low blood
@@ -64,9 +64,8 @@ python3 tools/generate_audio.py script/arm-heaviness.md \
     --bitrate 64k -o audio/arm-heaviness.mp3
 ```
 
-The committed recording was produced this way (en-us-lessac-medium, 16 kHz
-mono). It is clear and usable, but ElevenLabs gives a warmer, higher-fidelity
-result — re-render with the default engine when you have API access.
+This path needs no API access at all. It is a usable fallback, but at 16 kHz
+it sounds noticeably duller than the ElevenLabs render.
 
 ## Exporting the narration text
 
@@ -111,5 +110,12 @@ exercise.
 
 ## Output
 
-Mono MP3, loudness-normalised to −19 LUFS with −2 dBTP of headroom, which suits
-quiet listening in a dark room. Pass `--no-normalize` to skip.
+Mono MP3 at the engine's native sample rate, loudness-normalised to −19 LUFS
+with −2 dBTP of headroom, which suits quiet listening in a dark room. Pass
+`--no-normalize` to skip.
+
+The committed recording was rendered with ElevenLabs (Charlotte,
+`eleven_multilingual_v2`, speed 0.85) at 24 kHz mono, 13:18 — 3.7 minutes of
+speech around 9.6 minutes of silence. It was built with `--no-safety`, so the
+cancellation rationale is in the script but not in the audio; drop that flag to
+include it.

@@ -231,15 +231,17 @@ def ffmpeg_exe() -> str:
 
 
 def encode_mp3(wav_path: Path, mp3_path: Path, bitrate: str,
-               lufs: float | None) -> None:
+               lufs: float | None, sample_rate: int) -> None:
     mp3_path.parent.mkdir(parents=True, exist_ok=True)
     cmd = [ffmpeg_exe(), "-y", "-loglevel", "error", "-i", str(wav_path)]
     if lufs is not None:
         # Guided-relaxation audio is listened to quietly and often in the dark;
         # normalise to a calm target with headroom rather than mastering hot.
         cmd += ["-af", f"loudnorm=I={lufs}:TP=-2.0:LRA=7"]
+    # loudnorm resamples to 192 kHz internally; pin the output back to the
+    # source rate so the encoder is not spending bits on empty spectrum.
     cmd += ["-codec:a", "libmp3lame", "-b:a", bitrate, "-ac", "1",
-            str(mp3_path)]
+            "-ar", str(sample_rate), str(mp3_path)]
     try:
         subprocess.run(cmd, check=True)
     except FileNotFoundError:
@@ -300,7 +302,7 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
         w.writeframes(bytes(pcm))
 
     if fmt == "mp3":
-        encode_mp3(wav_path, out_path, bitrate, lufs)
+        encode_mp3(wav_path, out_path, bitrate, lufs, rate)
         wav_path.unlink()
 
     total = len(pcm) / (2 * rate)
