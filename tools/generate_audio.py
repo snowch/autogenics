@@ -41,6 +41,9 @@ from pathlib import Path
 NARRATION_START = "<!-- narration:start -->"
 NARRATION_END = "<!-- narration:end -->"
 PAUSE_RE = re.compile(r"^\[pause\s+([0-9]+(?:\.[0-9]+)?)\]$", re.IGNORECASE)
+# A line tagged `<!-- safety -->` carries clinical/safety framing rather than
+# the exercise itself, so it can be dropped with --no-safety.
+SAFETY_RE = re.compile(r"<!--\s*safety\s*-->")
 
 # ElevenLabs defaults. "Charlotte" is a calm, low, unhurried voice that suits
 # relaxation work; override with --voice-id.
@@ -53,7 +56,8 @@ EL_SAMPLE_RATE = 24000  # pcm_24000
 # script parsing
 # --------------------------------------------------------------------------
 
-def parse_script(path: Path) -> list[tuple[str, object]]:
+def parse_script(path: Path, omit_safety: bool = False
+                 ) -> list[tuple[str, object]]:
     """Return a list of ("speak", text) and ("pause", seconds) segments."""
     text = path.read_text(encoding="utf-8")
     if NARRATION_START not in text or NARRATION_END not in text:
@@ -85,6 +89,10 @@ def parse_script(path: Path) -> list[tuple[str, object]]:
             flush()
             segments.append(("pause", float(m.group(1))))
             continue
+        if SAFETY_RE.search(line):
+            if omit_safety:
+                continue
+            line = SAFETY_RE.sub("", line).strip()
         buffer.append(line)
     flush()
     return segments
@@ -322,6 +330,16 @@ def main() -> int:
     p.add_argument("--cache-dir", type=Path, default=Path(".cache/tts"))
     p.add_argument("--dry-run", action="store_true",
                    help="parse only: print segments and estimated duration")
+    p.add_argument("--no-safety", action="store_true",
+                   help="drop lines tagged <!-- safety --> from the narration")
+    p.add_argument("--export-prompt", type=Path, metavar="PATH",
+                   help="write the narration text for pasting into a TTS UI "
+                        "and exit, instead of synthesising")
+    p.add_argument("--prompt-style", choices=("markers", "speech-only"),
+                   default="markers",
+                   help="markers: keep [pause Ns] cues (reference / review). "
+                        "speech-only: narration alone, safe to paste into a "
+                        "TTS UI, which would otherwise read the cues aloud")
     # ElevenLabs options
     p.add_argument("--voice-id", default=DEFAULT_VOICE_ID)
     p.add_argument("--model-id", default=DEFAULT_MODEL_ID)
@@ -339,7 +357,7 @@ def main() -> int:
     if fmt not in ("mp3", "wav"):
         raise SystemExit(f"unsupported output format: {fmt}")
 
-    segments = parse_script(args.script)
+    segments = parse_script(args.script, omit_safety=args.no_safety)
     words = sum(len(str(v).split()) for k, v in segments if k == "speak")
     pause_total = sum(float(v) for k, v in segments if k == "pause")
     # ~135 wpm is a typical guided-relaxation delivery rate.
@@ -350,6 +368,19 @@ def main() -> int:
           f"{sum(1 for k, _ in segments if k == 'pause')} pauses)")
     print(f"  {words} words, {pause_total:.0f}s of silence, "
           f"estimated {est/60:.1f} min total\n")
+
+    if args.export_prompt:
+        lines = []
+        for kind, value in segments:
+            if kind == "speak":
+                lines.append(str(value))
+            elif args.prompt_style == "markers":
+                lines.append(f"[pause {float(value):g}s]")
+        text = "\n\n".join(lines) + "\n"
+        args.export_prompt.parent.mkdir(parents=True, exist_ok=True)
+        args.export_prompt.write_text(text, encoding="utf-8")
+        print(f"Wrote {args.export_prompt} — {len(text)} characters")
+        return 0
 
     if args.dry_run:
         for kind, value in segments:

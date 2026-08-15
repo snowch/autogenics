@@ -285,9 +285,9 @@ I am completely calm.
 
 ### Cancellation
 
-In a moment we will finish, and you will bring the heaviness to an end. This
-part matters — it returns your muscles and your circulation to their normal
-waking tone.
+In a moment we will finish, and you will bring the heaviness to an end.
+
+This part matters — it returns your muscles and your circulation to their normal waking tone. <!-- safety -->
 
 [pause 6]
 

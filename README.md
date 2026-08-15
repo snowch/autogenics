@@ -30,6 +30,7 @@ spoken. Within that region:
 | `[pause 12]` | 12 seconds of silence |
 | `# heading` | structure only, never spoken |
 | `> note` | delivery note for the voice, never spoken |
+| `text <!-- safety -->` | narrated normally, but dropped when `--no-safety` is passed |
 
 Everything outside the markers — safety notes, practice guidance, production
 notes — is for the reader and is ignored by the renderer.
@@ -66,6 +67,28 @@ python3 tools/generate_audio.py script/arm-heaviness.md \
 The committed recording was produced this way (en-us-lessac-medium, 16 kHz
 mono). It is clear and usable, but ElevenLabs gives a warmer, higher-fidelity
 result — re-render with the default engine when you have API access.
+
+## Exporting the narration text
+
+To audition voices in the ElevenLabs UI, or to hand the words to a human
+narrator, export the narration on its own:
+
+```bash
+# narration only — safe to paste into a TTS UI
+python3 tools/generate_audio.py script/arm-heaviness.md --no-safety \
+    --prompt-style speech-only \
+    --export-prompt prompts/arm-heaviness.11labs.speech-only.txt
+
+# same text with [pause Ns] cues kept, for review
+python3 tools/generate_audio.py script/arm-heaviness.md --no-safety \
+    --export-prompt prompts/arm-heaviness.11labs.txt
+```
+
+Both are checked in under [`prompts/`](prompts/). The speech-only file is 2,945
+characters, inside ElevenLabs' single-generation limit, so it can be pasted in
+one go — but pasting it produces *continuous* narration with none of the timed
+silences. For the real recording use `generate_audio.py`, which synthesises
+each segment separately and lays the exact pauses between them.
 
 ## Output
 
