@@ -84,11 +84,30 @@ python3 tools/generate_audio.py script/arm-heaviness.md --no-safety \
     --export-prompt prompts/arm-heaviness.11labs.txt
 ```
 
-Both are checked in under [`prompts/`](prompts/). The speech-only file is 2,945
-characters, inside ElevenLabs' single-generation limit, so it can be pasted in
-one go — but pasting it produces *continuous* narration with none of the timed
-silences. For the real recording use `generate_audio.py`, which synthesises
-each segment separately and lays the exact pauses between them.
+Checked in under [`prompts/`](prompts/):
+
+| File | Style | Use |
+| --- | --- | --- |
+| `arm-heaviness.11labs.speech-only.txt` | narration only | safe to paste into the ElevenLabs UI |
+| `arm-heaviness.11labs.txt` | `[pause Ns]` cues kept | reading and review **only** |
+| `arm-heaviness.11labs.breaks.txt` | `<break/>` tags | UI pastes where some pause is better than none |
+
+**The `[pause Ns]` cues are annotations, not instructions.** ElevenLabs has no
+idea what they mean and will read them aloud as words. Only ever paste the
+speech-only or breaks file into a TTS UI.
+
+### Why the UI cannot reproduce this session
+
+ElevenLabs caps a single `<break/>` at **3 seconds**, and chaining many in a row
+makes the voice drift or glitch. This script rests for 8–25 seconds between
+formulas, so 57 of its 58 pauses need chaining — up to nine tags in a row. The
+`breaks` file is generated for completeness and warns you when it exports, but
+the result is approximate at best.
+
+`generate_audio.py` sidesteps the limit entirely: it asks ElevenLabs only for
+speech, one segment at a time, and lays down the silence itself as digital
+samples. That is the only route to the exact timings, and the pauses *are* the
+exercise.
 
 ## Output
 

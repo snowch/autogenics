@@ -335,11 +335,17 @@ def main() -> int:
     p.add_argument("--export-prompt", type=Path, metavar="PATH",
                    help="write the narration text for pasting into a TTS UI "
                         "and exit, instead of synthesising")
-    p.add_argument("--prompt-style", choices=("markers", "speech-only"),
+    p.add_argument("--prompt-style",
+                   choices=("markers", "speech-only", "breaks"),
                    default="markers",
                    help="markers: keep [pause Ns] cues (reference / review). "
                         "speech-only: narration alone, safe to paste into a "
-                        "TTS UI, which would otherwise read the cues aloud")
+                        "TTS UI, which would otherwise read the cues aloud. "
+                        "breaks: <break/> tags the ElevenLabs UI understands, "
+                        "capped at --break-cap seconds each")
+    p.add_argument("--break-cap", type=float, default=3.0,
+                   help="longest single <break/> tag; ElevenLabs ignores or "
+                        "mangles anything above 3 seconds (default: 3.0)")
     # ElevenLabs options
     p.add_argument("--voice-id", default=DEFAULT_VOICE_ID)
     p.add_argument("--model-id", default=DEFAULT_MODEL_ID)
@@ -371,15 +377,37 @@ def main() -> int:
 
     if args.export_prompt:
         lines = []
+        truncated = []
         for kind, value in segments:
             if kind == "speak":
                 lines.append(str(value))
             elif args.prompt_style == "markers":
                 lines.append(f"[pause {float(value):g}s]")
+            elif args.prompt_style == "breaks":
+                want = float(value)
+                cap = args.break_cap
+                # ElevenLabs caps a single break tag; longer rests have to be
+                # chained, and chaining many is what destabilises the voice.
+                tags, left = [], want
+                while left > 0.05:
+                    step = min(cap, left)
+                    tags.append(f'<break time="{step:.1f}s" />')
+                    left -= step
+                if want > cap:
+                    truncated.append((want, len(tags)))
+                lines.append(" ".join(tags))
         text = "\n\n".join(lines) + "\n"
         args.export_prompt.parent.mkdir(parents=True, exist_ok=True)
         args.export_prompt.write_text(text, encoding="utf-8")
         print(f"Wrote {args.export_prompt} — {len(text)} characters")
+        if args.prompt_style == "breaks" and truncated:
+            worst = max(t[1] for t in truncated)
+            print(f"\n  WARNING: {len(truncated)} pauses exceed the "
+                  f"{args.break_cap:g}s tag limit and are chained "
+                  f"(up to {worst} tags in a row).")
+            print("  ElevenLabs degrades with long break chains. For exact "
+                  "silence, drop --export-prompt and let this tool render "
+                  "the audio.")
         return 0
 
     if args.dry_run:
