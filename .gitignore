@@ -1,0 +1,12 @@
+# TTS segment cache
+.cache/
+
+# downloaded piper voice models (fetch with tools/fetch_piper_voice.sh)
+voices/
+
+# intermediate render artefacts
+*.tmp.wav
+
+# secrets — the ElevenLabs key belongs in the environment, never in the repo
+.env
+*.key
