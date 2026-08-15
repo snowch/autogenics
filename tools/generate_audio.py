@@ -218,6 +218,25 @@ class PiperEngine:
 # assembly
 # --------------------------------------------------------------------------
 
+def stretch_pcm(pcm: bytes, rate: int, factor: float) -> bytes:
+    """Slow speech without shifting pitch, via ffmpeg's atempo filter.
+
+    Applied per segment, never to the assembled timeline, so the inserted
+    silences keep their exact scripted lengths.
+    """
+    if abs(factor - 1.0) < 1e-3:
+        return pcm
+    cmd = [ffmpeg_exe(), "-y", "-loglevel", "error",
+           "-f", "s16le", "-ar", str(rate), "-ac", "1", "-i", "pipe:0",
+           "-filter:a", f"atempo={factor}",
+           "-f", "s16le", "-ar", str(rate), "-ac", "1", "pipe:1"]
+    r = subprocess.run(cmd, input=pcm, stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+    if r.returncode != 0:
+        raise SystemExit(f"atempo failed: {r.stderr.decode()[:300]}")
+    return r.stdout
+
+
 def ffmpeg_exe() -> str:
     exe = os.environ.get("FFMPEG_BINARY")
     if exe:
@@ -252,7 +271,8 @@ def encode_mp3(wav_path: Path, mp3_path: Path, bitrate: str,
 
 
 def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
-          fmt: str, lead_in: float, tail: float, lufs: float | None) -> None:
+          fmt: str, lead_in: float, tail: float, lufs: float | None,
+          stretch: float) -> None:
     cache_dir.mkdir(parents=True, exist_ok=True)
     rate = engine.sample_rate
     pcm = bytearray()
@@ -284,7 +304,7 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
         else:
             audio = engine.synthesize(text, prev, nxt)
             cached.write_bytes(audio)
-        pcm += audio
+        pcm += stretch_pcm(audio, rate, stretch)
 
         done += 1
         secs = len(pcm) / (2 * rate)
@@ -322,6 +342,11 @@ def main() -> int:
     p.add_argument("--format", choices=("mp3", "wav"), default=None,
                    help="defaults to the output file's extension")
     p.add_argument("--bitrate", default="96k")
+    p.add_argument("--stretch", type=float, default=0.85,
+                   help="per-segment time stretch; <1 slows speech without "
+                        "changing pitch. Applied on top of --speed, which the "
+                        "API floors at 0.7 — not slow enough on its own for "
+                        "guided relaxation. 1.0 disables")
     p.add_argument("--lufs", type=float, default=-19.0,
                    help="integrated loudness target; use --no-normalize to skip")
     p.add_argument("--no-normalize", action="store_true")
@@ -353,8 +378,10 @@ def main() -> int:
     p.add_argument("--model-id", default=DEFAULT_MODEL_ID)
     p.add_argument("--stability", type=float, default=0.55)
     p.add_argument("--similarity", type=float, default=0.75)
-    p.add_argument("--speed", type=float, default=0.85,
-                   help="ElevenLabs speaking rate; <1 is slower")
+    p.add_argument("--speed", type=float, default=0.70,
+                   help="ElevenLabs speaking rate; <1 is slower. 0.7 is the "
+                        "API minimum and suits guided relaxation, which runs "
+                        "at roughly 80-110 wpm against ~150 conversational")
     # piper options
     p.add_argument("--piper-model", default="voices/en-us-lessac-medium.onnx")
     p.add_argument("--length-scale", type=float, default=1.15,
@@ -425,7 +452,7 @@ def main() -> int:
 
     build(segments, engine, args.output, args.cache_dir, args.bitrate, fmt,
           args.lead_in, args.tail,
-          None if args.no_normalize else args.lufs)
+          None if args.no_normalize else args.lufs, args.stretch)
     return 0
 
 

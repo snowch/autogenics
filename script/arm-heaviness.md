@@ -59,13 +59,19 @@ seconds of silence; blockquoted lines are delivery notes and are not read.
 
 ### Settling
 
-Welcome. Find your position now — sitting with your head and arms supported,
-or lying on your back with your arms a little away from your sides.
+Welcome.
+
+[pause 2]
+
+Find your position now — sitting with your head and arms supported, or lying on your back with your arms a little away from your sides.
 
 [pause 6]
 
-Let your hands rest with the palms down, the fingers loosely curled. Let your
-feet fall outward.
+Let your hands rest with the palms down, the fingers loosely curled.
+
+[pause 2]
+
+Let your feet fall outward.
 
 [pause 6]
 
@@ -73,18 +79,31 @@ When you are settled, let your eyes close.
 
 [pause 8]
 
-There is nothing to achieve in the next few minutes. Nothing to get right.
-You are simply going to rest your attention on a few quiet phrases, and allow
-whatever happens to happen.
+There is nothing to achieve in the next few minutes.
+
+[pause 2]
+
+Nothing to get right.
+
+[pause 2]
+
+You are simply going to rest your attention on a few quiet phrases, and allow whatever happens to happen.
 
 [pause 8]
 
-Notice the weight of your body where it is supported. The chair, or the floor,
-is holding you completely.
+Notice the weight of your body where it is supported.
+
+[pause 3]
+
+The chair, or the floor, is holding you completely.
 
 [pause 10]
 
-And notice your breathing, without changing it. Let it come and go by itself.
+And notice your breathing, without changing it.
+
+[pause 3]
+
+Let it come and go by itself.
 
 [pause 12]
 
@@ -106,14 +125,35 @@ Now let your attention rest gently on your right arm.
 
 [pause 6]
 
-Not on the idea of your arm — on the arm itself. The upper arm. The elbow.
-The forearm. The hand as it lies there.
+Not on the idea of your arm — on the arm itself.
+
+[pause 3]
+
+The upper arm.
+
+[pause 3]
+
+The elbow.
+
+[pause 3]
+
+The forearm.
+
+[pause 3]
+
+The hand as it lies there.
 
 [pause 10]
 
-You are not going to make your arm heavy. You are simply going to notice that
-it already is. Let the words pass through your mind slowly, and then let go
-of them.
+You are not going to make your arm heavy.
+
+[pause 2]
+
+You are simply going to notice that it already is.
+
+[pause 3]
+
+Let the words pass through your mind slowly, and then let go of them.
 
 [pause 6]
 
@@ -147,8 +187,11 @@ I am completely calm.
 
 [pause 10]
 
-If your mind has wandered, that is not a mistake. Notice it, and let your
-attention drift back to the arm, without effort.
+If your mind has wandered, that is not a mistake.
+
+[pause 3]
+
+Notice it, and let your attention drift back to the arm, without effort.
 
 [pause 8]
 
@@ -178,7 +221,15 @@ Now let your attention move across, to your left arm.
 
 [pause 8]
 
-The shoulder. The upper arm. The elbow, the forearm, the hand.
+The shoulder.
+
+[pause 3]
+
+The upper arm.
+
+[pause 3]
+
+The elbow, the forearm, the hand.
 
 [pause 10]
 
@@ -210,8 +261,11 @@ I am completely calm.
 
 [pause 12]
 
-The arm is heavy, and it is comfortable. Heavy, and warm, and entirely at
-rest.
+The arm is heavy, and it is comfortable.
+
+[pause 3]
+
+Heavy, and warm, and entirely at rest.
 
 [pause 12]
 
@@ -249,17 +303,31 @@ I am completely calm.
 
 [pause 12]
 
-The heaviness may spread a little on its own — into the shoulders, across the
-chest, down into the legs. Let it go wherever it goes. You do not need to
-direct it.
+The heaviness may spread a little on its own — into the shoulders, across the chest, down into the legs.
+
+[pause 3]
+
+Let it go wherever it goes.
+
+[pause 2]
+
+You do not need to direct it.
 
 [pause 14]
 
-My arms are heavy. I am completely calm.
+My arms are heavy.
+
+[pause 3]
+
+I am completely calm.
 
 [pause 12]
 
-My arms are heavy. I am completely calm.
+My arms are heavy.
+
+[pause 3]
+
+I am completely calm.
 
 [pause 16]
 
@@ -273,7 +341,11 @@ Rest here, with nothing to do, and nothing to say.
 
 [pause 20]
 
-Breathing quietly. The body heavy, and held.
+Breathing quietly.
+
+[pause 3]
+
+The body heavy, and held.
 
 [pause 25]
 
@@ -293,12 +365,19 @@ This part matters — it returns your muscles and your circulation to their norm
 
 > Firmer now. Clear, brisk, awake — but not loud.
 
-First: bend and stretch your arms. Clench your fists and pull them in towards
-your shoulders — firmly, several times.
+First: bend and stretch your arms.
+
+[pause 1]
+
+Clench your fists and pull them in towards your shoulders — firmly, several times.
 
 [pause 8]
 
-Keep going. Feel the strength coming back into the arms.
+Keep going.
+
+[pause 1]
+
+Feel the strength coming back into the arms.
 
 [pause 6]
 
@@ -310,15 +389,27 @@ And once more, a full breath in — and out.
 
 [pause 5]
 
-Now stretch, if you would like to. And open your eyes.
+Now stretch, if you would like to.
+
+[pause 2]
+
+And open your eyes.
 
 [pause 6]
 
-The exercise is finished. Take a moment before you stand.
+The exercise is finished.
+
+[pause 2]
+
+Take a moment before you stand.
 
 [pause 4]
 
-Well done. I will see you at the next practice.
+Well done.
+
+[pause 2]
+
+I will see you at the next practice.
 
 <!-- narration:end -->
 

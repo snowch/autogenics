@@ -11,7 +11,7 @@ edit the markdown, re-run the tool.
 
 | Exercise | Script | Recording | Length |
 | --- | --- | --- | --- |
-| 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 13:18 |
+| 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 15:44 |
 
 > **Safety.** Do not listen while driving. Autogenic training lowers blood
 > pressure and heart rate — check with a clinician first if you have low blood
@@ -45,7 +45,7 @@ python3 tools/generate_audio.py script/arm-heaviness.md \
     -o audio/arm-heaviness.mp3
 ```
 
-Useful flags: `--voice-id`, `--model-id`, `--speed` (`<1` is slower),
+Useful flags: `--voice-id`, `--model-id`, `--speed`, `--stretch`,
 `--stability`, `--lufs`, `--dry-run`. Segments are cached under `.cache/tts/`
 and keyed by voice, settings and text, so re-running after a small script edit
 only re-synthesises what changed.
@@ -115,7 +115,23 @@ with −2 dBTP of headroom, which suits quiet listening in a dark room. Pass
 `--no-normalize` to skip.
 
 The committed recording was rendered with ElevenLabs (Charlotte,
-`eleven_multilingual_v2`, speed 0.85) at 24 kHz mono, 13:18 — 3.7 minutes of
-speech around 9.6 minutes of silence. It was built with `--no-safety`, so the
-cancellation rationale is in the script but not in the audio; drop that flag to
-include it.
+`eleven_multilingual_v2`) at 24 kHz mono, 15:44 — 5.2 minutes of speech around
+10.5 minutes of silence. Built with `--no-safety`, so the cancellation
+rationale is in the script but not the audio; drop that flag to include it.
+
+## Pacing
+
+Guided relaxation runs at roughly **80–110 words per minute**; conversational
+speech is about 150. Hitting that takes three settings working together, since
+none is sufficient alone:
+
+| Lever | Effect |
+| --- | --- |
+| `--speed 0.7` | ElevenLabs' slowest; on its own this script still ran at 129 wpm |
+| sentence-level segments in the script | most of the slowness in real relaxation audio lives in the gaps *between* phrases, not in stretched phonemes |
+| `--stretch 0.85` | per-segment `atempo`, pitch-preserving, closes the remaining gap |
+
+Measured on the committed render: **110 wpm**, 2.0:1 silence to speech.
+Stretch is applied to each segment *after* the cache and never to the assembled
+timeline, so scripted pause lengths stay exact and re-tuning it costs no API
+calls. Pass `--stretch 1.0` to disable.
