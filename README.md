@@ -37,6 +37,20 @@ It is committed, so **GitHub Pages can serve it as-is**: repository *Settings �
 Pages → Source: Deploy from a branch → this branch, folder `/docs`*. Any static
 host works too — the directory has no build step and no backend.
 
+### Without any hosting: serve it from the phone
+
+`tools/serve_on_phone.py` runs in [Pydroid 3](https://play.google.com/store/apps/details?id=ru.iiec.pydroid3)
+or Termux. It finds `heaviness-pwa.zip` in Downloads, unpacks it, and serves it
+at `http://localhost:8000`, which Chrome treats as a secure origin — so the
+service worker registers and *Install app* appears.
+
+You only need it once. Installing precaches the whole app on the device, so
+afterwards it runs with the server stopped and the phone offline.
+
+Note that `file://` is not enough: opening `index.html` from a file manager
+gives no service worker, no install, and unreliable `localStorage` — which is
+where the practice record lives.
+
 Then, on the phone:
 
 | | |
