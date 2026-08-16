@@ -33,6 +33,20 @@ single self-contained file, with the audio inlined:
 python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
 ```
 
+First run is a four-panel case for the method, ending on the safety notes —
+which is the only screen that cannot be skipped past, since the method lowers
+heart rate and blood pressure. The pitch is deliberately not "you will feel
+amazing": it leads on the fact that the skill outlasts the app, and it says
+plainly that most people feel nothing for the first few days and that trying
+harder is what blocks it. Managing that expectation up front is the cheapest
+retention work available, because "nothing happened, so I stopped" is the
+usual way this fails.
+
+> **Health claims need checking before this ships.** The evidence panel cites a
+> 2002 meta-analysis of roughly sixty controlled trials from memory. Verify the
+> citation and the indications against the source, and have someone qualified
+> confirm the wording stays on the wellness side of the medical-claims line.
+
 **One principle is wired into it: the app gets quieter as you improve.**
 Guided narration is the default for the first three days of a stage; after
 that it steps back to a bare timer, and the last rung has no audio at all. An
