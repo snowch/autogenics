@@ -44,7 +44,19 @@ The case for the method itself is still written, but it now sits in Learn
 under "New to the method?" for anyone who wants it, rather than being spent on
 people who came already convinced.
 
-### Claims
+### Positioning and claims
+
+Autogenic training is described as a **self-training method** — learning
+deliberate access to a state the body normally reaches only on its own — not
+as a relaxation practice. That earlier wording was a disclaimer doing double
+duty as a description, and it undersold the method: heaviness is one of six
+standard exercises, with the meditative exercises and personal formulae beyond
+them. The app now maps all six on the Progress screen, marks the two
+traditionally taught with an instructor, and is explicit that it covers
+heaviness only.
+
+Describing scope is not a health claim. The exposure lives in claims of
+outcome, so those are what the copy avoids.
 
 Benefits are described **experientially and never clinically**. The copy says
 what the practice feels like and when people reach for it — warmth and weight
@@ -89,7 +101,7 @@ The cancellation is **not** shortened in any version.
 > **Safety.** Do not listen while driving. Deep relaxation can leave you
 > light-headed on standing — check with a clinician first if you have low blood
 > pressure, a heart condition, diabetes, epilepsy, or are in treatment for a
-> psychotic disorder. These are relaxation practices, not medical treatment or
+> psychotic disorder. These are self-training exercises, not medical treatment or
 > advice. Every session ends with a **cancellation** ("take-back");
 > it is part of the exercise, so do not stop the recording early.
 

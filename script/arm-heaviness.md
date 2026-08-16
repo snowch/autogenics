@@ -18,7 +18,7 @@ anything happen.
 - Deep relaxation can leave you light-headed on standing. If you have low
   blood pressure, a heart condition, diabetes, epilepsy, or you are in
   treatment for a psychotic disorder, speak to your clinician before
-  practising regularly. This is a relaxation practice, not medical treatment
+  practising regularly. This is a self-training method, not medical treatment
   or advice.
 - If at any point you feel uncomfortable, restless or distressed, stop, open
   your eyes and move your arms and legs. That is a normal *autogenic

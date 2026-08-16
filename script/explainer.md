@@ -29,7 +29,7 @@ can't silently slow it to session pace.
 
 <!-- narration:start -->
 
-First, briefly: this is a relaxation practice, not medical treatment, and
+First, briefly: this is a self-training method, not medical treatment, and
 nothing here is medical advice. If something's wrong, see a doctor.
 
 [pause 1.5]

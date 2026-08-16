@@ -20,7 +20,7 @@ done without audio. Use this one for a longer sit when you want it.
 - **Not while driving, cycling, or anything else that needs you.**
 - Deep relaxation can leave you light-headed when you get up. If you have low
   blood pressure, a heart condition, diabetes, or epilepsy, check with your
-  doctor before making it a habit. This is a relaxation practice, not medical
+  doctor before making it a habit. This is a self-training method, not medical
   treatment or advice.
 - If you feel restless, twitchy or tearful partway through, that's a known
   thing — it's called an autogenic discharge, and it isn't a sign you're doing
