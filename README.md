@@ -134,6 +134,13 @@ surface carries "a relaxation practice, not medical treatment or advice".
 Keep any future copy on that side of the line. Naming a condition, quoting a
 study, or promising a result changes what the product legally is.
 
+The intro closes on a **journey map**, which also lives on Progress as a live
+position marker. The six exercises are drawn on a seated figure at the place
+each one is felt — heaviness at the arms, warmth at the hands, then chest,
+ribs, abdomen, forehead — because the method genuinely runs down the body, and
+a map of the body says more than a progress bar. Completed regions fill,
+the current one pulses, and each row carries a pip per step plus the day count.
+
 The ladder now runs the full method: eight steps across all six standard
 exercises, each adding one phrase to the run-through that precedes it, so a
 practice stays around ninety seconds however far along you are. The last step

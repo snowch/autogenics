@@ -245,6 +245,41 @@ details p{margin:9px 0 0; font-size:.89rem; color:var(--ink-2)}
 .obskip{font-size:.82rem; color:var(--muted); text-align:center; text-decoration:underline}
 .obcaveat{font-size:.78rem; color:var(--muted); border-left:2px solid var(--line); padding-left:11px; margin:2px 0 0}
 
+
+/* ---------- journey: the six exercises, placed on the body ---------- */
+.jwrap{display:flex; flex-direction:column; align-items:center; gap:14px; margin-top:14px}
+.jfig{width:100%; max-width:250px; height:auto; display:block}
+.jfig .body{fill:none; stroke:var(--line); stroke-width:2.5; stroke-linecap:round}
+.jfig .node{fill:var(--sunk); stroke:var(--line); stroke-width:2; transition:fill .35s,stroke .35s}
+.jfig .num{font-family:var(--mono); font-size:11px; font-weight:600; fill:var(--muted);
+  text-anchor:middle; dominant-baseline:central; transition:fill .35s}
+.jfig .done .node{fill:var(--accent); stroke:var(--accent)}
+.jfig .done .num{fill:var(--accent-ink)}
+.jfig .now .node{fill:var(--surface); stroke:var(--accent); stroke-width:3}
+.jfig .now .num{fill:var(--accent)}
+@media (prefers-reduced-motion:no-preference){
+  .jfig .now .halo{animation:jpulse 3.4s ease-in-out infinite}
+}
+.jfig .halo{fill:var(--accent); opacity:0}
+@keyframes jpulse{0%,100%{opacity:.05; transform:scale(1)}50%{opacity:.22; transform:scale(1.7)}}
+.jlist{width:100%; display:flex; flex-direction:column; gap:1px}
+.jrow{display:flex; gap:11px; align-items:baseline; padding:7px 9px; border-radius:8px}
+.jrow.now{background:var(--surface-2)}
+.jrow .jn{font-family:var(--mono); font-size:.7rem; color:var(--muted); width:1.1em; flex:none;
+  font-variant-numeric:tabular-nums}
+.jrow.done .jn{color:var(--accent)}
+.jrow.now .jn{color:var(--accent); font-weight:700}
+.jrow .jt{font-size:.87rem; font-weight:600}
+.jrow .jp{font-family:var(--serif); font-style:italic; color:var(--muted); font-size:.83rem}
+.jpips{display:flex; gap:3px; flex:none}
+.jpips .pip{width:7px; height:7px; border-radius:50%; display:block;
+  border:1.5px solid var(--line); background:transparent}
+.jpips .pip.full{background:var(--accent); border-color:var(--accent)}
+.jpips .pip.cur{border-color:var(--accent); background:var(--surface)}
+.jday{font-family:var(--mono); font-size:.62rem; color:var(--accent); flex:none;
+  font-variant-numeric:tabular-nums; letter-spacing:.03em}
+.jrow.done .jt,.jrow.done .jp{opacity:.55}
+
 /* ---------- nav ---------- */
 nav{
   position:fixed; bottom:0; left:0; right:0; z-index:30;
@@ -319,6 +354,11 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <div class="card">
         <h2>The ladder</h2>
         <div class="ladder" id="pLadder"></div>
+      </div>
+
+      <div class="card">
+        <h2>Where you are</h2>
+        <div id="pJourney"></div>
       </div>
 
       <div class="card">
@@ -433,6 +473,13 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <p class="obbody">You start with heaviness in the arms and add one short phrase at a time — eight in all, through the six standard exercises — finishing with the whole sequence and no app at all.</p>
     <p class="obbody">You already know the hard part: <strong>effort is what blocks it.</strong> Say the phrase to yourself, notice what's actually there, and let it be uninteresting.</p>
     <p class="obbody">Expect nothing for the first few days. That's normal, and the log is there so a slow start reads as data rather than failure.</p>
+  </div>
+
+  <div class="obstep">
+    <p class="obkick">Where this goes</p>
+    <h2 class="obtitle">Six exercises, down the body.</h2>
+    <div id="obJourney"></div>
+    <p class="obcaveat">Roughly a week on each, so a couple of months for all six. Plenty of people stop halfway and still keep something they use for the rest of their life.</p>
   </div>
 
   <div class="obfoot">
@@ -590,6 +637,84 @@ function gate(){
 /* ---- taper: guided for the first days of a stage, then step back ---- */
 const defaultGuided=()=>stage().audio!==null && stageDays()<=3;
 
+
+/* ---------- journey map ---------- */
+/* The exercises run down the body, so the map is the body. Each step's own
+   region is what lights up, rather than an abstract bar. */
+const ZONES=[
+  {n:'Heaviness',   where:'arms',      steps:[0,1,2], at:[[72,146],[168,146]]},
+  {n:'Warmth',      where:'hands',     steps:[3],     at:[[52,196],[188,196]]},
+  {n:'Heartbeat',   where:'chest',     steps:[4],     at:[[120,112]]},
+  {n:'Breathing',   where:'ribs',      steps:[5],     at:[[120,140]]},
+  {n:'Warm centre', where:'abdomen',   steps:[6],     at:[[120,168]]},
+  {n:'Cool head',   where:'forehead',  steps:[7],     at:[[120,40]]}
+];
+const zoneOf=step=>{
+  for(let i=0;i<ZONES.length;i++) if(ZONES[i].steps.includes(step)) return i;
+  return ZONES.length;                      // past the last one: all six done
+};
+
+function journeySVG(zone){
+  let g='';
+  ZONES.forEach((z,i)=>{
+    const st = i<zone ? 'done' : (i===zone ? 'now' : '');
+    z.at.forEach(([x,y])=>{
+      g+='<g class="'+st+'">'
+        +'<circle class="halo" cx="'+x+'" cy="'+y+'" r="13"/>'
+        +'<circle class="node" cx="'+x+'" cy="'+y+'" r="13"/>'
+        +'<text class="num" x="'+x+'" y="'+y+'">'+(i+1)+'</text></g>';
+    });
+  });
+  return '<svg class="jfig" viewBox="0 0 240 300" role="img" '
+    +'aria-label="The six exercises marked on a seated figure">'
+    +'<g class="body">'
+    +'<circle cx="120" cy="52" r="27"/>'
+    +'<path d="M120 79 v14"/>'
+    +'<path d="M92 96 h56 a22 22 0 0 1 22 22 v62 a22 22 0 0 1 -22 22 h-56 '
+    +'a22 22 0 0 1 -22 -22 v-62 a22 22 0 0 1 22 -22 z"/>'
+    +'<path d="M94 100 C 76 122, 66 158, 60 184"/>'
+    +'<path d="M146 100 C 164 122, 174 158, 180 184"/>'
+    +'<path d="M84 202 v34 M156 202 v34"/>'
+    +'</g>'+g+'</svg>';
+}
+
+function renderJourney(host, stepIndex){
+  if(!host) return;
+  const zone=zoneOf(stepIndex);
+  const w=el('div','jwrap');
+  const fig=document.createElement('div');
+  fig.innerHTML=journeySVG(zone);
+  w.appendChild(fig.firstChild);
+
+  const list=el('div','jlist');
+  ZONES.forEach((z,i)=>{
+    const done=i<zone, now=i===zone;
+    const r=el('div','jrow'+(done?' done':now?' now':''));
+    r.appendChild(el('span','jn',String(i+1)));
+
+    const t=el('div'); t.style.flex='1';
+    t.appendChild(el('span','jt',z.n));
+    t.appendChild(el('span','jp',' — '+z.where));
+    r.appendChild(t);
+
+    // progress: one pip per step within the exercise
+    const pips=el('div','jpips');
+    z.steps.forEach(st=>{
+      const cls = st<stepIndex ? 'pip full' : st===stepIndex ? 'pip cur' : 'pip';
+      pips.appendChild(el('i',cls));
+    });
+    r.appendChild(pips);
+
+    if(now && stepIndex<STAGES.length-1){
+      const d=el('span','jday','day '+stageDays());
+      r.appendChild(d);
+    }
+    list.appendChild(r);
+  });
+  w.appendChild(list);
+  host.innerHTML=''; host.appendChild(w);
+}
+
 /* ================= views ================= */
 const $=s=>document.querySelector(s);
 const el=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c;
@@ -694,7 +819,9 @@ function renderProgress(){
     r.appendChild(t); lad.appendChild(r);
   });
 }
-const renderAll=()=>{renderToday(); renderProgress();};
+const renderAll=()=>{renderToday(); renderProgress();
+  renderJourney($('#pJourney'), S.stage);
+  renderJourney($('#obJourney'), S.stage);};
 
 /* ================= practice engine ================= */
 let mode='guided', timer=null, ctx=null;
