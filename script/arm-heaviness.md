@@ -65,7 +65,7 @@ Welcome.
 
 Find your position now — sitting with your head and arms supported, or lying on your back with your arms a little away from your sides.
 
-[pause 6]
+[pause 4]
 
 Let your hands rest with the palms down, the fingers loosely curled.
 
@@ -73,11 +73,11 @@ Let your hands rest with the palms down, the fingers loosely curled.
 
 Let your feet fall outward.
 
-[pause 6]
+[pause 4]
 
 When you are settled, let your eyes close.
 
-[pause 8]
+[pause 6]
 
 There is nothing to achieve in the next few minutes.
 
@@ -89,7 +89,7 @@ Nothing to get right.
 
 You are simply going to rest your attention on a few quiet phrases, and allow whatever happens to happen.
 
-[pause 8]
+[pause 6]
 
 Notice the weight of your body where it is supported.
 
@@ -97,7 +97,7 @@ Notice the weight of your body where it is supported.
 
 The chair, or the floor, is holding you completely.
 
-[pause 10]
+[pause 7]
 
 And notice your breathing, without changing it.
 
@@ -105,7 +105,7 @@ And notice your breathing, without changing it.
 
 Let it come and go by itself.
 
-[pause 12]
+[pause 8]
 
 Say quietly, inwardly, with me:
 

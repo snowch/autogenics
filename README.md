@@ -11,7 +11,7 @@ edit the markdown, re-run the tool.
 
 | Exercise | Script | Recording | Length |
 | --- | --- | --- | --- |
-| 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 15:44 |
+| 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:32 |
 
 > **Safety.** Do not listen while driving. Autogenic training lowers blood
 > pressure and heart rate — check with a clinician first if you have low blood
@@ -38,7 +38,7 @@ notes — is for the reader and is ignored by the renderer.
 ## Rendering the audio
 
 ```bash
-pip install requests imageio-ffmpeg
+pip install requests numpy imageio-ffmpeg
 
 export ELEVENLABS_API_KEY=sk_...          # never commit this
 python3 tools/generate_audio.py script/arm-heaviness.md \
@@ -115,23 +115,49 @@ with −2 dBTP of headroom, which suits quiet listening in a dark room. Pass
 `--no-normalize` to skip.
 
 The committed recording was rendered with ElevenLabs (Charlotte,
-`eleven_multilingual_v2`) at 24 kHz mono, 15:44 — 5.2 minutes of speech around
-10.5 minutes of silence. Built with `--no-safety`, so the cancellation
+`eleven_multilingual_v2`) at 24 kHz mono, 14:32 — 4.9 minutes of speech around
+9.6 minutes of silence. Built with `--no-safety`, so the cancellation
 rationale is in the script but not the audio; drop that flag to include it.
 
 ## Pacing
 
-Guided relaxation runs at roughly **80–110 words per minute**; conversational
-speech is about 150. Hitting that takes three settings working together, since
-none is sufficient alone:
+Guided relaxation is usually cited at **80–110 words per minute** against about
+150 for conversational speech. Two levers control it:
 
 | Lever | Effect |
 | --- | --- |
-| `--speed 0.7` | ElevenLabs' slowest; on its own this script still ran at 129 wpm |
-| sentence-level segments in the script | most of the slowness in real relaxation audio lives in the gaps *between* phrases, not in stretched phonemes |
-| `--stretch 0.85` | per-segment `atempo`, pitch-preserving, closes the remaining gap |
+| `--speed 0.7` | ElevenLabs' slowest setting |
+| `--stretch 0.85` | per-segment `atempo`, pitch-preserving, applied on top |
 
-Measured on the committed render: **110 wpm**, 2.0:1 silence to speech.
-Stretch is applied to each segment *after* the cache and never to the assembled
-timeline, so scripted pause lengths stay exact and re-tuning it costs no API
-calls. Pass `--stretch 1.0` to disable.
+Measured on the committed render: **139 wpm over speech alone**, with 2.4:1
+silence to speech across the session.
+
+Measure this on *trimmed* speech. Timing whole segments as returned by the API
+counts their trailing padding as if it were delivery, which reads about 25 wpm
+slower than the voice is actually going. The padding is now trimmed, so the
+figure above is the real one.
+
+Sentence-level segmentation in the script does not change wpm, but it is what
+makes the session feel unhurried: the dwell time lives in the gaps between
+phrases rather than in stretched phonemes. To slow the voice itself further,
+lower `--stretch` — 0.7 reaches roughly 115 wpm. Below about 0.7, `atempo`
+starts to smear sustained vowels, which is exactly where this script lingers.
+Re-tuning costs no API calls, since stretch is applied after the cache.
+
+## Clean joins and exact pauses
+
+Two defects that a segment-and-assemble pipeline invites, and how the tool
+avoids them:
+
+**Clicks.** ElevenLabs' `next_text` parameter tells the model that more speech
+follows immediately. That is false here — seconds of silence follow — so the
+segment ended mid-decay at full amplitude, and appending digital silence
+produced an audible click. It affected 22 of 84 segments. The tool now sends
+`previous_text` only, and additionally fades each segment's edges (10 ms in,
+30 ms out), so nothing can end on a discontinuity.
+
+**Pauses longer than written.** The engine pads each segment with its own
+leading and trailing silence — up to 1.15 s, 46 s across the session — which
+silently stretched every gap. Each segment is now trimmed to its speech, plus
+a 50 ms tail, before the scripted pause is laid down. Measured gap error
+against the script is 0.02 s mean. Pass `--no-trim` to keep the padding.

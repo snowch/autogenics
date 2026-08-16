@@ -135,7 +135,7 @@ class ElevenLabsEngine:
     def cache_key(self, text: str, prev: str, nxt: str) -> str:
         blob = json.dumps(
             [self.name, self.voice_id, self.model_id, self.voice_settings,
-             text, prev, nxt],
+             text, prev],
             sort_keys=True,
         )
         return hashlib.sha256(blob.encode()).hexdigest()[:20]
@@ -146,11 +146,12 @@ class ElevenLabsEngine:
             "model_id": self.model_id,
             "voice_settings": self.voice_settings,
         }
-        # Context makes prosody carry across segment boundaries.
+        # previous_text carries voice character across the join. next_text is
+        # deliberately NOT sent: it makes the model lean into a phrase that is
+        # actually seconds of silence away, so the segment ends mid-decay at
+        # full amplitude and clicks when silence is appended.
         if prev:
             payload["previous_text"] = prev
-        if nxt:
-            payload["next_text"] = nxt
 
         last_error = None
         for attempt in range(5):
@@ -218,6 +219,38 @@ class PiperEngine:
 # assembly
 # --------------------------------------------------------------------------
 
+def trim_and_fade(pcm: bytes, rate: int, fade_in_ms: float = 10.0,
+                  fade_out_ms: float = 30.0, threshold: float = 120.0,
+                  keep_tail: float = 0.05) -> bytes:
+    """Strip a segment's own leading/trailing silence and fade its edges.
+
+    Two reasons. The engine pads each segment unpredictably (up to 1.15s here),
+    which silently lengthens every scripted pause; and a segment that ends at
+    non-zero amplitude clicks when digital silence follows it.
+    """
+    import numpy as np
+
+    a = np.frombuffer(pcm, dtype=np.int16).astype(np.float32)
+    if a.size == 0:
+        return pcm
+    win = max(1, rate // 100)
+    n = a.size // win
+    if n == 0:
+        return pcm
+    rms = np.sqrt((a[:n * win].reshape(n, win) ** 2).mean(axis=1))
+    voiced = np.flatnonzero(rms > threshold)
+    if voiced.size == 0:
+        return b""
+    a = a[voiced[0] * win:
+          min(a.size, (voiced[-1] + 1) * win + int(keep_tail * rate))].copy()
+
+    fi, fo = int(rate * fade_in_ms / 1000), int(rate * fade_out_ms / 1000)
+    if a.size > fi + fo:
+        a[:fi] *= np.linspace(0.0, 1.0, fi, dtype=np.float32)
+        a[-fo:] *= np.linspace(1.0, 0.0, fo, dtype=np.float32)
+    return a.astype(np.int16).tobytes()
+
+
 def stretch_pcm(pcm: bytes, rate: int, factor: float) -> bytes:
     """Slow speech without shifting pitch, via ffmpeg's atempo filter.
 
@@ -272,7 +305,7 @@ def encode_mp3(wav_path: Path, mp3_path: Path, bitrate: str,
 
 def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
           fmt: str, lead_in: float, tail: float, lufs: float | None,
-          stretch: float) -> None:
+          stretch: float, trim: bool) -> None:
     cache_dir.mkdir(parents=True, exist_ok=True)
     rate = engine.sample_rate
     pcm = bytearray()
@@ -304,7 +337,8 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
         else:
             audio = engine.synthesize(text, prev, nxt)
             cached.write_bytes(audio)
-        pcm += stretch_pcm(audio, rate, stretch)
+        audio = stretch_pcm(audio, rate, stretch)
+        pcm += trim_and_fade(audio, rate) if trim else audio
 
         done += 1
         secs = len(pcm) / (2 * rate)
@@ -342,6 +376,9 @@ def main() -> int:
     p.add_argument("--format", choices=("mp3", "wav"), default=None,
                    help="defaults to the output file's extension")
     p.add_argument("--bitrate", default="96k")
+    p.add_argument("--no-trim", action="store_true",
+                   help="keep each segment's own leading/trailing silence "
+                        "instead of trimming to the scripted pause lengths")
     p.add_argument("--stretch", type=float, default=0.85,
                    help="per-segment time stretch; <1 slows speech without "
                         "changing pitch. Applied on top of --speed, which the "
@@ -350,7 +387,7 @@ def main() -> int:
     p.add_argument("--lufs", type=float, default=-19.0,
                    help="integrated loudness target; use --no-normalize to skip")
     p.add_argument("--no-normalize", action="store_true")
-    p.add_argument("--lead-in", type=float, default=2.0,
+    p.add_argument("--lead-in", type=float, default=1.0,
                    help="seconds of silence before the first word")
     p.add_argument("--tail", type=float, default=3.0,
                    help="seconds of silence after the last word")
@@ -452,7 +489,8 @@ def main() -> int:
 
     build(segments, engine, args.output, args.cache_dir, args.bitrate, fmt,
           args.lead_in, args.tail,
-          None if args.no_normalize else args.lufs, args.stretch)
+          None if args.no_normalize else args.lufs, args.stretch,
+          not args.no_trim)
     return 0
 
 
