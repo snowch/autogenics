@@ -12,6 +12,13 @@ edit the markdown, re-run the tool.
 | Exercise | Script | Recording | Length |
 | --- | --- | --- | --- |
 | 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:32 |
+| 1 — Heaviness, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:10 |
+
+The short version is a young-adult cut of the same exercise: identical
+formulas, four repetitions per limb instead of six, 5s pauses instead of 8s,
+and plainer language. Fewer repetitions is a deliberate departure from Schultz
+— a session short enough to repeat daily beats an orthodox one you skip. The
+cancellation is **not** shortened in either.
 
 > **Safety.** Do not listen while driving. Autogenic training lowers blood
 > pressure and heart rate — check with a clinician first if you have low blood
@@ -73,23 +80,21 @@ To audition voices in the ElevenLabs UI, or to hand the words to a human
 narrator, export the narration on its own:
 
 ```bash
-# narration only — safe to paste into a TTS UI
-python3 tools/generate_audio.py script/arm-heaviness.md --no-safety \
-    --prompt-style speech-only \
-    --export-prompt prompts/arm-heaviness.11labs.speech-only.txt
-
-# same text with [pause Ns] cues kept, for review
-python3 tools/generate_audio.py script/arm-heaviness.md --no-safety \
-    --export-prompt prompts/arm-heaviness.11labs.txt
+./tools/export_prompts.sh            # rewrite every file in prompts/
+./tools/export_prompts.sh --check    # fail if any is out of date
 ```
 
-Checked in under [`prompts/`](prompts/):
+Run it after editing a script. The exports are derived files and will otherwise
+drift from their source — they silently had, before `--check` existed. That
+mode suits CI.
 
-| File | Style | Use |
+Three styles are written per script, checked in under [`prompts/`](prompts/):
+
+| Suffix | Style | Use |
 | --- | --- | --- |
-| `arm-heaviness.11labs.speech-only.txt` | narration only | safe to paste into the ElevenLabs UI |
-| `arm-heaviness.11labs.txt` | `[pause Ns]` cues kept | reading and review **only** |
-| `arm-heaviness.11labs.breaks.txt` | `<break/>` tags | UI pastes where some pause is better than none |
+| `.speech-only.txt` | narration only | safe to paste into the ElevenLabs UI |
+| `.txt` | `[pause Ns]` cues kept | reading and review **only** |
+| `.breaks.txt` | `<break/>` tags | UI pastes where some pause is better than none |
 
 **The `[pause Ns]` cues are annotations, not instructions.** ElevenLabs has no
 idea what they mean and will read them aloud as words. Only ever paste the
@@ -98,10 +103,11 @@ speech-only or breaks file into a TTS UI.
 ### Why the UI cannot reproduce this session
 
 ElevenLabs caps a single `<break/>` at **3 seconds**, and chaining many in a row
-makes the voice drift or glitch. This script rests for 8–25 seconds between
-formulas, so 57 of its 58 pauses need chaining — up to nine tags in a row. The
-`breaks` file is generated for completeness and warns you when it exports, but
-the result is approximate at best.
+makes the voice drift or glitch. These scripts rest for 5–25 seconds between
+formulas, so most pauses need chaining — 57 of 84 in the full session, 39 of 45
+in the short one, up to nine tags in a row. The `breaks` files are generated
+for completeness and warn you on export, but the result is approximate at
+best.
 
 `generate_audio.py` sidesteps the limit entirely: it asks ElevenLabs only for
 speech, one segment at a time, and lays down the silence itself as digital
