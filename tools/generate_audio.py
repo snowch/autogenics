@@ -44,6 +44,19 @@ PAUSE_RE = re.compile(r"^\[pause\s+([0-9]+(?:\.[0-9]+)?)\]$", re.IGNORECASE)
 # A line tagged `<!-- safety -->` carries clinical/safety framing rather than
 # the exercise itself, so it can be dropped with --no-safety.
 SAFETY_RE = re.compile(r"<!--\s*safety\s*-->")
+# A script may carry its own render settings, e.g.
+#   <!-- render: --speed 1.0 --stretch 1.0 -->
+# An explainer needs normal delivery; a relaxation session does not. Keeping
+# that with the script stops it being lost on the next re-render.
+RENDER_RE = re.compile(r"<!--\s*render:(.*?)-->", re.DOTALL)
+
+
+def script_render_args(path: Path) -> list[str]:
+    """Return CLI args declared inside the script, if any."""
+    import shlex
+
+    m = RENDER_RE.search(path.read_text(encoding="utf-8"))
+    return shlex.split(m.group(1)) if m else []
 
 # ElevenLabs defaults. "Charlotte" is a calm, low, unhurried voice that suits
 # relaxation work; override with --voice-id.
@@ -423,7 +436,14 @@ def main() -> int:
     p.add_argument("--piper-model", default="voices/en-us-lessac-medium.onnx")
     p.add_argument("--length-scale", type=float, default=1.15,
                    help="piper speaking rate; >1 is slower")
-    args = p.parse_args()
+    # Settings declared in the script come first so explicit CLI flags, parsed
+    # later, win over them.
+    known, _ = p.parse_known_args()
+    file_args = script_render_args(known.script) if known.script.exists() else []
+    args = p.parse_args(file_args + sys.argv[1:])
+    if file_args:
+        print(f"{known.script}: applying render settings from script: "
+              f"{' '.join(file_args)}")
 
     fmt = args.format or (args.output.suffix.lstrip(".").lower() or "mp3")
     if fmt not in ("mp3", "wav"):

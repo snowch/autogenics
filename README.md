@@ -9,10 +9,17 @@ edit the markdown, re-run the tool.
 
 ## Sessions
 
-| Exercise | Script | Recording | Length |
+| Track | Script | Recording | Length |
 | --- | --- | --- | --- |
+| Explainer — start here | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 4:48 |
 | 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:32 |
 | 1 — Heaviness, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:10 |
+
+Listen to the explainer once, before the first practice. It carries the
+teaching — what passive concentration is, what to expect and when, how often to
+practise, and why the cancellation is not optional — so that the sessions never
+have to stop and explain themselves. A session that does that breaks the state
+it is trying to produce.
 
 The short version is a young-adult cut of the same exercise: identical
 formulas, four repetitions per limb instead of six, 5s pauses instead of 8s,
@@ -51,6 +58,17 @@ export ELEVENLABS_API_KEY=sk_...          # never commit this
 python3 tools/generate_audio.py script/arm-heaviness.md \
     -o audio/arm-heaviness.mp3
 ```
+
+A script can declare its own render settings, which the tool applies before
+any CLI flags:
+
+```markdown
+<!-- render: --speed 0.9 --stretch 1.0 --lead-in 0.5 -->
+```
+
+The explainer uses this. It is the one track that is *not* relaxation audio —
+at the session defaults it would come out as a five-minute drone — and keeping
+the settings in the file stops a later re-render silently getting it wrong.
 
 Useful flags: `--voice-id`, `--model-id`, `--speed`, `--stretch`,
 `--stability`, `--lufs`, `--dry-run`. Segments are cached under `.cache/tts/`
@@ -135,8 +153,9 @@ Guided relaxation is usually cited at **80–110 words per minute** against abou
 | `--speed 0.7` | ElevenLabs' slowest setting |
 | `--stretch 0.85` | per-segment `atempo`, pitch-preserving, applied on top |
 
-Measured on the committed render: **139 wpm over speech alone**, with 2.4:1
-silence to speech across the session.
+Measured on the committed renders: **139 wpm** for the full session, 128 for
+the short one, and **163 for the explainer** — which is meant to be brisk, since
+it is information rather than induction.
 
 Measure this on *trimmed* speech. Timing whole segments as returned by the API
 counts their trailing padding as if it were delivery, which reads about 25 wpm
