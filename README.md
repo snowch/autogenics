@@ -75,31 +75,34 @@ a day is the mechanism the whole thing depends on. When that matters, the same
 
 ## The app
 
-[`app/index.html`](app/index.html) is a single-page app around the same
-material: today's dose, a practice timer, one-tap logging, and progression
-gated on the log rather than on time served. No build step, no backend, no
-network — the log lives in `localStorage`, which keeps health-adjacent data on
-the device and makes a future Capacitor or PWA wrapper straightforward.
-
-Open it from the repo and it plays the recordings out of `audio/`. To get a
-single self-contained file, with the audio inlined:
+[`app/index.html`](app/index.html) is a single-page app: no build step, no
+backend, no network. The record lives in `localStorage`, which keeps
+health-adjacent data on the device and leaves a Capacitor or PWA wrapper
+straightforward.
 
 ```bash
+python3 tools/check_app.py                        # syntax-check first
 python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
 ```
 
-First run is three panels, and it assumes the reader already knows what
-autogenic training is — anyone searching for an AT app does. So it does not
-sell the method. Panel one is the disclaimer and safety notes; panel two is
-what this app does differently (the real dose, the taper, evidence-gated
-progression, on-device data); panel three is the deal — little and often, and
-don't try.
+### The journey is the screen
 
-The case for the method itself is still written, but it now sits in Learn
-under "New to the method?" for anyone who wants it, rather than being spent on
-people who came already convinced.
+There is one list: the nine steps of the method, as a vertical timeline with a
+status on each — Done, Now, Later. The current step is open by default and
+carries everything needed to act on it: the phrase, today's three practice
+slots, the start button, the guided/timer choice, the last fourteen days, and
+the two conditions for moving on. Tap any other step to see what it is.
 
-### Plain language
+This replaced a Today tab sitting beside a Progress tab. Once progression is
+something you can see and tap into, "today" is just the open step — a separate
+screen for it duplicated the same state in two places and hid the path. Two
+tabs remain: Practice and Learn.
+
+An earlier version drew the six exercises on a small figure, at the place each
+is felt. It was removed. It looked considered and told you less than the list
+does, which is a fair description of decoration.
+
+### Plain language### Plain language
 
 User-facing copy avoids terms the reader has no reason to know yet. "Stage"
 became "step", "formula" became "phrase", and the take-back is described by
