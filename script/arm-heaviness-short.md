@@ -231,6 +231,8 @@ I am completely calm.
 
 ### Cancellation
 
+[stretch 1.0]
+
 We're going to finish. This last part brings you back up, so do it properly.
 
 This resets your muscles and circulation to normal waking tone. <!-- safety -->

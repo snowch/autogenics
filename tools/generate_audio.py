@@ -49,6 +49,11 @@ SAFETY_RE = re.compile(r"<!--\s*safety\s*-->")
 # An explainer needs normal delivery; a relaxation session does not. Keeping
 # that with the script stops it being lost on the next re-render.
 RENDER_RE = re.compile(r"<!--\s*render:(.*?)-->", re.DOTALL)
+# `[stretch 1.0]` changes the time-stretch for everything after it. Stretch is
+# applied after the cache, so varying it mid-script costs no API calls. Used to
+# let the cancellation wake the listener up rather than drifting on at
+# induction pace.
+STRETCH_RE = re.compile(r"^\[stretch\s+([0-9]*\.?[0-9]+)\]$", re.IGNORECASE)
 
 
 def script_render_args(path: Path) -> list[str]:
@@ -101,6 +106,11 @@ def parse_script(path: Path, omit_safety: bool = False
         if m:
             flush()
             segments.append(("pause", float(m.group(1))))
+            continue
+        m = STRETCH_RE.match(line)
+        if m:
+            flush()
+            segments.append(("stretch", float(m.group(1))))
             continue
         if SAFETY_RE.search(line):
             if omit_safety:
@@ -327,6 +337,7 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
         return b"\x00\x00" * int(round(seconds * rate))
 
     speech = [s for s in segments if s[0] == "speak"]
+    cur_stretch = stretch
     spoken_texts = [s[1] for s in segments if s[0] == "speak"]
     done = 0
     pcm += silence(lead_in)
@@ -335,6 +346,9 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
     for kind, value in segments:
         if kind == "pause":
             pcm += silence(float(value))
+            continue
+        if kind == "stretch":
+            cur_stretch = float(value)
             continue
 
         text = str(value)
@@ -350,7 +364,7 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
         else:
             audio = engine.synthesize(text, prev, nxt)
             cached.write_bytes(audio)
-        audio = stretch_pcm(audio, rate, stretch)
+        audio = stretch_pcm(audio, rate, cur_stretch)
         pcm += trim_and_fade(audio, rate) if trim else audio
 
         done += 1
@@ -465,6 +479,8 @@ def main() -> int:
         lines = []
         truncated = []
         for kind, value in segments:
+            if kind == "stretch":
+                continue
             if kind == "speak":
                 lines.append(str(value))
             elif args.prompt_style == "markers":

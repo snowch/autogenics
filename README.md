@@ -11,9 +11,21 @@ edit the markdown, re-run the tool.
 
 | Track | Script | Recording | Length |
 | --- | --- | --- | --- |
-| Explainer — start here | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 4:48 |
-| 1 — Heaviness (arms) | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:32 |
-| 1 — Heaviness, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:10 |
+| Explainer — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 4:48 |
+| **Example — the daily dose** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:33 |
+| 1 — Heaviness, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
+| 1 — Heaviness, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
+
+**The example is the one that does the work.** It is a single practice at the
+dose the method actually calls for — 96 seconds, dominant arm only, six
+repetitions — done *with* the listener and then handed over: after the
+cancellation it says, in as many words, that they don't need the recording and
+should do it themselves three times a day. Play it a handful of times to learn
+the shape, not daily.
+
+The longer sessions are for occasional use or for someone who wants the long
+form. Frequency is what builds the response; a fourteen-minute session played
+once a day is the wrong dose in both directions.
 
 Listen to the explainer once, before the first practice. It carries the
 teaching — what passive concentration is, what to expect and when, how often to
@@ -45,6 +57,7 @@ spoken. Within that region:
 | `# heading` | structure only, never spoken |
 | `> note` | delivery note for the voice, never spoken |
 | `text <!-- safety -->` | narrated normally, but dropped when `--no-safety` is passed |
+| `[stretch 1.0]` | changes time-stretch for everything after it |
 
 Everything outside the markers — safety notes, practice guidance, production
 notes — is for the reader and is ignored by the renderer.
@@ -138,10 +151,10 @@ Mono MP3 at the engine's native sample rate, loudness-normalised to −19 LUFS
 with −2 dBTP of headroom, which suits quiet listening in a dark room. Pass
 `--no-normalize` to skip.
 
-The committed recording was rendered with ElevenLabs (Charlotte,
-`eleven_multilingual_v2`) at 24 kHz mono, 14:32 — 4.9 minutes of speech around
-9.6 minutes of silence. Built with `--no-safety`, so the cancellation
-rationale is in the script but not the audio; drop that flag to include it.
+All recordings were rendered with ElevenLabs (Charlotte,
+`eleven_multilingual_v2`) at 24 kHz mono. The sessions are built with
+`--no-safety`, so the cancellation rationale stays in the script but not the
+audio; drop that flag to include it.
 
 ## Pacing
 
@@ -161,6 +174,11 @@ Measure this on *trimmed* speech. Timing whole segments as returned by the API
 counts their trailing padding as if it were delivery, which reads about 25 wpm
 slower than the voice is actually going. The padding is now trimmed, so the
 figure above is the real one.
+
+`[stretch]` mid-script lets one recording hold two paces. Every session uses it
+at the cancellation: the take-back is meant to wake the listener, so it runs at
+152 wpm against 129 for the induction. Because stretch is applied after the
+cache, this costs nothing to add or re-tune.
 
 Sentence-level segmentation in the script does not change wpm, but it is what
 makes the session feel unhurried: the dwell time lives in the gaps between
