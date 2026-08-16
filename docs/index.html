@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0D1218">
+<title>Heaviness</title>
+<style>
+/* ---------- tokens: light is the base, dark redefines only values ---------- */
+:root{
+  --ground:#EEF1F5; --surface:#FFFFFF; --surface-2:#E3E8EE; --sunk:#DCE2EA;
+  --ink:#141D27; --ink-2:#4E5C6B; --muted:#8394A4; --line:#D3DAE3;
+  --accent:#B0682F; --accent-ink:#FFFFFF; --accent-soft:#F3E2D2;
+  --good:#3F7D66; --good-soft:#DDEBE5;
+  --shadow:0 1px 2px rgba(20,29,39,.06),0 8px 24px -12px rgba(20,29,39,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1218; --surface:#141C25; --surface-2:#1C2733; --sunk:#0A0F14;
+    --ink:#E6ECF2; --ink-2:#9DAEBD; --muted:#6F8090; --line:#243140;
+    --accent:#E0A15C; --accent-ink:#191108; --accent-soft:#33251A;
+    --good:#6FAE9B; --good-soft:#1B2E29;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1218; --surface:#141C25; --surface-2:#1C2733; --sunk:#0A0F14;
+  --ink:#E6ECF2; --ink-2:#9DAEBD; --muted:#6F8090; --line:#243140;
+  --accent:#E0A15C; --accent-ink:#191108; --accent-soft:#33251A;
+  --good:#6FAE9B; --good-soft:#1B2E29;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -16px rgba(0,0,0,.7);
+}
+:root{
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,ui-serif,serif;
+  --sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px}
+
+/* ---------- shell ---------- */
+.phone{
+  max-width:430px; margin:0 auto; min-height:100vh;
+  display:flex; flex-direction:column;
+  background:var(--ground);
+  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+}
+.top{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  padding:22px 20px 10px;
+}
+.top h1{
+  margin:0; font-family:var(--serif); font-weight:500;
+  font-size:1.32rem; letter-spacing:-.01em; text-wrap:balance;
+}
+.stagechip{
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--muted);
+  border:1px solid var(--line); border-radius:999px; padding:3px 9px;
+  white-space:nowrap;
+}
+main{flex:1; padding:0 20px 24px; display:flex; flex-direction:column; gap:16px}
+.screen{display:none; flex-direction:column; gap:16px; animation:fade .22s ease both}
+.screen.on{display:flex}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+.card{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); padding:18px; box-shadow:var(--shadow);
+}
+.card h2{
+  margin:0 0 4px; font-family:var(--sans); font-size:.72rem; font-weight:650;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+}
+.lede{margin:0; color:var(--ink-2); font-size:.94rem}
+.formula{
+  font-family:var(--serif); font-size:1.5rem; line-height:1.3; margin:6px 0 0;
+  letter-spacing:-.01em; text-wrap:balance;
+}
+
+/* ---------- dose: the three slots are the hero ---------- */
+.dose{display:flex; gap:10px; margin-top:14px}
+.slot{
+  flex:1; height:64px; border-radius:11px; border:1px solid var(--line);
+  background:var(--sunk); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:3px;
+  transition:background .2s,border-color .2s;
+}
+.slot .n{font-family:var(--mono); font-size:1.02rem; font-weight:600; font-variant-numeric:tabular-nums}
+.slot .lab{font-family:var(--mono); font-size:.6rem; letter-spacing:.09em; text-transform:uppercase; color:var(--muted)}
+.slot.done{background:var(--accent-soft); border-color:var(--accent)}
+.slot.done .n{color:var(--accent)}
+
+.btn{
+  width:100%; padding:15px 18px; border-radius:12px; font-weight:600;
+  background:var(--accent); color:var(--accent-ink);
+  transition:transform .12s, filter .18s;
+}
+.btn:active{transform:scale(.985)}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent; color:var(--ink); border:1px solid var(--line); font-weight:500}
+.btn.ghost:hover{background:var(--surface-2); filter:none}
+.btn[disabled]{opacity:.45; cursor:not-allowed}
+.btnrow{display:flex; gap:10px}
+
+.note{
+  font-size:.86rem; color:var(--ink-2); margin:0;
+  border-left:2px solid var(--line); padding-left:12px;
+}
+
+/* ---------- practice ---------- */
+.stage-practice{
+  position:fixed; inset:0; z-index:40; background:var(--ground);
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  gap:26px; padding:32px 24px calc(32px + env(safe-area-inset-bottom));
+  text-align:center;
+}
+.stage-practice.on{display:flex}
+.ring{position:relative; width:236px; height:236px; display:grid; place-items:center}
+.ring svg{position:absolute; inset:0; transform:rotate(-90deg)}
+.ring .track{fill:none; stroke:var(--line); stroke-width:3}
+.ring .prog{fill:none; stroke:var(--accent); stroke-width:3; stroke-linecap:round; transition:stroke-dashoffset .25s linear}
+.ring .halo{
+  position:absolute; width:190px; height:190px; border-radius:50%;
+  background:radial-gradient(circle,var(--accent-soft) 0%,transparent 70%);
+  opacity:.75;
+}
+@media (prefers-reduced-motion:no-preference){
+  .stage-practice.on .halo{animation:breathe 9s ease-in-out infinite}
+}
+@keyframes breathe{0%,100%{transform:scale(.9);opacity:.45}50%{transform:scale(1.08);opacity:.85}}
+.ring .time{
+  position:relative; font-family:var(--mono); font-size:2.1rem; font-weight:500;
+  font-variant-numeric:tabular-nums; letter-spacing:-.02em;
+}
+.cue{font-family:var(--serif); font-size:1.32rem; min-height:2.4em; max-width:22ch; text-wrap:balance; margin:0}
+.phase{font-family:var(--mono); font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0}
+
+/* ---------- rating ---------- */
+.rate{display:flex; gap:8px; margin-top:12px}
+.rate button{
+  flex:1; padding:13px 6px; border:1px solid var(--line); border-radius:11px;
+  background:var(--surface); display:flex; flex-direction:column; gap:3px; align-items:center;
+  transition:border-color .15s, background .15s;
+}
+.rate button:hover{border-color:var(--accent)}
+.rate .v{font-family:var(--mono); font-size:1.15rem; font-weight:600}
+.rate .t{font-size:.63rem; color:var(--muted); line-height:1.2; text-align:center}
+
+/* ---------- progress ---------- */
+.grid{display:grid; grid-template-columns:auto repeat(3,1fr); gap:5px; align-items:center; margin-top:12px}
+.grid .d{font-family:var(--mono); font-size:.63rem; color:var(--muted); padding-right:6px; white-space:nowrap}
+.cell{height:26px; border-radius:6px; background:var(--sunk); border:1px solid var(--line)}
+.cell.r0{background:var(--sunk)}
+.cell.r1{background:color-mix(in srgb,var(--accent) 22%,var(--sunk))}
+.cell.r2{background:color-mix(in srgb,var(--accent) 58%,var(--sunk)); border-color:var(--accent)}
+.cell.r3{background:var(--accent); border-color:var(--accent)}
+.legend{display:flex; gap:12px; margin-top:12px; flex-wrap:wrap}
+.legend span{display:flex; align-items:center; gap:5px; font-size:.7rem; color:var(--muted); font-family:var(--mono)}
+.legend i{width:11px; height:11px; border-radius:3px; display:block; border:1px solid var(--line)}
+
+.ladder{display:flex; flex-direction:column; gap:2px; margin-top:12px}
+.rung{
+  display:flex; gap:12px; align-items:flex-start; padding:12px;
+  border-radius:10px; border:1px solid transparent;
+}
+.rung.cur{background:var(--surface-2); border-color:var(--line)}
+.rung .dot{
+  width:22px; height:22px; border-radius:50%; flex:none; margin-top:1px;
+  border:1.5px solid var(--line); display:grid; place-items:center;
+  font-family:var(--mono); font-size:.66rem; color:var(--muted);
+}
+.rung.cur .dot{border-color:var(--accent); color:var(--accent)}
+.rung.past .dot{background:var(--good); border-color:var(--good); color:var(--surface)}
+.rung .nm{font-weight:600; font-size:.92rem}
+.rung .sub{font-size:.79rem; color:var(--muted)}
+
+.gate{border-radius:11px; padding:14px; margin-top:14px; border:1px solid var(--line); background:var(--sunk)}
+.gate.ready{background:var(--good-soft); border-color:var(--good)}
+.gate h3{margin:0 0 8px; font-family:var(--mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.gate.ready h3{color:var(--good)}
+.crit{display:flex; align-items:center; gap:9px; font-size:.85rem; padding:3px 0; color:var(--ink-2)}
+.crit b{font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+.tick{width:15px; height:15px; flex:none}
+
+/* ---------- learn ---------- */
+.audio{width:100%; margin-top:12px; height:38px}
+details{border-top:1px solid var(--line); padding:13px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer; font-weight:600; font-size:.93rem; list-style:none; display:flex; justify-content:space-between; gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+'; color:var(--muted); font-family:var(--mono)}
+details[open] summary::after{content:'–'}
+details p{margin:9px 0 0; font-size:.89rem; color:var(--ink-2)}
+.safety{border-color:var(--accent)}
+.safety h2{color:var(--accent)}
+
+/* ---------- onboarding: the only place the page raises its voice ---------- */
+#onboard{
+  position:fixed; inset:0; z-index:60; background:var(--ground);
+  display:none; flex-direction:column;
+  padding:0 24px calc(24px + env(safe-area-inset-bottom));
+}
+#onboard.on{display:flex}
+.obwrap{max-width:430px; margin:0 auto; width:100%; flex:1; display:flex; flex-direction:column}
+.obstep{flex:1; display:none; flex-direction:column; justify-content:center; gap:18px; padding:28px 0}
+.obstep.on{display:flex; animation:fade .3s ease both}
+.obkick{
+  font-family:var(--mono); font-size:.65rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--accent); margin:0;
+}
+.obtitle{
+  font-family:var(--serif); font-weight:500; font-size:2.05rem; line-height:1.14;
+  letter-spacing:-.02em; margin:0; text-wrap:balance;
+}
+.obbody{margin:0; color:var(--ink-2); font-size:1rem; max-width:34ch}
+.obbody strong{color:var(--ink); font-weight:600}
+.oblist{list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:14px}
+.oblist li{display:flex; gap:13px; align-items:flex-start}
+.oblist .k{
+  font-family:var(--mono); font-size:.72rem; color:var(--accent);
+  border:1px solid var(--accent); border-radius:5px; padding:2px 6px;
+  flex:none; margin-top:2px; font-variant-numeric:tabular-nums;
+}
+.oblist .v{font-size:.95rem}
+.oblist .v b{display:block; font-weight:650; color:var(--ink)}
+.oblist .v span{color:var(--ink-2); font-size:.88rem}
+.obstat{display:flex; gap:26px; margin:4px 0 0; flex-wrap:wrap}
+.obstat div{display:flex; flex-direction:column}
+.obstat .num{font-family:var(--mono); font-size:1.65rem; font-weight:600; color:var(--accent); letter-spacing:-.02em}
+.obstat .cap{font-size:.76rem; color:var(--muted); max-width:14ch; line-height:1.35}
+.obfoot{display:flex; flex-direction:column; gap:14px; padding-top:6px}
+.obdots{display:flex; gap:6px; justify-content:center}
+.obdots i{width:6px; height:6px; border-radius:50%; background:var(--line); display:block; transition:background .2s,width .2s}
+.obdots i.on{background:var(--accent); width:20px; border-radius:3px}
+.obskip{font-size:.82rem; color:var(--muted); text-align:center; text-decoration:underline}
+.obcaveat{font-size:.78rem; color:var(--muted); border-left:2px solid var(--line); padding-left:11px; margin:2px 0 0}
+
+/* ---------- nav ---------- */
+nav{
+  position:fixed; bottom:0; left:0; right:0; z-index:30;
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
+  backdrop-filter:blur(12px); border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.navin{max-width:430px; margin:0 auto; display:flex}
+nav button{
+  flex:1; padding:11px 4px 13px; display:flex; flex-direction:column;
+  align-items:center; gap:4px; color:var(--muted);
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.07em; text-transform:uppercase;
+}
+nav button.on{color:var(--accent)}
+nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.6}
+.hidden{display:none !important}
+</style>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Heaviness">
+<meta name="description" content="Autogenic training: the six standard exercises, at the dose the method actually calls for.">
+</head>
+<body>
+
+<div class="phone">
+  <div class="top">
+    <h1 id="topTitle">Today</h1>
+    <span class="stagechip" id="topChip">Step 1</span>
+  </div>
+
+  <main>
+    <!-- ================= TODAY ================= -->
+    <section class="screen on" id="s-today">
+      <div class="card">
+        <h2>Today's phrase</h2>
+        <p class="formula" id="tFormula">My right arm is heavy.</p>
+        <p class="lede" id="tSub" style="margin-top:8px"></p>
+        <div class="dose" id="tDose"></div>
+      </div>
+
+      <button class="btn" id="tStart">Start practice</button>
+      <div class="btnrow" id="tModeRow">
+        <button class="btn ghost" id="tGuided">Guided</button>
+        <button class="btn ghost" id="tTimer">Timer only</button>
+      </div>
+      <p class="note" id="tWarn" style="border-left-color:var(--accent);color:var(--ink)"></p>
+      <p class="note" id="tHint"></p>
+    </section>
+
+    <!-- ================ PROGRESS =============== -->
+    <section class="screen" id="s-prog">
+      <div class="card">
+        <h2>Last 14 days</h2>
+        <p class="lede">Each row is a day, each cell one practice.</p>
+        <div class="grid" id="pGrid"></div>
+        <div class="legend">
+          <span><i style="background:var(--sunk)"></i>0 nothing</span>
+          <span><i class="r1" style="background:color-mix(in srgb,var(--accent) 22%,var(--sunk))"></i>1 faint</span>
+          <span><i style="background:color-mix(in srgb,var(--accent) 58%,var(--sunk))"></i>2 clear</span>
+          <span><i style="background:var(--accent)"></i>3 immediate</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Ready to move on?</h2>
+        <div class="gate" id="pGate"></div>
+      </div>
+
+      <div class="card">
+        <h2>The ladder</h2>
+        <div class="ladder" id="pLadder"></div>
+      </div>
+
+      <div class="card">
+        <h2>The whole method</h2>
+        <p class="lede">Heaviness is the first of six standard exercises. Each is learned the same way and added to the one before, so a full practice runs through all of them in about the same ninety seconds.</p>
+        <div class="ladder" id="pMethod"></div>
+        <details style="margin-top:6px"><summary>And after the six</summary>
+          <p>The standard exercises are the foundation, not the whole of it. Beyond them sit the meditative exercises — sustained attention on colour, on objects, on abstract ideas and feeling states — and personal phrases of your own, aimed at a specific habit or intention, which only work once the six are solid.</p>
+          <p>The later standard exercises, particularly the heart and abdominal ones, are traditionally taught with a trained instructor rather than from a recording. This app covers heaviness. The rest is mapped here so you can see where it goes.</p></details>
+      </div>
+    </section>
+
+    <!-- ================== LEARN ================ -->
+    <section class="screen" id="s-learn">
+      <div class="card">
+        <h2>Start here</h2>
+        <p class="lede">Five minutes on what the method is and how to make it work. Listen once, before your first practice.</p>
+        <audio class="audio" controls preload="none" id="aExplain"></audio>
+      </div>
+
+      <div class="card">
+        <h2>Key ideas</h2>
+        <details><summary>You cannot make it happen</summary>
+          <p>Effort is the one thing that reliably blocks it. Hold the phrase lightly, notice whatever is actually there, and let it be uninteresting. It is like falling asleep: you can arrange the conditions, but you can't force the moment.</p></details>
+        <details><summary>Say it in your own voice</summary>
+          <p>The phrase is yours, thought silently, not listened to. The recordings only show you the shape — the practice is you thinking the words, in your head, at your own pace. In the older books these phrases are called <em>formulae</em>.</p></details>
+        <details><summary>Short and often, not long and rare</summary>
+          <p>Ninety seconds, three times a day. Frequency builds the response; duration does not. One long session a day is not the same thing and will not do the same thing.</p></details>
+        <details><summary>Nothing happening is normal</summary>
+          <p>Expect nothing for the first few days. Heaviness usually appears somewhere between a few days and two weeks. It may arrive as warmth, tingling, sinking, or the arm feeling larger or further away — those all count.</p></details>
+        <details><summary>If restlessness or emotion comes up</summary>
+          <p>That is a recognised part of the process — the old books call it an <em>autogenic discharge</em> — and not a sign that something is wrong. If it is uncomfortable: open your eyes, move your arms and legs, and stop there for that session.</p></details>
+      </div>
+
+      <div class="card">
+        <h2>New to the method?</h2>
+        <p class="lede">Autogenic training was worked out in Berlin in the 1920s and taught ever since. You repeat a short phrase to yourself — <em>my right arm is heavy</em> — and let it be true rather than making it true. Do that often enough and the shift becomes something you can reach for deliberately, which is the whole point: not to relax now, but to be able to.</p>
+        <details style="margin-top:10px"><summary>Why people practise it</summary>
+          <p>After a couple of weeks most people can drop into it in ninety seconds. The arms go heavy and warm, the shoulders stop holding on, the body quietly stops bracing.</p>
+          <p>People reach for it at ordinary moments: winding down after a rough day, settling into sleep, steadying themselves before something that matters. Because it takes ninety seconds and no equipment, you can use it when you need it rather than once the moment has passed.</p></details>
+        <details><summary>Why it's a skill, not a session</summary>
+          <p>It's a physical skill, not a belief system — you're practising something your body already knows how to do. That's why this app steps back as you improve: the point is to end up not needing it.</p></details>
+      </div>
+
+      <div class="card">
+        <h2>Why bother</h2>
+        <p class="lede">Ninety seconds, three times a day, and in about a fortnight you can produce the state without any audio at all — at a desk, on a train, before sleep. It is a skill you keep rather than an app you keep opening.</p>
+        <details style="margin-top:10px"><summary>What it actually feels like</summary>
+          <p>Warmth and weight in the arms, first faintly and then plainly. Most people notice the shoulders letting go before anything else. It is undramatic on purpose — the aim is a state you can reach without ceremony, not an experience.</p>
+          <p>This is a self-training method, not medical treatment or advice. If something is wrong, see a doctor.</p></details>
+        <button class="btn ghost" id="lReplay" style="margin-top:12px">See the introduction again</button>
+      </div>
+
+      <div class="card safety">
+        <h2>Before you practise</h2>
+        <p class="lede">Never while driving, cycling, or doing anything that needs your attention. Deep relaxation can leave you light-headed when you get up — if you have low blood pressure, a heart condition, diabetes, or epilepsy, speak to your doctor before making it a daily habit.</p>
+        <p class="lede" style="margin-top:10px"><strong>Always finish by waking yourself up:</strong> bend and stretch your arms firmly, fists clenched; two deep breaths; open your eyes. It takes about fifteen seconds and it is what stops you feeling groggy afterwards. The one exception is practising in bed to fall asleep — then stay lying down. (Traditionally this is called the <em>take-back</em>.)</p>
+      </div>
+
+      <div class="card">
+        <h2>Data</h2>
+        <p class="lede">Your log is stored on this device only. Nothing is sent anywhere.</p>
+        <div class="btnrow" style="margin-top:12px">
+          <button class="btn ghost" id="lExport">Export log</button>
+          <button class="btn ghost" id="lReset">Reset</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ================= ONBOARDING ================= -->
+<div id="onboard">
+ <div class="obwrap">
+
+  <div class="obstep on">
+    <p class="obkick">Before you start</p>
+    <h2 class="obtitle">What this is, and what it isn't.</h2>
+    <p class="obbody">Autogenic training is a self-training method: you learn deliberate access to a state your body normally only reaches on its own. This app teaches it and keeps a record of your practice.</p>
+    <p class="obbody"><strong>It is not medical treatment and nothing here is medical advice.</strong> It does not diagnose or treat any condition. If something is wrong, see a doctor — this sits alongside that, never instead of it.</p>
+    <p class="obbody"><strong>Never practise while driving, cycling, or doing anything that needs your attention.</strong></p>
+    <p class="obcaveat">Deep relaxation can leave you light-headed when you stand up. If you have low blood pressure, a heart condition, diabetes, or epilepsy, speak to your doctor before making this a daily habit. Every practice ends by waking you up again — arms, breath, eyes — and the app always runs that part. Two of the later exercises are ones to learn in person rather than from a recording, and it will tell you when you reach them.</p>
+  </div>
+
+  <div class="obstep">
+    <p class="obkick">What people notice</p>
+    <h2 class="obtitle">An off switch you can reach for.</h2>
+    <ul class="oblist">
+      <li><span class="k">01</span><span class="v"><b>Less noise in your head</b><span>Not silence — the volume down. Most people notice the mental chatter thinning out before they notice anything in their arms.</span></span></li>
+      <li><span class="k">02</span><span class="v"><b>Coming down faster</b><span>Instead of staying wound up for hours after something stressful, you have something to do about it that takes ninety seconds.</span></span></li>
+      <li><span class="k">03</span><span class="v"><b>Settling into sleep</b><span>The most common reason people keep it up. It is what the practice is doing anyway, aimed at bedtime.</span></span></li>
+      <li><span class="k">04</span><span class="v"><b>A cleaner head afterwards</b><span>Plenty of people use it as a reset between two demanding things, rather than to relax at the end of the day.</span></span></li>
+      <li><span class="k">05</span><span class="v"><b>Steadier beforehand</b><span>Before the interview, the talk, the difficult conversation — something to do with your hands and your attention that isn't rehearsing.</span></span></li>
+    </ul>
+    <p class="obcaveat">What arrives, and when, varies a lot between people. None of this is promised, and none of it is a medical outcome.</p>
+  </div>
+
+  <div class="obstep">
+    <p class="obkick">You know the method</p>
+    <h2 class="obtitle">So here's what this actually does differently.</h2>
+    <ul class="oblist">
+      <li><span class="k">01</span><span class="v"><b>The real dose</b><span>Ninety seconds, three times a day — not one long sitting. The day's three practices are the first thing you see.</span></span></li>
+      <li><span class="k">02</span><span class="v"><b>It gets quieter, then stops</b><span>Each new phrase is guided for your first few days with it, then it's just a timer, then nothing at all. Most apps want you back forever. This one is built to be finished with.</span></span></li>
+      <li><span class="k">03</span><span class="v"><b>Progression on evidence, not vibes</b><span>One tap to say what you felt. You move on when your own record shows it is actually landing — not when a week has gone by.</span></span></li>
+      <li><span class="k">04</span><span class="v"><b>Stays on your phone</b><span>The log is stored on this device. No account, no server, nothing sent anywhere.</span></span></li>
+    </ul>
+  </div>
+
+  <div class="obstep">
+    <p class="obkick">The deal</p>
+    <h2 class="obtitle">Little, and often. And don't try.</h2>
+    <p class="obbody">You start with heaviness in the arms and add one short phrase at a time — eight in all, through the six standard exercises — finishing with the whole sequence and no app at all.</p>
+    <p class="obbody">You already know the hard part: <strong>effort is what blocks it.</strong> Say the phrase to yourself, notice what's actually there, and let it be uninteresting.</p>
+    <p class="obbody">Expect nothing for the first few days. That's normal, and the log is there so a slow start reads as data rather than failure.</p>
+  </div>
+
+  <div class="obfoot">
+    <div class="obdots" id="obDots"></div>
+    <button class="btn" id="obNext">Next</button>
+    <button class="obskip" id="obSkip">Skip</button>
+  </div>
+ </div>
+</div>
+
+<!-- ================= PRACTICE OVERLAY ================= -->
+<div class="stage-practice" id="practice">
+  <p class="phase" id="pxPhase">Settle</p>
+  <div class="ring">
+    <div class="halo"></div>
+    <svg viewBox="0 0 240 240" aria-hidden="true">
+      <circle class="track" cx="120" cy="120" r="112"></circle>
+      <circle class="prog" id="pxArc" cx="120" cy="120" r="112"
+              stroke-dasharray="703.7" stroke-dashoffset="703.7"></circle>
+    </svg>
+    <span class="time" id="pxTime">1:36</span>
+  </div>
+  <p class="cue" id="pxCue"></p>
+  <audio id="pxAudio" preload="auto"></audio>
+  <button class="btn ghost" id="pxStop" style="max-width:260px">End practice</button>
+</div>
+
+<!-- ================= RATING OVERLAY ================= -->
+<div class="stage-practice" id="rating">
+  <p class="phase">How was the heaviness?</p>
+  <p class="cue" style="min-height:auto">Rate what actually turned up — not what you hoped for.</p>
+  <div style="width:100%;max-width:360px">
+    <div class="rate" id="rBtns"></div>
+  </div>
+</div>
+
+<nav>
+  <div class="navin">
+    <button data-go="today" class="on">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Today</button>
+    <button data-go="prog">
+      <svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V8"/></svg>Progress</button>
+    <button data-go="learn">
+      <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H11v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H13v16h5.5a1.5 1.5 0 001.5-1.5z"/></svg>Learn</button>
+  </div>
+</nav>
+
+<script>
+"use strict";
+/* Audio sources are rewritten by tools/build_app_artifact.py when the page is
+   published standalone; locally they resolve against the repo's audio/ dir. */
+const AUDIO = window.__AUDIO__ || {
+  explainer:'./audio/explainer.mp3',
+  s1:'./audio/arm-heaviness-example.mp3',
+  s2:'./audio/arm-heaviness-example-2.mp3',
+  s3:'./audio/arm-heaviness-example-3.mp3',
+  warmth:'./audio/at-warmth.mp3', heartbeat:'./audio/at-heartbeat.mp3',
+  breathing:'./audio/at-breathing.mp3', solar:'./audio/at-solar-plexus.mp3',
+  forehead:'./audio/at-forehead.mp3'
+};
+
+const STAGES=[
+  {n:'Right arm heavy', phrase:'My right arm is heavy.', audio:'s1', secs:96,
+   sub:'Your dominant arm only. In the first week this is the whole thing.',
+   cues:['I am completely calm.','My right arm is heavy.','My right arm is heavy.',
+         'My right arm is heavy.','My right arm is heavy.','My right arm is heavy.',
+         'My right arm is heavy.','I am completely calm.']},
+  {n:'Both arms, in turn', phrase:'My left arm is heavy.', audio:'s2', secs:96,
+   sub:'The second arm joins. The practice does not get longer.',
+   cues:['I am completely calm.','My right arm is heavy.','My right arm is heavy.',
+         'My right arm is heavy.','My left arm is heavy.','My left arm is heavy.',
+         'My left arm is heavy.','I am completely calm.']},
+  {n:'Both arms together', phrase:'Both arms are heavy.', audio:'s3', secs:96,
+   sub:'Both arms held at once. The last of the heaviness steps.',
+   cues:['I am completely calm.','Both arms are heavy.','Both arms are heavy.',
+         'Both arms are heavy.','Both arms are heavy.','Both arms are heavy.',
+         'Both arms are heavy.','I am completely calm.']},
+  {n:'Warmth', phrase:'My right arm is warm.', audio:'warmth', secs:96,
+   sub:'Circulation rather than muscle. Often quicker to arrive than heaviness was.',
+   cues:['I am completely calm.','My arms are heavy.','My arms are heavy.',
+         'My right arm is warm.','My right arm is warm.','My right arm is warm.',
+         'My right arm is warm.','I am completely calm.']},
+  {n:'Heartbeat', phrase:'My heartbeat is calm and regular.', audio:'heartbeat', secs:100,
+   sub:'Attention rests on the beat without altering it.',
+   warn:'This one is traditionally taught in person, not from a recording. If you have any heart condition, learn it with an instructor instead. If watching your heartbeat makes you anxious, stop and stay with heaviness and warmth.',
+   cues:['I am completely calm.','My arms are heavy.','My arms are warm.',
+         'My heartbeat is calm and regular.','My heartbeat is calm and regular.',
+         'My heartbeat is calm and regular.','My heartbeat is calm and regular.','I am completely calm.']},
+  {n:'Breathing', phrase:'It breathes me.', audio:'breathing', secs:96,
+   sub:'Watched, never steered. The odd grammar is the instruction.',
+   cues:['I am completely calm.','My arms are heavy.','My arms are warm.',
+         'My heartbeat is calm and regular.','It breathes me.','It breathes me.',
+         'It breathes me.','I am completely calm.']},
+  {n:'Warm centre', phrase:'My solar plexus is warm.', audio:'solar', secs:104,
+   sub:'Warmth through the upper abdomen, below the ribs.',
+   warn:'Traditionally taught in person. Skip this one and learn it with an instructor if you have diabetes, a stomach ulcer, any abdominal condition, or are pregnant.',
+   cues:['I am completely calm.','My arms are heavy.','My arms are warm.',
+         'My heartbeat is calm and regular.','It breathes me.','My solar plexus is warm.',
+         'My solar plexus is warm.','I am completely calm.']},
+  {n:'Cool head', phrase:'My forehead is cool.', audio:'forehead', secs:100,
+   sub:'The only one that goes the other way. Everything else settles; this stays clear.',
+   warn:'Learned last, and lightly. Cool, not cold. If you are prone to headaches or migraine, keep it brief — or leave this one out and stay with the first five.',
+   cues:['I am completely calm.','My arms are heavy and warm.','My heartbeat is calm and regular.',
+         'It breathes me.','My solar plexus is warm.','My forehead is cool.',
+         'My forehead is cool.','I am completely calm.']},
+  {n:'The whole thing, unaided', phrase:'All six, in sequence.', audio:null, secs:110,
+   sub:'No guidance. This is what the whole thing was for.',
+   cues:['I am completely calm.','My arms are heavy.','My arms are warm.',
+         'My heartbeat is calm and regular.','It breathes me.','My solar plexus is warm.',
+         'My forehead is cool.','I am completely calm.']}
+];
+
+const METHOD=[
+  {n:'Heaviness',   f:'My right arm is heavy.',            s:'Muscles. Where you are.'},
+  {n:'Warmth',      f:'My right arm is warm.',             s:'Circulation. Usually the quickest to arrive.'},
+  {n:'Heartbeat',   f:'My heartbeat is calm and regular.', s:'Taught with an instructor.'},
+  {n:'Breathing',   f:'It breathes me.',                   s:'Left alone rather than controlled.'},
+  {n:'Warm centre', f:'My solar plexus is warm.',          s:'Taught with an instructor.'},
+  {n:'Cool head',   f:'My forehead is cool.',              s:'The one that stays alert.'}
+];
+const GATE={minDays:5, window:3, needPerDay:2, needRating:2};
+const KEY='autogenics.v1';
+const today=()=>new Date().toISOString().slice(0,10);
+
+let S=load();
+function load(){
+  try{const r=JSON.parse(localStorage.getItem(KEY));
+      if(r&&Array.isArray(r.log))return r;}catch(e){}
+  return {stage:0, log:[], stageStart:today(), onboarded:false};
+}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
+
+const stage=()=>STAGES[Math.min(S.stage,STAGES.length-1)];
+const dayLog=d=>S.log.filter(e=>e.d===d);
+const stageDays=()=>{
+  const a=new Date(S.stageStart+'T00:00:00'), b=new Date(today()+'T00:00:00');
+  return Math.floor((b-a)/864e5)+1;
+};
+
+/* ---- gate: a floor in days AND evidence, never either alone ---- */
+function gate(){
+  const days=stageDays();
+  let met=0;
+  for(let i=0;i<GATE.window;i++){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10);
+    const good=dayLog(k).filter(e=>e.stage===S.stage&&e.r>=GATE.needRating).length;
+    if(good>=GATE.needPerDay)met++;
+  }
+  const last=S.stage>=STAGES.length-1;
+  return {days,met,floorOk:days>=GATE.minDays,evidenceOk:met>=GATE.window,
+          ready:!last&&days>=GATE.minDays&&met>=GATE.window,last};
+}
+
+/* ---- taper: guided for the first days of a stage, then step back ---- */
+const defaultGuided=()=>stage().audio!==null && stageDays()<=3;
+
+/* ================= views ================= */
+const $=s=>document.querySelector(s);
+const el=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c;
+  if(x!==undefined)e.textContent=x; return e;};
+
+function renderToday(){
+  const st=stage(), n=dayLog(today()).length;
+  $('#tFormula').textContent=st.phrase;
+  $('#tSub').textContent=st.sub;
+  $('#topChip').textContent=S.stage>=STAGES.length-1?'Unaided':'Step '+(S.stage+1)+' of '+(STAGES.length-1);
+
+  const dose=$('#tDose'); dose.innerHTML='';
+  ['Morning','Midday','Evening'].forEach((lab,i)=>{
+    const s=el('div','slot'+(i<n?' done':''));
+    const done=i<n;
+    s.appendChild(el('span','n',done?String(dayLog(today())[i].r):'–'));
+    s.appendChild(el('span','lab',lab));
+    dose.appendChild(s);
+  });
+
+  const g=defaultGuided();
+  $('#tGuided').style.borderColor=g?'var(--accent)':'var(--line)';
+  $('#tTimer').style.borderColor=g?'var(--line)':'var(--accent)';
+  $('#tGuided').disabled=!st.audio;
+  mode=g?'guided':'timer';
+
+  $('#tStart').textContent = n>=3 ? 'Practise again' : 'Start practice';
+  const wc=$('#tWarn');
+  if(st.warn){ wc.textContent=st.warn; wc.classList.remove('hidden'); }
+  else wc.classList.add('hidden');
+
+  $('#tHint').textContent = n>=3
+    ? "Three done today — that's the dose. Anything more is a bonus."
+    : st.audio && g
+      ? 'Guided for your first few days with a new phrase, so you learn the shape. After that the app steps back to a timer and you say it to yourself.'
+      : st.audio
+        ? "You've had a few days of guidance with this one. Timer only from here — say the phrase to yourself.""
+        : 'No guidance here. That was the point.';
+}
+
+function renderProgress(){
+  const grid=$('#pGrid'); grid.innerHTML='';
+  for(let i=13;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10), es=dayLog(k);
+    grid.appendChild(el('div','d',
+      i===0?'Today':d.toLocaleDateString(undefined,{weekday:'short',day:'numeric'})));
+    for(let j=0;j<3;j++){
+      const c=el('div','cell'+(es[j]?' r'+es[j].r:''));
+      if(es[j])c.title=`Rated ${es[j].r}`;
+      grid.appendChild(c);
+    }
+  }
+
+  const g=gate(), box=$('#pGate');
+  box.className='gate'+(g.ready?' ready':'');
+  box.innerHTML='';
+  box.appendChild(el('h3',null,g.last?'Unaided practice':g.ready?'Ready to advance':'Not yet'));
+  const row=(ok,txt,val)=>{
+    const r=el('div','crit');
+    r.innerHTML=`<svg class="tick" viewBox="0 0 16 16" fill="none" stroke="${ok?'var(--good)':'var(--muted)'}" stroke-width="2">`+
+      (ok?'<path d="M3 8.5l3.2 3.2L13 5"/>':'<circle cx="8" cy="8" r="5.5"/>')+'</svg>';
+    const s=el('span'); s.innerHTML=txt.replace('%',`<b>${val}</b>`);
+    r.appendChild(s); box.appendChild(r);
+  };
+  if(g.last){
+    box.appendChild(el('div','crit','You are practising without guidance. Keep the log going — it is how you notice a slip before it becomes a stop.'));
+  }else{
+    row(g.floorOk,`At least ${GATE.minDays} days on this phrase — you're on day %`,g.days);
+    row(g.evidenceOk,`Heaviness clear in 2 of 3 practices, 3 days running — % of 3 so far`,g.met);
+    const b=el('button','btn',g.ready?'Move to the next phrase':'Keep practising');
+    b.style.marginTop='12px'; b.disabled=!g.ready;
+    b.onclick=()=>{if(!gate().ready)return;
+      S.stage++; S.stageStart=today(); save(); renderAll(); go('today');};
+    box.appendChild(b);
+    if(!g.ready && g.days>=14 && g.met===0){
+      const p=el('p','note',
+        'Two weeks without it landing usually means one of four things: trying too hard, sessions too long, too few practices a day, or a posture you cannot relax in. Stay where you are and change one of them.');
+      p.style.marginTop='12px'; box.appendChild(p);
+    }
+  }
+
+  const meth=$('#pMethod'); meth.innerHTML='';
+  METHOD.forEach((m,i)=>{
+    const r=el('div','rung'+(i===0?' cur':''));
+    r.appendChild(el('div','dot',String(i+1)));
+    const t=el('div');
+    t.appendChild(el('div','nm',m.n));
+    const f=el('div','sub'); f.style.fontFamily='var(--serif)'; f.style.fontStyle='italic';
+    f.textContent=m.f; t.appendChild(f);
+    t.appendChild(el('div','sub',m.s));
+    r.appendChild(t); meth.appendChild(r);
+  });
+
+  const lad=$('#pLadder'); lad.innerHTML='';
+  STAGES.forEach((st,i)=>{
+    const r=el('div','rung'+(i===S.stage?' cur':i<S.stage?' past':''));
+    r.appendChild(el('div','dot',i<S.stage?'✓':String(i+1)));
+    const t=el('div');
+    t.appendChild(el('div','nm',st.n));
+    t.appendChild(el('div','sub',st.sub));
+    r.appendChild(t); lad.appendChild(r);
+  });
+}
+const renderAll=()=>{renderToday(); renderProgress();};
+
+/* ================= practice engine ================= */
+let mode='guided', timer=null, ctx=null;
+function tone(freq,dur,when){
+  try{
+    ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=ctx.createOscillator(), g=ctx.createGain(), t=ctx.currentTime+(when||0);
+    o.type='sine'; o.frequency.value=freq;
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(.22,t+.04);
+    g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+dur+.05);
+  }catch(e){}
+}
+
+function startPractice(){
+  const st=stage();
+  if(st.warn && !dayLog(today()).some(e=>e.stage===S.stage)
+     && !S.warned?.includes(S.stage)){
+    if(!confirm(st.n+' — before you start.\n\n'+st.warn+
+                '\n\nTap OK if you have read this and want to continue.')) return;
+    S.warned=(S.warned||[]).concat(S.stage); save();
+  }
+  const total=st.secs;
+  const guided=mode==='guided'&&st.audio;
+  $('#practice').classList.add('on');
+  $('#pxCue').textContent=guided?'':st.cues[0];
+  $('#pxPhase').textContent=guided?'Guided':'Practice';
+
+  const a=$('#pxAudio');
+  if(guided){ a.src=AUDIO[st.audio]; a.currentTime=0; a.play().catch(()=>{}); }
+  else{ a.removeAttribute('src'); tone(432,.9,0); }
+
+  const dur=()=>guided&&a.duration?a.duration:total;
+  let t0=Date.now();
+  const C=2*Math.PI*112;
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    const e=guided&&a.currentTime?a.currentTime:(Date.now()-t0)/1000;
+    const d=dur(), left=Math.max(0,d-e);
+    $('#pxTime').textContent=Math.floor(left/60)+':'+String(Math.floor(left%60)).padStart(2,'0');
+    $('#pxArc').style.strokeDashoffset=C*(1-Math.min(1,e/d));
+    if(!guided){
+      const k=Math.min(st.cues.length-1,Math.floor(e/(total/st.cues.length)));
+      $('#pxCue').textContent=st.cues[k];
+      $('#pxPhase').textContent=e>total-14?'Waking up':'Practice';
+    }
+    if(e>=d) finishPractice();
+  },250);
+}
+function finishPractice(){
+  clearInterval(timer); timer=null;
+  const a=$('#pxAudio'); a.pause();
+  if(mode!=='guided'||!stage().audio){ tone(324,1.1,0); tone(432,1.3,.5); }
+  $('#practice').classList.remove('on');
+  $('#rating').classList.add('on');
+}
+function logRating(r){
+  S.log.push({d:today(), t:new Date().toISOString(), stage:S.stage, r, m:mode});
+  save(); $('#rating').classList.remove('on'); renderAll(); go('today');
+}
+
+/* ================= wiring ================= */
+function go(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  $('#s-'+name).classList.add('on');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.go===name));
+  $('#topTitle').textContent={today:'Today',prog:'Progress',learn:'Learn'}[name];
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.go));
+$('#tStart').onclick=startPractice;
+$('#tGuided').onclick=()=>{mode='guided';
+  $('#tGuided').style.borderColor='var(--accent)'; $('#tTimer').style.borderColor='var(--line)';};
+$('#tTimer').onclick=()=>{mode='timer';
+  $('#tTimer').style.borderColor='var(--accent)'; $('#tGuided').style.borderColor='var(--line)';};
+$('#pxStop').onclick=finishPractice;
+
+[[0,'Nothing'],[1,'Faint, or only when I looked'],[2,'Clearly there, on its own'],[3,'Immediate']]
+.forEach(([v,t])=>{
+  const b=document.createElement('button');
+  b.appendChild(el('span','v',String(v)));
+  b.appendChild(el('span','t',t));
+  b.onclick=()=>logRating(v);
+  $('#rBtns').appendChild(b);
+});
+
+/* ---- onboarding ---- */
+const obSteps=[...document.querySelectorAll('.obstep')];
+let ob=0;
+obSteps.forEach(()=>$('#obDots').appendChild(document.createElement('i')));
+function obShow(i){
+  ob=i;
+  obSteps.forEach((s,k)=>s.classList.toggle('on',k===i));
+  [...$('#obDots').children].forEach((d,k)=>d.classList.toggle('on',k===i));
+  $('#obNext').textContent = i===obSteps.length-1 ? 'I understand — start' : 'Next';
+  $('#obSkip').classList.toggle('hidden', i===obSteps.length-1);
+}
+function obOpen(){ $('#onboard').classList.add('on'); obShow(0); }
+function obClose(){
+  $('#onboard').classList.remove('on');
+  S.onboarded=true; S.stageStart=today(); save();
+}
+$('#obNext').onclick=()=>{ ob<obSteps.length-1 ? obShow(ob+1) : obClose(); };
+$('#obSkip').onclick=()=>obShow(obSteps.length-1);   // never skip past safety
+$('#lReplay').onclick=obOpen;
+
+$('#aExplain').src=AUDIO.explainer;
+$('#lExport').onclick=()=>{
+  const rows=[['date','time','stage','rating','mode']].concat(
+    S.log.map(e=>[e.d,e.t,STAGES[e.stage]?STAGES[e.stage].n:e.stage,e.r,e.m]));
+  const csv=rows.map(r=>r.join(',')).join('\n');
+  navigator.clipboard&&navigator.clipboard.writeText(csv)
+    .then(()=>alert('Log copied to the clipboard as CSV.'))
+    .catch(()=>alert(csv));
+};
+$('#lReset').onclick=()=>{
+  if(confirm('Delete your practice record and start again from the beginning?')){
+    S={stage:0,log:[],stageStart:today()}; save(); renderAll(); go('today');
+  }
+};
+renderAll();
+if(!S.onboarded) obOpen();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker
+    .register('./sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

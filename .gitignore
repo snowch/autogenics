@@ -17,3 +17,4 @@ __pycache__/
 
 # derived self-contained app build (regenerate: tools/build_app_artifact.py)
 build/
+# docs/ is generated but IS committed — GitHub Pages serves it

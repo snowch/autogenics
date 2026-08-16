@@ -23,6 +23,36 @@ edit the markdown, re-run the tool.
 | Long form, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
 | Long form, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
 
+## Install it on a phone
+
+`docs/` is a complete, installable PWA — the app, compressed audio, icons, a
+manifest, and a service worker that precaches everything so practice works
+with no signal. Rebuild it with:
+
+```bash
+python3 tools/build_pwa.py
+```
+
+It is committed, so **GitHub Pages can serve it as-is**: repository *Settings →
+Pages → Source: Deploy from a branch → this branch, folder `/docs`*. Any static
+host works too — the directory has no build step and no backend.
+
+Then, on the phone:
+
+| | |
+| --- | --- |
+| **iPhone / iPad** | Open the URL **in Safari** (not Chrome), tap Share, then *Add to Home Screen*. It launches full-screen with no browser chrome. |
+| **Android** | Open in Chrome, then *Install app* from the ⋮ menu, or *Add to Home screen*. |
+
+After the first load it runs offline. The practice log lives in `localStorage`
+on the device.
+
+**What this is not.** A PWA, not an App Store or Play Store build — there is no
+review, no store listing, and on iOS no background notifications. Reminders
+are the one feature that genuinely needs a native wrapper, and three practices
+a day is the mechanism the whole thing depends on. When that matters, the same
+`docs/` directory wraps directly with Capacitor for both stores.
+
 ## The app
 
 [`app/index.html`](app/index.html) is a single-page app around the same
