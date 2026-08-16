@@ -16,7 +16,12 @@ ROOT = Path(__file__).resolve().parent.parent
 TRACKS = {"explainer": "explainer.mp3",
           "s1": "arm-heaviness-example.mp3",
           "s2": "arm-heaviness-example-2.mp3",
-          "s3": "arm-heaviness-example-3.mp3"}
+          "s3": "arm-heaviness-example-3.mp3",
+          "warmth": "at-warmth.mp3",
+          "heartbeat": "at-heartbeat.mp3",
+          "breathing": "at-breathing.mp3",
+          "solar": "at-solar-plexus.mp3",
+          "forehead": "at-forehead.mp3"}
 BITRATE = "32k"          # speech-only; keeps the whole page well inside 16 MB
 
 

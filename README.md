@@ -15,6 +15,11 @@ edit the markdown, re-run the tool.
 | **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:33 |
 | **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:21 |
 | **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:13 |
+| Warmth — step 4 | [`script/at-warmth.md`](script/at-warmth.md) | [`audio/at-warmth.mp3`](audio/at-warmth.mp3) | 1:56 |
+| Heartbeat — step 5 | [`script/at-heartbeat.md`](script/at-heartbeat.md) | [`audio/at-heartbeat.mp3`](audio/at-heartbeat.mp3) | 2:03 |
+| Breathing — step 6 | [`script/at-breathing.md`](script/at-breathing.md) | [`audio/at-breathing.mp3`](audio/at-breathing.mp3) | 1:58 |
+| Warm centre — step 7 | [`script/at-solar-plexus.md`](script/at-solar-plexus.md) | [`audio/at-solar-plexus.mp3`](audio/at-solar-plexus.mp3) | 2:06 |
+| Cool head — step 8 | [`script/at-forehead.md`](script/at-forehead.md) | [`audio/at-forehead.mp3`](audio/at-forehead.mp3) | 2:02 |
 | Long form, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
 | Long form, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
 
@@ -44,6 +49,14 @@ The case for the method itself is still written, but it now sits in Learn
 under "New to the method?" for anyone who wants it, rather than being spent on
 people who came already convinced.
 
+### Plain language
+
+User-facing copy avoids terms the reader has no reason to know yet. "Stage"
+became "step", "formula" became "phrase", and the take-back is described by
+what it does — *finish by waking yourself up* — before it is ever named. The
+traditional terms still appear in Learn, glossed on first use, because the
+audience for this does eventually meet them in the literature.
+
 ### Positioning and claims
 
 Autogenic training is described as a **self-training method** — learning
@@ -70,6 +83,15 @@ surface carries "a relaxation practice, not medical treatment or advice".
 
 Keep any future copy on that side of the line. Naming a condition, quoting a
 study, or promising a result changes what the product legally is.
+
+The ladder now runs the full method: eight steps across all six standard
+exercises, each adding one phrase to the run-through that precedes it, so a
+practice stays around ninety seconds however far along you are. The last step
+is the whole sequence with no audio at all.
+
+The heartbeat, warm-centre and cool-head steps carry a caution shown on the
+Today screen and again before the first practice of that step, saying which
+are traditionally taught in person and who should skip them.
 
 **One principle is wired into it: the app gets quieter as you improve.**
 Guided narration is the default for the first three days of a stage; after
