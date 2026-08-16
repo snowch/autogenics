@@ -17,31 +17,87 @@ from pathlib import Path
 
 PORT = 8000
 ZIP = "heaviness-pwa.zip"
-LOOK = ["/storage/emulated/0/Download", "/sdcard/Download",
-        "/storage/emulated/0/Documents", os.path.expanduser("~/Download"),
-        os.path.expanduser("~/Downloads"), os.getcwd()]
+
+HERE = Path(__file__).resolve().parent if "__file__" in dir() else Path.cwd()
+LOOK = [HERE, Path.cwd(),
+        Path("/storage/emulated/0/Download"), Path("/sdcard/Download"),
+        Path("/storage/emulated/0/Documents"), Path("/storage/emulated/0"),
+        Path.home() / "Download", Path.home() / "Downloads", Path.home()]
+
+DENIED = """
+Android blocked access to that file.
+
+Pydroid can see your Downloads folder but not read from it until you grant
+full file access. Do this:
+
+    Settings -> Apps -> Pydroid 3 -> Permissions
+      -> Files and media -> Allow management of all files
+
+Then run this again.
+
+If that option isn't there, move both {zip} and this script into Pydroid's own
+folder instead, using Pydroid's built-in file browser, and run it from there.
+"""
+
+
+def exists(p: Path) -> bool:
+    """Path.exists() itself raises when a parent directory is unreadable,
+    which is exactly what Android's scoped storage does."""
+    try:
+        return p.exists()
+    except OSError:
+        return False
+
+
+def readable(p: Path) -> bool:
+    try:
+        with open(p, "rb") as f:
+            f.read(1)
+        return True
+    except (PermissionError, OSError):
+        return False
+
+
+def writable_dir(candidates) -> Path:
+    import tempfile
+    for d in candidates:
+        try:
+            d.mkdir(parents=True, exist_ok=True)
+            t = d / ".write-test"
+            t.write_text("x"); t.unlink()
+            return d
+        except (PermissionError, OSError):
+            continue
+    return Path(tempfile.mkdtemp(prefix="heaviness-"))
 
 
 def find_site() -> Path:
     """Return a directory containing index.html, unpacking the zip if needed."""
     for d in LOOK:
-        p = Path(d)
-        if (p / "heaviness" / "index.html").exists():
-            return p / "heaviness"
-        if (p / "index.html").exists() and (p / "manifest.webmanifest").exists():
-            return p
+        for cand in (d / "heaviness", d):
+            if exists(cand / "index.html") and readable(cand / "index.html"):
+                return cand
+
     for d in LOOK:
-        z = Path(d) / ZIP
-        if z.exists():
-            dest = z.parent / "heaviness"
-            print(f"Unpacking {z.name} -> {dest}")
+        z = d / ZIP
+        if not exists(z):
+            continue
+        if not readable(z):
+            sys.exit(DENIED.format(zip=ZIP))
+        dest = writable_dir([z.parent / "heaviness", HERE / "heaviness",
+                             Path.home() / "heaviness"])
+        print(f"Unpacking {z.name}\n        -> {dest}")
+        try:
             with zipfile.ZipFile(z) as f:
                 f.extractall(dest)
-            return dest
+        except PermissionError:
+            sys.exit(DENIED.format(zip=ZIP))
+        return dest
+
     sys.exit(
-        f"Couldn't find {ZIP} or an unpacked copy.\n"
-        "Put the zip in your Downloads folder and run this again.\n"
-        "Looked in:\n  " + "\n  ".join(LOOK))
+        f"Couldn't find {ZIP} or an unpacked copy.\n\n"
+        "Put the zip in your Downloads folder — or next to this script — and\n"
+        "run it again. Looked in:\n  " + "\n  ".join(str(d) for d in LOOK))
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
