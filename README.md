@@ -33,19 +33,31 @@ single self-contained file, with the audio inlined:
 python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
 ```
 
-First run is a four-panel case for the method, ending on the safety notes —
-which is the only screen that cannot be skipped past, since the method lowers
-heart rate and blood pressure. The pitch is deliberately not "you will feel
-amazing": it leads on the fact that the skill outlasts the app, and it says
-plainly that most people feel nothing for the first few days and that trying
-harder is what blocks it. Managing that expectation up front is the cheapest
-retention work available, because "nothing happened, so I stopped" is the
-usual way this fails.
+First run is three panels, and it assumes the reader already knows what
+autogenic training is — anyone searching for an AT app does. So it does not
+sell the method. Panel one is the disclaimer and safety notes; panel two is
+what this app does differently (the real dose, the taper, evidence-gated
+progression, on-device data); panel three is the deal — little and often, and
+don't try.
 
-> **Health claims need checking before this ships.** The evidence panel cites a
-> 2002 meta-analysis of roughly sixty controlled trials from memory. Verify the
-> citation and the indications against the source, and have someone qualified
-> confirm the wording stays on the wellness side of the medical-claims line.
+The case for the method itself is still written, but it now sits in Learn
+under "New to the method?" for anyone who wants it, rather than being spent on
+people who came already convinced.
+
+### Claims
+
+Benefits are described **experientially and never clinically**. The copy says
+what the practice feels like and when people reach for it — warmth and weight
+in the arms, winding down, settling into sleep, steadying before something that
+matters. It names no condition, cites no trial, and promises no outcome.
+
+Nothing in the product asserts a physiological effect. Even the safety
+cautions are phrased as cautions rather than claims: *deep relaxation can leave
+you light-headed on standing*, not *this lowers your blood pressure*. Every
+surface carries "a relaxation practice, not medical treatment or advice".
+
+Keep any future copy on that side of the line. Naming a condition, quoting a
+study, or promising a result changes what the product legally is.
 
 **One principle is wired into it: the app gets quieter as you improve.**
 Guided narration is the default for the first three days of a stage; after
@@ -74,10 +86,11 @@ formulas, four repetitions per limb instead of six, 5s pauses instead of 8s,
 and plainer language. Fewer repetitions is a deliberate departure from Schultz.
 The cancellation is **not** shortened in any version.
 
-> **Safety.** Do not listen while driving. Autogenic training lowers blood
-> pressure and heart rate — check with a clinician first if you have low blood
+> **Safety.** Do not listen while driving. Deep relaxation can leave you
+> light-headed on standing — check with a clinician first if you have low blood
 > pressure, a heart condition, diabetes, epilepsy, or are in treatment for a
-> psychotic disorder. Every session ends with a **cancellation** ("take-back");
+> psychotic disorder. These are relaxation practices, not medical treatment or
+> advice. Every session ends with a **cancellation** ("take-back");
 > it is part of the exercise, so do not stop the recording early.
 
 ## Script format

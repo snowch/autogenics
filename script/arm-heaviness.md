@@ -15,10 +15,11 @@ anything happen.
   arms slightly away from your body. Loosen anything tight at the waist, neck
   or wrists.
 - **Do not listen while driving or operating machinery.**
-- Autogenic training lowers blood pressure and heart rate. If you have low
-  blood pressure, a heart condition, diabetes (it can affect insulin
-  requirements), epilepsy, or you are in treatment for a psychotic disorder,
-  speak to your clinician before practising regularly.
+- Deep relaxation can leave you light-headed on standing. If you have low
+  blood pressure, a heart condition, diabetes, epilepsy, or you are in
+  treatment for a psychotic disorder, speak to your clinician before
+  practising regularly. This is a relaxation practice, not medical treatment
+  or advice.
 - If at any point you feel uncomfortable, restless or distressed, stop, open
   your eyes and move your arms and legs. That is a normal *autogenic
   discharge*, not a failure.

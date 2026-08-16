@@ -29,9 +29,14 @@ can't silently slow it to session pace.
 
 <!-- narration:start -->
 
-This is a short explanation of what you're about to practise, and how to make
-it work. About four minutes. You don't need to relax for this part — just
-listen normally.
+First, briefly: this is a relaxation practice, not medical treatment, and
+nothing here is medical advice. If something's wrong, see a doctor.
+
+[pause 1.5]
+
+With that said. This is a short explanation of what you're about to practise,
+and how to make it work. About four minutes. You don't need to relax for this
+part — just listen normally.
 
 [pause 1.5]
 
@@ -127,9 +132,10 @@ don't do it — just stay lying down and let yourself drift off.
 [pause 2]
 
 Two cautions before you start. Don't practise while driving, or doing anything
-else that needs your attention. And if you have low blood pressure, a heart
+else that needs your attention. And deep relaxation can leave you a little
+light-headed when you stand up — so if you have low blood pressure, a heart
 condition, diabetes, or epilepsy, speak to your doctor before making this a
-daily habit — it genuinely does lower your heart rate and blood pressure.
+daily habit.
 
 [pause 2]
 

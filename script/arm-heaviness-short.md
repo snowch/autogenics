@@ -18,9 +18,10 @@ done without audio. Use this one for a longer sit when you want it.
   arms a little away from your sides.
 - Put your phone face down, or somewhere you can't see it.
 - **Not while driving, cycling, or anything else that needs you.**
-- This lowers your heart rate and blood pressure a little. If you have low
+- Deep relaxation can leave you light-headed when you get up. If you have low
   blood pressure, a heart condition, diabetes, or epilepsy, check with your
-  doctor before making it a habit.
+  doctor before making it a habit. This is a relaxation practice, not medical
+  treatment or advice.
 - If you feel restless, twitchy or tearful partway through, that's a known
   thing — it's called an autogenic discharge, and it isn't a sign you're doing
   it wrong. Open your eyes, move your arms and legs, and stop there.
