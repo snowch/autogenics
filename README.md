@@ -30,8 +30,14 @@ manifest, and a service worker that precaches everything so practice works
 with no signal. Rebuild it with:
 
 ```bash
+python3 tools/check_app.py     # syntax-check the JS — run this before publishing
 python3 tools/build_pwa.py
 ```
+
+`check_app.py` parses the inline scripts with `node --check` and verifies that
+every `$('#id')` resolves and every audio key is defined. A malformed string
+literal takes out the entire script block and leaves a page that renders but
+does nothing — grepping the HTML will not catch it, and one shipped that way.
 
 It is committed, so **GitHub Pages can serve it as-is**: repository *Settings →
 Pages → Source: Deploy from a branch → this branch, folder `/docs`*. Any static
