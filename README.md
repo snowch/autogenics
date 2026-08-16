@@ -11,7 +11,7 @@ edit the markdown, re-run the tool.
 
 | Track | Script | Recording | Length |
 | --- | --- | --- | --- |
-| Explainer — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 4:48 |
+| Explainer — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 5:10 |
 | **Example — the daily dose** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:33 |
 | 1 — Heaviness, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
 | 1 — Heaviness, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
@@ -35,9 +35,8 @@ it is trying to produce.
 
 The short version is a young-adult cut of the same exercise: identical
 formulas, four repetitions per limb instead of six, 5s pauses instead of 8s,
-and plainer language. Fewer repetitions is a deliberate departure from Schultz
-— a session short enough to repeat daily beats an orthodox one you skip. The
-cancellation is **not** shortened in either.
+and plainer language. Fewer repetitions is a deliberate departure from Schultz.
+The cancellation is **not** shortened in any version.
 
 > **Safety.** Do not listen while driving. Autogenic training lowers blood
 > pressure and heart rate — check with a clinician first if you have low blood

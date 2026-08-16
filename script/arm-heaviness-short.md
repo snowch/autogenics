@@ -2,10 +2,13 @@
 
 **First Standard Exercise (Heaviness) · young-adult version · ~7 minutes**
 
-A condensed version of the [full session](arm-heaviness.md), for people who
-want to actually do this twice a day rather than admire it once. Same
-technique, same formulas — fewer repetitions, tighter pauses, and language that
-doesn't sound like a clinic.
+A condensed version of the [full session](arm-heaviness.md) in language that
+doesn't sound like a clinic. Same technique, same formulas — fewer repetitions
+and tighter pauses.
+
+**This is not the daily practice.** That is
+[the example](arm-heaviness-example.md): ninety seconds, three times a day,
+done without audio. Use this one for a longer sit when you want it.
 
 ---
 
@@ -26,8 +29,10 @@ doesn't sound like a clinic.
 
 ## How to practise
 
-Twice a day beats once a week. Two minutes of this done regularly does more
-than an hour done occasionally.
+Frequency is what builds the response, not length — which is why the daily
+practice is ninety seconds done three times, not seven minutes done once. Work
+from the example for that. Reach for this version when you want to sit with it
+for longer, or when the short formula has started to feel automatic.
 
 Nothing may happen for the first several sessions. That's normal and not a
 sign you're bad at it — the heaviness turns up on its own, and trying to force
@@ -46,10 +51,9 @@ it is the one thing that reliably prevents it.
 | Rest phase | ~1:40 | ~25s |
 | Cancellation | full | full — never shortened |
 
-Four repetitions instead of six is a deliberate departure from Schultz. It
-keeps the session short enough to actually repeat daily, which matters more
-than orthodoxy at the start. Move to the full version once the heaviness comes
-reliably.
+Four repetitions instead of six is a deliberate departure from Schultz, to
+keep this version from sprawling. Move to the full version once the heaviness
+comes reliably.
 
 ## Production notes
 

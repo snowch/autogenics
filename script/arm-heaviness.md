@@ -28,8 +28,10 @@ anything happen.
 
 ## How to practise
 
-Do this two or three times a day, in the same posture each time. The first
-week is only about heaviness in the arms; resist the temptation to add the
+This is the long form, for an unhurried sit. It is **not** the daily dose —
+that is [the example](arm-heaviness-example.md), ninety seconds, three times a
+day, unaided. Use the same posture every time. The first week is only about
+heaviness in the arms; resist the temptation to add the
 other formulas. Heaviness may take several sessions to appear, and it appears
 by itself — never by effort.
 
