@@ -12,11 +12,33 @@ edit the markdown, re-run the tool.
 | Track | Script | Recording | Length |
 | --- | --- | --- | --- |
 | Explainer — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 5:10 |
-| **Example — the daily dose** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:33 |
-| 1 — Heaviness, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
-| 1 — Heaviness, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
+| **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:33 |
+| **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:21 |
+| **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:13 |
+| Long form, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
+| Long form, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
 
-**The example is the one that does the work.** It is a single practice at the
+## The app
+
+[`app/index.html`](app/index.html) is a single-page app around the same
+material: today's dose, a practice timer, one-tap logging, and progression
+gated on the log rather than on time served. No build step, no backend, no
+network — the log lives in `localStorage`, which keeps health-adjacent data on
+the device and makes a future Capacitor or PWA wrapper straightforward.
+
+Open it from the repo and it plays the recordings out of `audio/`. To get a
+single self-contained file, with the audio inlined:
+
+```bash
+python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
+```
+
+**One principle is wired into it: the app gets quieter as you improve.**
+Guided narration is the default for the first three days of a stage; after
+that it steps back to a bare timer, and the last rung has no audio at all. An
+app equally chatty on day sixty has failed, however good its retention looks.
+
+**The staged examples are what do the work.** It is a single practice at the
 dose the method actually calls for — 96 seconds, dominant arm only, six
 repetitions — done *with* the listener and then handed over: after the
 cancellation it says, in as many words, that they don't need the recording and

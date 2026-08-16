@@ -14,3 +14,6 @@ voices/
 # python bytecode
 __pycache__/
 *.py[cod]
+
+# derived self-contained app build (regenerate: tools/build_app_artifact.py)
+build/
