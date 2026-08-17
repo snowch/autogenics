@@ -212,15 +212,24 @@ study, or promising a result changes what the product legally is.
 
 **The method is credited, never the man.** Autogenic training is attributed to
 "Berlin in the 1920s" and its originator is not named anywhere a user can see.
-His conduct under National Socialism is documented in the history of
-psychotherapy, and the method's validity does not rest on him. Verify that
-history before writing anything that reintroduces the name.
+That history is now checked and written down in
+[`RESEARCH.md`](RESEARCH.md#on-the-founders-name), sourced to Brunner, Schrempf
+& Steger 2008 (PMID 19439831): he was assistant director of the Göring Institute
+1936–45, publicly advocated compulsory sterilization and the "annihilation of
+life unworthy of life", and experimented on homosexual concentration-camp
+prisoners. The method's validity does not rest on him. Read that section before
+writing anything that reintroduces the name.
 
-**Citing studies is out, for now.** Research on autogenic training exists, but
-quoting it is the exact move that turns description into a claim: "studied for X"
-is read as "helps with X". If an evidence page is ever added it belongs under
-Learn, framed as what the research has looked at, with no outcome promised —
-and every citation checked against the source rather than recalled.
+**Citing studies is out, for now.** Research on autogenic training exists — it is
+reviewed at abstract level in [`RESEARCH.md`](RESEARCH.md), which is a working
+record and **not a source for user-facing copy**. Quoting it is the exact move
+that turns description into a claim: "studied for X" is read as "helps with X".
+The short version of what is there: AT beats doing nothing by a medium effect,
+is statistically indistinguishable from every other relaxation method, the trials
+are of poor quality, and **no study has tested an app**. If an evidence page is
+ever added it belongs under Learn, must carry the second and third of those
+findings alongside the first, and every citation must be checked against the
+source rather than recalled.
 
 **Cognitive-performance framing is out**, and not only for the legal reason.
 "Brain exercise" or "optimal brain performance" would be an enhancement claim,
