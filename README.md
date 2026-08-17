@@ -1,6 +1,6 @@
 # autogenics
 
-Scripts and guided-audio recordings for **autogenic training** — Schultz's six
+Scripts and guided-audio recordings for **autogenic training** — the six
 standard exercises.
 
 The written script is the single source of truth. The audio is rendered from it
@@ -39,13 +39,13 @@ python3 tools/build_video.py slides.json --audio audio/intro.mp3
 happens to be installed, rather than a fallback. Three slide kinds so far:
 statement, formula, and stats.
 
-The first one is built: [`video/intro.mp4`](video/intro.mp4), 60 seconds, nine
+The first one is built: [`video/intro.mp4`](video/intro.mp4), 2m 09s, eighteen
 slides, from [`script/intro.md`](script/intro.md).
 
 ```bash
 python3 tools/generate_audio.py script/intro.md -o audio/intro.mp3 \
     --timings build/intro-timings.json
-python3 tools/build_video.py build/intro-slides.json \
+python3 tools/build_video.py video/intro-slides.json \
     --timings build/intro-timings.json --audio audio/intro.mp3 \
     --out video/intro.mp4
 ```
@@ -183,7 +183,44 @@ what it does — *finish by waking yourself up* — before it is ever named. The
 traditional terms still appear in Learn, glossed on first use, because the
 audience for this does eventually meet them in the literature.
 
-### Positioning and claims
+### Positioning
+
+**Who this is for:** people who tried to meditate and stopped. Not people
+already searching for autogenic training by name — that is a real audience but
+a small one in English, and the app used to assume it (the intro video opened
+"you already know what autogenic training is", which is now rewritten).
+
+The three pillars, in order of strength:
+
+1. **You finish.** Guided → timer → nothing. The product is designed to be
+   uninstalled. No subscription-funded competitor can print this, and it is why
+   there are no streaks, no daily engagement mechanics, and a gate that lets you
+   leave. Committing to it is a permanent constraint, not a tagline.
+2. **You feel it.** A trained physical response — the arm actually gets heavy.
+   This answers "am I doing this right?", which is the question meditation never
+   answers and the most common reason people quit.
+3. **You don't have to try.** Passive concentration: trying is the one thing
+   that reliably blocks it. Nothing to concentrate on, nothing to believe in.
+
+**Meditation is the reference point, never a comparison claim.** Talk about its
+failure mode — "if meditation never stuck" — never its efficacy. Manzoni 2008
+found meditation *outperformed* the relaxation category average, so any
+"works better than" framing is one we would lose on the evidence. Mechanism
+comparison is fair and true; efficacy comparison is neither.
+
+**Self-hypnosis stays as origin, never as the headline.** It is accurate — the
+literature routinely calls AT a method of self-hypnosis — and it earns its place
+in Learn as depth. But it is a category rather than a benefit, it connotes being
+put under when we are selling deliberate access, and it sets a theatrical
+expectation that a slightly heavy arm on day four will not meet.
+
+**"Mind training" is out**, for the same reason brain-performance framing is:
+it instructs the user to try, and trying blocks the response. It is also
+Headspace's line. The true version is that you *are* training — a physical
+response, using words as the instrument. The mind is the tool, not the target.
+Where that idea has real pull is agency, and pillar 1 carries it.
+
+### Claims
 
 Autogenic training is described as a **self-training method** — learning
 deliberate access to a state the body normally reaches only on its own — not

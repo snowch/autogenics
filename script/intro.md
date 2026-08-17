@@ -1,12 +1,18 @@
 # Intro — the first-run video
 
-**~100 seconds · carries the why, the benefits, and the whole arc**
+**~2 minutes · carries the why, the benefits, and the whole arc**
 
 <!-- render: --speed 1.0 --lead-in 0.4 -->
 
-The narration for the first-run video. It assumes the viewer already knows what
-autogenic training is, so it does not explain the method — it covers why anyone
-bothers, what people actually notice, and the shape of the whole thing.
+The narration for the first-run video. It opens on the reader who tried to
+meditate and stopped, because that is a far larger English-language audience
+than people already looking for autogenic training by name — and because the
+two differ in a way that is worth thirty seconds: this one is physical, it
+gives you a signal you can feel, and it takes no concentration at all.
+
+Then: why anyone bothers, what people actually notice, and the shape of the
+whole thing. It closes on the fact that it ends — guided, then a timer, then
+nothing — which is the one thing no subscription-funded competitor can say.
 
 This is also the only place the full six-exercise arc is shown. It is
 deliberately **not** on the practice screen: a list of eight things you have not
@@ -23,10 +29,24 @@ half-watched.
 
 <!-- narration:start -->
 
-You already know what autogenic training is. So here is what this app does with
-it, and why anyone bothers.
+If you have tried to meditate and it never really stuck, this is a different
+thing.
 
 [pause 0.8]
+
+Autogenic training is physical. You repeat one short phrase to yourself. My
+right arm is heavy.
+
+[pause 0.7]
+
+And after a few days, the arm actually does feel heavy. You notice it happen.
+
+[pause 0.9]
+
+There is nothing to concentrate on. Trying is the one thing that reliably
+blocks it.
+
+[pause 0.9]
 
 What you are training is deliberate access to a state your body normally only
 reaches on its own.

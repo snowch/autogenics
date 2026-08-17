@@ -220,6 +220,12 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .bens .m{background:var(--accent); width:6px; height:6px; margin-top:0}
 .bens strong{font-size:1.02rem; margin-bottom:2px}
 .obrule{width:44px; height:2px; background:var(--accent); border:0; margin:0 0 4px}
+/* closing beat on panel one. The outcomes above are what every relaxation app
+   promises; this is the one line none of them can print. It goes last. */
+.obend{border-top:1px solid var(--line); padding-top:14px; margin:0}
+.obend b{font-family:var(--serif); font-weight:500; font-size:1.18rem; color:var(--ink);
+  display:block; letter-spacing:-.01em}
+.obend span{display:block; margin-top:5px; font-size:.84rem; color:var(--ink-2); line-height:1.45}
 .obvid{width:100%; aspect-ratio:4/5; max-height:56vh; border-radius:16px;
   border:1px solid var(--line); background:#0D1218; display:block; object-fit:contain}
 .obvidwrap{display:flex; flex-direction:column; gap:12px}
@@ -329,27 +335,32 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <li><span class="m"></span><span><strong>Coming down faster.</strong>
         Instead of staying wound up for hours after something stressful.</span></li>
       <li><span class="m"></span><span><strong>Getting to sleep.</strong>
-        The most common reason people keep it up.</span></li>
+        Settling, instead of lying there running the day back.</span></li>
       <li><span class="m"></span><span><strong>A clearer head afterwards.</strong>
         Plenty of people use it as a reset between two demanding things.</span></li>
     </ul>
 
     <p class="obcaveat">A trained physical response, not a mood — nothing to
-      believe in. What arrives, and how quickly, varies between people.</p>
+      believe in and nothing to concentrate on. What arrives, and how quickly,
+      varies between people.</p>
 
     <div class="obstat">
       <div><span class="num">90s</span><span class="cap">a practice</span></div>
       <div><span class="num">3×</span><span class="cap">a day</span></div>
       <div><span class="num">9</span><span class="cap">steps</span></div>
     </div>
+
+    <p class="obend"><b>And then you stop needing it.</b>
+      <span>Guided for your first few days, then only a timer, then nothing at
+      all.</span></p>
   </div>
 
   <div class="obstep">
     <p class="obkick">How this works</p>
-    <h2 class="obtitle">One minute, then you start.</h2>
+    <h2 class="obtitle">Two minutes, then you start.</h2>
     <div class="obvidwrap">
       <video class="obvid" id="obVideo" controls playsinline preload="metadata"></video>
-      <p class="obcaveat">One minute, with sound. Everything in it is also written under Learn, so skipping costs you nothing.</p>
+      <p class="obcaveat">Two minutes, with sound. Everything in it is also written under Learn, so skipping costs you nothing.</p>
     </div>
   </div>
 

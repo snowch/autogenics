@@ -1,0 +1,20 @@
+[
+ {"kind":"point","kick":"Autogenic training","text":"If meditation never stuck, this is a different thing.","seg":0},
+ {"kind":"formula","text":"My right arm is heavy.","seg":1},
+ {"kind":"point","kick":"You feel it","text":"The arm actually does get heavy.","sub":"Not imagined — you notice it happen.","seg":2},
+ {"kind":"point","kick":"Nothing to concentrate on","text":"Trying is the one thing that reliably blocks it.","seg":3},
+ {"kind":"point","kick":"What you are training","text":"Deliberate access to a state your body normally only reaches on its own.","seg":4},
+ {"kind":"point","text":"Not to relax right now. To be able to.","seg":5},
+ {"kind":"benefits","kick":"What people notice","text":"In ordinary places.","items":[["Less noise in the head","Not silence — the volume down."]],"seg":6},
+ {"kind":"benefits","kick":"What people notice","text":"In ordinary places.","items":[["Less noise in the head","Not silence — the volume down."],["Coming down faster","Instead of staying wound up for hours."]],"seg":7},
+ {"kind":"benefits","kick":"What people notice","text":"In ordinary places.","items":[["Less noise in the head","Not silence — the volume down."],["Coming down faster","Instead of staying wound up for hours."],["Getting to sleep",""],["A clearer head","Between two demanding things."]],"seg":8},
+ {"kind":"ladder","kick":"The whole thing","text":"Six exercises, in order.","rows":[["Heaviness",true],["Warmth",false],["Heartbeat",false],["Breathing",false],["Warm centre",false],["Cool head",false]],"seg":9},
+ {"kind":"ladder","kick":"The whole thing","text":"Six exercises, in order.","rows":[["Heaviness — arms",true],["Warmth — hands",false],["Heartbeat",false],["Breathing",false],["Warm centre",false],["Cool head",false]],"seg":10},
+ {"kind":"point","kick":"Pace","text":"About a week on each.","sub":"One short phrase at a time.","seg":11},
+ {"kind":"stats","kick":"The dose","text":"Short and often beats long and rare.","stats":[["90s","a practice"],["3×","a day"]],"seg":12},
+ {"kind":"point","kick":"It gets quieter","text":"Guided. Then a timer. Then nothing.","seg":13},
+ {"kind":"point","text":"The point is that you end up not needing this.","seg":14},
+ {"kind":"point","kick":"Moving on","text":"When your own record says it is landing.","sub":"Not when a week has passed.","seg":15},
+ {"kind":"point","kick":"Be patient","text":"Expect nothing for the first few days.","sub":"Trying harder is the one thing that blocks it.","seg":16},
+ {"kind":"formula","text":"My right arm is heavy.","seg":17}
+]
