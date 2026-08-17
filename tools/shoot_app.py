@@ -47,6 +47,9 @@ SHOTS = [
         for(let d=0;d<20;d++) for(let k=0;k<3;k++)
           S.log.push({d:dayKey(d),t:'',step:Math.min(9,9-Math.floor(d/3)),r:3,m:'timer'});
         save(); renderJourney();"""),
+    ("03b-day-done", NEXT * 4 + """
+        S.log=[0,1,2].map(k=>({d:dayKey(0),t:'',step:0,r:1,m:'guided'}));
+        S.briefed=['after-first']; save(); renderJourney();"""),
     ("07-practice-running", NEXT * 4 + """
         mode='timer'; renderJourney();
         document.querySelector('#nowCard .go').click();"""),

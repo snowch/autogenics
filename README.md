@@ -260,6 +260,26 @@ Now or Later, any of which opens to show what it is.
 An earlier version crammed all three into the open step. It carried eight
 things at once and read as a wall.
 
+### Contrast and tap targets, measured
+
+Never checked until it was, and light theme was failing badly: `--muted` at
+2.53:1 against white where 4.5 is the floor, and the accent at 3.56:1 on its own
+soft background. Dark was marginal — 3.72:1 on the small pills.
+
+Fixed by computation rather than by eye. Each token was tested against every
+surface it actually sits on and walked toward the background, scaling its
+channels proportionally so the hue survives, until it cleared 4.6:1. Light
+`--muted` #8394A4 → #546474, `--accent` #B0682F → #955827, `--good` → #366C58;
+dark `--muted` #6F8090 → #8192A2. Every screen in both themes is clean.
+
+Tap targets: the guided/timer switch was 38px, a path row 28px, the cautions
+link 18px. Now 44px, 44px, and 24px.
+
+One caution about the audit itself. Its first run flagged the nav labels at
+3.58:1, which was the audit's bug, not the app's: `color-mix()` computes to
+`color(srgb 1 1 1 / 0.92)` and a naive number-grab reads "1 1 1" as near-black.
+A measurement you have not checked is just a more confident guess.
+
 ### Practice, Progress, Learn
 
 An earlier version had a Today tab beside a Progress tab, and it was removed:
@@ -354,6 +374,15 @@ Every later track recaps heaviness before adding its own formula, so all five
 were re-rendered to say *my arms and legs are heavy*. Leaving them would have
 put the guided cue and the voice out of step — the one failure this pipeline
 exists to prevent.
+
+### Finishing the day is a moment
+
+Three practices a day is the entire mechanism, and hitting it was never
+acknowledged — the button just changed to "Practise again", which reads as *not
+enough yet*. Once the day's three are in, the eyebrow says **Done today**, a
+line says so plainly, and the primary action steps down to a ghost labelled
+"Practise anyway". More is not better here, and a product built on short and
+often should not push for a fourth.
 
 ### The record belongs to the step it describes
 

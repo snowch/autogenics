@@ -8,15 +8,15 @@
 <style>
 :root{
   --ground:#EEF1F5; --surface:#FFFFFF; --surface-2:#E3E8EE; --sunk:#DCE2EA;
-  --ink:#141D27; --ink-2:#4E5C6B; --muted:#8394A4; --line:#D3DAE3;
-  --accent:#B0682F; --accent-ink:#FFFFFF; --accent-soft:#F6E7D8;
-  --good:#3F7D66; --good-soft:#E0EDE7;
+  --ink:#141D27; --ink-2:#4E5C6B; --muted:#546474; --line:#D3DAE3;
+  --accent:#955827; --accent-ink:#FFFFFF; --accent-soft:#F6E7D8;
+  --good:#366C58; --good-soft:#E0EDE7;
   --shadow:0 1px 2px rgba(20,29,39,.05),0 10px 28px -16px rgba(20,29,39,.22);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --ground:#0D1218; --surface:#141C25; --surface-2:#1C2733; --sunk:#0A0F14;
-    --ink:#E6ECF2; --ink-2:#9DAEBD; --muted:#6F8090; --line:#243140;
+    --ink:#E6ECF2; --ink-2:#9DAEBD; --muted:#8192A2; --line:#243140;
     --accent:#E0A15C; --accent-ink:#191108; --accent-soft:#332417;
     --good:#6FAE9B; --good-soft:#172B26;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px -18px rgba(0,0,0,.75);
@@ -24,7 +24,7 @@
 }
 :root[data-theme="dark"]{
   --ground:#0D1218; --surface:#141C25; --surface-2:#1C2733; --sunk:#0A0F14;
-  --ink:#E6ECF2; --ink-2:#9DAEBD; --muted:#6F8090; --line:#243140;
+  --ink:#E6ECF2; --ink-2:#9DAEBD; --muted:#8192A2; --line:#243140;
   --accent:#E0A15C; --accent-ink:#191108; --accent-soft:#332417;
   --good:#6FAE9B; --good-soft:#172B26;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px -18px rgba(0,0,0,.75);
@@ -70,7 +70,7 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .step.cur .pill{background:var(--accent-soft); color:var(--accent)}
 .step.cur .stitle{color:var(--ink)}
 
-.srow{width:100%; padding:0 0 22px; display:block}
+.srow{width:100%; padding:6px 0 22px; min-height:44px; display:block}
 .step:last-child .srow{padding-bottom:6px}
 .shead{display:flex; align-items:center; gap:9px; flex-wrap:wrap}
 .stitle{font-weight:650; font-size:1rem; letter-spacing:-.005em}
@@ -139,9 +139,12 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .now .phrasehint{margin-top:9px; font-size:.85rem}
 .now .dose{margin-top:20px}
 .now .go{margin-top:16px; padding:17px; font-size:1.02rem; border-radius:13px}
+.donenote{margin:16px 0 0; font-size:.87rem; color:var(--good);
+  border-left:2px solid var(--good); padding-left:11px}
+.now .donenote + .go{margin-top:14px}
 .modes{display:flex; gap:0; margin-top:12px; border:1px solid var(--line);
   border-radius:10px; overflow:hidden}
-.modes button{flex:1; padding:9px 6px; text-align:center; font-size:.83rem;
+.modes button{flex:1; padding:12px 6px; min-height:44px; text-align:center; font-size:.83rem;
   color:var(--ink-2); background:transparent; transition:.15s}
 .modes button.sel{background:var(--accent-soft); color:var(--accent); font-weight:600}
 
@@ -310,7 +313,7 @@ details p{margin:9px 0 0; font-size:.88rem; color:var(--ink-2)}
    Quiet enough not to nag on the hundredth open, permanent enough to count. */
 .footnote{margin:8px 2px 0; font-size:.76rem; line-height:1.5; color:var(--muted)}
 .linky{font-size:inherit; color:var(--muted); text-decoration:underline;
-  text-underline-offset:2px; padding:0; display:inline}
+  text-underline-offset:2px; padding:4px 0; display:inline-block; min-height:24px}
 .linky:hover{color:var(--accent)}
 
 nav{position:fixed; bottom:0; left:0; right:0; z-index:30;
@@ -541,7 +544,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="45f0bad+";
+window.__BUILD__="897cebe+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -609,7 +612,7 @@ const STEPS=[
          'It breathes me.','My solar plexus is warm.','My forehead is cool.','I am completely calm.']}
 ];
 
-const GATE={minDays:5, window:3, needPerDay:2, needRating:2};
+const GATE={minDays:5, window:3, needPerDay:2, needRating:2, slots:3};
 const STRIP_DAYS=7;
 const KEY='autogenics.v2';
 const today=()=>new Date().toISOString().slice(0,10);
@@ -741,7 +744,8 @@ function renderJourney(){
   const now=el('div','now'); $('#nowCard').innerHTML=''; $('#nowCard').appendChild(now);
   const eb=el('div','eyebrow');
   eb.appendChild(el('span','ename', st.n + (st.q ? ' · '+st.q : '')));
-  eb.appendChild(el('span','pill','Now'));
+  const dayDone = es.length>=GATE.slots;
+  eb.appendChild(el('span','pill', dayDone ? 'Done today' : 'Now'));
   now.appendChild(eb);
   now.appendChild(el('p','phrase', st.phrase));
   now.appendChild(el('p','phrasehint', st.audio===null
@@ -758,9 +762,15 @@ function renderJourney(){
   });
   now.appendChild(dose);
 
-  /* not `go` — that shadows the go() navigator for this whole function, and
-     any call to it from a handler in here silently becomes a DOM element. */
-  const goBtn=el('button','btn go', es.length>=3 ? 'Practise again' : 'Start practice');
+  /* Three a day is the whole mechanism, and the app never once acknowledged
+     hitting it — the button just changed to "Practise again", which reads as
+     "not enough yet". Once the day's three are in, the primary action steps
+     down to a ghost: more is not better here, and a product built on short
+     and often should not push for a fourth. */
+  if(dayDone) now.appendChild(el('p','donenote',
+    'That is today\u2019s three. Nothing more is needed — this is a dose, not a total.'));
+  const goBtn=el('button', dayDone ? 'btn ghost go' : 'btn go',
+                 dayDone ? 'Practise anyway' : 'Start practice');
   goBtn.onclick=startPractice;
   now.appendChild(goBtn);
 
