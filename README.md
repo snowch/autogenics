@@ -178,6 +178,23 @@ An earlier version drew the six exercises on a small figure, at the place each
 is felt. It was removed. It looked considered and told you less than the list
 does, which is a fair description of decoration.
 
+### Learn is help and method, not one page
+
+Learn was answering two unrelated questions at once — *something is up, what do
+I do* and *what is this thing* — and showing both at all times was most of what
+made it feel cluttered. It splits on that line, with a segmented control: **Help**
+leads, because after the first week it is the only reason anyone opens the tab;
+**The method** holds the explainer, the origin, and the record.
+
+Help is the cautions, then *Doing it right* (you cannot make it happen; say it
+in your own voice; short and often) and *If it feels wrong* (nothing is
+happening; restlessness or emotion). Each pane now fits one screen.
+
+The cautions card is the only surface treatment left on the tab, so it is the
+one thing that stands out — but only its two actionable rules are open. The
+medical detail and the take-back are collapsed behind them: a twenty-line block
+of prose at the top of the page was itself the clutter, however important it is.
+
 ### Plain language
 
 User-facing copy avoids terms the reader has no reason to know yet. "Stage"

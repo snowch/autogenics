@@ -26,6 +26,8 @@ SHOTS = [
           S.log.push({d:dayKey(d),t:'',step:3,r:d<3?3:2,m:'timer'});
         save(); renderJourney();"""),
     ("05-learn", NEXT * 4 + "go('learn')"),
+    ("05b-learn-method", NEXT * 4 + "go('learn');"
+     "document.querySelector('#learnSeg button[data-pane=\\'method\\']').click();"),
 ]
 
 

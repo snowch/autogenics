@@ -250,7 +250,14 @@ details p{margin:9px 0 0; font-size:.88rem; color:var(--ink-2)}
    section look equally important and the screen read as clutter; flat sections
    separated by space read as one page you scan. The safety card keeps its
    surface precisely so it is the one thing that still stands out. */
-#s-learn{gap:28px}
+/* Two panes, because Learn was answering two unrelated questions at once:
+   "something is up, what do I do" and "what is this thing". The first is
+   reached for repeatedly, the second read once in week one. Showing both at
+   all times was most of the clutter. Help leads — after the first week it is
+   the only reason anyone opens this tab. */
+#s-learn{gap:20px}
+#learnSeg{margin-top:0}
+.pane{display:flex; flex-direction:column; gap:28px}
 #s-learn .card{background:transparent; border:0; border-radius:0;
   box-shadow:none; padding:0}
 #s-learn .card h2{margin-bottom:9px}
@@ -295,49 +302,70 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     </section>
 
     <section class="screen" id="s-learn">
-      <div class="card safety">
-        <h2>Before you practise</h2>
-        <p class="lede">Never while driving, cycling, or doing anything that needs your attention. Deep relaxation can leave you light-headed when you get up — if you have low blood pressure, a heart condition, diabetes, or epilepsy, speak to your doctor before making it a daily habit.</p>
-        <p class="lede" style="margin-top:10px"><strong>Always finish by waking yourself up:</strong> bend and stretch your arms firmly, fists clenched; two deep breaths; open your eyes. About fifteen seconds, and it is what stops you feeling groggy. The one exception is practising in bed to fall asleep — then stay lying down. (Traditionally this is called the <em>take-back</em>.)</p>
-        <p class="lede" style="margin-top:10px">A self-training method, not medical treatment or advice. It does not diagnose or treat any condition. If something is wrong, see a doctor.</p>
+      <div class="modes" id="learnSeg">
+        <button data-pane="help" class="sel">Help</button>
+        <button data-pane="method">The method</button>
       </div>
 
-      <div class="card">
-        <h2>Start here</h2>
-        <p class="lede">Six minutes on what the method is and how to make it work. Listen once, before your first practice.</p>
-        <audio class="audio" controls preload="none" id="aExplain"></audio>
+      <div id="pane-help" class="pane">
+        <div class="card safety">
+          <h2>Before you practise</h2>
+          <ul class="cautions" style="margin-top:9px">
+            <li><span class="m"></span><span><strong>Never while driving or cycling.</strong>
+              Or anything else that needs your attention.</span></li>
+            <li><span class="m"></span><span><strong>Always wake yourself up afterwards.</strong>
+              The app runs that part — about fifteen seconds.</span></li>
+          </ul>
+          <details style="margin-top:14px"><summary>Check with your doctor first if…</summary>
+            <p>Deep relaxation can leave you light-headed when you get up. If you have low blood pressure, a heart condition, diabetes, or epilepsy, speak to your doctor before making this a daily habit.</p></details>
+          <details><summary>How to wake yourself up</summary>
+            <p>Bend and stretch your arms firmly, fists clenched; two deep breaths; open your eyes. About fifteen seconds, and it is what stops you feeling groggy. The one exception is practising in bed to fall asleep — then stay lying down. (Traditionally this is called the <em>take-back</em>.)</p></details>
+          <p class="footnote" style="margin-top:13px">A self-training method, not medical treatment or advice. It does not diagnose or treat any condition. If something is wrong, see a doctor.</p>
+        </div>
+
+        <div class="card">
+          <h2>Doing it right</h2>
+          <details><summary>You cannot make it happen</summary>
+            <p>Effort is the one thing that reliably blocks it. Hold the phrase lightly, notice whatever is actually there, and let it be uninteresting. It is like falling asleep: you can arrange the conditions, but you can't force the moment.</p></details>
+          <details><summary>Say it in your own voice</summary>
+            <p>The phrase is yours, thought silently, not listened to. The recordings only show you the shape — the practice is you thinking the words, in your head, at your own pace. In the older books these phrases are called <em>formulae</em>.</p></details>
+          <details><summary>Short and often, not long and rare</summary>
+            <p>Ninety seconds, three times a day. Frequency builds the response; duration does not. One long session a day is not the same thing and will not do the same thing.</p></details>
+        </div>
+
+        <div class="card">
+          <h2>If it feels wrong</h2>
+          <details><summary>Nothing is happening</summary>
+            <p>Expect nothing for the first few days. It usually appears somewhere between a few days and two weeks, and may arrive as warmth, tingling, sinking, or the arm feeling larger or further away — those all count.</p></details>
+          <details><summary>Restlessness or emotion comes up</summary>
+            <p>That is a recognised part of the process — the old books call it an <em>autogenic discharge</em> — and not a sign that something is wrong. If it is uncomfortable: open your eyes, move your arms and legs, and stop there for that session.</p></details>
+        </div>
       </div>
 
-      <div class="card">
-        <h2>What this is</h2>
-        <p class="lede">You repeat a short phrase to yourself — <em>my right arm is heavy</em> — and let it be true rather than making it true. Done often enough, the shift becomes something you can reach for deliberately. Not to relax now: to be able to.</p>
-        <details style="margin-top:12px"><summary>Where it comes from</summary>
-          <p>Worked out in Berlin in the 1920s, as an attempt to take the hypnotist out of hypnosis — to let people reach the same settled state on their own, with nobody guiding them.</p></details>
-        <details><summary>What people notice</summary>
-          <p>Less noise in the head — not silence, the volume down. Coming down faster after something stressful. Settling into sleep. A cleaner head between two demanding things. What arrives, and when, varies a lot between people.</p></details>
-        <button class="btn ghost" id="lReplay" style="margin-top:12px">See the introduction again</button>
-      </div>
+      <div id="pane-method" class="pane hidden">
+        <div class="card">
+          <h2>Start here</h2>
+          <p class="lede">Six minutes on what the method is and how to make it work. Listen once, before your first practice.</p>
+          <audio class="audio" controls preload="none" id="aExplain"></audio>
+        </div>
 
-      <div class="card">
-        <h2>Key ideas</h2>
-        <details><summary>You cannot make it happen</summary>
-          <p>Effort is the one thing that reliably blocks it. Hold the phrase lightly, notice whatever is actually there, and let it be uninteresting. It is like falling asleep: you can arrange the conditions, but you can't force the moment.</p></details>
-        <details><summary>Say it in your own voice</summary>
-          <p>The phrase is yours, thought silently, not listened to. The recordings only show you the shape — the practice is you thinking the words, in your head, at your own pace. In the older books these phrases are called <em>formulae</em>.</p></details>
-        <details><summary>Short and often, not long and rare</summary>
-          <p>Ninety seconds, three times a day. Frequency builds the response; duration does not. One long session a day is not the same thing and will not do the same thing.</p></details>
-        <details><summary>Nothing happening is normal</summary>
-          <p>Expect nothing for the first few days. It usually appears somewhere between a few days and two weeks, and may arrive as warmth, tingling, sinking, or the arm feeling larger or further away — those all count.</p></details>
-        <details><summary>If restlessness or emotion comes up</summary>
-          <p>That is a recognised part of the process — the old books call it an <em>autogenic discharge</em> — and not a sign that something is wrong. If it is uncomfortable: open your eyes, move your arms and legs, and stop there for that session.</p></details>
-      </div>
+        <div class="card">
+          <h2>What this is</h2>
+          <p class="lede">You repeat a short phrase to yourself — <em>my right arm is heavy</em> — and let it be true rather than making it true. Done often enough, the shift becomes something you can reach for deliberately. Not to relax now: to be able to.</p>
+          <details style="margin-top:12px"><summary>Where it comes from</summary>
+            <p>Worked out in Berlin in the 1920s, as an attempt to take the hypnotist out of hypnosis — to let people reach the same settled state on their own, with nobody guiding them.</p></details>
+          <details><summary>What people notice</summary>
+            <p>Less noise in the head — not silence, the volume down. Coming down faster after something stressful. Settling into sleep. A cleaner head between two demanding things. What arrives, and when, varies a lot between people.</p></details>
+          <button class="btn ghost" id="lReplay" style="margin-top:12px">See the introduction again</button>
+        </div>
 
-      <div class="card">
-        <h2>Your record</h2>
-        <p class="lede">Stored on this device only. Nothing is sent anywhere.</p>
-        <div class="btnrow">
-          <button class="btn ghost" id="lExport">Export</button>
-          <button class="btn ghost" id="lReset">Reset</button>
+        <div class="card">
+          <h2>Your record</h2>
+          <p class="lede">Stored on this device only. Nothing is sent anywhere.</p>
+          <div class="btnrow">
+            <button class="btn ghost" id="lExport">Export</button>
+            <button class="btn ghost" id="lReset">Reset</button>
+          </div>
         </div>
       </div>
     </section>
@@ -733,6 +761,12 @@ function go(name){
   window.scrollTo(0,0);
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.querySelectorAll('#learnSeg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#learnSeg button').forEach(x=>x.classList.toggle('sel',x===b));
+  $('#pane-help').classList.toggle('hidden', b.dataset.pane!=='help');
+  $('#pane-method').classList.toggle('hidden', b.dataset.pane!=='method');
+  window.scrollTo(0,0);
+});
 $('#pxStop').onclick=finishPractice;
 $('#pxQuit').onclick=()=>{           /* leave with nothing logged */
   clearInterval(timer); timer=null;
