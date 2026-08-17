@@ -75,6 +75,7 @@ def main() -> int:
     html = html.replace("'../audio/", "'./audio/")
     (DOCS / "video").mkdir(exist_ok=True)
     shutil.copy(ROOT / "video" / "intro.mp4", DOCS / "video" / "intro.mp4")
+    shutil.copy(ROOT / "video" / "intro-poster.jpg", DOCS / "video" / "intro-poster.jpg")
     html = html.replace("'../video/", "'./video/")
     print(f"  intro.mp4 {(DOCS/'video'/'intro.mp4').stat().st_size/1024:6.0f} KB")
     head = ("""<link rel="manifest" href="./manifest.webmanifest">
@@ -108,7 +109,7 @@ if('serviceWorker' in navigator){
                    "purpose": "any maskable"}],
     }, indent=2), encoding="utf-8")
 
-    assets = ["./", "./index.html", "./manifest.webmanifest", "./video/intro.mp4",
+    assets = ["./", "./index.html", "./manifest.webmanifest", "./video/intro.mp4", "./video/intro-poster.jpg",
               "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"] + \
              [f"./audio/{n}" for n in TRACKS.values()]
     # Cache name carries the audio byte-count, so a re-render invalidates it.

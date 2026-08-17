@@ -123,8 +123,14 @@ straightforward.
 
 ```bash
 python3 tools/check_app.py                        # syntax-check first
+python3 tools/shoot_app.py                        # screenshot the screens
 python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
 ```
+
+`shoot_app.py` renders each screen with the bundled Chromium at phone size,
+including a seeded mid-ladder state, into `build/shots/`. The design faults in
+this app were consistently found by looking at it and consistently missed by
+inspecting the markup, so look at it.
 
 ### The journey is the screen
 
