@@ -54,10 +54,20 @@ python3 tools/build_video.py build/intro-slides.json \
 line it covers, so cuts land on the narration. Measured drift between audio and
 video on the built file: 0.00s.
 
-It replaces the two selling panels of the text onboarding. **The disclaimer and
-safety panel stays as text** with an explicit tap to continue — a video can be
-skipped, muted, or half-watched, and "they were told in a video" is a weaker
-position than "they tapped to acknowledge".
+First run runs **invitation → film → cautions → start**, in that order.
+
+Safety was originally the first screen, on the reasoning that it is the
+responsible place for it. It made the app open on "not medical treatment",
+"never while driving" and "see a doctor" — which reads as a consent form and is
+a poor thing to meet before you know what the app is for. The cautions now sit
+immediately before the first practice, where they are still unavoidable and no
+longer the greeting. They also lead with the practical points and keep the
+medical disclaimer quiet at the bottom, since only one of those is a warning
+the practitioner acts on.
+
+The cautions stay **text with an explicit tap to continue**, never video: a
+film can be skipped, muted, or half-watched, and "they were told in a video" is
+a weaker position than "they tapped to acknowledge".
 
 Graphics are diagrammatic, drawn from the app's own vocabulary — the day's three
 slots, the step rail, the practice ring — so the video and the product speak the

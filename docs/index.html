@@ -191,7 +191,8 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .oblist .v span{color:var(--ink-2); font-size:.87rem}
 .obstat{display:flex; gap:26px; flex-wrap:wrap}
 .obstat .num{font-family:var(--mono); font-size:1.6rem; font-weight:600; color:var(--accent); letter-spacing:-.02em}
-.obstat .cap{font-size:.75rem; color:var(--muted); max-width:14ch; line-height:1.3}
+.obstat .cap{font-size:.75rem; color:var(--muted); max-width:11ch; line-height:1.3;
+  white-space:nowrap}
 .obstat div{display:flex; flex-direction:column}
 .obcaveat{font-size:.78rem; color:var(--muted); border-left:2px solid var(--line); padding-left:11px; margin:0}
 .obfoot{display:flex; flex-direction:column; gap:11px; padding-top:4px}
@@ -205,7 +206,7 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
   margin:0; max-width:31ch}
 .obdef span{display:block; margin-top:7px; font-family:var(--sans); font-size:.86rem;
   color:var(--muted); line-height:1.45}
-.callout{border-left:3px solid var(--accent); padding:2px 0 2px 15px}
+.callout{border-left:3px solid var(--muted); padding:2px 0 2px 15px; opacity:.92}
 .callout b{display:block; font-size:.95rem; color:var(--ink); margin-bottom:4px;
   letter-spacing:-.005em}
 .callout span{font-size:.86rem; color:var(--ink-2); line-height:1.45}
@@ -323,30 +324,19 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
  <div class="obwrap">
   <div class="obstep on">
     <hr class="obrule">
-    <p class="obkick">Before you start</p>
-    <h2 class="obtitle">What this is, and what it isn't.</h2>
+    <p class="obkick">Autogenic training</p>
+    <h2 class="obtitle">Ninety seconds, three times a day.</h2>
 
-    <p class="obdef">A self-training method: you learn deliberate access to a
-      state your body normally only reaches on its own.
-      <span>This app teaches it, and keeps a record of your practice.</span></p>
+    <p class="obdef">That is the whole practice. Nothing to sit through, nothing
+      to believe, and nowhere you need to be.
+      <span>In a couple of weeks you can do it on a train or at your desk, with
+      nothing at all — which is the point of it.</span></p>
 
-    <div class="callout">
-      <b>Not medical treatment or advice.</b>
-      <span>It does not diagnose or treat any condition. If something is wrong,
-      see a doctor — this sits alongside that, never instead of it.</span>
+    <div class="obstat">
+      <div><span class="num">90s</span><span class="cap">a practice</span></div>
+      <div><span class="num">3×</span><span class="cap">a day</span></div>
+      <div><span class="num">9</span><span class="cap">steps</span></div>
     </div>
-
-    <ul class="cautions">
-      <li><span class="m"></span><span><strong>Never while driving or cycling.</strong>
-        Or anything else that needs your attention.</span></li>
-      <li><span class="m"></span><span><strong>It can leave you light-headed on standing.</strong>
-        Speak to your doctor first if you have low blood pressure, a heart condition,
-        diabetes, or epilepsy.</span></li>
-      <li><span class="m"></span><span><strong>Every practice wakes you back up.</strong>
-        The app always runs that part.</span></li>
-      <li><span class="m"></span><span><strong>Two later exercises are best learned in person.</strong>
-        It will say so when you reach them.</span></li>
-    </ul>
   </div>
 
   <div class="obstep">
@@ -355,6 +345,30 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <div class="obvidwrap">
       <video class="obvid" id="obVideo" controls playsinline preload="metadata"></video>
       <p class="obcaveat">One minute, with sound. Everything in it is also written under Learn, so skipping costs you nothing.</p>
+    </div>
+  </div>
+
+  <div class="obstep">
+    <hr class="obrule">
+    <p class="obkick">Before you start</p>
+    <h2 class="obtitle">A few practical things.</h2>
+
+    <ul class="cautions">
+      <li><span class="m"></span><span><strong>Never while driving or cycling.</strong>
+        Or anything else that needs your attention.</span></li>
+      <li><span class="m"></span><span><strong>It can leave you light-headed on standing.</strong>
+        Speak to your doctor first if you have low blood pressure, a heart condition,
+        diabetes, or epilepsy.</span></li>
+      <li><span class="m"></span><span><strong>Every practice wakes you back up.</strong>
+        The app always runs that part — it takes about fifteen seconds.</span></li>
+      <li><span class="m"></span><span><strong>Two later exercises are best learned in person.</strong>
+        It will say so when you reach them.</span></li>
+    </ul>
+
+    <div class="callout">
+      <b>Not medical treatment or advice.</b>
+      <span>It does not diagnose or treat any condition. If something is wrong,
+      see a doctor — this sits alongside that, never instead of it.</span>
     </div>
   </div>
 
@@ -693,7 +707,8 @@ function obShow(i){
   ob=i;
   obSteps.forEach((s,k)=>s.classList.toggle('on',k===i));
   [...$('#obDots').children].forEach((d,k)=>d.classList.toggle('on',k===i));
-  $('#obNext').textContent = i===obSteps.length-1 ? 'Start practising' : 'Next';
+  $('#obNext').textContent =
+    i===obSteps.length-1 ? 'Start practising' : (i===0 ? 'Show me' : 'Next');
   $('#obSkip').classList.add('hidden');
 }
 function obOpen(){ $('#onboard').classList.add('on'); obShow(0); }
