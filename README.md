@@ -355,6 +355,28 @@ were re-rendered to say *my arms and legs are heavy*. Leaving them would have
 put the guided cue and the voice out of step — the one failure this pipeline
 exists to prevent.
 
+### Every film replays from the path
+
+Replay used to be in two places: the intro under Learn, the briefings on the
+path. One kind of thing, two places to look.
+
+The path is the journey, so it carries all of them in the order they were met
+— the programme intro at the head, each exercise's briefing on its own step,
+the closing film at the tail once it has been earned. Learn keeps the method
+and loses the journey.
+
+What did **not** move is a briefing's *first* showing. That stays on Practice,
+because its entire value is timing: it appears when you arrive at a new
+exercise, before your first go at it. Behind another tab nobody meets it at the
+moment it is for, which is the whole reason it stopped being a four-minute
+lecture up front.
+
+Which leaves the question of whether "Practice" is the right name for a screen
+that sometimes offers a film. It is: the screen is the current step, and a
+briefing about the current step is the current thing to do. Renaming it to
+Focus or Now buys vagueness — "Practice, Progress, Learn" says what each screen
+holds, and the film is a minute of the practice you are about to start.
+
 ### The ladder has an ending now
 
 The first screen promises you end up not needing this, and until now nothing

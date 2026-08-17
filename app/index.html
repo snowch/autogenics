@@ -376,7 +376,6 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <p>Worked out in Berlin in the 1920s, as an attempt to take the hypnotist out of hypnosis — to let people reach the same settled state on their own, with nobody guiding them.</p></details>
         <details><summary>What people notice</summary>
           <p>Less noise in the head — not silence, the volume down. Coming down faster after something stressful. Settling into sleep. A cleaner head between two demanding things. What arrives, and when, varies a lot between people.</p></details>
-        <button class="btn ghost" id="lReplay" style="margin-top:12px">See the introduction again</button>
       </div>
 
       <div class="card">
@@ -813,8 +812,43 @@ mode = guidedDefault() ? 'guided' : 'timer';
      not borrow the endless-ladder look of one that never does. ---- */
   const list=$('#journey'); list.innerHTML='';
   const ahead = S.step+1 < STEPS.length ? 1 : 0;
-  $('#pathHead').classList.toggle('hidden', S.step===0 && !ahead);
+  $('#pathHead').classList.remove('hidden');
   $('#pathCnt').textContent = S.step===1 ? '1 done' : S.step+' done';
+
+  /* The path is the journey, so it opens on the film about the journey. Every
+     film is now replayable from one place, in the order it was met: the
+     programme intro, each exercise's briefing on its step, and the closing
+     film at the end. It used to be scattered — intro under Learn, briefings
+     here — which is two places to look for one kind of thing. */
+  if(AUDIO.intro){
+    const li=el('li','step done intro');
+    const rail=el('div','rail');
+    rail.appendChild(el('span','dot')); rail.appendChild(el('span','line'));
+    li.appendChild(rail);
+    const col=document.createElement('div');
+    const row=document.createElement('button');
+    row.className='srow'; row.type='button';
+    const head=el('div','shead');
+    head.appendChild(el('span','stitle','The whole thing'));
+    head.appendChild(el('span','pill','Intro'));
+    row.appendChild(head);
+    const isOpen = open==='intro';
+    row.setAttribute('aria-expanded', String(isOpen));
+    row.onclick=()=>{ open = isOpen ? null : 'intro'; renderJourney(); };
+    col.appendChild(row);
+    if(isOpen){
+      const d=el('div','panel');
+      d.appendChild(el('p','note','Two minutes: what the method is for, the six exercises in order, and how the whole thing ends.'));
+      const rw=el('div','btnrow');
+      const b=el('button','btn ghost','Watch again');
+      b.onclick=ev=>{ ev.stopPropagation();
+        playBrief({src:'intro', poster:'introPoster',
+                   kick:'The whole thing', title:'Why, the six exercises, and how it ends.'}); };
+      rw.appendChild(b); d.appendChild(rw);
+      col.appendChild(d);
+    }
+    li.appendChild(col); list.appendChild(li);
+  }
 
   STEPS.slice(0, S.step).forEach((sx,i)=>{
     const li=el('li','step done');
@@ -858,6 +892,35 @@ mode = guidedDefault() ? 'guided' : 'timer';
     li.appendChild(col);
     list.appendChild(li);
   });
+
+  if(gate().done && AUDIO.finished){
+    const li=el('li','step done');
+    const rail=el('div','rail');
+    rail.appendChild(el('span','dot')); rail.appendChild(el('span','line'));
+    li.appendChild(rail);
+    const col=document.createElement('div');
+    const row=document.createElement('button');
+    row.className='srow'; row.type='button';
+    const head=el('div','shead');
+    head.appendChild(el('span','stitle','Finished'));
+    head.appendChild(el('span','pill','Done'));
+    row.appendChild(head);
+    const isOpen = open==='finished';
+    row.onclick=()=>{ open = isOpen ? null : 'finished'; renderJourney(); };
+    col.appendChild(row);
+    if(isOpen){
+      const d=el('div','panel');
+      d.appendChild(el('p','note','What the method is for once you can do it unaided, and the one thing that undoes it.'));
+      const rw=el('div','btnrow');
+      const b=el('button','btn ghost','Watch again');
+      b.onclick=ev=>{ ev.stopPropagation();
+        playBrief({src:'finished', poster:'finishedPoster',
+                   kick:'You have all six', title:'That is the whole method.'}); };
+      rw.appendChild(b); d.appendChild(rw);
+      col.appendChild(d);
+    }
+    li.appendChild(col); list.appendChild(li);
+  }
 
   /* one step ahead, named but not openable: enough to know where this goes,
      not enough to read as a list of things you owe. */
@@ -1000,7 +1063,6 @@ $('#obSkip').onclick=()=>{        /* skips the film, never the safety panel */
   if(!S.onboarded){ S.onboarded=true; S.stepStart=today(); }
   save(); go('journey');
 };
-$('#lReplay').onclick=obOpen;
 
 if(AUDIO.intro){
   $('#obVideo').src=AUDIO.intro;
