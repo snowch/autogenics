@@ -1,6 +1,6 @@
 # Autogenic Training — Warmth
 
-**The second standard exercise · ~90 seconds · step 4**
+**The second standard exercise · ~90 seconds · step 5**
 
 Circulation rather than muscle. For most people this one arrives faster than heaviness did.
 
@@ -25,7 +25,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step four. Heaviness is yours now, so we add warmth.
+Step five. Heaviness is yours now, so we add warmth.
 
 [pause 2]
 
@@ -95,7 +95,7 @@ And open your eyes.
 
 ### Handover
 
-That's step 4. Ninety seconds, three times a day, on your own.
+That's step 5. Ninety seconds, three times a day, on your own.
 
 [pause 1.5]
 

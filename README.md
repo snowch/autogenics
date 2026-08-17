@@ -278,6 +278,27 @@ slots, or count toward a gate on a phrase it was not practising, would corrupt
 the one record the app asks the user to trust — and the gate is the only reason
 that record exists.
 
+### Inserting a step renumbered the recordings
+
+Adding legs at position four pushed everything after it down one, and every
+later recording says its own number out loud — "Step four. Heaviness is yours
+now, so we add warmth." The screen said STEP 5 while the voice said step four,
+for five consecutive steps, and nothing caught it because the scripts were
+internally consistent. All five renumbered and re-rendered.
+
+The same sweep found the forehead step showing an on-screen cue, *my arms and
+legs are heavy and warm*, that the recording never says — it says the two lines
+separately. That came from a bulk edit of the cue arrays that did not check
+itself against the scripts.
+
+`check_app.py` now does check: for every step with audio, each cue must be a
+line its script actually speaks. It caught the forehead mismatch on its first
+run, and then caught the two stale builds that had not yet been regenerated.
+
+While in that script, the cool-forehead imagery — *as though a window had been
+opened somewhere in the room* — was sitting before the heaviness recap, four
+formulae before the one it describes. It now sits with it.
+
 ### The legs were missing
 
 The ladder went right arm, left arm, both arms, then straight to warmth. That

@@ -1,6 +1,6 @@
 # Autogenic Training — Breathing
 
-**The fourth standard exercise · ~90 seconds · step 6**
+**The fourth standard exercise · ~90 seconds · step 7**
 
 The one formula written in the passive, on purpose: breathing is watched, never steered.
 
@@ -25,7 +25,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step six. Heaviness, warmth, heartbeat — then the breath.
+Step seven. Heaviness, warmth, heartbeat — then the breath.
 
 [pause 2]
 
@@ -99,7 +99,7 @@ And open your eyes.
 
 ### Handover
 
-That's step 6. Ninety seconds, three times a day, on your own.
+That's step 7. Ninety seconds, three times a day, on your own.
 
 [pause 1.5]
 

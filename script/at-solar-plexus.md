@@ -1,6 +1,6 @@
 # Autogenic Training — Warm centre
 
-**The fifth standard exercise · ~90 seconds · step 7**
+**The fifth standard exercise · ~90 seconds · step 8**
 
 Warmth through the upper abdomen, behind the stomach.
 
@@ -26,7 +26,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step seven. The whole run-through, and then the centre.
+Step eight. The whole run-through, and then the centre.
 
 [pause 2]
 
@@ -104,7 +104,7 @@ And open your eyes.
 
 ### Handover
 
-That's step 7. Ninety seconds, three times a day, on your own.
+That's step 8. Ninety seconds, three times a day, on your own.
 
 [pause 1.5]
 

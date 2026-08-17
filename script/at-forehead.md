@@ -1,6 +1,6 @@
 # Autogenic Training — Cool head
 
-**The sixth standard exercise · ~90 seconds · step 8**
+**The sixth standard exercise · ~90 seconds · step 9**
 
 The only one that goes the other way: everything else warms and settles, this stays clear.
 
@@ -26,7 +26,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step eight. The full sequence, and then the last formula.
+Step nine. The full sequence, and then the last formula.
 
 [pause 2]
 
@@ -39,10 +39,6 @@ Silently, in your own voice.
 [pause 2]
 
 I am completely calm.
-
-[pause 3]
-
-As though a window had been opened somewhere in the room.
 
 [pause 3]
 
@@ -67,6 +63,10 @@ My solar plexus is warm.
 [pause 4]
 
 My forehead is cool.
+
+[pause 4]
+
+As though a window had been opened somewhere in the room.
 
 [pause 4]
 
@@ -104,7 +104,7 @@ And open your eyes.
 
 ### Handover
 
-That's step 8. Ninety seconds, three times a day, on your own.
+That's step 9. Ninety seconds, three times a day, on your own.
 
 [pause 1.5]
 
