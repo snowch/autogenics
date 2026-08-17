@@ -88,6 +88,12 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 
 .panel{margin:14px 0 0; background:var(--surface); border:1px solid var(--line);
   border-radius:14px; padding:16px; box-shadow:var(--shadow)}
+/* The row's bottom padding is what spaces one step from the next, but when a
+   panel follows it lands *above* the panel and stacks with its top margin —
+   36px of gap over the box and none under it, with the next row butted against
+   the corner. Give the space to the panel instead. */
+.srow:has(+ .panel){padding-bottom:4px}
+.step .panel{margin:0 0 22px}
 .phrase{font-family:var(--serif); font-size:1.42rem; line-height:1.28; margin:0;
   letter-spacing:-.01em; text-wrap:balance}
 .phrasehint{margin:6px 0 0; font-size:.82rem; color:var(--muted)}
@@ -535,7 +541,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="be836ba+";
+window.__BUILD__="45f0bad+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
