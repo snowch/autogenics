@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 # how the artifact and the PWA drift apart without anything failing.
 from build_pwa import TRACKS, FILMS  # noqa: E402
 BITRATE = "32k"          # speech-only; keeps the whole page well inside 16 MB
+VIDEO_W, VIDEO_CRF = 540, 30   # films are static slides; text stays crisp
 
 
 def ffmpeg() -> str:
@@ -41,12 +42,32 @@ def encode(src: Path) -> str:
     return "data:audio/mpeg;base64," + data
 
 
+def shrink(src: Path) -> bytes:
+    """Re-encode a film small enough to inline.
+
+    The films are static typographic slides, so they survive a halving of
+    resolution with the text still crisp — checked by eye, not assumed. Seven
+    of them at full size pushed this file past 17 MB, which is a poor thing to
+    open on a phone. The PWA still serves the full-quality originals; this
+    copy exists only because everything here has to fit in one file.
+    """
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as t:
+        out = Path(t.name)
+    subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-i", str(src),
+                    "-vf", f"scale={VIDEO_W}:-2", "-c:v", "libx264",
+                    "-crf", str(VIDEO_CRF), "-preset", "slow",
+                    "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "48k",
+                    "-movflags", "+faststart", str(out)], check=True)
+    data = out.read_bytes()
+    print(f"  {src.name:34s} {src.stat().st_size/1024:7.0f} KB -> {len(data)/1024:6.0f} KB")
+    out.unlink()
+    return data
+
+
 def main() -> int:
     standalone = "--standalone" in sys.argv
     html = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
 
-    print("Inlining video:")
-    vid = ROOT / "video" / "intro.mp4"
     print("Inlining audio:")
     blob = ",\n  ".join(
         f'{k}:"{encode(ROOT / "audio" / v)}"' for k, v in TRACKS.items())
@@ -62,10 +83,9 @@ def main() -> int:
                              f"bare placeholder. Extract it with:\n"
                              f"  ffmpeg -i video/{mp4} -vframes 1 video/{poster}")
         blob += (f',\n  {key}:"data:video/mp4;base64,'
-                 + base64.b64encode(f.read_bytes()).decode() + '"')
+                 + base64.b64encode(shrink(f)).decode() + '"')
         blob += (f',\n  {key}Poster:"data:image/jpeg;base64,'
                  + base64.b64encode(pj.read_bytes()).decode() + '"')
-        print(f"  {mp4:34s} {f.stat().st_size/1024:7.0f} KB")
         print(f"  {poster:34s} {pj.stat().st_size/1024:7.0f} KB")
 
     html = html.replace("<script>\n\"use strict\";",

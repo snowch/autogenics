@@ -187,6 +187,13 @@ python3 tools/shoot_app.py                        # screenshot the screens
 python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
 ```
 
+`build_app_artifact.py` inlines everything as data URIs, and re-encodes the
+films to half resolution on the way in. Seven of them at full size pushed the
+single file past 17 MB, which is a poor thing to open on a phone; at 540px they
+come to 11 MB and the typography is still crisp, checked by extracting a frame
+and looking at it rather than assuming. The PWA keeps the full-quality
+originals — this copy exists only because everything has to fit in one file.
+
 `shoot_app.py` renders each screen with the bundled Chromium at phone size,
 including a seeded mid-ladder state, into `build/shots/`. That now covers the
 running practice, the rating, and the briefing player — three surfaces that had
