@@ -386,6 +386,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <button class="btn ghost" id="lExport">Export</button>
           <button class="btn ghost" id="lReset">Reset</button>
         </div>
+        <p class="smeta" id="buildStamp"></p>
       </div>
     </section>
   </main>
@@ -788,7 +789,12 @@ function renderJourney(){
       adv.style.marginTop='14px';
       adv.onclick=()=>{ if(!gate().ready)return;
         S.step++; S.stepStart=today(); open=null;
-        mode = guidedDefault() ? 'guided' : 'timer';
+        /* Which build is this device actually running? Without an answer, a deploy
+   that silently failed and a service worker that never updated look exactly
+   the same from the outside — which cost an afternoon once. */
+$('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
+
+mode = guidedDefault() ? 'guided' : 'timer';
         save(); renderJourney();
         /* what changed is what to practise, so land on the practice screen —
            and on a new phrase, guided comes back on for the first few days. */
@@ -1017,10 +1023,20 @@ $('#lReset').onclick=()=>{
        the user standing on the Learn screen they pressed the button from. */
     S={step:0,log:[],stepStart:today(),onboarded:false,warned:[],briefed:[]};
     open=null; save();
-    mode = guidedDefault() ? 'guided' : 'timer';
+    /* Which build is this device actually running? Without an answer, a deploy
+   that silently failed and a service worker that never updated look exactly
+   the same from the outside — which cost an afternoon once. */
+$('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
+
+mode = guidedDefault() ? 'guided' : 'timer';
     renderJourney(); go('journey'); obOpen();
   }
 };
+
+/* Which build is this device actually running? Without an answer, a deploy
+   that silently failed and a service worker that never updated look exactly
+   the same from the outside — which cost an afternoon once. */
+$('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
 
 mode = guidedDefault() ? 'guided' : 'timer';
 renderJourney();

@@ -88,6 +88,9 @@ def main() -> int:
                  + base64.b64encode(pj.read_bytes()).decode() + '"')
         print(f"  {poster:34s} {pj.stat().st_size/1024:7.0f} KB")
 
+    from build_pwa import build_id
+    html = html.replace('<script>\n"use strict";',
+                        f'<script>\n"use strict";\nwindow.__BUILD__="{build_id()}";', 1)
     html = html.replace("<script>\n\"use strict\";",
                         "<script>\n\"use strict\";\nwindow.__AUDIO__={\n  "
                         + blob + "\n};", 1)

@@ -41,6 +41,22 @@ def ffmpeg() -> str:
         return "ffmpeg"
 
 
+def build_id() -> str:
+    """Short commit for the stamp shown under Your record.
+
+    A deploy that failed and a worker that never updated are indistinguishable
+    from the device, which is precisely the confusion this answers.
+    """
+    try:
+        sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
+                             capture_output=True, text=True, check=True).stdout.strip()
+        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                               capture_output=True, text=True).stdout.strip()
+        return sha + ("+" if dirty else "")
+    except Exception:
+        return "unknown"
+
+
 def png(size: int, path: Path, pad: float = 0.0) -> None:
     """A filled circle on the app's ground — written without an image library."""
     c, r = size / 2, size * (0.5 - pad) * 0.62
@@ -84,6 +100,8 @@ def main() -> int:
 
     html = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
     html = html.replace("'../audio/", "'./audio/")
+    html = html.replace("<script>\n\"use strict\";",
+                        f'<script>\n"use strict";\nwindow.__BUILD__="{build_id()}";', 1)
     (DOCS / "video").mkdir(exist_ok=True)
     for _, mp4, poster in FILMS:
         for n in (mp4, poster):

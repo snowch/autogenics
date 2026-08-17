@@ -128,6 +128,17 @@ forgotten in the reset leaves stale data behind a wipe. A malformed string
 literal takes out the entire script block and leaves a page that renders but
 does nothing — grepping the HTML will not catch it, and one shipped that way.
 
+### The app says which build it is
+
+Under *Your record*, quietly: `Build 4958f0a`. The short commit the PWA was
+built from, stamped in by `build_pwa.py`, with a `+` when the tree was dirty.
+
+It exists because a deploy that failed and a service worker that never updated
+look identical from the device — both show yesterday's app — and there was no
+way to tell them apart without going to the Actions tab. A Pages deploy did
+fail with a 503, the previous build stayed live, and the first explanation
+reached for was the worker. The stamp answers it in one look.
+
 ### Updates land without clearing site data
 
 The worker `skipWaiting()`s and claims clients, so a deploy activates — but the
