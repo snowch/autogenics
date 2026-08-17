@@ -522,6 +522,7 @@ const AUDIO = window.__AUDIO__ || {
   bBreathing:'../video/brief-breathing.mp4', bBreathingPoster:'../video/brief-breathing-poster.jpg',
   bSolar:'../video/brief-solar.mp4', bSolarPoster:'../video/brief-solar-poster.jpg',
   bForehead:'../video/brief-forehead.mp4', bForeheadPoster:'../video/brief-forehead-poster.jpg',
+  finished:'../video/finished.mp4', finishedPoster:'../video/finished-poster.jpg',
   afterFirst:'../video/after-first.mp4',
   afterFirstPoster:'../video/after-first-poster.jpg',
   intro:'../video/intro.mp4',
@@ -604,8 +605,9 @@ function gate(){
     if(good>=GATE.needPerDay)met++;
   }
   const last=S.step>=STEPS.length-1;
+  const landed=days>=GATE.minDays&&met>=GATE.window;
   return {days, met, floorOk:days>=GATE.minDays, evidenceOk:met>=GATE.window,
-          ready:!last&&days>=GATE.minDays&&met>=GATE.window, last};
+          ready:!last&&landed, last, done:last&&landed};
 }
 const guidedDefault=()=>step().audio!==null && stepDays()<=3;
 
@@ -633,6 +635,10 @@ const BRIEFS=[
   {id:'solar', step:7, src:'bSolar', poster:'bSolarPoster',
    kick:'New exercise', title:'Warm centre — and who should skip it.',
    blurb:'Warmth further in, why it tests everything before it, and when to learn it in person.'},
+  {id:'finished', step:9, src:'finished', poster:'finishedPoster',
+   when:S=>gate().done,
+   kick:'You have all six', title:'That is the whole method.',
+   blurb:'What it is for now that you can do it unaided, and the one thing that undoes it.'},
   {id:'forehead', step:8, src:'bForehead', poster:'bForeheadPoster',
    kick:'Last exercise', title:'Cool head — the one that goes the other way.',
    blurb:'Everything else settles; this stays clear. Why that contrast is the point.'}
@@ -683,7 +689,9 @@ function renderJourney(){
   eb.appendChild(el('span','pill','Now'));
   now.appendChild(eb);
   now.appendChild(el('p','phrase', st.phrase));
-  now.appendChild(el('p','phrasehint','Say it silently, to yourself, in your own voice.'));
+  now.appendChild(el('p','phrasehint', st.audio===null
+    ? 'Every formula, start to finish, with nothing playing.'
+    : 'Say it silently, to yourself, in your own voice.'));
   if(st.warn) now.appendChild(el('p','scaution', st.warn));
 
   const dose=el('div','dose');
@@ -711,7 +719,7 @@ function renderJourney(){
   /* ---- review: how it is going, and whether to move on ---- */
   const g2=gate();
   const rv=el('div','review'); $('#reviewCard').innerHTML=''; $('#reviewCard').appendChild(rv);
-  rv.appendChild(el('h2', g2.last ? 'Your record' : 'Ready to move on?'));
+  rv.appendChild(el('h2', g2.done ? 'Finished' : g2.last ? 'Your record' : 'Ready to move on?'));
 
   const strip=el('div','strip');
   for(let i=13;i>=0;i--){
@@ -723,7 +731,9 @@ function renderJourney(){
   rv.appendChild(strip);
   rv.appendChild(el('p','smeta','Last 14 days · day '+stepDays()+' of this step'));
 
-  if(g2.last){
+  if(g2.done){
+    rv.appendChild(el('p','note','Learned, on your own record — five days at the last step with it landing twice a day, three days running. The app is optional from here; the response is not going anywhere as long as you keep using it.'));
+  }else if(g2.last){
     rv.appendChild(el('p','note','You are practising without guidance. Keep the record going — it is how you notice a slip before it becomes a stop.'));
   }else{
     const crit=(ok,text,val)=>{

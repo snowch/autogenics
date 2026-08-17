@@ -33,6 +33,12 @@ SHOTS = [
         save(); open=1; renderJourney(); window.scrollTo(0,9999);"""),
     ("05-learn", NEXT * 4 + "go('learn')"),
     ("05b-learn-lower", NEXT * 4 + "go('learn');window.scrollTo(0,9999);"),
+    ("10-final-step", NEXT * 4 + """
+        S.step=9; S.stepStart=new Date(Date.now()-40*864e5).toISOString().slice(0,10);
+        S.log=[]; S.briefed=['after-first','warmth','heartbeat','breathing','solar','forehead'];
+        for(let d=0;d<20;d++) for(let k=0;k<3;k++)
+          S.log.push({d:dayKey(d),t:'',step:Math.min(9,9-Math.floor(d/3)),r:3,m:'timer'});
+        save(); renderJourney();"""),
     ("07-practice-running", NEXT * 4 + """
         mode='timer'; renderJourney();
         document.querySelector('#nowCard .go').click();"""),

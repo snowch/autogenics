@@ -22,6 +22,7 @@ edit the markdown, re-run the tool.
 | Briefing — breathing (film) | [`script/brief-breathing.md`](script/brief-breathing.md) | [`video/brief-breathing.mp4`](video/brief-breathing.mp4) | 0:52 |
 | Briefing — warm centre (film) | [`script/brief-solar.md`](script/brief-solar.md) | [`video/brief-solar.mp4`](video/brief-solar.mp4) | 1:04 |
 | Briefing — cool head (film) | [`script/brief-forehead.md`](script/brief-forehead.md) | [`video/brief-forehead.mp4`](video/brief-forehead.mp4) | 0:55 |
+| Finished (film) | [`script/finished.md`](script/finished.md) | [`video/finished.mp4`](video/finished.mp4) | 1:08 |
 | **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:32 |
 | **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:15 |
 | **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:05 |
@@ -321,6 +322,27 @@ Every later track recaps heaviness before adding its own formula, so all five
 were re-rendered to say *my arms and legs are heavy*. Leaving them would have
 put the guided cue and the voice out of step — the one failure this pipeline
 exists to prevent.
+
+### The ladder has an ending now
+
+The first screen promises you end up not needing this, and until now nothing
+ever said so: the last step ran forever, its gate permanently unmet because
+there was no next step to unlock. Someone who learned the whole method got no
+acknowledgement of it.
+
+The same two criteria that open every other step now close the last one — five
+days at it, landing twice a day for three days running. Meeting them shows
+**Finished**, and offers a closing film about what the method is for once you
+can do it unaided, and the one thing that undoes it.
+
+It is deliberately not a celebration: no badge, no streak saved, no confetti.
+The tone is a handover. Anything triumphant would sit badly on a method whose
+entire skill is not making a fuss, and on a product that has spent nine steps
+promising to get out of the way.
+
+While looking at that screen: the hint under the phrase read "say it silently,
+in your own voice" beneath *All six, in sequence* — which is not a phrase
+anybody says. The final step gets its own.
 
 ### Every exercise introduces itself
 
