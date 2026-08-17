@@ -121,6 +121,14 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
   border:1px solid var(--line); background:#0D1218; display:block; object-fit:contain}
 .brwrap .btn{margin-top:16px}
 
+.topright{display:flex; align-items:center; gap:12px}
+.gear{width:40px; height:40px; margin-right:-8px; display:flex; align-items:center;
+  justify-content:center; color:var(--muted); border-radius:10px}
+.gear:hover{color:var(--ink)}
+.gear svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.7;
+  stroke-linecap:round}
+#s-settings .modes{margin-top:14px}
+
 /* surfaced on the practice screen because the gate itself now lives elsewhere */
 .nudge{border:1px solid var(--good); border-radius:16px; padding:16px 18px;
   background:var(--good-soft)}
@@ -332,7 +340,12 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 <div class="phone">
   <div class="top">
     <h1 id="topTitle">Your practice</h1>
-    <span class="pos" id="topPos"></span>
+    <div class="topright">
+      <span class="pos" id="topPos"></span>
+      <button class="gear" id="toSettings" aria-label="Settings" data-go="settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6L18 18M18 6l-1.4 1.4M7.4 16.6L6 18"/></svg>
+      </button>
+    </div>
   </div>
 
   <main>
@@ -392,9 +405,22 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <p>Less noise in the head — not silence, the volume down. Coming down faster after something stressful. Settling into sleep. A cleaner head between two demanding things. What arrives, and when, varies a lot between people.</p></details>
       </div>
 
+    </section>
+
+    <section class="screen" id="s-settings">
+      <div class="card">
+        <h2>Appearance</h2>
+        <p class="lede">The app follows your phone unless you pick one. Dark is easier at the end of the day, which is when most people practise.</p>
+        <div class="modes" id="themeSeg">
+          <button data-theme-set="system">System</button>
+          <button data-theme-set="light">Light</button>
+          <button data-theme-set="dark">Dark</button>
+        </div>
+      </div>
+
       <div class="card">
         <h2>Your record</h2>
-        <p class="lede">Stored on this device only. Nothing is sent anywhere.</p>
+        <p class="lede">Stored on this device only. Nothing is sent anywhere, and there is no account.</p>
         <div class="btnrow">
           <button class="btn ghost" id="lExport">Export</button>
           <button class="btn ghost" id="lReset">Reset</button>
@@ -603,7 +629,13 @@ const STEPS=[
          'It breathes me.','My solar plexus is warm.','My forehead is cool.','I am completely calm.']}
 ];
 
-const GATE={minDays:5, window:3, needPerDay:2, needRating:2, slots:3};
+/* minDays is a week because that is what the taught courses do — eight weekly
+   sessions, one exercise each, across every trial of this method — and because
+   our own intro film says "about a week on each". At five it contradicted the
+   film and let someone advance faster than any instructor-led course allows.
+   The evidence criterion is ours: the classical protocol paces by the calendar
+   and leaves "do not add until the last one comes readily" as advice. */
+const GATE={minDays:7, window:3, needPerDay:2, needRating:2, slots:3};
 const STRIP_DAYS=7;
 const KEY='autogenics.v2';
 const today=()=>new Date().toISOString().slice(0,10);
@@ -618,7 +650,7 @@ function load(){
       return {step:o.stage||0, log:o.log.map(e=>({d:e.d,t:e.t,step:e.stage,r:e.r,m:e.m})),
               stepStart:o.stageStart||today(), onboarded:!!o.onboarded, warned:o.warned||[]};
   }catch(e){}
-  return {step:0, log:[], stepStart:today(), onboarded:false, warned:[], briefed:[]};
+  return {step:0, log:[], stepStart:today(), onboarded:false, warned:[], briefed:[], theme:'system'};
 }
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
 const step=()=>STEPS[Math.min(S.step,STEPS.length-1)];
@@ -813,7 +845,26 @@ function renderJourney(){
       adv.style.marginTop='14px';
       adv.onclick=()=>{ if(!gate().ready)return;
         S.step++; S.stepStart=today(); open=null;
-        /* Which build is this device actually running? Without an answer, a deploy
+        /* System, light or dark. Dark at night is a real preference for a thing people
+   do lying down at eleven at night, and following the OS is not always what
+   they want. Stored with the record so it survives a reload. */
+function applyTheme(){
+  const t=S.theme||'system';
+  if(t==='system') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', t);
+  const dark = t==='dark' || (t==='system' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const m=document.querySelector('meta[name="theme-color"]');
+  if(m) m.setAttribute('content', dark ? '#0D1218' : '#EEF1F5');
+  document.querySelectorAll('#themeSeg button').forEach(b=>
+    b.classList.toggle('sel', b.dataset.themeSet===t));
+}
+document.querySelectorAll('#themeSeg button').forEach(b=>b.onclick=()=>{
+  S.theme=b.dataset.themeSet; save(); applyTheme();
+});
+applyTheme();
+
+/* Which build is this device actually running? Without an answer, a deploy
    that silently failed and a service worker that never updated look exactly
    the same from the outside — which cost an afternoon once. */
 $('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
@@ -1063,10 +1114,10 @@ function logRating(r){
 function go(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   $('#s-'+name).classList.add('on');
+  $('#topTitle').textContent = {learn:'Learn', progress:'Progress',
+    settings:'Settings'}[name] || 'Your practice';
+  $('#topPos').classList.toggle('hidden', name!=='journey' && name!=='progress');
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.go===name));
-  $('#topTitle').textContent =
-    name==='learn' ? 'Learn' : name==='progress' ? 'Progress' : 'Your practice';
-  $('#topPos').classList.toggle('hidden', name==='learn');
   window.scrollTo(0,0);
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
@@ -1135,9 +1186,28 @@ $('#lReset').onclick=()=>{
     /* "from the beginning" has to mean the beginning, first run included.
        Leaving onboarded true reset the record but skipped the intro, and left
        the user standing on the Learn screen they pressed the button from. */
-    S={step:0,log:[],stepStart:today(),onboarded:false,warned:[],briefed:[]};
+    S={step:0,log:[],stepStart:today(),onboarded:false,warned:[],briefed:[],theme:S.theme||'system'};
     open=null; save();
-    /* Which build is this device actually running? Without an answer, a deploy
+    /* System, light or dark. Dark at night is a real preference for a thing people
+   do lying down at eleven at night, and following the OS is not always what
+   they want. Stored with the record so it survives a reload. */
+function applyTheme(){
+  const t=S.theme||'system';
+  if(t==='system') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', t);
+  const dark = t==='dark' || (t==='system' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const m=document.querySelector('meta[name="theme-color"]');
+  if(m) m.setAttribute('content', dark ? '#0D1218' : '#EEF1F5');
+  document.querySelectorAll('#themeSeg button').forEach(b=>
+    b.classList.toggle('sel', b.dataset.themeSet===t));
+}
+document.querySelectorAll('#themeSeg button').forEach(b=>b.onclick=()=>{
+  S.theme=b.dataset.themeSet; save(); applyTheme();
+});
+applyTheme();
+
+/* Which build is this device actually running? Without an answer, a deploy
    that silently failed and a service worker that never updated look exactly
    the same from the outside — which cost an afternoon once. */
 $('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
@@ -1146,6 +1216,25 @@ mode = guidedDefault() ? 'guided' : 'timer';
     renderJourney(); go('journey'); obOpen();
   }
 };
+
+/* System, light or dark. Dark at night is a real preference for a thing people
+   do lying down at eleven at night, and following the OS is not always what
+   they want. Stored with the record so it survives a reload. */
+function applyTheme(){
+  const t=S.theme||'system';
+  if(t==='system') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', t);
+  const dark = t==='dark' || (t==='system' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const m=document.querySelector('meta[name="theme-color"]');
+  if(m) m.setAttribute('content', dark ? '#0D1218' : '#EEF1F5');
+  document.querySelectorAll('#themeSeg button').forEach(b=>
+    b.classList.toggle('sel', b.dataset.themeSet===t));
+}
+document.querySelectorAll('#themeSeg button').forEach(b=>b.onclick=()=>{
+  S.theme=b.dataset.themeSet; save(); applyTheme();
+});
+applyTheme();
 
 /* Which build is this device actually running? Without an answer, a deploy
    that silently failed and a service worker that never updated look exactly

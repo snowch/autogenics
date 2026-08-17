@@ -260,6 +260,33 @@ Now or Later, any of which opens to show what it is.
 An earlier version crammed all three into the open step. It carried eight
 things at once and read as a wall.
 
+### A settings screen behind the gear
+
+*Your record* was in Learn, where it had nothing to do with learning, and there
+was no way to choose a theme at all — the app followed `prefers-color-scheme`
+and that was that. Both now live on a settings screen opened from a gear in the
+header, which keeps the tab bar at three: Practice, Progress, Learn are the
+things you do, and settings is not one of them.
+
+The theme choice is System, Light or Dark, stored with the record, applied to
+`data-theme` and to the `theme-color` meta so the status bar follows. It
+survives a reset — someone wiping their practice record has not asked to be
+thrown back to the system theme.
+
+### Progression is calendar-paced, and our floor disagreed with our film
+
+Every trial of this method that reports its schedule runs **eight weekly
+sessions**, one exercise per session — Kanji 2006, Bowden 2012, Ramirez-Garcia
+2023 — and the standard text has heaviness arriving "within a week". Taught
+courses pace by the calendar; "do not add the next formula until the last comes
+readily" is advice rather than a gate.
+
+Our gate is a hybrid and stays one, because criterion alone lets people stall
+forever and time alone stacks formulae on a response that never established.
+But the floor was **five days** while the intro film says "about a week on
+each" — the app contradicted its own narration and let someone advance faster
+than any instructor-led course allows. It is seven now.
+
 ### Contrast and tap targets, measured
 
 Never checked until it was, and light theme was failing badly: `--muted` at

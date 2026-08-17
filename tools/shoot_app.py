@@ -40,6 +40,7 @@ SHOTS = [
         save(); renderJourney(); go('progress'); open='intro'; renderJourney();"""),
     ("04d-progress-day1", NEXT * 4 + "go('progress')"),
     ("05-learn", NEXT * 4 + "go('learn')"),
+    ("11-settings", NEXT * 4 + "go('settings')"),
     ("05b-learn-lower", NEXT * 4 + "go('learn');window.scrollTo(0,9999);"),
     ("10-final-step", NEXT * 4 + """
         S.step=9; S.stepStart=new Date(Date.now()-40*864e5).toISOString().slice(0,10);
