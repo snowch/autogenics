@@ -38,7 +38,9 @@ SHOTS = [
         for(let d=0;d<6;d++) for(let k=0;k<3;k++)
           S.log.push({d:dayKey(d),t:'',step:3,r:d<3?3:2,m:'timer'});
         save(); renderJourney(); go('progress'); open='intro'; renderJourney();"""),
-    ("04d-progress-day1", NEXT * 4 + "go('progress')"),
+    ("04d-progress-day1", NEXT * 4 + """
+        S.log=[{d:dayKey(0),t:'',step:0,r:1,m:'guided'}]; S.briefed=['after-first'];
+        save(); renderJourney(); go('progress');"""),
     ("05-learn", NEXT * 4 + "go('learn')"),
     ("11-settings", NEXT * 4 + "go('settings')"),
     ("05b-learn-lower", NEXT * 4 + "go('learn');window.scrollTo(0,9999);"),

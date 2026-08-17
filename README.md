@@ -435,6 +435,18 @@ to sit inside a list row, the three-a-day rows are the part worth keeping since
 they teach the dose, and the gate never looks back further than five days
 anyway.
 
+### A briefing you have watched is still findable
+
+Replay hung only off *finished* steps, so a film about the step you are on was
+unreachable for the entire week it applied to. Worst on day one: the after-first
+debrief belongs to step 0, so watching it made it vanish for a week — the card
+offered it, dismissal was recorded, and nothing anywhere could bring it back.
+
+The current step's panel carries its films too, named, with the button reading
+Watch or Watch again depending on whether it has been seen. The lookup moved
+from `find` to `filter` while it was open: one film per step today, but `find`
+would have silently hidden the second.
+
 ### Every film replays from the path
 
 Replay used to be in two places: the intro under Learn, the briefings on the
