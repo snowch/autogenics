@@ -21,7 +21,7 @@ CSS = """
 body{width:%dpx;height:%dpx;background:#0D1218;color:#E6ECF2;
   font-family:'Liberation Sans','DejaVu Sans',sans-serif;
   display:flex;flex-direction:column;justify-content:center;
-  padding:110px 96px;overflow:hidden;position:relative}
+  padding:132px 96px 118px;overflow:hidden;position:relative}
 .kick{font-family:'DejaVu Sans Mono',monospace;font-size:26px;letter-spacing:.22em;
   text-transform:uppercase;color:#E0A15C;margin-bottom:34px}
 h1{font-family:Charter,'Bitstream Charter',serif;font-weight:400;font-size:92px;
@@ -34,6 +34,27 @@ p{font-size:34px;line-height:1.5;color:#9DAEBD;margin-top:34px;max-width:22ch}
 .stats .n{font-family:'DejaVu Sans Mono',monospace;font-size:76px;color:#E0A15C;letter-spacing:-.03em}
 .stats .c{font-size:26px;color:#6F8090;margin-top:10px;max-width:9ch;line-height:1.3}
 .rule{width:74px;height:3px;background:#E0A15C;margin-bottom:38px}
+/* graphics reuse the app's own vocabulary, so video and product agree */
+.dose{display:flex;gap:22px;margin-top:56px}
+.dose .s{flex:1;height:132px;border-radius:20px;border:2px solid #243140;background:#0A0F14;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.dose .s.on{border-color:#E0A15C;background:#332417}
+.dose .s .m{font-family:'DejaVu Sans Mono',monospace;font-size:38px;color:#3A4653}
+.dose .s.on .m{color:#E0A15C}
+.dose .s .l{font-family:'DejaVu Sans Mono',monospace;font-size:20px;letter-spacing:.12em;
+  text-transform:uppercase;color:#6F8090}
+.ladder{margin-top:48px;display:flex;flex-direction:column;gap:0}
+.ladder .r{display:grid;grid-template-columns:34px 1fr;column-gap:24px;align-items:start}
+.ladder .rail{display:flex;flex-direction:column;align-items:center;height:100%%}
+.ladder .d{width:18px;height:18px;border-radius:50%%;border:3px solid #243140;background:#0D1218;flex:none;margin-top:9px}
+.ladder .r.on .d{background:#E0A15C;border-color:#E0A15C;box-shadow:0 0 0 7px #332417}
+.ladder .r.past .d{background:#3F7D66;border-color:#3F7D66}
+.ladder .ln{width:3px;flex:1;background:#243140;min-height:34px}
+.ladder .r.past .ln{background:#3F7D66;opacity:.45}
+.ladder .t{font-size:34px;padding-bottom:26px;color:#6F8090}
+.ladder .r.on .t{color:#E6ECF2;font-weight:600}
+.ladder .r.past .t{color:#9DAEBD}
+.arc{margin-top:44px;display:flex;justify-content:center}
 .mark{position:absolute;left:96px;bottom:74px;font-family:'DejaVu Sans Mono',monospace;
   font-size:22px;letter-spacing:.2em;text-transform:uppercase;color:#3A4653}
 .dots{position:absolute;right:96px;bottom:74px;display:flex;gap:9px}
@@ -45,7 +66,35 @@ p{font-size:34px;line-height:1.5;color:#9DAEBD;margin-top:34px;max-width:22ch}
 def slide_html(s, idx, total):
     dots = "".join(f'<i class="{"on" if i==idx else ""}"></i>' for i in range(total))
     kind = s.get("kind", "point")
-    if kind == "formula":
+    if kind == "dose":
+        cells = "".join(
+            f'<div class="s{" on" if i < s.get("filled",0) else ""}">'
+            f'<div class="m">{"✓" if i < s.get("filled",0) else "–"}</div>'
+            f'<div class="l">{lab}</div></div>'
+            for i, lab in enumerate(["Morning", "Midday", "Evening"]))
+        body = (f'<div class="kick">{s.get("kick","")}</div><h1 class="sm">{s["text"]}</h1>'
+                f'<div class="dose">{cells}</div>')
+    elif kind == "ladder":
+        rows = ""
+        for i, (name, st) in enumerate(s["rows"]):
+            last = ' style="min-height:0"' if i == len(s["rows"]) - 1 else ""
+            rows += (f'<div class="r {st}"><div class="rail"><div class="d"></div>'
+                     f'<div class="ln"{last}></div></div><div class="t">{name}</div></div>')
+        body = (f'<div class="kick">{s.get("kick","")}</div><h1 class="sm">{s["text"]}</h1>'
+                f'<div class="ladder">{rows}</div>')
+    elif kind == "arc":
+        pct = s.get("pct", 0.62)
+        C = 2 * 3.14159 * 150
+        body = (f'<div class="kick">{s.get("kick","")}</div><h1 class="sm">{s["text"]}</h1>'
+                f'<div class="arc"><svg width="380" height="380" viewBox="0 0 340 340">'
+                f'<circle cx="170" cy="170" r="150" fill="none" stroke="#243140" stroke-width="5"/>'
+                f'<circle cx="170" cy="170" r="150" fill="none" stroke="#E0A15C" stroke-width="5"'
+                f' stroke-linecap="round" stroke-dasharray="{C:.0f}"'
+                f' stroke-dashoffset="{C*(1-pct):.0f}" transform="rotate(-90 170 170)"/>'
+                f'<text x="170" y="170" text-anchor="middle" dominant-baseline="central"'
+                f' font-family="DejaVu Sans Mono" font-size="64" fill="#E6ECF2">{s.get("label","1:36")}</text>'
+                f'</svg></div>')
+    elif kind == "formula":
         body = f'<div class="rule"></div><div class="formula">{s["text"]}</div>'
     elif kind == "stats":
         cells = "".join(f'<div><div class="n">{n}</div><div class="c">{c}</div></div>'
@@ -58,8 +107,7 @@ def slide_html(s, idx, total):
         cls = " sm" if len(s["text"]) > 46 else ""
         body = f'{k}<h1 class="{cls.strip()}">{s["text"]}</h1>{sub}'
     return (f'<!doctype html><meta charset="utf-8"><style>{CSS}</style>'
-            f'<body>{body}<div class="mark">Autogenic training</div>'
-            f'<div class="dots">{dots}</div></body>')
+            f'<body>{body}<div class="dots">{dots}</div></body>')
 
 
 def shoot(slides, outdir: Path):
