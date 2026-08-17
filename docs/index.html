@@ -315,7 +315,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <div id="briefCard" class="hidden"></div>
       <div id="nowCard"></div>
       <div id="reviewCard"></div>
-      <div class="pathhead hidden" id="pathHead"><h2>Done so far</h2><span class="cnt" id="pathCnt"></span></div>
+      <div class="pathhead hidden" id="pathHead"><h2>Your path</h2><span class="cnt" id="pathCnt"></span></div>
       <ol class="steps" id="journey"></ol>
       <p class="footnote">A self-training method, not medical treatment or advice.
         <button class="linky" data-go="learn">Cautions and how to finish</button></p>
@@ -626,6 +626,15 @@ const BRIEFS=[
    kick:'After your first', title:'What was that, and what to look for.',
    blurb:'Ninety seconds. Why heaviness in particular, what counts as it turning up, and the one thing that blocks it.'}
 ];
+function playBrief(b, after){
+  const v=$('#brVideo'); v.src=AUDIO[b.src];
+  if(AUDIO[b.poster]) v.poster=AUDIO[b.poster];
+  $('#brief').classList.add('on'); v.play().catch(()=>{});
+  $('#brDone').onclick=()=>{
+    v.pause(); $('#brief').classList.remove('on');
+    if(after) after(); else renderJourney();
+  };
+}
 function renderBrief(){
   const c=$('#briefCard'); c.innerHTML=''; c.classList.add('hidden');
   const b=BRIEFS.find(b=>!(S.briefed||[]).includes(b.id) && b.when(S) && AUDIO[b.src]);
@@ -637,12 +646,7 @@ function renderBrief(){
   card.appendChild(el('p','bblurb',b.blurb));
   const row=el('div','btnrow');
   const play=el('button','btn','Watch');
-  play.onclick=()=>{
-    const v=$('#brVideo'); v.src=AUDIO[b.src];
-    if(AUDIO[b.poster]) v.poster=AUDIO[b.poster];
-    $('#brief').classList.add('on'); v.play().catch(()=>{});
-    $('#brDone').onclick=()=>{ v.pause(); $('#brief').classList.remove('on'); dismiss(); };
-  };
+  play.onclick=()=>playBrief(b, dismiss);
   const later=el('button','btn ghost','Not now');
   later.onclick=dismiss;
   function dismiss(){ (S.briefed=S.briefed||[]).push(b.id); save(); renderJourney(); }
@@ -728,12 +732,16 @@ function renderJourney(){
       rv.appendChild(el('p','note','Two weeks without it landing usually means one of four things: trying too hard, sessions too long, too few practices a day, or a posture you cannot relax in. Stay here and change one of them.'));
   }
 
-  /* ---- what you have finished. Never what is still ahead: on day one a
-     list of eight untouched steps reads as a backlog, not a map. The whole
-     arc is in the intro film and under Learn, where it is a map. ---- */
+  /* ---- the path: everything finished, plus exactly one step ahead.
+     Finished steps are tappable so a phrase can be revisited; that is the
+     reason a path exists here at all, and it did not exist before there was
+     anything to go back to. One step ahead and no more: ten untouched rows
+     is a backlog, and a product whose whole promise is that it ends should
+     not borrow the endless-ladder look of one that never does. ---- */
   const list=$('#journey'); list.innerHTML='';
-  $('#pathHead').classList.toggle('hidden', S.step===0);
-  $('#pathCnt').textContent = S.step===1 ? '1 step' : S.step+' steps';
+  const ahead = S.step+1 < STEPS.length ? 1 : 0;
+  $('#pathHead').classList.toggle('hidden', S.step===0 && !ahead);
+  $('#pathCnt').textContent = S.step===1 ? '1 done' : S.step+' done';
 
   STEPS.slice(0, S.step).forEach((sx,i)=>{
     const li=el('li','step done');
@@ -758,11 +766,42 @@ function renderJourney(){
       d.appendChild(el('p','phrase', sx.phrase));
       d.appendChild(el('p','note','Done, after '+S.log.filter(e=>e.step===i).length+
         ' logged practices. It stays in the run-through every time you practise.'));
+      const rw=el('div','btnrow');
+      if(sx.audio){
+        const again=el('button','btn ghost','Practise this again');
+        again.onclick=ev=>{ ev.stopPropagation(); revise(i); };
+        rw.appendChild(again);
+      }
+      const bf=BRIEFS.find(b=>b.step===i && AUDIO[b.src]);
+      if(bf){
+        const rb=el('button','btn ghost','Watch again');
+        rb.onclick=ev=>{ ev.stopPropagation(); playBrief(bf); };
+        rw.appendChild(rb);
+      }
+      if(rw.childNodes.length) d.appendChild(rw);
+      d.appendChild(el('p','smeta','Revision is not logged — it is not today\u2019s dose.'));
       col.appendChild(d);
     }
     li.appendChild(col);
     list.appendChild(li);
   });
+
+  /* one step ahead, named but not openable: enough to know where this goes,
+     not enough to read as a list of things you owe. */
+  if(ahead){
+    const nx=STEPS[S.step+1];
+    const li=el('li','step later');
+    const rail=el('div','rail');
+    rail.appendChild(el('span','dot')); rail.appendChild(el('span','line'));
+    li.appendChild(rail);
+    const col=document.createElement('div'), row=el('div','srow');
+    const head=el('div','shead');
+    head.appendChild(el('span','stitle', nx.n + (nx.q ? ' \u2014 '+nx.q : '')));
+    head.appendChild(el('span','pill','Next'));
+    row.appendChild(head);
+    row.appendChild(el('p','sdesc','Opens when this one lands.'));
+    col.appendChild(row); li.appendChild(col); list.appendChild(li);
+  }
 }
 
 let timer=null, ctx=null;
@@ -777,6 +816,11 @@ function tone(freq,dur,when){
     o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+dur+.05);
   }catch(e){}
 }
+/* Revision runs an earlier step's audio without logging it. A repeat is not
+   today's dose: letting it fill a slot, or count toward the gate on a phrase
+   it was not practising, would corrupt the one record the app asks the user
+   to trust. */
+let revising=null;
 function startPractice(){
   const st=step();
   if(st.warn && !(S.warned||[]).includes(S.step)){
@@ -784,10 +828,19 @@ function startPractice(){
                 '\n\nTap OK if you have read this and want to continue.')) return;
     S.warned=(S.warned||[]).concat(S.step); save();
   }
-  const total=st.secs, guided=mode==='guided'&&st.audio;
+  revising=null;
+  runPractice(st, mode==='guided'&&st.audio);
+}
+function revise(i){
+  revising=i;
+  const st=STEPS[i];
+  runPractice(st, !!st.audio);
+}
+function runPractice(st, guided){
+  const total=st.secs;
   $('#practice').classList.add('on');
   $('#pxCue').textContent=guided?'':st.cues[0];
-  $('#pxPhase').textContent=guided?'Guided':'Practice';
+  $('#pxPhase').textContent=revising!==null?'Revision':(guided?'Guided':'Practice');
   const a=$('#pxAudio');
   if(guided){ a.src=AUDIO[st.audio]; a.currentTime=0; a.play().catch(()=>{}); }
   else{ a.removeAttribute('src'); tone(432,.9,0); }
@@ -811,6 +864,7 @@ function finishPractice(){
   $('#pxAudio').pause();
   if(mode!=='guided'||!step().audio){ tone(324,1.1,0); tone(432,1.3,.5); }
   $('#practice').classList.remove('on');
+  if(revising!==null){ revising=null; renderJourney(); return; }
   $('#rating').classList.add('on');
 }
 function logRating(r){
@@ -835,6 +889,7 @@ document.querySelectorAll('#learnSeg button').forEach(b=>b.onclick=()=>{
 });
 $('#pxStop').onclick=finishPractice;
 $('#pxQuit').onclick=()=>{           /* leave with nothing logged */
+  revising=null;
   clearInterval(timer); timer=null;
   $('#pxAudio').pause();
   $('#practice').classList.remove('on');

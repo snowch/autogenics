@@ -211,6 +211,30 @@ An earlier version drew the six exercises on a small figure, at the place each
 is felt. It was removed. It looked considered and told you less than the list
 does, which is a fair description of decoration.
 
+### A path, but not an endless one
+
+Finished steps used to be a read-only list. They are now a path you can
+navigate: tap any completed step to see its phrase, practise it again, or
+replay its briefing. That is the reason a path earns its place here — and the
+reason it did not earn it before, when there was nothing to go back to.
+
+It shows everything finished plus **exactly one step ahead**, named, with
+"opens when this one lands". Not the remaining nine. The earlier decision that
+a wall of untouched steps reads as a backlog still holds; what changed is that
+a path is now navigation rather than a preview.
+
+Deliberately **not** Duolingo-shaped, despite the obvious resemblance of the
+problem. Locked nodes, streak counters and an endless scroll of future units
+are retention machinery for a product designed never to finish. This one is
+designed to finish — guided, then a timer, then nothing — and borrowing that
+visual language would quietly promise the opposite of the thing being sold.
+
+**Revision is not logged.** Practising an old step runs its audio and cues and
+then simply ends: no rating, no entry. Letting it fill one of today's three
+slots, or count toward a gate on a phrase it was not practising, would corrupt
+the one record the app asks the user to trust — and the gate is the only reason
+that record exists.
+
 ### The legs were missing
 
 The ladder went right arm, left arm, both arms, then straight to warmth. That

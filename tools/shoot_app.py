@@ -25,6 +25,12 @@ SHOTS = [
         for(let d=0;d<6;d++) for(let k=0;k<3;k++)
           S.log.push({d:dayKey(d),t:'',step:3,r:d<3?3:2,m:'timer'});
         save(); renderJourney();"""),
+    ("04b-path-open", NEXT * 4 + """
+        S.step=3; S.stepStart=new Date(Date.now()-6*864e5).toISOString().slice(0,10);
+        S.log=[]; S.briefed=['after-first'];
+        for(let d=0;d<6;d++) for(let k=0;k<3;k++)
+          S.log.push({d:dayKey(d),t:'',step:3,r:d<3?3:2,m:'timer'});
+        save(); open=1; renderJourney(); window.scrollTo(0,9999);"""),
     ("05-learn", NEXT * 4 + "go('learn')"),
     ("05b-learn-method", NEXT * 4 + "go('learn');"
      "document.querySelector('#learnSeg button[data-pane=\\'method\\']').click();"),
