@@ -1,0 +1,9 @@
+[
+ {"kind": "point", "kick": "Step 5 — new exercise", "text": "Heaviness was muscle. This one is blood.", "seg": 0},
+ {"kind": "formula", "text": "My right arm is warm.", "seg": 1},
+ {"kind": "point", "kick": "What you are after", "text": "Circulation.", "seg": 2},
+ {"kind": "point", "kick": "Nothing to imagine", "text": "No fire. No rubbing.", "seg": 3},
+ {"kind": "point", "kick": "Usually quicker", "text": "You learned the harder half already.", "seg": 4},
+ {"kind": "point", "text": "Cold hands are common.", "seg": 5},
+ {"kind": "stats", "kick": "Then as before", "text": "Heaviness first, then warmth.", "stats": [["90s", "a practice"], ["3×", "a day"]], "seg": 6}
+]

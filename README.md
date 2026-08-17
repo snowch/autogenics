@@ -17,7 +17,11 @@ edit the markdown, re-run the tool.
 | Track | Script | Recording | Length |
 | --- | --- | --- | --- |
 | After your first practice (film) | [`script/after-first.md`](script/after-first.md) | [`video/after-first.mp4`](video/after-first.mp4) | 1:41 |
-| How to practise — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 4:12 |
+| Briefing — warmth (film) | [`script/brief-warmth.md`](script/brief-warmth.md) | [`video/brief-warmth.mp4`](video/brief-warmth.mp4) | 0:58 |
+| Briefing — heartbeat (film) | [`script/brief-heartbeat.md`](script/brief-heartbeat.md) | [`video/brief-heartbeat.mp4`](video/brief-heartbeat.mp4) | 1:08 |
+| Briefing — breathing (film) | [`script/brief-breathing.md`](script/brief-breathing.md) | [`video/brief-breathing.mp4`](video/brief-breathing.mp4) | 0:52 |
+| Briefing — warm centre (film) | [`script/brief-solar.md`](script/brief-solar.md) | [`video/brief-solar.mp4`](video/brief-solar.mp4) | 1:04 |
+| Briefing — cool head (film) | [`script/brief-forehead.md`](script/brief-forehead.md) | [`video/brief-forehead.mp4`](video/brief-forehead.mp4) | 0:55 |
 | **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:32 |
 | **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:15 |
 | **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:05 |
@@ -117,12 +121,14 @@ It is committed, so **GitHub Pages serves it as-is**, live at
 Source: Deploy from a branch → this branch, folder `/docs`*. Any static host
 works too — the directory has no build step and no backend.
 
-Two settings are easy to get wrong. The **branch** matters — this repository
-has no `main`, so the selector must point at the development branch itself. And
-the **folder** must be `/docs`: left on `/ (root)`, Pages renders the README as
-the landing page instead of the app. A root [`index.html`](index.html) redirects
-to `./docs/` so that case still lands on the app rather than on documentation,
-but `/docs` is the setting to use.
+Point it at **`main`**, folder **`/docs`**. The folder matters: left on
+`/ (root)`, Pages renders the README as the landing page instead of the app. A
+root [`index.html`](index.html) redirects to `./docs/` so that case still lands
+on the app rather than on documentation, but `/docs` is the setting to use —
+it publishes only what is meant to be public rather than the whole repository.
+
+Renaming or deleting the branch Pages builds from switches the site off
+(`has_pages` flips to false), so it has to be re-enabled afterwards.
 
 The published directory is verified before it ships by serving it over real
 HTTP and driving it with the bundled Chromium — service worker registration,
@@ -258,6 +264,23 @@ were re-rendered to say *my arms and legs are heavy*. Leaving them would have
 put the guided cue and the voice out of step — the one failure this pipeline
 exists to prevent.
 
+### Every exercise introduces itself
+
+There is a briefing for each step that starts a **new** exercise — warmth,
+heartbeat, breathing, warm centre, cool head — plus the debrief after the first
+practice. Around a minute each, offered when you arrive at the step and before
+its first practice, and replayable from the path afterwards.
+
+No briefing for heaviness in the legs: it continues an exercise already
+running, and a film that said "same again, lower down" would be noise.
+
+This is what let the **explainer go entirely**. Four minutes of upfront teaching
+before the user had felt anything was answering questions nobody holds yet, and
+every part of it now lands where it applies: why heaviness and what counts, in
+the debrief; each exercise's own mechanics, in its briefing; the take-back and
+the cautions, on the safety card. Learn lost its second pane with it and is one
+flat page again.
+
 ### Briefings are offered after the moment, not before it
 
 The old explainer front-loaded four minutes of teaching before the user had
@@ -271,8 +294,17 @@ autoplay. Someone who has just finished a relaxation exercise may be about to
 stand up and leave, and seizing that moment would undo the thing being
 explained. Dismissal is recorded in `S.briefed`, so it never asks twice.
 
-`BRIEFS` is a list with a `when(S)` predicate, so a briefing before each new
-exercise is a row rather than a feature.
+`BRIEFS` is a list with a `when(S)` predicate; step briefings get a default
+predicate of "you are on this step and have not practised it yet", so adding one
+is a row rather than a feature.
+
+Verification note: the bundled Chromium reports `''` for `canPlayType` on H.264,
+because open-source builds ship without proprietary codecs. Films therefore
+cannot be decoded in this environment and `readyState` stays 0 — a limitation of
+the test browser, not of the app, since Chrome on Android and Safari both handle
+H.264. What is checked instead is that each briefing surfaces, resolves to the
+right file, and that the file is served — including from cache with the network
+off.
 
 Adding a film used to mean editing three places — the app's `AUDIO` map,
 `build_pwa.py` and `build_app_artifact.py`, each with its own hardcoded

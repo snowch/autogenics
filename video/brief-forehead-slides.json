@@ -1,0 +1,8 @@
+[
+ {"kind": "point", "kick": "Step 9 — last", "text": "The only one that goes the other way.", "seg": 0},
+ {"kind": "formula", "text": "My forehead is cool.", "seg": 1},
+ {"kind": "point", "kick": "Everything else settles", "text": "This stays clear.", "seg": 2},
+ {"kind": "point", "kick": "That contrast is the point", "text": "Rested, not groggy.", "seg": 3},
+ {"kind": "point", "kick": "Cool, not cold", "text": "As if a window were open.", "seg": 4},
+ {"kind": "point", "kick": "Headaches or migraine", "text": "Keep it brief, or leave it out.", "seg": 5}
+]

@@ -32,8 +32,11 @@ SHOTS = [
           S.log.push({d:dayKey(d),t:'',step:3,r:d<3?3:2,m:'timer'});
         save(); open=1; renderJourney(); window.scrollTo(0,9999);"""),
     ("05-learn", NEXT * 4 + "go('learn')"),
-    ("05b-learn-method", NEXT * 4 + "go('learn');"
-     "document.querySelector('#learnSeg button[data-pane=\\'method\\']').click();"),
+    ("05b-learn-lower", NEXT * 4 + "go('learn');window.scrollTo(0,9999);"),
+    ("06-brief-step", NEXT * 4 + """
+        S.step=4; S.stepStart=new Date().toISOString().slice(0,10);
+        S.log=[]; S.briefed=['after-first'];
+        save(); renderJourney();"""),
 ]
 
 
