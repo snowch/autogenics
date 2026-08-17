@@ -360,7 +360,7 @@ I am completely calm.
 
 ### Cancellation
 
-[stretch 1.0]
+[speed 1.12]
 
 In a moment we will finish, and you will bring the heaviness to an end.
 

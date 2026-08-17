@@ -79,7 +79,7 @@ I am completely calm.
 
 ### Cancellation
 
-[stretch 1.0]
+[speed 1.12]
 
 Now the take-back.
 

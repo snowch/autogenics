@@ -54,6 +54,10 @@ RENDER_RE = re.compile(r"<!--\s*render:(.*?)-->", re.DOTALL)
 # let the cancellation wake the listener up rather than drifting on at
 # induction pace.
 STRETCH_RE = re.compile(r"^\[stretch\s+([0-9]*\.?[0-9]+)\]$", re.IGNORECASE)
+# `[speed 1.1]` re-synthesises everything after it at a different rate. Unlike
+# [stretch] this costs API calls, but the model does the work, so there are no
+# resampling artefacts — which matters on a low voice.
+SPEED_RE = re.compile(r"^\[speed\s+([0-9]*\.?[0-9]+)\]$", re.IGNORECASE)
 
 
 def script_render_args(path: Path) -> list[str]:
@@ -113,6 +117,11 @@ def parse_script(path: Path, omit_safety: bool = False
         if m:
             flush()
             segments.append(("stretch", float(m.group(1))))
+            continue
+        m = SPEED_RE.match(line)
+        if m:
+            flush()
+            segments.append(("speed", float(m.group(1))))
             continue
         if SAFETY_RE.search(line):
             if omit_safety:
@@ -352,6 +361,10 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
         if kind == "stretch":
             cur_stretch = float(value)
             continue
+        if kind == "speed":
+            if hasattr(engine, "voice_settings"):
+                engine.voice_settings["speed"] = float(value)
+            continue
 
         text = str(value)
         prev = spoken_texts[speak_index - 1] if speak_index > 0 else ""
@@ -408,11 +421,12 @@ def main() -> int:
     p.add_argument("--no-trim", action="store_true",
                    help="keep each segment's own leading/trailing silence "
                         "instead of trimming to the scripted pause lengths")
-    p.add_argument("--stretch", type=float, default=0.85,
+    p.add_argument("--stretch", type=float, default=1.0,
                    help="per-segment time stretch; <1 slows speech without "
-                        "changing pitch. Applied on top of --speed, which the "
-                        "API floors at 0.7 — not slow enough on its own for "
-                        "guided relaxation. 1.0 disables")
+                        "changing pitch. Default 1.0, i.e. off: atempo smears "
+                        "low frequencies audibly, and on a ~100 Hz narrator "
+                        "that reads as robotic. Prefer --speed, which the "
+                        "model applies cleanly")
     p.add_argument("--lufs", type=float, default=-19.0,
                    help="integrated loudness target; use --no-normalize to skip")
     p.add_argument("--no-normalize", action="store_true")
@@ -442,12 +456,12 @@ def main() -> int:
     # ElevenLabs options
     p.add_argument("--voice-id", default=DEFAULT_VOICE_ID)
     p.add_argument("--model-id", default=DEFAULT_MODEL_ID)
-    p.add_argument("--stability", type=float, default=0.80,
+    p.add_argument("--stability", type=float, default=0.55,
                    help="higher is flatter and calmer; 0.55 reads as animated, "
                         "which is wrong for a formula meant to sound identical "
                         "every time")
     p.add_argument("--similarity", type=float, default=0.75)
-    p.add_argument("--speed", type=float, default=0.85,
+    p.add_argument("--speed", type=float, default=0.90,
                    help="ElevenLabs speaking rate; <1 is slower. Kept off the "
                         "0.7 floor, where the model starts to sound strained; "
                         "the remaining slowdown comes from --stretch, which is "
@@ -485,7 +499,7 @@ def main() -> int:
         lines = []
         truncated = []
         for kind, value in segments:
-            if kind == "stretch":
+            if kind in ("stretch", "speed"):
                 continue
             if kind == "speak":
                 lines.append(str(value))

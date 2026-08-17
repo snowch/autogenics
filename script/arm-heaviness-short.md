@@ -236,7 +236,7 @@ I am completely calm.
 
 ### Cancellation
 
-[stretch 1.0]
+[speed 1.12]
 
 We're going to finish. This last part brings you back up, so do it properly.
 

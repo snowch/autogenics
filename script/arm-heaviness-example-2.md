@@ -16,7 +16,7 @@ days regardless. Do not advance on the strength of one good session.
 
 ## Production notes
 
-- Practice at session pace; `[stretch 1.0]` returns the cancellation and
+- Practice at session pace; `[speed 1.12]` returns the cancellation and
   handover to normal speed.
 - The formulas stay near-monotone and identical each time.
 
@@ -86,7 +86,7 @@ I am completely calm.
 
 ### Cancellation
 
-[stretch 1.0]
+[speed 1.12]
 
 > Brisk and awake from here.
 

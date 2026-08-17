@@ -39,9 +39,10 @@ it the one safe place to say "now do this yourself."
 
 ## Production notes
 
-- Practice runs at the session defaults. `[stretch 1.0]` at the cancellation
-  drops the time-stretch so the take-back and the handover are brisk and
-  waking, rather than drifting on at induction pace.
+- Practice runs at the session defaults. `[speed 1.12]` at the cancellation
+  re-synthesises the take-back and handover slightly faster, so they wake the
+  listener rather than drifting on at induction pace. Done at the model rather
+  than by resampling, which leaves no artefacts on a low voice.
 - Voice: same as the sessions, for continuity.
 
 ---
@@ -107,7 +108,7 @@ I am completely calm.
 
 ### Cancellation
 
-[stretch 1.0]
+[speed 1.12]
 
 > Brisk and awake from here. The exercise is over.
 
