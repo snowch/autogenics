@@ -11,7 +11,7 @@ edit the markdown, re-run the tool.
 
 | Track | Script | Recording | Length |
 | --- | --- | --- | --- |
-| Explainer — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 6:09 |
+| How to practise — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 4:12 |
 | **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:32 |
 | **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:15 |
 | **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:05 |

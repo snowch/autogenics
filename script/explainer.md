@@ -1,12 +1,25 @@
 # Autogenic Training — Explainer
 
-**How the method works and how to practise it · ~4 minutes**
+**How to actually do it · 4:12**
 
 <!-- render: --speed 1.0 --stretch 1.0 --lead-in 0.5 -->
 
 Listen to this once, before your first practice. It carries the teaching, so
 that the practice tracks don't have to — a session that stops to explain itself
 breaks the very state it is trying to produce.
+
+**This is the *how*; the intro film is the *why*.** They used to overlap by
+about half: both opened on what autogenic training is, both listed the six
+exercises, both gave the dose, both closed on ending up not needing the app.
+Two "consume this once before you start" assets is one too many, so the film
+keeps the pitch and the arc, and this keeps the technique — why heaviness, how
+to hold the phrase, what a discharge is, and how to finish. Nothing here is in
+the film.
+
+It also carried a stale section telling the listener to go and find "the one
+called the example" and mentioning seven- and fourteen-minute sessions. That
+described a folder of files, from before the app existed and chose the track
+for you. It is cut.
 
 ---
 
@@ -33,29 +46,19 @@ nothing here is medical advice. If something's wrong, see a doctor.
 
 [pause 1.5]
 
-With that said. This is a short explanation of what you're about to practise,
-and how to make it work. About four minutes. You don't need to relax for this
-part — just listen normally.
+With that said. You already know what this is for. This is how you actually do
+it — about four minutes. You don't need to relax for this part, just listen
+normally.
 
 [pause 1.5]
 
-Autogenic training was worked out in Berlin in the nineteen twenties. It began
-as an attempt to take the hypnotist out of hypnosis — to let people reach the
-same settled state on their own, with nobody guiding them.
+The name is the first clue. Autogenic means generated from within. You are not
+being relaxed by me, or by a recording. You are learning to produce the state
+yourself.
 
 [pause 1.5]
 
-That is what autogenic means: generated from within. You are not being relaxed
-by me, or by a recording. You are learning to produce the state yourself.
-
-[pause 1.5]
-
-There are six standard exercises. The first, and the only one you should touch
-for now, is heaviness in the arms.
-
-[pause 1.5]
-
-Here is why heaviness. When your body shifts out of alert mode, your muscles
+So, why heaviness. When your body shifts out of alert mode, your muscles
 release the low background tension they hold all day. Heaviness is what that
 release feels like from the inside. So the sensation isn't really the goal —
 it's the signal that the shift has happened.
@@ -88,15 +91,9 @@ whole skill.
 
 [pause 2]
 
-What should you expect? Probably nothing at all for the first few days. That's
-normal, and it isn't failure.
-
-[pause 1]
-
-Heaviness usually appears somewhere between a few days and two weeks of regular
-practice. It may not arrive as heaviness exactly — people describe warmth,
-tingling, sinking, or the arm feeling larger, or further away than it is. Any
-of those count.
+And it may not arrive as heaviness exactly. People describe warmth, tingling,
+sinking, or the arm feeling larger, or further away than it is. Any of those
+count.
 
 [pause 1.5]
 
@@ -104,17 +101,6 @@ Sometimes you'll get the opposite: restlessness, a twitch, an urge to move, or
 unexpected emotion. That's known as an autogenic discharge. It's a recognised
 part of the process, not a sign that something is wrong. If it's uncomfortable,
 open your eyes, move your arms and legs, and stop there for that session.
-
-[pause 2]
-
-How often. This matters more than anything else I've said.
-
-[pause 1]
-
-Short and frequent beats long and occasional. Aim for about ninety seconds,
-three times a day — morning, midday, and evening. Frequency is what builds the
-response. One long session a week will not, however diligently you sit through
-it.
 
 [pause 2]
 
@@ -142,32 +128,13 @@ daily habit.
 
 [pause 2]
 
-Finally, how to use the other recordings.
-
-[pause 1]
-
-Start with the one called the example. It's about two and a half minutes, and
-it does a single practice with you at the length you should actually be doing
-— ninety seconds — then hands it straight back. Play it a few times, until you
-know the shape. Not every day.
-
-[pause 1]
-
-There are two longer sessions as well, seven minutes and fourteen. Those are
-optional. Have one at the weekend if you'd like a longer sit — but don't
-mistake them for the practice. One long session a day is not the same as
-ninety seconds, three times a day, and it won't do the same thing.
-
-[pause 1.5]
-
-And none of them is the destination. Notice that everything I've described is
-something you do, not something a recording does to you. The aim is that within
-a couple of weeks you're practising without any of them — ninety seconds, on a
-train or at your desk, with nothing but your own attention.
+Notice that everything I've described is something you do, not something a
+recording does to you. The app guides your first few practices, then steps
+back, and then stops — because you are the one producing this.
 
 [pause 2]
 
-That's everything. Start with the example, then practise on your own.
+That's everything. Go and do the first one.
 
 [pause 1]
 
