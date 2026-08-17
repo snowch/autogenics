@@ -1,5 +1,10 @@
 # autogenics
 
+### [→ Open the app](https://snowch.github.io/autogenics/)
+
+Installable on Android and iPhone, and it runs offline after the first load.
+No account, no backend; the practice record stays on the device.
+
 Scripts and guided-audio recordings for **autogenic training** — the six
 standard exercises.
 
@@ -107,9 +112,19 @@ every `$('#id')` resolves and every audio key is defined. A malformed string
 literal takes out the entire script block and leaves a page that renders but
 does nothing — grepping the HTML will not catch it, and one shipped that way.
 
-It is committed, so **GitHub Pages can serve it as-is**: repository *Settings →
-Pages → Source: Deploy from a branch → this branch, folder `/docs`*. Any static
-host works too — the directory has no build step and no backend.
+It is committed, so **GitHub Pages serves it as-is**, live at
+**<https://snowch.github.io/autogenics/>**: repository *Settings → Pages →
+Source: Deploy from a branch → this branch, folder `/docs`*. Any static host
+works too — the directory has no build step and no backend.
+
+Note that the branch matters: this repository has no `main`, so the Pages
+branch selector must point at the development branch itself.
+
+The published directory is verified before it ships by serving it over real
+HTTP and driving it with the bundled Chromium — service worker registration,
+a full precache, then a reload with the network switched off. `*.github.io` is
+blocked by this environment's egress policy, so the deployed site itself cannot
+be checked from here; the local HTTP run is the closest available stand-in.
 
 ### Without any hosting: serve it from the phone
 
