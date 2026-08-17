@@ -15,16 +15,17 @@ NEXT = "document.querySelector('#obNext').click();"
 
 SHOTS = [
     ("01-onboard-welcome", None),
-    ("02-onboard-video", NEXT),
-    ("02b-onboard-cautions", NEXT * 2),
-    ("03-practice-day1", NEXT * 3),
-    ("04-practice-progressed", NEXT * 3 + """
+    ("01b-onboard-dose", NEXT),
+    ("02-onboard-video", NEXT * 2),
+    ("02b-onboard-cautions", NEXT * 3),
+    ("03-practice-day1", NEXT * 4),
+    ("04-practice-progressed", NEXT * 4 + """
         S.step=3; S.stepStart=new Date(Date.now()-6*864e5).toISOString().slice(0,10);
         S.log=[];
         for(let d=0;d<6;d++) for(let k=0;k<3;k++)
           S.log.push({d:dayKey(d),t:'',step:3,r:d<3?3:2,m:'timer'});
         save(); renderJourney();"""),
-    ("05-learn", NEXT * 3 + "go('learn')"),
+    ("05-learn", NEXT * 4 + "go('learn')"),
 ]
 
 

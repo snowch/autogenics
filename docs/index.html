@@ -246,6 +246,17 @@ details[open] summary::after{content:'–'}
 details p{margin:9px 0 0; font-size:.88rem; color:var(--ink-2)}
 .safety{border-color:var(--accent)}
 .safety h2{color:var(--accent)}
+/* Learn is a reference page, not a dashboard. Five filled boxes made every
+   section look equally important and the screen read as clutter; flat sections
+   separated by space read as one page you scan. The safety card keeps its
+   surface precisely so it is the one thing that still stands out. */
+#s-learn{gap:28px}
+#s-learn .card{background:transparent; border:0; border-radius:0;
+  box-shadow:none; padding:0}
+#s-learn .card h2{margin-bottom:9px}
+#s-learn .card.safety{background:var(--surface); border:1px solid var(--accent);
+  border-radius:14px; padding:17px; box-shadow:var(--shadow)}
+#lReplay{width:auto; padding:9px 14px; font-size:.86rem}
 
 nav{position:fixed; bottom:0; left:0; right:0; z-index:30;
   background:color-mix(in srgb,var(--surface) 92%,transparent); backdrop-filter:blur(12px);
@@ -284,8 +295,18 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <section class="screen" id="s-learn">
       <div class="card">
         <h2>Start here</h2>
-        <p class="lede">Five minutes on what the method is and how to make it work. Listen once, before your first practice.</p>
+        <p class="lede">Six minutes on what the method is and how to make it work. Listen once, before your first practice.</p>
         <audio class="audio" controls preload="none" id="aExplain"></audio>
+      </div>
+
+      <div class="card">
+        <h2>What this is</h2>
+        <p class="lede">You repeat a short phrase to yourself — <em>my right arm is heavy</em> — and let it be true rather than making it true. Done often enough, the shift becomes something you can reach for deliberately. Not to relax now: to be able to.</p>
+        <details style="margin-top:12px"><summary>Where it comes from</summary>
+          <p>Worked out in Berlin in the 1920s, as an attempt to take the hypnotist out of hypnosis — to let people reach the same settled state on their own, with nobody guiding them.</p></details>
+        <details><summary>What people notice</summary>
+          <p>Less noise in the head — not silence, the volume down. Coming down faster after something stressful. Settling into sleep. A cleaner head between two demanding things. What arrives, and when, varies a lot between people.</p></details>
+        <button class="btn ghost" id="lReplay" style="margin-top:12px">See the introduction again</button>
       </div>
 
       <div class="card">
@@ -302,19 +323,11 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <p>That is a recognised part of the process — the old books call it an <em>autogenic discharge</em> — and not a sign that something is wrong. If it is uncomfortable: open your eyes, move your arms and legs, and stop there for that session.</p></details>
       </div>
 
-      <div class="card">
-        <h2>New to the method?</h2>
-        <p class="lede">Autogenic training was worked out in Berlin in the 1920s, as an attempt to take the hypnotist out of hypnosis — to let people reach the same settled state on their own, with nobody guiding them. You repeat a short phrase to yourself — <em>my right arm is heavy</em> — and let it be true rather than making it true. Do that often enough and the shift becomes something you can reach for deliberately, which is the whole point: not to relax now, but to be able to.</p>
-        <details style="margin-top:10px"><summary>What people notice</summary>
-          <p>Less noise in the head — not silence, the volume down. Coming down faster after something stressful. Settling into sleep. A cleaner head between two demanding things. What arrives, and when, varies a lot between people.</p>
-          <p>This is a self-training method, not medical treatment or advice. If something is wrong, see a doctor.</p></details>
-        <button class="btn ghost" id="lReplay" style="margin-top:12px">See the introduction again</button>
-      </div>
-
       <div class="card safety">
         <h2>Before you practise</h2>
         <p class="lede">Never while driving, cycling, or doing anything that needs your attention. Deep relaxation can leave you light-headed when you get up — if you have low blood pressure, a heart condition, diabetes, or epilepsy, speak to your doctor before making it a daily habit.</p>
         <p class="lede" style="margin-top:10px"><strong>Always finish by waking yourself up:</strong> bend and stretch your arms firmly, fists clenched; two deep breaths; open your eyes. About fifteen seconds, and it is what stops you feeling groggy. The one exception is practising in bed to fall asleep — then stay lying down. (Traditionally this is called the <em>take-back</em>.)</p>
+        <p class="lede" style="margin-top:10px">A self-training method, not medical treatment or advice. It does not diagnose or treat any condition. If something is wrong, see a doctor.</p>
       </div>
 
       <div class="card">
@@ -350,6 +363,16 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <p class="obcaveat">A trained physical response, not a mood — nothing to
       believe in and nothing to concentrate on. What arrives, and how quickly,
       varies between people.</p>
+  </div>
+
+  <div class="obstep">
+    <hr class="obrule">
+    <p class="obkick">What it asks</p>
+    <h2 class="obtitle">Ninety seconds, three times a day.</h2>
+
+    <p class="obbody">Short and often. Frequency is what builds the response —
+      one long session a day is not the same thing and will not do the same
+      thing.</p>
 
     <div class="obstat">
       <div><span class="num">90s</span><span class="cap">a practice</span></div>
@@ -359,7 +382,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
     <p class="obend"><b>And then you stop needing it.</b>
       <span>Guided for your first few days, then only a timer, then nothing at
-      all.</span></p>
+      all. The point is to end up not opening this.</span></p>
   </div>
 
   <div class="obstep">

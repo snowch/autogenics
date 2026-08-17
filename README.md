@@ -54,7 +54,10 @@ python3 tools/build_video.py video/intro-slides.json \
 line it covers, so cuts land on the narration. Measured drift between audio and
 video on the built file: 0.00s.
 
-First run runs **invitation → film → cautions → start**, in that order.
+First run runs **invitation → what it asks → film → cautions → start**, in
+that order. The invitation and the dose were one panel until a phone
+screenshot showed it running edge to edge with nothing to breathe; the ask
+and the fact that it ends now get their own page.
 
 Safety was originally the first screen, on the reasoning that it is the
 responsible place for it. It made the app open on "not medical treatment",
