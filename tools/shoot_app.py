@@ -33,6 +33,16 @@ SHOTS = [
         save(); open=1; renderJourney(); window.scrollTo(0,9999);"""),
     ("05-learn", NEXT * 4 + "go('learn')"),
     ("05b-learn-lower", NEXT * 4 + "go('learn');window.scrollTo(0,9999);"),
+    ("07-practice-running", NEXT * 4 + """
+        mode='timer'; renderJourney();
+        document.querySelector('#nowCard .go').click();"""),
+    ("08-rating", NEXT * 4 + """
+        document.querySelector('#practice').classList.remove('on');
+        document.querySelector('#rating').classList.add('on');"""),
+    ("09-brief-player", NEXT * 4 + """
+        S.log=[{d:dayKey(0),t:'',step:0,r:2,m:'guided'}]; S.briefed=[];
+        save(); renderJourney();
+        document.querySelector('#briefCard .btn').click();"""),
     ("06-brief-step", NEXT * 4 + """
         S.step=4; S.stepStart=new Date().toISOString().slice(0,10);
         S.log=[]; S.briefed=['after-first'];

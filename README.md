@@ -73,9 +73,11 @@ the dose. Two exceptions are deliberate: "Guided. Then a timer. Then nothing."
 condenses three sentences into a rhythm, and "You end up not needing this." is
 the thesis and worth landing on screen as it is said.
 
-The poster frame is pulled from the middle of the film, not frame one, because
-it is what invites the tap — the phrase is a more specific still than the
-title card.
+Posters are written by `--poster` during the video build, from the middle of a
+named slide (the formula, by default) rather than frame one — frame one is a
+title card, and the poster is what invites the tap. Generating them in the build
+is the point: one shipped showing a slide that had since been edited, and
+nothing noticed until the screen was looked at.
 
 First run runs **invitation → what it asks → film → cautions → start**, in
 that order. The invitation and the dose were one panel until a phone
@@ -186,7 +188,9 @@ python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
 ```
 
 `shoot_app.py` renders each screen with the bundled Chromium at phone size,
-including a seeded mid-ladder state, into `build/shots/`. The design faults in
+including a seeded mid-ladder state, into `build/shots/`. That now covers the
+running practice, the rating, and the briefing player — three surfaces that had
+never once been looked at, and one of which was showing a stale poster. The design faults in
 this app were consistently found by looking at it and consistently missed by
 inspecting the markup, so look at it.
 

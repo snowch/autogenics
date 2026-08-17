@@ -150,6 +150,14 @@ def main() -> int:
                          "slide's 'seg' names the last line it covers")
     ap.add_argument("--out", type=Path, default=ROOT / "video" / "intro.mp4")
     ap.add_argument("--frames", action="store_true", help="stills only")
+    ap.add_argument("--poster", type=Path,
+                    help="also write a poster JPEG. Generated here rather "
+                         "than by hand so it cannot go stale when the deck "
+                         "changes — one shipped showing a slide that had "
+                         "since been edited.")
+    ap.add_argument("--poster-slide", type=int, default=1,
+                    help="slide the poster comes from (default 1: the "
+                         "formula, the most specific still)")
     a = ap.parse_args()
 
     slides = json.loads(a.slides.read_text())
@@ -189,6 +197,14 @@ def main() -> int:
     cmd += [str(a.out)]
     subprocess.run(cmd, check=True)
     print(f"wrote {a.out} — {a.out.stat().st_size/1_048_576:.1f} MB")
+
+    if a.poster:
+        i = max(0, min(a.poster_slide, len(slides) - 1))
+        at = sum(x.get("secs", 0) for x in slides[:i]) + slides[i].get("secs", 2) / 2
+        subprocess.run([ff, "-y", "-ss", f"{at:.2f}", "-i", str(a.out),
+                        "-vframes", "1", "-q:v", "3", str(a.poster)],
+                       check=True, capture_output=True)
+        print(f"  poster {a.poster.name} — slide {i} at {at:.1f}s")
     return 0
 
 

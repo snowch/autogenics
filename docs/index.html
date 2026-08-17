@@ -99,6 +99,18 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .brief .btn{width:auto; flex:1}
 #brief{gap:0}
 
+/* the player names what it is playing. Without it the screen was a bare
+   video and a button, and nothing said which briefing you had opened. */
+#brief{gap:0; padding:0 20px}
+.brwrap{width:100%; max-width:440px; display:flex; flex-direction:column}
+.brwrap .bkick{margin:0 0 6px; font-family:var(--mono); font-size:.62rem;
+  letter-spacing:.11em; text-transform:uppercase; color:var(--accent)}
+.brwrap .brtitle{margin:0 0 14px; font-family:var(--serif); font-weight:500;
+  font-size:1.5rem; line-height:1.2; letter-spacing:-.015em; text-wrap:balance}
+.brwrap video{width:100%; aspect-ratio:4/5; max-height:62vh; border-radius:16px;
+  border:1px solid var(--line); background:#0D1218; display:block; object-fit:contain}
+.brwrap .btn{margin-top:16px}
+
 /* the hero: one thing to do, given room to be the one thing */
 .now{background:var(--surface); border:1px solid var(--line); border-radius:18px;
   padding:24px 22px; box-shadow:var(--shadow)}
@@ -478,8 +490,12 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 </div>
 
 <div class="full" id="brief">
-  <video id="brVideo" controls playsinline preload="metadata" style="width:100%;max-width:440px;aspect-ratio:4/5;border-radius:16px;border:1px solid var(--line);background:#0D1218;object-fit:contain"></video>
-  <button class="btn ghost" id="brDone" style="max-width:440px;margin-top:16px">Done</button>
+  <div class="brwrap">
+    <p class="bkick" id="brKick"></p>
+    <h2 class="brtitle" id="brTitle"></h2>
+    <video id="brVideo" controls playsinline preload="metadata"></video>
+    <button class="btn ghost" id="brDone">Close</button>
+  </div>
 </div>
 
 <div class="full" id="rating">
@@ -633,6 +649,8 @@ const BRIEFS=[
    practice — the moment it answers a question you are actually holding. */
 BRIEFS.forEach(b=>{ if(!b.when) b.when=S=>S.step===b.step && !S.log.some(e=>e.step===b.step); });
 function playBrief(b, after){
+  $('#brKick').textContent=b.kick;
+  $('#brTitle').textContent=b.title;
   const v=$('#brVideo'); v.src=AUDIO[b.src];
   if(AUDIO[b.poster]) v.poster=AUDIO[b.poster];
   $('#brief').classList.add('on'); v.play().catch(()=>{});
