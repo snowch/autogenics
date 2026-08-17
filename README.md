@@ -124,6 +124,26 @@ forgotten in the reset leaves stale data behind a wipe. A malformed string
 literal takes out the entire script block and leaves a page that renders but
 does nothing — grepping the HTML will not catch it, and one shipped that way.
 
+### Updates land without clearing site data
+
+The worker `skipWaiting()`s and claims clients, so a deploy activates — but the
+page already on screen keeps rendering the HTML it loaded, and an installed PWA
+is almost never navigated away from. The result was a user sitting on a stale
+build with no way forward except clearing site data by hand.
+
+Registration now checks for a new worker on launch **and on resume**
+(`visibilitychange`), and reloads once when a new worker takes over. The flag
+guarding that reload is a running one rather than a snapshot: read once at load
+it is false on a first-ever visit, stays false when that first worker claims the
+page, and then swallows the reload for the genuine update that follows. That is
+exactly what the first version did, and it took a scripted deploy-while-open
+test to catch — the caches had rotated correctly, so everything looked right
+except the screen.
+
+Tested by serving a copy of `docs/`, loading it, editing `index.html` and the
+worker's cache name underneath the open page, then firing a resume: the page
+reloads itself into the new build and the old cache is gone.
+
 It is committed, so **GitHub Pages serves it as-is**, live at
 **<https://snowch.github.io/autogenics/>**: repository *Settings → Pages →
 Source: Deploy from a branch → this branch, folder `/docs`*. Any static host

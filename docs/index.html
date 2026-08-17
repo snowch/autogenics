@@ -984,8 +984,26 @@ if(!S.onboarded) obOpen();
 </script>
 <script>
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker
-    .register('./sw.js').catch(()=>{}));
+  /* claimed is a running flag, not a snapshot. Read once at load it is false
+     on a first-ever visit, stays false when that first worker claims the page,
+     and then swallows the reload for the genuine update that follows. */
+  var claimed = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if(!claimed){ claimed = true; return; }   /* first install: nothing to replace */
+    if(window.__reloading) return;            /* can fire more than once */
+    window.__reloading = true;
+    location.reload();
+  });
+  var check = function(){
+    navigator.serviceWorker.getRegistration()
+      .then(function(r){ if(r) r.update(); }).catch(function(){});
+  };
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js').then(check).catch(function(){});
+  });
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) check();
+  });
 }
 </script>
 </body>

@@ -102,10 +102,34 @@ def main() -> int:
 <meta name="description" content="Autogenic training: the six standard exercises, at the dose the method actually calls for.">
 </head>""")
     html = html.replace("</head>", head, 1)
+    # Registering and walking away is not enough. The worker skipWaiting()s and
+    # claims clients, so a deploy activates — but the page already on screen
+    # keeps rendering the HTML it loaded, and an installed PWA is rarely
+    # navigated away from, so the user sits on a stale build until they think
+    # to clear site data. Check on launch and on resume, and reload once when a
+    # new worker takes over.
     html = html.replace("</body>", """<script>
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker
-    .register('./sw.js').catch(()=>{}));
+  /* claimed is a running flag, not a snapshot. Read once at load it is false
+     on a first-ever visit, stays false when that first worker claims the page,
+     and then swallows the reload for the genuine update that follows. */
+  var claimed = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if(!claimed){ claimed = true; return; }   /* first install: nothing to replace */
+    if(window.__reloading) return;            /* can fire more than once */
+    window.__reloading = true;
+    location.reload();
+  });
+  var check = function(){
+    navigator.serviceWorker.getRegistration()
+      .then(function(r){ if(r) r.update(); }).catch(function(){});
+  };
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js').then(check).catch(function(){});
+  });
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) check();
+  });
 }
 </script>
 </body>""", 1)
