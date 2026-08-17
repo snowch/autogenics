@@ -23,6 +23,25 @@ edit the markdown, re-run the tool.
 | Long form, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
 | Long form, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
 
+## Video slides
+
+`tools/build_video.py` renders narrated video from a list of slide specs: the
+slides are HTML, screenshotted with the pre-installed Chromium, then assembled
+against a script's own audio. Because the audio pipeline already knows each
+segment's duration, cuts land on the narration rather than near it.
+
+```bash
+python3 tools/build_video.py slides.json --frames     # stills, for review
+python3 tools/build_video.py slides.json --audio audio/intro.mp3
+```
+
+1080×1350, the app's palette, and Bitstream Charter — a real book serif that
+happens to be installed, rather than a fallback. Three slide kinds so far:
+statement, formula, and stats.
+
+Status: the renderer works and sample frames are rendered. No intro script or
+narration exists for it yet, and the design is not settled.
+
 ## Install it on a phone
 
 `docs/` is a complete, installable PWA — the app, compressed audio, icons, a
