@@ -210,6 +210,17 @@ surface carries "a relaxation practice, not medical treatment or advice".
 Keep any future copy on that side of the line. Naming a condition, quoting a
 study, or promising a result changes what the product legally is.
 
+**Cognitive-performance framing is out**, and not only for the legal reason.
+"Brain exercise" or "optimal brain performance" would be an enhancement claim,
+which is the most heavily policed corner of this market — but worse, it teaches
+the wrong thing. Autogenic training runs on *passive* concentration: the one
+reliable way to block the response is to try. Framing it as mental training
+invites exactly the effort that prevents it, so the copy would be working
+against the method.
+
+The honest neighbour is already there: **"a clearer head afterwards"**,
+described as what people notice rather than as a faculty being improved.
+
 The intro closes on a **journey map**, which also lives on Progress as a live
 position marker. The six exercises are drawn on a seated figure at the place
 each one is felt — heaviness at the arms, warmth at the hands, then chest,
