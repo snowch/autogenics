@@ -142,6 +142,19 @@ including a seeded mid-ladder state, into `build/shots/`. The design faults in
 this app were consistently found by looking at it and consistently missed by
 inspecting the markup, so look at it.
 
+### Progress shown as achievement, not backlog
+
+The practice screen lists **only steps you have finished**, under "Done so
+far", and shows nothing at all on day one. It previously listed all nine with
+the unreached ones marked *Later*, which on a first run is eight things you
+have not done — a backlog, before you have practised once.
+
+The full six-exercise arc is still shown, but in the intro film and under
+Learn, where it reads as a map rather than a debt. The header counts the step
+you are on rather than the steps remaining, and the advance button appears only
+when the criteria are met, since a permanently disabled button reads as broken
+rather than as "not yet".
+
 ### The journey is the screen
 
 Three bands, in the order you use them. A **hero card** holds only what you act

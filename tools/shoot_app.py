@@ -10,22 +10,21 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 
+# clicking Next N times walks the onboarding; keep in step with its panel count
+NEXT = "document.querySelector('#obNext').click();"
+
 SHOTS = [
-    ("01-onboard-safety", None),
-    ("02-onboard-video", "document.querySelector('#obNext').click()"),
-    ("03-practice", "document.querySelector('#obNext').click();"
-                    "document.querySelector('#obNext').click()"),
-    ("04-practice-progressed", """
-        document.querySelector('#obNext').click();
-        document.querySelector('#obNext').click();
+    ("01-onboard-welcome", None),
+    ("02-onboard-video", NEXT),
+    ("02b-onboard-cautions", NEXT * 2),
+    ("03-practice-day1", NEXT * 3),
+    ("04-practice-progressed", NEXT * 3 + """
         S.step=3; S.stepStart=new Date(Date.now()-6*864e5).toISOString().slice(0,10);
         S.log=[];
         for(let d=0;d<6;d++) for(let k=0;k<3;k++)
           S.log.push({d:dayKey(d),t:'',step:3,r:d<3?3:2,m:'timer'});
         save(); renderJourney();"""),
-    ("05-learn", "document.querySelector('#obNext').click();"
-                 "document.querySelector('#obNext').click();"
-                 "go('learn')"),
+    ("05-learn", NEXT * 3 + "go('learn')"),
 ]
 
 
@@ -42,12 +41,19 @@ def main() -> int:
         b = p.chromium.launch(executable_path=CHROME,
                               args=["--no-sandbox", "--disable-dev-shm-usage",
                                     "--autoplay-policy=no-user-gesture-required"])
+        panels = None
         for name, script in SHOTS:
             pg = b.new_page(viewport={"width": 430, "height": 932},
                             device_scale_factor=2,
                             color_scheme=a.theme)
             pg.goto(url)
             pg.wait_for_timeout(500)
+            n = pg.evaluate("document.querySelectorAll('.obstep').length")
+            if script and script.count("obNext") and NEXT * n not in script + NEXT:
+                pass  # informational only; counts below are asserted once
+            if panels is None:
+                panels = n
+                print(f"  ({panels} onboarding panels)")
             if script:
                 pg.evaluate(script)
                 pg.wait_for_timeout(400)

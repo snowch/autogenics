@@ -34,6 +34,11 @@ p{font-size:34px;line-height:1.5;color:#9DAEBD;margin-top:34px;max-width:22ch}
 .stats .n{font-family:'DejaVu Sans Mono',monospace;font-size:76px;color:#E0A15C;letter-spacing:-.03em}
 .stats .c{font-size:26px;color:#6F8090;margin-top:10px;max-width:9ch;line-height:1.3}
 .rule{width:74px;height:3px;background:#E0A15C;margin-bottom:38px}
+.bens{margin-top:44px;display:flex;flex-direction:column;gap:26px}
+.ben{display:flex;gap:22px;align-items:baseline}
+.ben .bm{width:11px;height:11px;border-radius:50%%;background:#E0A15C;flex:none}
+.ben .bt{font-size:40px;line-height:1.32;color:#E6ECF2}
+.ben .bt i{font-style:normal;color:#6F8090;display:block;font-size:31px;margin-top:6px}
 /* graphics reuse the app's own vocabulary, so video and product agree */
 .dose{display:flex;gap:22px;margin-top:56px}
 .dose .s{flex:1;height:132px;border-radius:20px;border:2px solid #243140;background:#0A0F14;
@@ -78,7 +83,8 @@ def slide_html(s, idx, total):
         rows = ""
         for i, (name, st) in enumerate(s["rows"]):
             last = ' style="min-height:0"' if i == len(s["rows"]) - 1 else ""
-            rows += (f'<div class="r {st}"><div class="rail"><div class="d"></div>'
+            cls = "r on" if st is True or st == "on" else ("r past" if st == "past" else "r")
+            rows += (f'<div class="{cls}"><div class="rail"><div class="d"></div>'
                      f'<div class="ln"{last}></div></div><div class="t">{name}</div></div>')
         body = (f'<div class="kick">{s.get("kick","")}</div><h1 class="sm">{s["text"]}</h1>'
                 f'<div class="ladder">{rows}</div>')
@@ -101,6 +107,12 @@ def slide_html(s, idx, total):
                         for n, c in s["stats"])
         body = (f'<div class="kick">{s.get("kick","")}</div>'
                 f'<h1 class="sm">{s["text"]}</h1><div class="stats">{cells}</div>')
+    elif kind == "benefits":
+        items = "".join(f'<div class="ben"><span class="bm"></span>'
+                        f'<span class="bt">{t}<i>{sub}</i></span></div>'
+                        for t, sub in s["items"])
+        body = (f'<div class="kick">{s.get("kick","")}</div>'
+                f'<h1 class="sm">{s["text"]}</h1><div class="bens">{items}</div>')
     else:
         k = f'<div class="kick">{s["kick"]}</div>' if s.get("kick") else ""
         sub = f'<p>{s["sub"]}</p>' if s.get("sub") else ""

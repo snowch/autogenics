@@ -1,23 +1,21 @@
 # Intro — the first-run video
 
-**~80 seconds · replaces the text onboarding**
+**~100 seconds · carries the why, the benefits, and the whole arc**
 
 <!-- render: --speed 1.0 --lead-in 0.4 -->
 
 The narration for the first-run video. It assumes the viewer already knows what
-autogenic training is — anyone who searched for an AT app does — so it sells
-nothing and explains only what this app does differently.
+autogenic training is, so it does not explain the method — it covers why anyone
+bothers, what people actually notice, and the shape of the whole thing.
 
-The disclaimer and safety notes are deliberately **not** here. Those stay as a
-text panel with an explicit tap to continue, because a video can be skipped,
-muted, or half-watched, and "they were told in a video" is a weaker position
-than "they tapped to acknowledge".
+This is also the only place the full six-exercise arc is shown. It is
+deliberately **not** on the practice screen: a list of eight things you have not
+done yet reads as a backlog, and on day one that is the opposite of
+encouraging. Here it is the map, seen once.
 
-## Production notes
-
-- Same narrator as the practices, at `--speed 1.0`. Information wants pace.
-- Each line below is one slide. `tools/build_video.py` reads the timing map so
-  the cuts land on the narration rather than near it.
+The disclaimer and safety notes are not here. Those stay as a text panel with an
+explicit tap to continue, because a video can be skipped, muted, or
+half-watched.
 
 ---
 
@@ -26,24 +24,51 @@ than "they tapped to acknowledge".
 <!-- narration:start -->
 
 You already know what autogenic training is. So here is what this app does with
-it.
+it, and why anyone bothers.
 
 [pause 0.8]
 
-Ninety seconds. Three times a day.
+What you are training is deliberate access to a state your body normally only
+reaches on its own.
+
+[pause 0.7]
+
+Not to relax right now. To be able to.
+
+[pause 0.9]
+
+People notice it in ordinary places. Less noise in the head — not silence, the
+volume down.
+
+[pause 0.7]
+
+Coming down faster after a bad day, instead of staying wound up for hours.
+
+[pause 0.7]
+
+Getting to sleep. And a clearer head between two demanding things.
+
+[pause 0.9]
+
+There are six exercises, and you learn them in order.
 
 [pause 0.6]
 
-That is the dose. Short and often, not long and rare — frequency is what builds
-the response.
+Heaviness in the arms. Then warmth. Then the heartbeat, the breath, the warmth
+of your centre, and a cool forehead.
+
+[pause 0.9]
+
+About a week on each, one short phrase at a time.
 
 [pause 0.8]
 
-You work one phrase at a time. Nine steps, through all six standard exercises.
+The practice itself is ninety seconds, three times a day. Short and often —
+frequency is what builds it, not length.
 
-[pause 0.8]
+[pause 0.9]
 
-Each step guides you for the first few days. Then it is only a timer. Then
+Each phrase is guided for your first few days. Then it is only a timer. Then
 nothing at all.
 
 [pause 0.7]
