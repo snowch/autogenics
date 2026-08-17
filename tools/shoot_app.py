@@ -38,6 +38,7 @@ SHOTS = [
         for(let d=0;d<6;d++) for(let k=0;k<3;k++)
           S.log.push({d:dayKey(d),t:'',step:3,r:d<3?3:2,m:'timer'});
         save(); renderJourney(); go('progress'); open='intro'; renderJourney();"""),
+    ("04d-progress-day1", NEXT * 4 + "go('progress')"),
     ("05-learn", NEXT * 4 + "go('learn')"),
     ("05b-learn-lower", NEXT * 4 + "go('learn');window.scrollTo(0,9999);"),
     ("10-final-step", NEXT * 4 + """

@@ -355,6 +355,30 @@ were re-rendered to say *my arms and legs are heavy*. Leaving them would have
 put the guided cue and the voice out of step — the one failure this pipeline
 exists to prevent.
 
+### The record belongs to the step it describes
+
+Progress used to be a record card floating above a path. The card is *about*
+the current step — its fourteen days, its two conditions, its move-on button —
+and the step it described was not even on the path: the list ran from the last
+finished step straight to the one after the current one, so on day one it
+showed an intro and a NEXT and nothing you were actually doing.
+
+The current step is on the path now, marked NOW, and the record hangs off it,
+open. The path is the whole page: intro, what is done, what you are on with its
+record, what is next.
+
+Three bugs surfaced doing it. `li.step now` collided with `.now`, the hero
+card's class, so a row of the list wore a surface, a border and a shadow.
+`'Day '+n+' · '+a+b` concatenated where it meant to add, printing "00 of 2".
+And `el('h2', 'Ready to move on?')` passed the heading as the *class* argument
+— that card's heading has never once rendered, and only showed up because a
+scripted check read its text and got an empty string.
+
+The strip is seven days rather than fourteen. Forty-two cells is a lot of chart
+to sit inside a list row, the three-a-day rows are the part worth keeping since
+they teach the dose, and the gate never looks back further than five days
+anyway.
+
 ### Every film replays from the path
 
 Replay used to be in two places: the intro under Learn, the briefings on the
