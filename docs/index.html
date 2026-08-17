@@ -175,7 +175,7 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
   flex-direction:column; padding:0 24px calc(24px + env(safe-area-inset-bottom))}
 #onboard.on{display:flex}
 .obwrap{max-width:440px; margin:0 auto; width:100%; flex:1; display:flex; flex-direction:column}
-.obstep{flex:1; display:none; flex-direction:column; justify-content:center; gap:19px; padding:30px 0 22px}
+.obstep{flex:1; display:none; flex-direction:column; justify-content:center; gap:18px; padding:28px 0 20px}
 .obstep.on{display:flex; animation:fade .28s ease both}
 .obkick{font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase;
   color:var(--accent); margin:0}
@@ -216,6 +216,9 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .cautions .m{width:5px; height:5px; border-radius:50%; background:var(--muted);
   flex:none; margin-top:8px}
 .cautions strong{color:var(--ink); font-weight:600; display:block; margin-bottom:1px}
+.bens li{align-items:baseline}
+.bens .m{background:var(--accent); width:6px; height:6px; margin-top:0}
+.bens strong{font-size:1.02rem; margin-bottom:2px}
 .obrule{width:44px; height:2px; background:var(--accent); border:0; margin:0 0 4px}
 .obvid{width:100%; aspect-ratio:4/5; max-height:56vh; border-radius:16px;
   border:1px solid var(--line); background:#0D1218; display:block; object-fit:contain}
@@ -325,12 +328,19 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   <div class="obstep on">
     <hr class="obrule">
     <p class="obkick">Autogenic training</p>
-    <h2 class="obtitle">Ninety seconds, three times a day.</h2>
+    <h2 class="obtitle">An off switch you can reach for.</h2>
 
-    <p class="obdef">That is the whole practice. Nothing to sit through, nothing
-      to believe, and nowhere you need to be.
-      <span>In a couple of weeks you can do it on a train or at your desk, with
-      nothing at all — which is the point of it.</span></p>
+    <ul class="cautions bens">
+      <li><span class="m"></span><span><strong>Less noise in your head.</strong>
+        Not silence — the volume down.</span></li>
+      <li><span class="m"></span><span><strong>Coming down faster.</strong>
+        Instead of staying wound up for hours after something stressful.</span></li>
+      <li><span class="m"></span><span><strong>Getting to sleep.</strong>
+        The most common reason people keep it up.</span></li>
+    </ul>
+
+    <p class="obcaveat">A trained physical response, not a mood — nothing to
+      believe in. What arrives, and how quickly, varies between people.</p>
 
     <div class="obstat">
       <div><span class="num">90s</span><span class="cap">a practice</span></div>
