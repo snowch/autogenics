@@ -62,6 +62,15 @@ def main() -> int:
         f'{k}:"{encode(ROOT / "audio" / v)}"' for k, v in TRACKS.items())
     if vid_uri:
         blob += f',\n  intro:"{vid_uri}"'
+        poster = ROOT / "video" / "intro-poster.jpg"
+        if poster.exists():
+            blob += (',\n  introPoster:"data:image/jpeg;base64,'
+                     + base64.b64encode(poster.read_bytes()).decode() + '"')
+            print(f"  {poster.name:34s} {poster.stat().st_size/1024:7.0f} KB")
+        else:
+            raise SystemExit("video/intro-poster.jpg missing — the player would "
+                             "show a bare placeholder. Extract it with:\n"
+                             "  ffmpeg -i video/intro.mp4 -vframes 1 video/intro-poster.jpg")
     html = html.replace("<script>\n\"use strict\";",
                         "<script>\n\"use strict\";\nwindow.__AUDIO__={\n  "
                         + blob + "\n};", 1)

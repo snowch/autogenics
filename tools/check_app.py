@@ -43,6 +43,17 @@ def check(path: Path) -> list[str]:
     for key in set(re.findall(r"audio:'(\w+)'", html)):
         if not re.search(rf"\b{key}\s*:", html):
             errs.append(f"audio key '{key}' is never defined")
+
+    # In a built file the injected map replaces the fallback entirely, so any
+    # key the code reads must be present in it. A missing optional key fails
+    # silently at runtime — that is how the video shipped without its poster.
+    m = re.search(r"window\.__AUDIO__=\{(.*?)\n\};", html, re.S)
+    if m:
+        injected = set(re.findall(r"(\w+)\s*:", m.group(1)))
+        for key in sorted(set(re.findall(r"\bAUDIO\.(\w+)\b", html))):
+            if key not in injected:
+                errs.append(f"AUDIO.{key} is read but missing from the "
+                            f"injected map — it will be undefined at runtime")
     return errs
 
 
