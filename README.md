@@ -210,6 +210,18 @@ surface carries "a relaxation practice, not medical treatment or advice".
 Keep any future copy on that side of the line. Naming a condition, quoting a
 study, or promising a result changes what the product legally is.
 
+**The method is credited, never the man.** Autogenic training is attributed to
+"Berlin in the 1920s" and its originator is not named anywhere a user can see.
+His conduct under National Socialism is documented in the history of
+psychotherapy, and the method's validity does not rest on him. Verify that
+history before writing anything that reintroduces the name.
+
+**Citing studies is out, for now.** Research on autogenic training exists, but
+quoting it is the exact move that turns description into a claim: "studied for X"
+is read as "helps with X". If an evidence page is ever added it belongs under
+Learn, framed as what the research has looked at, with no outcome promised —
+and every citation checked against the source rather than recalled.
+
 **Cognitive-performance framing is out**, and not only for the legal reason.
 "Brain exercise" or "optimal brain performance" would be an enhancement claim,
 which is the most heavily policed corner of this market — but worse, it teaches

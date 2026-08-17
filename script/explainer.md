@@ -39,10 +39,14 @@ part — just listen normally.
 
 [pause 1.5]
 
-Autogenic training was developed in Berlin in the nineteen twenties by a doctor
-called Johannes Schultz. "Autogenic" means generated from within, and that is
-the whole idea. You are not being relaxed by me, or by a recording. You are
-learning to produce the state yourself.
+Autogenic training was worked out in Berlin in the nineteen twenties. It began
+as an attempt to take the hypnotist out of hypnosis — to let people reach the
+same settled state on their own, with nobody guiding them.
+
+[pause 1.5]
+
+That is what autogenic means: generated from within. You are not being relaxed
+by me, or by a recording. You are learning to produce the state yourself.
 
 [pause 1.5]
 
