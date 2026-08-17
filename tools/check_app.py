@@ -47,6 +47,19 @@ def check(path: Path) -> list[str]:
     # In a built file the injected map replaces the fallback entirely, so any
     # key the code reads must be present in it. A missing optional key fails
     # silently at runtime — that is how the video shipped without its poster.
+    # A local `const go = ...` inside a function shadows the top-level go()
+    # navigator for that whole scope, so every call to it from a handler
+    # declared there silently returns a DOM element instead of navigating.
+    # Valid JavaScript, invisible to node --check, and it shipped once.
+    js = "\n".join(scripts)
+    top = set(re.findall(r"^function (\w+)\(", js, re.M))
+    for name in sorted(top):
+        for m in re.finditer(r"\b(?:const|let|var)\s+" + name + r"\s*=", js):
+            line = js[:m.start()].count("\n") + 1
+            errs.append(f"line {line}: local '{name}' shadows the top-level "
+                        f"function {name}() — calls to it in that scope will "
+                        f"not do what they look like")
+
     # Timer mode shows the cue lines on screen while the practitioner says them
     # silently; guided mode plays the recording. If a cue is not a line the
     # recording actually speaks, the two halves of the same step disagree — and

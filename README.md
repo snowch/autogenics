@@ -115,7 +115,10 @@ python3 tools/build_pwa.py
 ```
 
 `check_app.py` parses the inline scripts with `node --check` and verifies that
-every `$('#id')` resolves, every audio key is defined, and that **Reset really
+every `$('#id')` resolves, every audio key is defined, that **no local variable
+shadows a top-level function** — `const go = …` inside `renderJourney` quietly
+turned every `go('progress')` in that scope into a DOM element, which is valid
+JavaScript and invisible to a syntax check — and that **Reset really
 resets** — that it clears `onboarded`, and that it clears every state key a
 fresh install starts with. It once set `onboarded:true`, so "start again from
 the beginning" wiped the record but skipped first run and left the user standing
@@ -246,10 +249,28 @@ Now or Later, any of which opens to show what it is.
 An earlier version crammed all three into the open step. It carried eight
 things at once and read as a wall.
 
-This replaced a Today tab sitting beside a Progress tab. Once progression is
-something you can see and tap into, "today" is just the open step — a separate
-screen for it duplicated the same state in two places and hid the path. Two
-tabs remain: Practice and Learn.
+### Practice, Progress, Learn
+
+An earlier version had a Today tab beside a Progress tab, and it was removed:
+"today" was just the open step, so the two screens duplicated the same state
+and the path got hidden behind the duplicate.
+
+The split is back, on a different line, and the difference is that there is no
+duplication. **Practice is what to do now** — one hero, and nothing else that
+scrolls. **Progress is how it is going** — the fourteen-day record, the two
+conditions for moving on, and the path with its repeat and replay. Those are
+retrospective, and they always sat awkwardly under a hero whose whole job is
+"one thing, now". By the last step the practice screen had grown to a hero plus
+a record plus ten path rows.
+
+The gate moving to another tab creates one risk: the app silently waits for
+someone to go looking. So the two moments that actually change what the user
+does — *ready to move on* and *finished* — surface on the practice screen as a
+short card that links across. And advancing a step returns to Practice, because
+what changed is what to practise; guided mode comes back on with the new phrase.
+
+Three tabs, and the middle one earns its place now that the path is navigable
+rather than a list.
 
 An earlier version drew the six exercises on a small figure, at the place each
 is felt. It was removed. It looked considered and told you less than the list
