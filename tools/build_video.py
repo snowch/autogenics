@@ -133,11 +133,24 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("slides", type=Path, help="JSON list of slide specs")
     ap.add_argument("--audio", type=Path)
+    ap.add_argument("--timings", type=Path,
+                    help="timing map from generate_audio.py --timings; each "
+                         "slide's 'seg' names the last line it covers")
     ap.add_argument("--out", type=Path, default=ROOT / "video" / "intro.mp4")
     ap.add_argument("--frames", action="store_true", help="stills only")
     a = ap.parse_args()
 
     slides = json.loads(a.slides.read_text())
+    if a.timings:
+        # Cut on the narration: a slide runs until its last line finishes.
+        tm = json.loads(a.timings.read_text())
+        segs, total, prev = tm["segments"], tm["duration"], 0.0
+        for sl in slides:
+            end = segs[sl["seg"]]["end"] if sl["seg"] < len(segs) else total
+            sl["secs"] = round(max(0.6, end - prev), 3)
+            prev = end
+        slides[-1]["secs"] = round(slides[-1]["secs"] + max(0.0, total - prev), 3)
+        print("slide durations: " + ", ".join(f"{s['secs']:.1f}s" for s in slides))
     frames_dir = ROOT / "build" / "frames"
     paths = shoot(slides, frames_dir)
     print(f"rendered {len(paths)} slides -> {frames_dir}")
@@ -156,7 +169,9 @@ def main() -> int:
     if a.audio:
         cmd += ["-i", str(a.audio)]
     cmd += ["-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
-            "-vf", "scale=%d:%d,format=yuv420p" % (W, H)]
+            "-preset", "slow", "-crf", "23",
+            "-vf", "scale=%d:%d,format=yuv420p" % (W, H),
+            "-movflags", "+faststart"]
     if a.audio:
         cmd += ["-c:a", "aac", "-b:a", "128k", "-shortest"]
     cmd += [str(a.out)]

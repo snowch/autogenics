@@ -39,8 +39,30 @@ python3 tools/build_video.py slides.json --audio audio/intro.mp3
 happens to be installed, rather than a fallback. Three slide kinds so far:
 statement, formula, and stats.
 
-Status: the renderer works and sample frames are rendered. No intro script or
-narration exists for it yet, and the design is not settled.
+The first one is built: [`video/intro.mp4`](video/intro.mp4), 60 seconds, nine
+slides, from [`script/intro.md`](script/intro.md).
+
+```bash
+python3 tools/generate_audio.py script/intro.md -o audio/intro.mp3 \
+    --timings build/intro-timings.json
+python3 tools/build_video.py build/intro-slides.json \
+    --timings build/intro-timings.json --audio audio/intro.mp3 \
+    --out video/intro.mp4
+```
+
+`--timings` writes each spoken line's start and end; each slide names the last
+line it covers, so cuts land on the narration. Measured drift between audio and
+video on the built file: 0.00s.
+
+It replaces the two selling panels of the text onboarding. **The disclaimer and
+safety panel stays as text** with an explicit tap to continue — a video can be
+skipped, muted, or half-watched, and "they were told in a video" is a weaker
+position than "they tapped to acknowledge".
+
+Graphics are diagrammatic, drawn from the app's own vocabulary — the day's three
+slots, the step rail, the practice ring — so the video and the product speak the
+same visual language. There is no image model in this environment, so
+illustration or photography is not available.
 
 ## Install it on a phone
 

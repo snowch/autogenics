@@ -339,7 +339,7 @@ def encode_mp3(wav_path: Path, mp3_path: Path, bitrate: str,
 
 def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
           fmt: str, lead_in: float, tail: float, lufs: float | None,
-          stretch: float, trim: bool) -> None:
+          stretch: float, trim: bool, timings: Path | None = None) -> None:
     cache_dir.mkdir(parents=True, exist_ok=True)
     rate = engine.sample_rate
     pcm = bytearray()
@@ -349,6 +349,7 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
 
     speech = [s for s in segments if s[0] == "speak"]
     cur_stretch = stretch
+    marks = []                       # start/end of every spoken line, for video
     spoken_texts = [s[1] for s in segments if s[0] == "speak"]
     done = 0
     pcm += silence(lead_in)
@@ -380,7 +381,12 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
             audio = engine.synthesize(text, prev, nxt)
             cached.write_bytes(audio)
         audio = stretch_pcm(audio, rate, cur_stretch)
-        pcm += trim_and_fade(audio, rate) if trim else audio
+        audio = trim_and_fade(audio, rate) if trim else audio
+        start = len(pcm) / (2 * rate)
+        pcm += audio
+        marks.append({"i": len(marks), "text": text,
+                      "start": round(start, 3),
+                      "end": round(len(pcm) / (2 * rate), 3)})
 
         done += 1
         secs = len(pcm) / (2 * rate)
@@ -400,6 +406,13 @@ def build(segments, engine, out_path: Path, cache_dir: Path, bitrate: str,
     if fmt == "mp3":
         encode_mp3(wav_path, out_path, bitrate, lufs, rate)
         wav_path.unlink()
+
+    if timings:
+        timings.parent.mkdir(parents=True, exist_ok=True)
+        timings.write_text(json.dumps(
+            {"duration": round(len(pcm) / (2 * rate), 3), "segments": marks},
+            indent=2), encoding="utf-8")
+        print(f"  timings -> {timings}")
 
     total = len(pcm) / (2 * rate)
     size = out_path.stat().st_size / 1_048_576
@@ -435,6 +448,9 @@ def main() -> int:
     p.add_argument("--tail", type=float, default=3.0,
                    help="seconds of silence after the last word")
     p.add_argument("--cache-dir", type=Path, default=Path(".cache/tts"))
+    p.add_argument("--timings", type=Path,
+                   help="write per-line start/end times as JSON, so video "
+                        "slides can be cut on the narration")
     p.add_argument("--dry-run", action="store_true",
                    help="parse only: print segments and estimated duration")
     p.add_argument("--no-safety", action="store_true",
@@ -546,7 +562,7 @@ def main() -> int:
     build(segments, engine, args.output, args.cache_dir, args.bitrate, fmt,
           args.lead_in, args.tail,
           None if args.no_normalize else args.lufs, args.stretch,
-          not args.no_trim)
+          not args.no_trim, args.timings)
     return 0
 
 

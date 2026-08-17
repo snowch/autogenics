@@ -199,6 +199,9 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .obdots i{width:6px; height:6px; border-radius:50%; background:var(--line); display:block; transition:.2s}
 .obdots i.on{background:var(--accent); width:20px; border-radius:3px}
 .obskip{font-size:.81rem; color:var(--muted); text-align:center; text-decoration:underline}
+.obvid{width:100%; border-radius:16px; border:1px solid var(--line); background:#0D1218;
+  display:block; max-height:58vh; object-fit:contain}
+.obvidwrap{display:flex; flex-direction:column; gap:12px}
 
 .card{background:var(--surface); border:1px solid var(--line); border-radius:14px;
   padding:17px; box-shadow:var(--shadow)}
@@ -303,28 +306,12 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   </div>
 
   <div class="obstep">
-    <p class="obkick">What people notice</p>
-    <h2 class="obtitle">An off switch you can reach for.</h2>
-    <ul class="oblist">
-      <li><span class="k">01</span><span class="v"><b>Less noise in your head</b><span>Not silence — the volume down. Most people notice the chatter thinning before they notice anything in their arms.</span></span></li>
-      <li><span class="k">02</span><span class="v"><b>Coming down faster</b><span>Instead of staying wound up for hours after something stressful, you have something to do about it that takes ninety seconds.</span></span></li>
-      <li><span class="k">03</span><span class="v"><b>Settling into sleep</b><span>The most common reason people keep it up.</span></span></li>
-      <li><span class="k">04</span><span class="v"><b>A cleaner head afterwards</b><span>Plenty of people use it as a reset between two demanding things, rather than to relax at the end of the day.</span></span></li>
-    </ul>
-    <p class="obcaveat">What arrives, and when, varies a lot between people. None of this is promised, and none of it is a medical outcome.</p>
-  </div>
-
-  <div class="obstep">
-    <p class="obkick">How it works here</p>
-    <h2 class="obtitle">Nine steps. One at a time.</h2>
-    <div class="obstat">
-      <div><span class="num">90s</span><span class="cap">per practice</span></div>
-      <div><span class="num">3×</span><span class="cap">a day</span></div>
-      <div><span class="num">~1wk</span><span class="cap">on each step</span></div>
+    <p class="obkick">How this works</p>
+    <h2 class="obtitle">One minute, then you start.</h2>
+    <div class="obvidwrap">
+      <video class="obvid" id="obVideo" controls playsinline preload="metadata"></video>
+      <p class="obcaveat">Sound on. Or skip it — everything in it is also written under Learn.</p>
     </div>
-    <p class="obbody">You will see the whole path on one screen. Only one step is open at a time; the rest are there so you know where this goes.</p>
-    <p class="obbody">You move on when your own record shows it is landing — not when a week has passed. <strong>Each step guides you for a few days, then stops.</strong> The last one has no audio at all.</p>
-    <p class="obcaveat">Expect nothing for the first few days. That is normal, and trying harder is the one thing that reliably blocks it.</p>
   </div>
 
   <div class="obfoot">
@@ -378,7 +365,8 @@ const AUDIO = window.__AUDIO__ || {
   s3:'../audio/arm-heaviness-example-3.mp3',
   warmth:'../audio/at-warmth.mp3', heartbeat:'../audio/at-heartbeat.mp3',
   breathing:'../audio/at-breathing.mp3', solar:'../audio/at-solar-plexus.mp3',
-  forehead:'../audio/at-forehead.mp3'
+  forehead:'../audio/at-forehead.mp3',
+  intro:'../video/intro.mp4'
 };
 
 const STEPS=[
@@ -665,15 +653,19 @@ function obShow(i){
 }
 function obOpen(){ $('#onboard').classList.add('on'); obShow(0); }
 $('#obNext').onclick=()=>{
-  if(ob<obSteps.length-1) return obShow(ob+1);
+  if(ob<obSteps.length-1){ obStopVideo(); return obShow(ob+1); }
+  obStopVideo();
   $('#onboard').classList.remove('on');
   if(!S.onboarded){ S.onboarded=true; S.stepStart=today(); }
   save(); go('journey');
 };
-$('#obSkip').onclick=()=>obShow(obSteps.length-1);
+$('#obSkip').onclick=()=>{ obStopVideo(); obShow(obSteps.length-1); };
 $('#lReplay').onclick=obOpen;
 
 $('#aExplain').src=AUDIO.explainer;
+if(AUDIO.intro) $('#obVideo').src=AUDIO.intro;
+/* never leave the intro playing behind the app */
+function obStopVideo(){ const v=$('#obVideo'); if(v && !v.paused) v.pause(); }
 $('#lExport').onclick=()=>{
   const rows=[['date','time','step','rating','mode']].concat(
     S.log.map(e=>[e.d,e.t,STEPS[e.step]?STEPS[e.step].n+' ('+STEPS[e.step].q+')':e.step,e.r,e.m]));

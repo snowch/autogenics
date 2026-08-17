@@ -50,9 +50,18 @@ def main() -> int:
     standalone = "--standalone" in sys.argv
     html = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
 
+    print("Inlining video:")
+    vid = ROOT / "video" / "intro.mp4"
+    vid_uri = ""
+    if vid.exists():
+        vid_uri = "data:video/mp4;base64," + base64.b64encode(vid.read_bytes()).decode()
+        print(f"  {vid.name:34s} {vid.stat().st_size/1024:7.0f} KB")
+
     print("Inlining audio:")
     blob = ",\n  ".join(
         f'{k}:"{encode(ROOT / "audio" / v)}"' for k, v in TRACKS.items())
+    if vid_uri:
+        blob += f',\n  intro:"{vid_uri}"'
     html = html.replace("<script>\n\"use strict\";",
                         "<script>\n\"use strict\";\nwindow.__AUDIO__={\n  "
                         + blob + "\n};", 1)

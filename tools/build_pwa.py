@@ -73,6 +73,10 @@ def main() -> int:
 
     html = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
     html = html.replace("'../audio/", "'./audio/")
+    (DOCS / "video").mkdir(exist_ok=True)
+    shutil.copy(ROOT / "video" / "intro.mp4", DOCS / "video" / "intro.mp4")
+    html = html.replace("'../video/", "'./video/")
+    print(f"  intro.mp4 {(DOCS/'video'/'intro.mp4').stat().st_size/1024:6.0f} KB")
     head = ("""<link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -104,11 +108,12 @@ if('serviceWorker' in navigator){
                    "purpose": "any maskable"}],
     }, indent=2), encoding="utf-8")
 
-    assets = ["./", "./index.html", "./manifest.webmanifest",
+    assets = ["./", "./index.html", "./manifest.webmanifest", "./video/intro.mp4",
               "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"] + \
              [f"./audio/{n}" for n in TRACKS.values()]
     # Cache name carries the audio byte-count, so a re-render invalidates it.
-    ver = sum((DOCS / "audio" / n).stat().st_size for n in TRACKS.values())
+    ver = sum((DOCS / "audio" / n).stat().st_size for n in TRACKS.values()) \
+        + (DOCS / "video" / "intro.mp4").stat().st_size
     (DOCS / "sw.js").write_text(f"""const CACHE='heaviness-{ver}';
 const ASSETS={json.dumps(assets)};
 self.addEventListener('install',e=>{{
