@@ -572,7 +572,7 @@ function load(){
       return {step:o.stage||0, log:o.log.map(e=>({d:e.d,t:e.t,step:e.stage,r:e.r,m:e.m})),
               stepStart:o.stageStart||today(), onboarded:!!o.onboarded, warned:o.warned||[]};
   }catch(e){}
-  return {step:0, log:[], stepStart:today(), onboarded:false, warned:[]};
+  return {step:0, log:[], stepStart:today(), onboarded:false, warned:[], briefed:[]};
 }
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
 const step=()=>STEPS[Math.min(S.step,STEPS.length-1)];
@@ -942,7 +942,13 @@ $('#lExport').onclick=()=>{
 };
 $('#lReset').onclick=()=>{
   if(confirm('Delete your practice record and start again from the beginning?')){
-    S={step:0,log:[],stepStart:today(),onboarded:true,warned:[],briefed:[]}; open=null; save(); renderJourney();
+    /* "from the beginning" has to mean the beginning, first run included.
+       Leaving onboarded true reset the record but skipped the intro, and left
+       the user standing on the Learn screen they pressed the button from. */
+    S={step:0,log:[],stepStart:today(),onboarded:false,warned:[],briefed:[]};
+    open=null; save();
+    mode = guidedDefault() ? 'guided' : 'timer';
+    renderJourney(); go('journey'); obOpen();
   }
 };
 

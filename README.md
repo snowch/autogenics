@@ -112,7 +112,13 @@ python3 tools/build_pwa.py
 ```
 
 `check_app.py` parses the inline scripts with `node --check` and verifies that
-every `$('#id')` resolves and every audio key is defined. A malformed string
+every `$('#id')` resolves, every audio key is defined, and that **Reset really
+resets** — that it clears `onboarded`, and that it clears every state key a
+fresh install starts with. It once set `onboarded:true`, so "start again from
+the beginning" wiped the record but skipped first run and left the user standing
+on the screen they had pressed the button from. The second half of that check is
+the one that matters over time: a new state key added to the loader and
+forgotten in the reset leaves stale data behind a wipe. A malformed string
 literal takes out the entire script block and leaves a page that renders but
 does nothing — grepping the HTML will not catch it, and one shipped that way.
 

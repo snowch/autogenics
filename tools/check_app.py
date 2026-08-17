@@ -47,6 +47,23 @@ def check(path: Path) -> list[str]:
     # In a built file the injected map replaces the fallback entirely, so any
     # key the code reads must be present in it. A missing optional key fails
     # silently at runtime — that is how the video shipped without its poster.
+    # Reset promises "start again from the beginning". It once set
+    # onboarded:true, which reset the record but skipped first run entirely.
+    rst = re.search(r"lReset'\)\.onclick[\s\S]*?S=\{(.*?)\};", html)
+    fresh = re.search(r"return \{(step:0[^}]*)\};", html)
+    if rst and fresh:
+        rkeys = set(re.findall(r"(\w+)\s*:", rst.group(1)))
+        fkeys = set(re.findall(r"(\w+)\s*:", fresh.group(1)))
+        if "onboarded:false" not in rst.group(1).replace(" ", ""):
+            errs.append("reset does not clear onboarded — first run will not "
+                        "re-appear, so 'start again from the beginning' lies")
+        missing = fkeys - rkeys
+        if missing:
+            errs.append("reset omits state key(s) present on a fresh install: "
+                        + ", ".join(sorted(missing)) + " — stale data survives a reset")
+    else:
+        errs.append("could not find the reset handler or the fresh-install state")
+
     m = re.search(r"window\.__AUDIO__=\{(.*?)\n\};", html, re.S)
     if m:
         injected = set(re.findall(r"(\w+)\s*:", m.group(1)))
