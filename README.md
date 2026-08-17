@@ -117,8 +117,12 @@ It is committed, so **GitHub Pages serves it as-is**, live at
 Source: Deploy from a branch → this branch, folder `/docs`*. Any static host
 works too — the directory has no build step and no backend.
 
-Note that the branch matters: this repository has no `main`, so the Pages
-branch selector must point at the development branch itself.
+Two settings are easy to get wrong. The **branch** matters — this repository
+has no `main`, so the selector must point at the development branch itself. And
+the **folder** must be `/docs`: left on `/ (root)`, Pages renders the README as
+the landing page instead of the app. A root [`index.html`](index.html) redirects
+to `./docs/` so that case still lands on the app rather than on documentation,
+but `/docs` is the setting to use.
 
 The published directory is verified before it ships by serving it over real
 HTTP and driving it with the bundled Chromium — service worker registration,
