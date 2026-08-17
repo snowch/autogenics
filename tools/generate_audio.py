@@ -17,11 +17,11 @@ Two engines are supported:
 Examples
 --------
     export ELEVENLABS_API_KEY=...
-    python3 tools/generate_audio.py script/arm-heaviness.md -o audio/arm-heaviness.mp3
+    python3 tools/generate_audio.py script/arm-heaviness-example.md -o audio/arm-heaviness-example.mp3
 
-    python3 tools/generate_audio.py script/arm-heaviness.md \
+    python3 tools/generate_audio.py script/arm-heaviness-example.md \
         --engine piper --piper-model voices/en-us-lessac-medium.onnx \
-        -o audio/arm-heaviness.mp3
+        -o audio/arm-heaviness-example.mp3
 """
 
 from __future__ import annotations

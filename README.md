@@ -20,8 +20,6 @@ edit the markdown, re-run the tool.
 | Breathing — step 6 | [`script/at-breathing.md`](script/at-breathing.md) | [`audio/at-breathing.mp3`](audio/at-breathing.mp3) | 1:52 |
 | Warm centre — step 7 | [`script/at-solar-plexus.md`](script/at-solar-plexus.md) | [`audio/at-solar-plexus.mp3`](audio/at-solar-plexus.mp3) | 2:02 |
 | Cool head — step 8 | [`script/at-forehead.md`](script/at-forehead.md) | [`audio/at-forehead.mp3`](audio/at-forehead.mp3) | 1:59 |
-| Long form, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
-| Long form, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
 
 ## Video slides
 
@@ -386,8 +384,8 @@ notes — is for the reader and is ignored by the renderer.
 pip install requests numpy imageio-ffmpeg
 
 export ELEVENLABS_API_KEY=sk_...          # never commit this
-python3 tools/generate_audio.py script/arm-heaviness.md \
-    -o audio/arm-heaviness.mp3
+python3 tools/generate_audio.py script/arm-heaviness-example.md \
+    -o audio/arm-heaviness-example.mp3
 ```
 
 A script can declare its own render settings, which the tool applies before
@@ -415,9 +413,9 @@ runs entirely locally:
 pip install piper-tts
 ./tools/fetch_piper_voice.sh                 # ~58 MB into voices/
 
-python3 tools/generate_audio.py script/arm-heaviness.md \
+python3 tools/generate_audio.py script/arm-heaviness-example.md \
     --engine piper --piper-model voices/en-us-lessac-medium.onnx \
-    --bitrate 64k -o audio/arm-heaviness.mp3
+    --bitrate 64k -o audio/arm-heaviness-example.mp3
 ```
 
 This path needs no API access at all. It is a usable fallback, but at 16 kHz
