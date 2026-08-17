@@ -54,6 +54,20 @@ python3 tools/build_video.py video/intro-slides.json \
 line it covers, so cuts land on the narration. Measured drift between audio and
 video on the built file: 0.00s.
 
+**Slides anchor the narration, they do not repeat it.** The first cut of this
+deck put the spoken sentence on screen as it was spoken — twelve of eighteen
+slides were near-verbatim transcripts. Identical text and speech compete rather
+than reinforce: reading and speaking run at different speeds, so the viewer ends
+up doing both badly. Every slide is now six words or fewer, and the ones that
+carry weight are structural rather than textual — the phrase itself, the ladder,
+the dose. Two exceptions are deliberate: "Guided. Then a timer. Then nothing."
+condenses three sentences into a rhythm, and "You end up not needing this." is
+the thesis and worth landing on screen as it is said.
+
+The poster frame is pulled from the middle of the film, not frame one, because
+it is what invites the tap — the phrase is a more specific still than the
+title card.
+
 First run runs **invitation → what it asks → film → cautions → start**, in
 that order. The invitation and the dose were one panel until a phone
 screenshot showed it running edge to edge with nothing to breathe; the ask

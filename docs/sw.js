@@ -1,4 +1,4 @@
-const CACHE='heaviness-7791412';
+const CACHE='heaviness-7657068';
 const ASSETS=["./", "./index.html", "./manifest.webmanifest", "./video/intro.mp4", "./video/intro-poster.jpg", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png", "./audio/explainer.mp3", "./audio/arm-heaviness-example.mp3", "./audio/arm-heaviness-example-2.mp3", "./audio/arm-heaviness-example-3.mp3", "./audio/at-warmth.mp3", "./audio/at-heartbeat.mp3", "./audio/at-breathing.mp3", "./audio/at-solar-plexus.mp3", "./audio/at-forehead.mp3"];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
