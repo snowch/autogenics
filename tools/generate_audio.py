@@ -63,9 +63,11 @@ def script_render_args(path: Path) -> list[str]:
     m = RENDER_RE.search(path.read_text(encoding="utf-8"))
     return shlex.split(m.group(1)) if m else []
 
-# ElevenLabs defaults. "Charlotte" is a calm, low, unhurried voice that suits
-# relaxation work; override with --voice-id.
-DEFAULT_VOICE_ID = "XB0fDUnXU5powFXDhCwa"
+# ElevenLabs defaults. Chosen by measurement, not by name: across an
+# instructional line and a formula, this voice sits at 104-112 Hz with a 9 Hz
+# swing between the two, against 206/190 Hz and a 16 Hz swing for Charlotte,
+# which read as animated. Its natural rate on a formula is already 127 wpm.
+DEFAULT_VOICE_ID = "Dj7pgiuloVNRtSboSnjm"   # Meditative Narrator
 DEFAULT_MODEL_ID = "eleven_multilingual_v2"
 EL_SAMPLE_RATE = 24000  # pcm_24000
 
@@ -440,12 +442,16 @@ def main() -> int:
     # ElevenLabs options
     p.add_argument("--voice-id", default=DEFAULT_VOICE_ID)
     p.add_argument("--model-id", default=DEFAULT_MODEL_ID)
-    p.add_argument("--stability", type=float, default=0.55)
+    p.add_argument("--stability", type=float, default=0.80,
+                   help="higher is flatter and calmer; 0.55 reads as animated, "
+                        "which is wrong for a formula meant to sound identical "
+                        "every time")
     p.add_argument("--similarity", type=float, default=0.75)
-    p.add_argument("--speed", type=float, default=0.70,
-                   help="ElevenLabs speaking rate; <1 is slower. 0.7 is the "
-                        "API minimum and suits guided relaxation, which runs "
-                        "at roughly 80-110 wpm against ~150 conversational")
+    p.add_argument("--speed", type=float, default=0.85,
+                   help="ElevenLabs speaking rate; <1 is slower. Kept off the "
+                        "0.7 floor, where the model starts to sound strained; "
+                        "the remaining slowdown comes from --stretch, which is "
+                        "a clean pitch-preserving resample")
     # piper options
     p.add_argument("--piper-model", default="voices/en-us-lessac-medium.onnx")
     p.add_argument("--length-scale", type=float, default=1.15,

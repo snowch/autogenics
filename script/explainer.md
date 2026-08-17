@@ -2,7 +2,7 @@
 
 **How the method works and how to practise it · ~4 minutes**
 
-<!-- render: --speed 0.9 --stretch 1.0 --lead-in 0.5 -->
+<!-- render: --speed 1.0 --stretch 1.0 --lead-in 0.5 -->
 
 Listen to this once, before your first practice. It carries the teaching, so
 that the practice tracks don't have to — a session that stops to explain itself
@@ -19,9 +19,8 @@ can't silently slow it to session pace.
 
 - Voice: clear, direct, unhurried but not soft. Explaining, not soothing.
 - Pauses of 1–2 seconds mark topic changes. Nothing longer.
-- `--speed 0.9` measures 163 wpm. The voice's natural rate reads 173 here,
-  which is quick for a track carrying dose figures and medical cautions; the
-  relaxation sessions run 128–139 for contrast.
+- The narrator voice is deliberately slow, so this track runs at `--speed 1.0`
+  while the practices sit lower. Information wants pace; induction does not.
 
 ---
 

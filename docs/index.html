@@ -87,6 +87,31 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .phrase{font-family:var(--serif); font-size:1.42rem; line-height:1.28; margin:0;
   letter-spacing:-.01em; text-wrap:balance}
 .phrasehint{margin:6px 0 0; font-size:.82rem; color:var(--muted)}
+
+/* the hero: one thing to do, given room to be the one thing */
+.now{background:var(--surface); border:1px solid var(--line); border-radius:18px;
+  padding:24px 22px; box-shadow:var(--shadow)}
+.now .eyebrow{display:flex; align-items:center; gap:9px; margin-bottom:16px}
+.now .ename{font-family:var(--mono); font-size:.64rem; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--muted)}
+.now .phrase{font-size:1.72rem; line-height:1.22}
+.now .phrasehint{margin-top:9px; font-size:.85rem}
+.now .dose{margin-top:20px}
+.now .go{margin-top:16px; padding:17px; font-size:1.02rem; border-radius:13px}
+.modes{display:flex; gap:0; margin-top:12px; border:1px solid var(--line);
+  border-radius:10px; overflow:hidden}
+.modes button{flex:1; padding:9px 6px; text-align:center; font-size:.83rem;
+  color:var(--ink-2); background:transparent; transition:.15s}
+.modes button.sel{background:var(--accent-soft); color:var(--accent); font-weight:600}
+
+/* review lives in its own card, not stapled to the practice control */
+.review{background:transparent; border:1px solid var(--line); border-radius:16px; padding:18px}
+.review h2{margin:0 0 12px; font-size:.66rem; font-weight:650; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted)}
+.pathhead{display:flex; align-items:baseline; justify-content:space-between; margin:6px 2px 2px}
+.pathhead h2{margin:0; font-size:.66rem; font-weight:650; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted)}
+.pathhead .cnt{font-family:var(--mono); font-size:.64rem; color:var(--muted)}
 .dose{display:flex; gap:8px; margin:15px 0 0}
 .slot{flex:1; height:56px; border-radius:10px; border:1px solid var(--line); background:var(--sunk);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px}
@@ -137,12 +162,14 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .cue{font-family:var(--serif); font-size:1.3rem; min-height:2.4em; max-width:22ch; margin:0; text-wrap:balance}
 .phase{font-family:var(--mono); font-size:.65rem; letter-spacing:.12em; text-transform:uppercase;
   color:var(--muted); margin:0}
-.rate{display:flex; gap:7px; width:100%; max-width:370px}
-.rate button{flex:1; padding:12px 5px; border:1px solid var(--line); border-radius:10px;
-  background:var(--surface); display:flex; flex-direction:column; gap:3px; align-items:center}
-.rate button:hover{border-color:var(--accent)}
-.rate .v{font-family:var(--mono); font-size:1.1rem; font-weight:600}
-.rate .t{font-size:.61rem; color:var(--muted); line-height:1.2; text-align:center}
+.rate{display:flex; flex-direction:column; gap:9px; width:100%; max-width:400px}
+.rate button{display:flex; align-items:center; gap:14px; padding:15px 16px;
+  border:1px solid var(--line); border-radius:12px; background:var(--surface);
+  transition:border-color .15s,background .15s}
+.rate button:hover{border-color:var(--accent); background:var(--surface-2)}
+.rate .v{font-family:var(--mono); font-size:1.25rem; font-weight:700; color:var(--accent);
+  width:1.4em; flex:none; text-align:center}
+.rate .t{font-size:1rem; line-height:1.35; text-align:left; color:var(--ink)}
 
 #onboard{position:fixed; inset:0; z-index:60; background:var(--ground); display:none;
   flex-direction:column; padding:0 24px calc(24px + env(safe-area-inset-bottom))}
@@ -218,6 +245,9 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
   <main>
     <section class="screen on" id="s-journey">
+      <div id="nowCard"></div>
+      <div id="reviewCard"></div>
+      <div class="pathhead"><h2>The path</h2><span class="cnt" id="pathCnt"></span></div>
       <ol class="steps" id="journey"></ol>
     </section>
 
@@ -324,13 +354,17 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   </div>
   <p class="cue" id="pxCue"></p>
   <audio id="pxAudio" preload="auto"></audio>
-  <button class="btn ghost" id="pxStop" style="max-width:250px">End practice</button>
+  <div class="btnrow" style="max-width:330px;width:100%">
+    <button class="btn ghost" id="pxQuit">Cancel</button>
+    <button class="btn ghost" id="pxStop">Finish early</button>
+  </div>
 </div>
 
 <div class="full" id="rating">
   <p class="phase">How was it?</p>
-  <p class="cue" style="min-height:auto">Rate what actually turned up — not what you hoped for.</p>
+  <p class="cue" style="min-height:auto">What actually turned up — not what you hoped for.</p>
   <div class="rate" id="rBtns"></div>
+  <button class="btn ghost" id="rSkip" style="max-width:400px">Don't log this one</button>
 </div>
 
 <nav>
@@ -436,127 +470,114 @@ const el=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c;
   if(x!==undefined)e.textContent=x; return e;};
 
 function renderJourney(){
-  const list=$('#journey'); list.innerHTML='';
-  const doneToday=dayLog(today()).length;
+  const st=step(), es=dayLog(today());
   $('#topPos').textContent='Step '+(S.step+1)+' of '+STEPS.length;
+  $('#pathCnt').textContent=S.step+' of '+STEPS.length+' done';
 
-  STEPS.forEach((st,i)=>{
+  /* ---- hero: the one thing to do now ---- */
+  const now=el('div','now'); $('#nowCard').innerHTML=''; $('#nowCard').appendChild(now);
+  const eb=el('div','eyebrow');
+  eb.appendChild(el('span','ename', st.n + (st.q ? ' · '+st.q : '')));
+  eb.appendChild(el('span','pill','Now'));
+  now.appendChild(eb);
+  now.appendChild(el('p','phrase', st.phrase));
+  now.appendChild(el('p','phrasehint','Say it silently, to yourself, in your own voice.'));
+  if(st.warn) now.appendChild(el('p','scaution', st.warn));
+
+  const dose=el('div','dose');
+  ['Morning','Midday','Evening'].forEach((lab,i)=>{
+    const sl=el('div','slot'+(i<es.length?' done':''));
+    sl.appendChild(el('span','n', i<es.length ? String(es[i].r) : '-'));
+    sl.appendChild(el('span','lab', lab));
+    dose.appendChild(sl);
+  });
+  now.appendChild(dose);
+
+  const go=el('button','btn go', es.length>=3 ? 'Practise again' : 'Start practice');
+  go.onclick=startPractice;
+  now.appendChild(go);
+
+  if(st.audio){
+    const m=el('div','modes');
+    const g=el('button', mode==='guided'?'sel':'', 'Guided');
+    const t=el('button', mode==='timer'?'sel':'', 'Timer only');
+    g.onclick=()=>{mode='guided'; renderJourney();};
+    t.onclick=()=>{mode='timer'; renderJourney();};
+    m.appendChild(g); m.appendChild(t); now.appendChild(m);
+  }
+
+  /* ---- review: how it is going, and whether to move on ---- */
+  const g2=gate();
+  const rv=el('div','review'); $('#reviewCard').innerHTML=''; $('#reviewCard').appendChild(rv);
+  rv.appendChild(el('h2', g2.last ? 'Your record' : 'Ready to move on?'));
+
+  const strip=el('div','strip');
+  for(let i=13;i>=0;i--){
+    const c=el('div','col'), e2=dayLog(dayKey(i));
+    for(let j=0;j<3;j++) c.appendChild(el('div','cell'+(e2[j]?' r'+e2[j].r:'')));
+    c.title=dayKey(i);
+    strip.appendChild(c);
+  }
+  rv.appendChild(strip);
+  rv.appendChild(el('p','smeta','Last 14 days · day '+stepDays()+' of this step'));
+
+  if(g2.last){
+    rv.appendChild(el('p','note','You are practising without guidance. Keep the record going - it is how you notice a slip before it becomes a stop.'));
+  }else{
+    const crit=(ok,text,val)=>{
+      const r=el('div','crit');
+      r.innerHTML='<svg class="tick" viewBox="0 0 16 16" fill="none" stroke="'+
+        (ok?'var(--good)':'var(--muted)')+'" stroke-width="2">'+
+        (ok?'<path d="M3 8.5l3.2 3.2L13 5"/>':'<circle cx="8" cy="8" r="5.5"/>')+'</svg>';
+      const sp=el('span'); sp.innerHTML=text.replace('%','<b>'+val+'</b>');
+      r.appendChild(sp); rv.appendChild(r);
+    };
+    const hr=document.createElement('hr'); hr.className='sep'; rv.appendChild(hr);
+    crit(g2.floorOk,'At least '+GATE.minDays+' days on this phrase - day %',g2.days);
+    crit(g2.evidenceOk,'Clearly there twice a day, 3 days running - % of 3',g2.met);
+    const adv=el('button','btn', g2.ready?'Move to the next step':'Keep practising');
+    adv.style.marginTop='12px'; adv.disabled=!g2.ready;
+    adv.onclick=()=>{ if(!gate().ready)return;
+      S.step++; S.stepStart=today(); open=null; save(); renderJourney(); window.scrollTo(0,0); };
+    rv.appendChild(adv);
+    if(!g2.ready && g2.days>=14 && g2.met===0)
+      rv.appendChild(el('p','note','Two weeks without it landing usually means one of four things: trying too hard, sessions too long, too few practices a day, or a posture you cannot relax in. Stay here and change one of them.'));
+  }
+
+  /* ---- the path: orientation, deliberately quiet ---- */
+  const list=$('#journey'); list.innerHTML='';
+  STEPS.forEach((sx,i)=>{
     const state = i<S.step ? 'done' : i===S.step ? 'now' : 'later';
     const li=el('li','step '+state);
-
     const rail=el('div','rail');
-    rail.appendChild(el('span','dot'));
-    rail.appendChild(el('span','line'));
+    rail.appendChild(el('span','dot')); rail.appendChild(el('span','line'));
     li.appendChild(rail);
 
     const col=document.createElement('div');
     const row=document.createElement('button');
     row.className='srow'; row.type='button';
-
     const head=el('div','shead');
-    head.appendChild(el('span','stitle', st.n + (st.q ? ' — '+st.q : '')));
+    head.appendChild(el('span','stitle', sx.n + (sx.q ? ' - '+sx.q : '')));
     head.appendChild(el('span','pill', state==='done'?'Done':state==='now'?'Now':'Later'));
     row.appendChild(head);
-    row.appendChild(el('p','sdesc', st.desc));
 
-    if(state==='done')
-      row.appendChild(el('p','smeta', S.log.filter(e=>e.step===i).length+' practices logged'));
-    if(state==='now')
-      row.appendChild(el('p','smeta','Day '+stepDays()+' · '+doneToday+' of 3 today'));
-
-    const isOpen = open===null ? state==='now' : open===i;
+    const isOpen = open===i;
     row.setAttribute('aria-expanded', String(isOpen));
-    row.onclick=()=>{ open = isOpen ? -1 : i; renderJourney(); };
+    row.onclick=()=>{ open = isOpen ? null : i; renderJourney(); };
     col.appendChild(row);
-    if(isOpen) col.appendChild(state==='now' ? currentPanel(st) : otherPanel(st,state,i));
+    if(isOpen){
+      const d=el('div','panel');
+      d.appendChild(el('p','phrase', sx.phrase));
+      d.appendChild(el('p','sdesc', sx.desc));
+      if(sx.warn) d.appendChild(el('p','scaution', sx.warn));
+      if(state!=='now') d.appendChild(el('p','note', state==='done'
+        ? 'Done, after '+S.log.filter(e=>e.step===i).length+' logged practices. It stays in the run-through every time you practise.'
+        : 'Not yet. Each step builds on the one before, so this opens once the current one is landing reliably.'));
+      col.appendChild(d);
+    }
     li.appendChild(col);
     list.appendChild(li);
   });
-}
-
-function currentPanel(st){
-  const p=el('div','panel');
-  p.onclick=e=>e.stopPropagation();
-  p.appendChild(el('p','phrase', st.phrase));
-  p.appendChild(el('p','phrasehint','Say it silently, to yourself, in your own voice.'));
-  if(st.warn) p.appendChild(el('p','scaution', st.warn));
-
-  const dose=el('div','dose'), es=dayLog(today());
-  ['Morning','Midday','Evening'].forEach((lab,i)=>{
-    const s=el('div','slot'+(i<es.length?' done':''));
-    s.appendChild(el('span','n', i<es.length ? String(es[i].r) : '-'));
-    s.appendChild(el('span','lab', lab));
-    dose.appendChild(s);
-  });
-  p.appendChild(dose);
-
-  const start=el('button','btn', es.length>=3 ? 'Practise again' : 'Start practice');
-  start.style.marginTop='12px';
-  start.onclick=startPractice;
-  p.appendChild(start);
-
-  if(st.audio){
-    const row=el('div','btnrow');
-    const g=el('button','btn ghost'+(mode==='guided'?' sel':''),'Guided');
-    const t=el('button','btn ghost'+(mode==='timer'?' sel':''),'Timer only');
-    g.onclick=()=>{mode='guided'; renderJourney();};
-    t.onclick=()=>{mode='timer'; renderJourney();};
-    row.appendChild(g); row.appendChild(t);
-    p.appendChild(row);
-    p.appendChild(el('p','note', guidedDefault()
-      ? 'Guided for your first few days with a new phrase, so you learn the shape. After that it steps back to a timer.'
-      : 'You have had a few days of guidance with this one. Timer only from here - say the phrase to yourself.'));
-  }else{
-    p.appendChild(el('p','note','No guidance at this step. That was the point.'));
-  }
-
-  const hr1=document.createElement('hr'); hr1.className='sep'; p.appendChild(hr1);
-  p.appendChild(el('p','sublab','Last 14 days'));
-  const strip=el('div','strip');
-  for(let i=13;i>=0;i--){
-    const c=el('div','col'), es2=dayLog(dayKey(i));
-    for(let j=0;j<3;j++) c.appendChild(el('div','cell'+(es2[j]?' r'+es2[j].r:'')));
-    c.title=dayKey(i);
-    strip.appendChild(c);
-  }
-  p.appendChild(strip);
-
-  const g=gate();
-  const hr2=document.createElement('hr'); hr2.className='sep'; p.appendChild(hr2);
-  p.appendChild(el('p','sublab', g.last?'Unaided practice':'Ready to move on?'));
-  if(g.last){
-    p.appendChild(el('p','lede','You are practising without guidance. Keep the record going - it is how you notice a slip before it becomes a stop.'));
-    return p;
-  }
-  const crit=(ok,text,val)=>{
-    const r=el('div','crit');
-    r.innerHTML='<svg class="tick" viewBox="0 0 16 16" fill="none" stroke="'+
-      (ok?'var(--good)':'var(--muted)')+'" stroke-width="2">'+
-      (ok?'<path d="M3 8.5l3.2 3.2L13 5"/>':'<circle cx="8" cy="8" r="5.5"/>')+'</svg>';
-    const s=el('span'); s.innerHTML=text.replace('%','<b>'+val+'</b>');
-    r.appendChild(s); p.appendChild(r);
-  };
-  crit(g.floorOk,'At least '+GATE.minDays+' days on this phrase - you are on day %',g.days);
-  crit(g.evidenceOk,'Clearly there in 2 of 3 practices, 3 days running - % of 3 so far',g.met);
-  const adv=el('button','btn', g.ready?'Move to the next step':'Keep practising');
-  adv.style.marginTop='12px'; adv.disabled=!g.ready;
-  adv.onclick=()=>{ if(!gate().ready)return;
-    S.step++; S.stepStart=today(); open=null; save(); renderJourney(); window.scrollTo(0,0); };
-  p.appendChild(adv);
-  if(!g.ready && g.days>=14 && g.met===0)
-    p.appendChild(el('p','note','Two weeks without it landing usually means one of four things: trying too hard, sessions too long, too few practices a day, or a posture you cannot relax in. Stay here and change one of them.'));
-  return p;
-}
-
-function otherPanel(st,state,i){
-  const p=el('div','panel');
-  p.onclick=e=>e.stopPropagation();
-  p.appendChild(el('p','phrase', st.phrase));
-  if(st.warn) p.appendChild(el('p','scaution', st.warn));
-  p.appendChild(el('p','note', state==='done'
-    ? 'Completed after '+S.log.filter(e=>e.step===i).length+' logged practices. It stays in the run-through every time you practise.'
-    : 'Not yet. Each step builds on the one before it, so this opens once the current one is landing reliably.'));
-  return p;
 }
 
 let timer=null, ctx=null;
@@ -622,8 +643,15 @@ function go(name){
 }
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.go));
 $('#pxStop').onclick=finishPractice;
+$('#pxQuit').onclick=()=>{           /* leave with nothing logged */
+  clearInterval(timer); timer=null;
+  $('#pxAudio').pause();
+  $('#practice').classList.remove('on');
+};
+$('#rSkip').onclick=()=>{ $('#rating').classList.remove('on'); };
 
-[[0,'Nothing'],[1,'Faint, or only when I looked'],[2,'Clearly there, on its own'],[3,'Immediate']]
+[[0,'Nothing at all'],[1,'Faint, or only when I went looking'],
+ [2,'Clearly there, and it arrived on its own'],[3,'Immediate and unmistakable']]
 .forEach(function(pair){
   const b=document.createElement('button');
   b.appendChild(el('span','v',String(pair[0])));
