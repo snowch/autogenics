@@ -11,15 +11,15 @@ edit the markdown, re-run the tool.
 
 | Track | Script | Recording | Length |
 | --- | --- | --- | --- |
-| Explainer — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 5:10 |
-| **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:33 |
-| **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:21 |
-| **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:13 |
-| Warmth — step 4 | [`script/at-warmth.md`](script/at-warmth.md) | [`audio/at-warmth.mp3`](audio/at-warmth.mp3) | 1:56 |
-| Heartbeat — step 5 | [`script/at-heartbeat.md`](script/at-heartbeat.md) | [`audio/at-heartbeat.mp3`](audio/at-heartbeat.mp3) | 2:03 |
-| Breathing — step 6 | [`script/at-breathing.md`](script/at-breathing.md) | [`audio/at-breathing.mp3`](audio/at-breathing.mp3) | 1:58 |
-| Warm centre — step 7 | [`script/at-solar-plexus.md`](script/at-solar-plexus.md) | [`audio/at-solar-plexus.mp3`](audio/at-solar-plexus.mp3) | 2:06 |
-| Cool head — step 8 | [`script/at-forehead.md`](script/at-forehead.md) | [`audio/at-forehead.mp3`](audio/at-forehead.mp3) | 2:02 |
+| Explainer — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 6:09 |
+| **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:32 |
+| **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:15 |
+| **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:05 |
+| Warmth — step 4 | [`script/at-warmth.md`](script/at-warmth.md) | [`audio/at-warmth.mp3`](audio/at-warmth.mp3) | 1:52 |
+| Heartbeat — step 5 | [`script/at-heartbeat.md`](script/at-heartbeat.md) | [`audio/at-heartbeat.mp3`](audio/at-heartbeat.mp3) | 1:56 |
+| Breathing — step 6 | [`script/at-breathing.md`](script/at-breathing.md) | [`audio/at-breathing.mp3`](audio/at-breathing.mp3) | 1:52 |
+| Warm centre — step 7 | [`script/at-solar-plexus.md`](script/at-solar-plexus.md) | [`audio/at-solar-plexus.mp3`](audio/at-solar-plexus.mp3) | 2:02 |
+| Cool head — step 8 | [`script/at-forehead.md`](script/at-forehead.md) | [`audio/at-forehead.mp3`](audio/at-forehead.mp3) | 1:59 |
 | Long form, short | [`script/arm-heaviness-short.md`](script/arm-heaviness-short.md) | [`audio/arm-heaviness-short.mp3`](audio/arm-heaviness-short.mp3) | 7:04 |
 | Long form, full | [`script/arm-heaviness.md`](script/arm-heaviness.md) | [`audio/arm-heaviness.mp3`](audio/arm-heaviness.mp3) | 14:25 |
 
@@ -106,11 +106,14 @@ python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
 
 ### The journey is the screen
 
-There is one list: the nine steps of the method, as a vertical timeline with a
-status on each — Done, Now, Later. The current step is open by default and
-carries everything needed to act on it: the phrase, today's three practice
-slots, the start button, the guided/timer choice, the last fourteen days, and
-the two conditions for moving on. Tap any other step to see what it is.
+Three bands, in the order you use them. A **hero card** holds only what you act
+on — the phrase, today's three practice slots, one primary button. A **review
+card** holds the fourteen-day record and the two conditions for moving on. Then
+**the path**: nine steps as a vertical timeline with a status on each, Done,
+Now or Later, any of which opens to show what it is.
+
+An earlier version crammed all three into the open step. It carried eight
+things at once and read as a wall.
 
 This replaced a Today tab sitting beside a Progress tab. Once progression is
 something you can see and tap into, "today" is just the open step — a separate
@@ -121,7 +124,7 @@ An earlier version drew the six exercises on a small figure, at the place each
 is felt. It was removed. It looked considered and told you less than the list
 does, which is a fair description of decoration.
 
-### Plain language### Plain language
+### Plain language
 
 User-facing copy avoids terms the reader has no reason to know yet. "Stage"
 became "step", "formula" became "phrase", and the take-back is described by
