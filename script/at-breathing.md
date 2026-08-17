@@ -45,7 +45,7 @@ Do not take a breath. Let one be taken.
 
 [pause 3]
 
-My arms are heavy.
+My arms and legs are heavy.
 
 [pause 3]
 

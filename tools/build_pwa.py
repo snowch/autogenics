@@ -13,8 +13,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
+# key in the app's AUDIO map -> file. Adding a film means adding one row here.
+FILMS = [("intro", "intro.mp4", "intro-poster.jpg"),
+         ("afterFirst", "after-first.mp4", "after-first-poster.jpg")]
+
 TRACKS = {"explainer": "explainer.mp3", "s1": "arm-heaviness-example.mp3",
           "s2": "arm-heaviness-example-2.mp3", "s3": "arm-heaviness-example-3.mp3",
+          "legs": "at-heaviness-legs.mp3",
           "warmth": "at-warmth.mp3", "heartbeat": "at-heartbeat.mp3",
           "breathing": "at-breathing.mp3", "solar": "at-solar-plexus.mp3",
           "forehead": "at-forehead.mp3"}
@@ -74,10 +79,14 @@ def main() -> int:
     html = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
     html = html.replace("'../audio/", "'./audio/")
     (DOCS / "video").mkdir(exist_ok=True)
-    shutil.copy(ROOT / "video" / "intro.mp4", DOCS / "video" / "intro.mp4")
-    shutil.copy(ROOT / "video" / "intro-poster.jpg", DOCS / "video" / "intro-poster.jpg")
+    for _, mp4, poster in FILMS:
+        for n in (mp4, poster):
+            src = ROOT / "video" / n
+            if not src.exists():
+                raise SystemExit(f"video/{n} missing — rebuild it before publishing")
+            shutil.copy(src, DOCS / "video" / n)
+        print(f"  {mp4:24s} {(DOCS/'video'/mp4).stat().st_size/1024:6.0f} KB")
     html = html.replace("'../video/", "'./video/")
-    print(f"  intro.mp4 {(DOCS/'video'/'intro.mp4').stat().st_size/1024:6.0f} KB")
     head = ("""<link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -109,12 +118,13 @@ if('serviceWorker' in navigator){
                    "purpose": "any maskable"}],
     }, indent=2), encoding="utf-8")
 
-    assets = ["./", "./index.html", "./manifest.webmanifest", "./video/intro.mp4", "./video/intro-poster.jpg",
-              "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"] + \
+    films = [f"./video/{n}" for _, mp4, poster in FILMS for n in (mp4, poster)]
+    assets = ["./", "./index.html", "./manifest.webmanifest",
+              "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"] + films + \
              [f"./audio/{n}" for n in TRACKS.values()]
-    # Cache name carries the audio byte-count, so a re-render invalidates it.
+    # Cache name carries every asset's byte-count, so a re-render invalidates it.
     ver = sum((DOCS / "audio" / n).stat().st_size for n in TRACKS.values()) \
-        + (DOCS / "video" / "intro.mp4").stat().st_size
+        + sum((DOCS / "video" / mp4).stat().st_size for _, mp4, _ in FILMS)
     (DOCS / "sw.js").write_text(f"""const CACHE='heaviness-{ver}';
 const ASSETS={json.dumps(assets)};
 self.addEventListener('install',e=>{{

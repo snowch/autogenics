@@ -1,0 +1,14 @@
+[
+ {"kind": "point", "kick": "After your first", "text": "That's one.", "seg": 0},
+ {"kind": "point", "kick": "If nothing happened", "text": "Nothing has gone wrong.", "seg": 1},
+ {"kind": "point", "text": "Why heaviness?", "seg": 2},
+ {"kind": "point", "text": "Tension letting go.", "seg": 3},
+ {"kind": "formula", "text": "The signal, not the goal.", "seg": 4},
+ {"kind": "point", "kick": "It may not be heaviness", "text": "However it turns up.", "seg": 5},
+ {"kind": "benefits", "kick": "All of these count", "text": "Rate any of them as it turning up.", "items": [["Warmth", ""], ["Tingling", ""], ["Sinking", ""], ["Larger, or further away", ""]], "seg": 6},
+ {"kind": "point", "kick": "Or the opposite", "text": "Restlessness. Emotion.", "seg": 7},
+ {"kind": "point", "kick": "It has a name", "text": "An autogenic discharge.", "sub": "Recognised, and not a sign anything is wrong.", "seg": 8},
+ {"kind": "point", "kick": "If it is uncomfortable", "text": "Open your eyes. Stop there.", "seg": 9},
+ {"kind": "point", "text": "You cannot make it happen.", "seg": 10},
+ {"kind": "point", "kick": "Today", "text": "Twice more.", "seg": 11}
+]

@@ -13,15 +13,10 @@ import base64, re, subprocess, sys, tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-TRACKS = {"explainer": "explainer.mp3",
-          "s1": "arm-heaviness-example.mp3",
-          "s2": "arm-heaviness-example-2.mp3",
-          "s3": "arm-heaviness-example-3.mp3",
-          "warmth": "at-warmth.mp3",
-          "heartbeat": "at-heartbeat.mp3",
-          "breathing": "at-breathing.mp3",
-          "solar": "at-solar-plexus.mp3",
-          "forehead": "at-forehead.mp3"}
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+# One source for the asset map. This file used to keep its own copy, which is
+# how the artifact and the PWA drift apart without anything failing.
+from build_pwa import TRACKS, FILMS  # noqa: E402
 BITRATE = "32k"          # speech-only; keeps the whole page well inside 16 MB
 
 
@@ -52,25 +47,27 @@ def main() -> int:
 
     print("Inlining video:")
     vid = ROOT / "video" / "intro.mp4"
-    vid_uri = ""
-    if vid.exists():
-        vid_uri = "data:video/mp4;base64," + base64.b64encode(vid.read_bytes()).decode()
-        print(f"  {vid.name:34s} {vid.stat().st_size/1024:7.0f} KB")
-
     print("Inlining audio:")
     blob = ",\n  ".join(
         f'{k}:"{encode(ROOT / "audio" / v)}"' for k, v in TRACKS.items())
-    if vid_uri:
-        blob += f',\n  intro:"{vid_uri}"'
-        poster = ROOT / "video" / "intro-poster.jpg"
-        if poster.exists():
-            blob += (',\n  introPoster:"data:image/jpeg;base64,'
-                     + base64.b64encode(poster.read_bytes()).decode() + '"')
-            print(f"  {poster.name:34s} {poster.stat().st_size/1024:7.0f} KB")
-        else:
-            raise SystemExit("video/intro-poster.jpg missing — the player would "
-                             "show a bare placeholder. Extract it with:\n"
-                             "  ffmpeg -i video/intro.mp4 -vframes 1 video/intro-poster.jpg")
+
+    # Every film and its poster. A film whose poster is missing ships a player
+    # showing a bare grey placeholder, which is how one went out before.
+    for key, mp4, poster in FILMS:
+        f, pj = ROOT / "video" / mp4, ROOT / "video" / poster
+        if not f.exists():
+            raise SystemExit(f"video/{mp4} missing — build it before publishing")
+        if not pj.exists():
+            raise SystemExit(f"video/{poster} missing — the player would show a "
+                             f"bare placeholder. Extract it with:\n"
+                             f"  ffmpeg -i video/{mp4} -vframes 1 video/{poster}")
+        blob += (f',\n  {key}:"data:video/mp4;base64,'
+                 + base64.b64encode(f.read_bytes()).decode() + '"')
+        blob += (f',\n  {key}Poster:"data:image/jpeg;base64,'
+                 + base64.b64encode(pj.read_bytes()).decode() + '"')
+        print(f"  {mp4:34s} {f.stat().st_size/1024:7.0f} KB")
+        print(f"  {poster:34s} {pj.stat().st_size/1024:7.0f} KB")
+
     html = html.replace("<script>\n\"use strict\";",
                         "<script>\n\"use strict\";\nwindow.__AUDIO__={\n  "
                         + blob + "\n};", 1)

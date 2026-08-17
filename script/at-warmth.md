@@ -45,11 +45,11 @@ Let the heaviness come back first — you do not have to work for it.
 
 [pause 3]
 
-My arms are heavy.
+My arms and legs are heavy.
 
 [pause 3]
 
-My arms are heavy.
+My arms and legs are heavy.
 
 [pause 4]
 

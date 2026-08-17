@@ -46,7 +46,7 @@ The soft place below the ribs, above the navel.
 
 [pause 3]
 
-My arms are heavy.
+My arms and legs are heavy.
 
 [pause 3]
 

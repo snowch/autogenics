@@ -46,7 +46,7 @@ Find the beat wherever it is easiest — the chest, the neck, the hand.
 
 [pause 3]
 
-My arms are heavy.
+My arms and legs are heavy.
 
 [pause 3]
 

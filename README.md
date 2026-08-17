@@ -11,15 +11,17 @@ edit the markdown, re-run the tool.
 
 | Track | Script | Recording | Length |
 | --- | --- | --- | --- |
+| After your first practice (film) | [`script/after-first.md`](script/after-first.md) | [`video/after-first.mp4`](video/after-first.mp4) | 1:41 |
 | How to practise — listen once first | [`script/explainer.md`](script/explainer.md) | [`audio/explainer.mp3`](audio/explainer.mp3) | 4:12 |
 | **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:32 |
 | **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:15 |
 | **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:05 |
-| Warmth — step 4 | [`script/at-warmth.md`](script/at-warmth.md) | [`audio/at-warmth.mp3`](audio/at-warmth.mp3) | 1:52 |
-| Heartbeat — step 5 | [`script/at-heartbeat.md`](script/at-heartbeat.md) | [`audio/at-heartbeat.mp3`](audio/at-heartbeat.mp3) | 1:56 |
-| Breathing — step 6 | [`script/at-breathing.md`](script/at-breathing.md) | [`audio/at-breathing.mp3`](audio/at-breathing.mp3) | 1:52 |
-| Warm centre — step 7 | [`script/at-solar-plexus.md`](script/at-solar-plexus.md) | [`audio/at-solar-plexus.mp3`](audio/at-solar-plexus.mp3) | 2:02 |
-| Cool head — step 8 | [`script/at-forehead.md`](script/at-forehead.md) | [`audio/at-forehead.mp3`](audio/at-forehead.mp3) | 1:59 |
+| **Heaviness — legs, step 4** | [`script/at-heaviness-legs.md`](script/at-heaviness-legs.md) | [`audio/at-heaviness-legs.mp3`](audio/at-heaviness-legs.mp3) | 1:48 |
+| Warmth — step 5 | [`script/at-warmth.md`](script/at-warmth.md) | [`audio/at-warmth.mp3`](audio/at-warmth.mp3) | 1:54 |
+| Heartbeat — step 6 | [`script/at-heartbeat.md`](script/at-heartbeat.md) | [`audio/at-heartbeat.mp3`](audio/at-heartbeat.mp3) | 1:57 |
+| Breathing — step 7 | [`script/at-breathing.md`](script/at-breathing.md) | [`audio/at-breathing.mp3`](audio/at-breathing.mp3) | 1:54 |
+| Warm centre — step 8 | [`script/at-solar-plexus.md`](script/at-solar-plexus.md) | [`audio/at-solar-plexus.mp3`](audio/at-solar-plexus.mp3) | 2:03 |
+| Cool head — step 9 | [`script/at-forehead.md`](script/at-forehead.md) | [`audio/at-forehead.mp3`](audio/at-forehead.mp3) | 2:00 |
 
 ## Video slides
 
@@ -189,6 +191,50 @@ tabs remain: Practice and Learn.
 An earlier version drew the six exercises on a small figure, at the place each
 is felt. It was removed. It looked considered and told you less than the list
 does, which is a fair description of decoration.
+
+### The legs were missing
+
+The ladder went right arm, left arm, both arms, then straight to warmth. That
+quietly dropped half of the first standard exercise: heaviness in autogenic
+training is a *limb* response, and the consolidated formula names both — *my
+arms and legs are heavy*. Wikipedia's Technique section, citing Lehrer,
+Woolfolk & Sime's *Principles and Practice of Stress Management*, puts it
+plainly: "within a week, a short concentration can trigger the sensation of
+heaviness in a trainee's arms and legs."
+
+**One step, not three.** The orthodox progression would be right leg, left leg,
+both legs, then the consolidation — which would add a fortnight to the ladder
+and teach nothing new. The three arm steps exist because that is where the
+skill is learned: holding a phrase without effort, noticing rather than
+producing. Once that is in place the response generalises, which is what the
+literature describes. Warmth was already compressed to a single step on exactly
+this reasoning; legs now match it. Nine steps became ten.
+
+Every later track recaps heaviness before adding its own formula, so all five
+were re-rendered to say *my arms and legs are heavy*. Leaving them would have
+put the guided cue and the voice out of step — the one failure this pipeline
+exists to prevent.
+
+### Briefings are offered after the moment, not before it
+
+The old explainer front-loaded four minutes of teaching before the user had
+felt anything. Half of it answers a question nobody holds yet: "what was I
+supposed to feel?" is not a real question until you have sat there for ninety
+seconds and, most likely, felt nothing.
+
+So that half is now a film offered **after the first logged practice**, from a
+card above the hero. It is an offer, with *Watch* and *Not now* — never an
+autoplay. Someone who has just finished a relaxation exercise may be about to
+stand up and leave, and seizing that moment would undo the thing being
+explained. Dismissal is recorded in `S.briefed`, so it never asks twice.
+
+`BRIEFS` is a list with a `when(S)` predicate, so a briefing before each new
+exercise is a row rather than a feature.
+
+Adding a film used to mean editing three places — the app's `AUDIO` map,
+`build_pwa.py` and `build_app_artifact.py`, each with its own hardcoded
+`intro.mp4`. There is now one `FILMS` list in `build_pwa.py` that the artifact
+imports, and the artifact no longer keeps a private copy of `TRACKS`.
 
 ### Learn is help and method, not one page
 

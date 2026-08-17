@@ -88,6 +88,17 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
   letter-spacing:-.01em; text-wrap:balance}
 .phrasehint{margin:6px 0 0; font-size:.82rem; color:var(--muted)}
 
+/* an offer sitting above the hero, styled as an aside rather than a task */
+.brief{border:1px solid var(--accent); border-radius:16px; padding:18px;
+  background:var(--accent-soft)}
+.brief .bkick{margin:0 0 6px; font-family:var(--mono); font-size:.62rem;
+  letter-spacing:.11em; text-transform:uppercase; color:var(--accent)}
+.brief .btitle{margin:0; font-family:var(--serif); font-size:1.24rem;
+  line-height:1.25; letter-spacing:-.01em; color:var(--ink)}
+.brief .bblurb{margin:7px 0 0; font-size:.85rem; color:var(--ink-2)}
+.brief .btn{width:auto; flex:1}
+#brief{gap:0}
+
 /* the hero: one thing to do, given room to be the one thing */
 .now{background:var(--surface); border:1px solid var(--line); border-radius:18px;
   padding:24px 22px; box-shadow:var(--shadow)}
@@ -293,6 +304,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
   <main>
     <section class="screen on" id="s-journey">
+      <div id="briefCard" class="hidden"></div>
       <div id="nowCard"></div>
       <div id="reviewCard"></div>
       <div class="pathhead hidden" id="pathHead"><h2>Done so far</h2><span class="cnt" id="pathCnt"></span></div>
@@ -407,7 +419,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <div class="obstat">
       <div><span class="num">90s</span><span class="cap">a practice</span></div>
       <div><span class="num">3×</span><span class="cap">a day</span></div>
-      <div><span class="num">9</span><span class="cap">steps</span></div>
+      <div><span class="num">10</span><span class="cap">steps</span></div>
     </div>
 
     <p class="obend"><b>And then you stop needing it.</b>
@@ -474,6 +486,11 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   </div>
 </div>
 
+<div class="full" id="brief">
+  <video id="brVideo" controls playsinline preload="metadata" style="width:100%;max-width:440px;aspect-ratio:4/5;border-radius:16px;border:1px solid var(--line);background:#0D1218;object-fit:contain"></video>
+  <button class="btn ghost" id="brDone" style="max-width:440px;margin-top:16px">Done</button>
+</div>
+
 <div class="full" id="rating">
   <p class="phase">How was it?</p>
   <p class="cue" style="min-height:auto">What actually turned up — not what you hoped for.</p>
@@ -497,9 +514,12 @@ const AUDIO = window.__AUDIO__ || {
   s1:'../audio/arm-heaviness-example.mp3',
   s2:'../audio/arm-heaviness-example-2.mp3',
   s3:'../audio/arm-heaviness-example-3.mp3',
+  legs:'../audio/at-heaviness-legs.mp3',
   warmth:'../audio/at-warmth.mp3', heartbeat:'../audio/at-heartbeat.mp3',
   breathing:'../audio/at-breathing.mp3', solar:'../audio/at-solar-plexus.mp3',
   forehead:'../audio/at-forehead.mp3',
+  afterFirst:'../video/after-first.mp4',
+  afterFirstPoster:'../video/after-first-poster.jpg',
   intro:'../video/intro.mp4',
   introPoster:'../video/intro-poster.jpg'
 };
@@ -517,32 +537,36 @@ const STEPS=[
    desc:'Both arms held at once, and the last of the heaviness steps.',
    cues:['I am completely calm.','Both arms are heavy.','Both arms are heavy.','Both arms are heavy.',
          'Both arms are heavy.','Both arms are heavy.','Both arms are heavy.','I am completely calm.']},
+  {n:'Heaviness', q:'legs', phrase:'My legs are heavy.', audio:'legs', secs:96,
+   desc:'The arms taught the skill; the legs mostly follow on their own. This is where the classical formula lands — arms and legs together.',
+   cues:['I am completely calm.','My arms are heavy.','My legs are heavy.','My legs are heavy.',
+         'My legs are heavy.','My arms and legs are heavy.','My arms and legs are heavy.','I am completely calm.']},
   {n:'Warmth', q:'hands', phrase:'My right arm is warm.', audio:'warmth', secs:96,
    desc:'Circulation rather than muscle. Often quicker to arrive than heaviness was.',
-   cues:['I am completely calm.','My arms are heavy.','My arms are heavy.','My right arm is warm.',
+   cues:['I am completely calm.','My arms and legs are heavy.','My arms and legs are heavy.','My right arm is warm.',
          'My right arm is warm.','My right arm is warm.','My right arm is warm.','I am completely calm.']},
   {n:'Heartbeat', q:'chest', phrase:'My heartbeat is calm and regular.', audio:'heartbeat', secs:100,
    desc:'Attention rests on the beat without altering it. Notice it; leave it alone.',
    warn:'Traditionally taught in person, not from a recording. If you have any heart condition, learn it with an instructor instead. If watching your heartbeat makes you anxious, stop and stay with the earlier steps.',
-   cues:['I am completely calm.','My arms are heavy.','My arms are warm.','My heartbeat is calm and regular.',
+   cues:['I am completely calm.','My arms and legs are heavy.','My arms are warm.','My heartbeat is calm and regular.',
          'My heartbeat is calm and regular.','My heartbeat is calm and regular.','My heartbeat is calm and regular.','I am completely calm.']},
   {n:'Breathing', q:'ribs', phrase:'It breathes me.', audio:'breathing', secs:96,
    desc:'Watched, never steered. The odd grammar is the instruction.',
-   cues:['I am completely calm.','My arms are heavy.','My arms are warm.','My heartbeat is calm and regular.',
+   cues:['I am completely calm.','My arms and legs are heavy.','My arms are warm.','My heartbeat is calm and regular.',
          'It breathes me.','It breathes me.','It breathes me.','I am completely calm.']},
   {n:'Warm centre', q:'abdomen', phrase:'My solar plexus is warm.', audio:'solar', secs:104,
    desc:'Warmth through the upper abdomen, below the ribs.',
    warn:'Traditionally taught in person. Skip this one and learn it with an instructor if you have diabetes, a stomach ulcer, any abdominal condition, or are pregnant.',
-   cues:['I am completely calm.','My arms are heavy.','My arms are warm.','My heartbeat is calm and regular.',
+   cues:['I am completely calm.','My arms and legs are heavy.','My arms are warm.','My heartbeat is calm and regular.',
          'It breathes me.','My solar plexus is warm.','My solar plexus is warm.','I am completely calm.']},
   {n:'Cool head', q:'forehead', phrase:'My forehead is cool.', audio:'forehead', secs:100,
    desc:'The only one that goes the other way. Everything else settles; this stays clear.',
    warn:'Learned last, and lightly. Cool, not cold. If you are prone to headaches or migraine, keep it brief — or leave this one out and stay with the first five.',
-   cues:['I am completely calm.','My arms are heavy and warm.','My heartbeat is calm and regular.','It breathes me.',
+   cues:['I am completely calm.','My arms and legs are heavy and warm.','My heartbeat is calm and regular.','It breathes me.',
          'My solar plexus is warm.','My forehead is cool.','My forehead is cool.','I am completely calm.']},
   {n:'On your own', q:'the whole sequence', phrase:'All six, in sequence.', audio:null, secs:110,
    desc:'No audio, no guidance. This is what the whole thing was for.',
-   cues:['I am completely calm.','My arms are heavy.','My arms are warm.','My heartbeat is calm and regular.',
+   cues:['I am completely calm.','My arms and legs are heavy.','My arms are warm.','My heartbeat is calm and regular.',
          'It breathes me.','My solar plexus is warm.','My forehead is cool.','I am completely calm.']}
 ];
 
@@ -585,7 +609,41 @@ const $=s=>document.querySelector(s);
 const el=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c;
   if(x!==undefined)e.textContent=x; return e;};
 
+/* Briefings are offered, never forced. The user has just finished ninety
+   seconds of deliberate settling and may be about to stand up and leave; a
+   film that seizes that moment would undo the thing it is explaining. */
+const BRIEFS=[
+  {id:'after-first', src:'afterFirst', poster:'afterFirstPoster',
+   when:S=>S.log.length>=1,
+   kick:'After your first', title:'What was that, and what to look for.',
+   blurb:'Ninety seconds. Why heaviness in particular, what counts as it turning up, and the one thing that blocks it.'}
+];
+function renderBrief(){
+  const c=$('#briefCard'); c.innerHTML=''; c.classList.add('hidden');
+  const b=BRIEFS.find(b=>!(S.briefed||[]).includes(b.id) && b.when(S) && AUDIO[b.src]);
+  if(!b) return;
+  c.classList.remove('hidden');
+  const card=el('div','brief');
+  card.appendChild(el('p','bkick',b.kick));
+  card.appendChild(el('p','btitle',b.title));
+  card.appendChild(el('p','bblurb',b.blurb));
+  const row=el('div','btnrow');
+  const play=el('button','btn','Watch');
+  play.onclick=()=>{
+    const v=$('#brVideo'); v.src=AUDIO[b.src];
+    if(AUDIO[b.poster]) v.poster=AUDIO[b.poster];
+    $('#brief').classList.add('on'); v.play().catch(()=>{});
+    $('#brDone').onclick=()=>{ v.pause(); $('#brief').classList.remove('on'); dismiss(); };
+  };
+  const later=el('button','btn ghost','Not now');
+  later.onclick=dismiss;
+  function dismiss(){ (S.briefed=S.briefed||[]).push(b.id); save(); renderJourney(); }
+  row.appendChild(play); row.appendChild(later); card.appendChild(row);
+  c.appendChild(card);
+}
+
 function renderJourney(){
+  renderBrief();
   const st=step(), es=dayLog(today());
   $('#topPos').textContent = S.step>=STEPS.length-1 ? 'Unaided' : 'Step '+(S.step+1);
   $('#pathCnt').textContent=S.step+' of '+STEPS.length+' done';
@@ -829,7 +887,7 @@ $('#lExport').onclick=()=>{
 };
 $('#lReset').onclick=()=>{
   if(confirm('Delete your practice record and start again from the beginning?')){
-    S={step:0,log:[],stepStart:today(),onboarded:true,warned:[]}; open=null; save(); renderJourney();
+    S={step:0,log:[],stepStart:today(),onboarded:true,warned:[],briefed:[]}; open=null; save(); renderJourney();
   }
 };
 

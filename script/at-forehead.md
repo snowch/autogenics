@@ -46,7 +46,7 @@ As though a window had been opened somewhere in the room.
 
 [pause 3]
 
-My arms are heavy.
+My arms and legs are heavy.
 
 [pause 3]
 
