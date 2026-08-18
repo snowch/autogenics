@@ -3,8 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0D1218">
+<meta name="theme-color" content="#EEF1F5">
 <title>Switch</title>
+<script>
+/* Before the first pixel, not after. Two things were being decided in the main
+   script, which runs after the page has already been painted once:
+
+   the theme, so anyone who had overridden their phone got a flash of the other
+   palette on every launch — and the status bar was hard-coded dark, so light
+   users got a dark bar corrected a moment later;
+
+   and whether this is a first run, which meant a brand new install painted the
+   empty frame of an app it had not been introduced to yet, and then dropped
+   onboarding over the top of it.
+
+   Deliberately not a module, not deferred, and duplicated rather than shared:
+   it has to block. Wrapped so a private-mode browser that throws on
+   localStorage falls through to the defaults instead of taking the page down. */
+(function(){
+  try{
+    var S = JSON.parse(localStorage.getItem('autogenics.v2') || '{}');
+    var t = S.theme || 'system';
+    if(t !== 'system') document.documentElement.setAttribute('data-theme', t);
+    var dark = t === 'dark' || (t === 'system' &&
+      matchMedia('(prefers-color-scheme: dark)').matches);
+    document.querySelector('meta[name="theme-color"]')
+      .setAttribute('content', dark ? '#0D1218' : '#EEF1F5');
+    if(!S.onboarded) document.documentElement.className = 'first';
+  }catch(e){}
+})();
+</script>
 <style>
 /* The bottom inset is only ours to add when the page actually owns the bottom
    of the screen, which is when it is installed. In a browser tab the browser
@@ -60,6 +88,9 @@ body{background:var(--ground); color:var(--ink); font-family:var(--sans);
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;text-align:left}
 :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px}
 .hidden{display:none !important}
+/* A first run should open on the ground colour and then the introduction —
+   never on the hollow frame of an app nobody has been shown yet. */
+html.first .phone,html.first nav{visibility:hidden}
 
 .phone{max-width:440px; margin:0 auto; min-height:100vh; min-height:100dvh;
   display:flex; flex-direction:column;
@@ -2052,6 +2083,7 @@ $('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
 mode = guidedDefault() ? 'guided' : 'timer';
 renderJourney();
 if(!S.onboarded) obOpen();
+document.documentElement.classList.remove('first');   /* the frame is real now */
 </script>
 </body>
 </html>
