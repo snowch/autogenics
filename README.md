@@ -598,8 +598,23 @@ All four places that reserved bottom space now use `--safeb`. In a tab the nav
 measures its content height and sits flush with the viewport; told to behave as
 though installed with a 48px inset, it grows by exactly 48px and no more.
 
-"Sometimes" is the tell: same device, different display mode — a tab one day
-and the installed app the next.
+The trigger turned out to be more specific than "sometimes": scroll to the
+bottom with a thumb and the bar is fine, touch the screen again and it doubles.
+That is Android Firefox's dynamic address bar sliding back in. Two more changes
+so the layout cannot care what it does:
+
+`min-height:100dvh` in place of `100vh`, because `vh` is frozen at the *largest*
+viewport — the one with the address bar hidden — so on its return the layout is
+sized for a window that is no longer on screen. `dvh` tracks it, with `vh` left
+in front as the fallback.
+
+And the nav is `box-sizing:border-box; overflow:hidden`, so whatever any of this
+reports, the bar is its contents plus whatever inset is genuinely ours and
+cannot render as anything else.
+
+Measured through a simulated address-bar cycle — 844px, 760px, back to 844px —
+the nav stays 63px and flush with the bottom at every step, and still grows by
+exactly 48 when told to behave as an installed app with a 48px inset.
 
 ### The recorded-voice feature, and why it is gone
 

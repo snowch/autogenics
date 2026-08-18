@@ -46,12 +46,18 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{background:var(--ground); color:var(--ink); font-family:var(--sans);
-  font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh}
+  font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  /* dvh, not vh. Android Firefox slides its address bar away as you scroll and
+     back when you touch, and vh is frozen at the largest viewport — so the
+     layout is sized for a window that is not on screen the moment the bar
+     returns. dvh tracks it. vh first, for anything too old to know dvh. */
+  min-height:100vh; min-height:100dvh}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;text-align:left}
 :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px}
 .hidden{display:none !important}
 
-.phone{max-width:440px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column;
+.phone{max-width:440px; margin:0 auto; min-height:100vh; min-height:100dvh;
+  display:flex; flex-direction:column;
   padding-bottom:calc(62px + var(--safeb))}
 .top{display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:22px 20px 14px}
 .top h1{margin:0; font-family:var(--serif); font-weight:500; font-size:1.36rem; letter-spacing:-.01em}
@@ -351,7 +357,10 @@ details p{margin:9px 0 0; font-size:.88rem; color:var(--ink-2)}
 
 nav{position:fixed; bottom:0; left:0; right:0; z-index:30;
   background:color-mix(in srgb,var(--surface) 92%,transparent); backdrop-filter:blur(12px);
-  border-top:1px solid var(--line); padding-bottom:var(--safeb)}
+  border-top:1px solid var(--line); padding-bottom:var(--safeb);
+  /* A belt to go with the braces: the bar is its contents plus whatever inset
+     is genuinely ours, and it is not allowed to be anything else. */
+  box-sizing:border-box; overflow:hidden}
 .navin{max-width:440px; margin:0 auto; display:flex}
 nav button{flex:1; padding:11px 4px 13px; display:flex; flex-direction:column; align-items:center;
   gap:4px; color:var(--muted); font-family:var(--mono); font-size:.61rem;
