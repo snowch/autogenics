@@ -572,6 +572,35 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### A tab bar of double height
+
+Reported from Android Firefox: the bottom nav sometimes drew at twice its
+height, with an empty band under the labels.
+
+`viewport-fit=cover` plus `padding-bottom: env(safe-area-inset-bottom)` is the
+standard way to keep a fixed bottom bar clear of a home indicator, and it
+assumes the page is what reaches the bottom of the screen. In a browser tab it
+is not — the browser has already reserved the system navigation bar, and then
+reports the inset as well. So the padding was added on top of space that had
+already been taken, and the band underneath was exactly one system-bar tall.
+
+The inset is only ours to add when the page really does own the bottom of the
+screen, which is when it is installed:
+
+```css
+:root{--safeb:0px}
+@media (display-mode:standalone),(display-mode:fullscreen),(display-mode:minimal-ui){
+  :root{--safeb:env(safe-area-inset-bottom,0px)}
+}
+```
+
+All four places that reserved bottom space now use `--safeb`. In a tab the nav
+measures its content height and sits flush with the viewport; told to behave as
+though installed with a 48px inset, it grows by exactly 48px and no more.
+
+"Sometimes" is the tell: same device, different display mode — a tab one day
+and the installed app the next.
+
 ### The recorded-voice feature, and why it is gone
 
 Built, shipped, and removed the same day. Recording the formulae in your own
