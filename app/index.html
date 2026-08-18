@@ -133,15 +133,6 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
   background:var(--accent-soft); border-top:1px solid var(--accent);
   font-size:.76rem; color:var(--ink)}
 .pvbar.hidden{display:none}
-.vlist{display:flex; flex-direction:column; gap:7px; margin-top:14px}
-.vrow{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:9px 11px;
-  border:1px solid var(--line); border-radius:11px; background:var(--surface)}
-.vrow .vp{flex:1 1 100%; font-size:.9rem; color:var(--ink)}
-.vrow button{font:inherit; font-size:.78rem; font-weight:600; min-height:40px;
-  padding:8px 13px; border-radius:9px; border:1px solid var(--line);
-  background:transparent; color:var(--ink-2)}
-.vrow.has button.vrec{border-color:var(--good); color:var(--good)}
-.vrow.rec button.vrec{border-color:var(--accent); color:var(--accent)}
 .pvacts{display:flex; gap:8px; flex:none}
 .pvbar button{font:inherit; font-weight:600; color:var(--accent);
   background:transparent; border:1px solid var(--accent); border-radius:9px;
@@ -408,7 +399,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
         <details><summary>You cannot make it happen</summary>
           <p>Let the phrase be true rather than making it true. Effort is the one thing that reliably blocks it — so hold it lightly, notice whatever is actually there, and let it be uninteresting. It is like falling asleep: you can arrange the conditions, but you can't force the moment.</p></details>
         <details><summary>Say it in your own voice</summary>
-          <p>The phrase is yours, thought silently. Anything playing — the guided track, or a recording of you from Settings — only shows you the shape and the pacing; the practice itself is you thinking the words, in your head, at your own speed. Every mode fades to nothing in the end, and that is the point. In the older books these phrases are called <em>formulae</em>.</p></details>
+          <p>Let the phrase be yours, thought silently. The guided track only shows you the shape and the pacing; the practice itself is you thinking the words, in your head, at your own speed — which is why it fades to a timer and then to nothing. In the older books these phrases are called <em>formulae</em>.</p></details>
         <details><summary>Short and often, not long and rare</summary>
           <p>Ninety seconds, three times a day. Frequency builds the response; duration does not. One long session a day is not the same thing and will not do the same thing.</p></details>
         <details><summary>What heaviness actually feels like</summary>
@@ -461,12 +452,6 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <button data-sk="enquiry">Enquiry</button>
           <button data-sk="embodied">Embodied</button>
         </div>
-      </div>
-
-      <div class="card">
-        <h2>Your own voice</h2>
-        <p class="lede">Record the formulae yourself and the app will play them back to you instead of showing them on a screen you are not looking at. Every recording stays on this device. Tap to record, tap again to stop — a second or two each is plenty.</p>
-        <div id="vList" class="vlist"></div>
       </div>
 
       <div class="card">
@@ -815,70 +800,6 @@ function load(){
   }catch(e){}
   return {step:0, log:[], stepStart:today(), onboarded:false, warned:[], briefed:[], theme:'system'};
 }
-/* ---------- your own voice ----------
-   Every guided track is a stranger pacing you through a self-paced technique,
-   and the voice in your head during a self-suggestion exercise is somebody
-   else's. Recording the formulae yourself is autogenic in the literal sense.
-   It also fixes the thing text cues never could: with your eyes shut, a line
-   on screen reaches nobody, and a clip of your own voice reaches you.
-
-   Clips live in IndexedDB — blobs, keyed by the exact cue string, so a line
-   shared between steps is recorded once and used everywhere it appears.
-   localStorage would need base64 and would blow its quota by the third one. */
-const VDB='autogenics.voice';
-function vdb(){
-  return new Promise((res,rej)=>{
-    const r=indexedDB.open(VDB,1);
-    r.onupgradeneeded=()=>r.result.createObjectStore('clips');
-    r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error);
-  });
-}
-function vtx(mode,fn){
-  return vdb().then(db=>new Promise((res,rej)=>{
-    const t=db.transaction('clips',mode), st=t.objectStore('clips');
-    let out; try{ out=fn(st); }catch(e){ return rej(e); }
-    t.oncomplete=()=>res(out&&out.result!==undefined?out.result:out);
-    t.onerror=()=>rej(t.error);
-  }));
-}
-const vput=(k,b)=>vtx('readwrite',st=>st.put(b,k));
-const vget=k=>vtx('readonly',st=>st.get(k));
-const vdel=k=>vtx('readwrite',st=>st.delete(k));
-const vkeys=()=>vtx('readonly',st=>st.getAllKeys());
-
-/* Every distinct line the practices can ask for, in the order they are met. */
-function voiceLines(){
-  const seen=[];
-  STEPS.forEach(st=>{ (st.cues||[]).forEach(c=>{ if(seen.indexOf(c)<0) seen.push(c); }); });
-  return seen;
-}
-let voiceHave=[];
-function refreshVoice(){
-  return vkeys().then(k=>{ voiceHave=k||[]; return voiceHave; }).catch(()=>{ voiceHave=[]; });
-}
-/* Decoded and cached, because decoding six clips at the top of a practice is
-   the one moment the app cannot afford to be busy. */
-const vbuf={};
-function vload(c){
-  if(vbuf[c]) return Promise.resolve(vbuf[c]);
-  return vget(c).then(b=>{
-    if(!b) return null;
-    ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
-    return b.arrayBuffer().then(ab=>ctx.decodeAudioData(ab))
-            .then(buf=>{ vbuf[c]=buf; return buf; });
-  }).catch(()=>null);
-}
-/* Scheduled on the audio clock beside the chimes, for the same reason. */
-function speakAt(buf, when){
-  try{
-    const src=ctx.createBufferSource(), g=ctx.createGain();
-    src.buffer=buf; g.gain.value=1;
-    src.connect(g); g.connect(ctx.destination);
-    src.start(ctx.currentTime+when);
-    scheduled.push(src); src.onended=()=>{ scheduled=scheduled.filter(x=>x!==src); };
-  }catch(e){}
-}
-
 /* Preview writes nowhere. Everything downstream — ratings, the gate, skipping,
    the weekly question — goes on working exactly as it does normally, and none
    of it survives leaving. That is the whole trick: nothing has to know it is
@@ -1114,12 +1035,8 @@ function sessionPlan(){
 const rawCues=p=>
   (p.kind==='stack'||p.kind==='sequence') ? dropSkipped(STEPS[p.idx].cues)
                                           : aloneCues(STEPS[p.idx]);
-/* Shrinking and your own voice are alternative scaffolds, not stackable ones:
-   you recorded the long form, so a shrunken line on screen with a full-length
-   clip against it is worse than either alone. Anything spoken — the recording
-   or your own voice — keeps the words that were spoken. */
-const sessionCues=(p,spoken)=>
-  spoken ? rawCues(p) : rawCues(p).map(shrinkCue);
+const sessionCues=(p,guided)=>
+  guided ? rawCues(p) : rawCues(p).map(shrinkCue);
 const SLOT_LAB={stack:['Morning','Midday','Evening'],
                 split:['The phrase','Review','Sequence']};
 /* Which of the day's three is next. Anything beyond the third repeats the
@@ -1214,22 +1131,13 @@ function renderJourney(){
   goBtn.onclick=startPractice;
   now.appendChild(goBtn);
 
-  const canVoice = voiceHave.length>0;
-  if(st.audio || canVoice){
+  if(st.audio){
     const m=el('div','modes');
-    if(st.audio){
-      const g=el('button', mode==='guided'?'sel':'', 'Guided');
-      g.onclick=()=>{mode='guided'; renderJourney();};
-      m.appendChild(g);
-    }
-    if(canVoice){
-      const v=el('button', mode==='voice'?'sel':'', 'My voice');
-      v.onclick=()=>{mode='voice'; renderJourney();};
-      m.appendChild(v);
-    }
+    const g=el('button', mode==='guided'?'sel':'', 'Guided');
     const t=el('button', mode==='timer'?'sel':'', 'Timer only');
+    g.onclick=()=>{mode='guided'; renderJourney();};
     t.onclick=()=>{mode='timer'; renderJourney();};
-    m.appendChild(t); now.appendChild(m);
+    m.appendChild(g); m.appendChild(t); now.appendChild(m);
   }
   /* Unguided, the chimes are the only thing reaching someone with their eyes
      shut, so say what they mean once, where the choice is made. Once the day
@@ -1666,13 +1574,12 @@ function startPractice(){
   /* Only the stack has a recording. The phrase alone and the review are the
      same ninety seconds with a different cue list, and no voice for either. */
   const guided = session.kind==='stack' && mode==='guided' && st.audio;
-  const spoken = guided || (mode==='voice' && voiceHave.length>0);
-  runPractice(STEPS[session.idx], guided, sessionCues(session, spoken), session.kind);
+  runPractice(STEPS[session.idx], guided, sessionCues(session, guided), session.kind);
 }
 function revise(i){
   revising=i; session=null;
   const st=STEPS[i];
-  runPractice(st, !!st.audio, dropSkipped(st.cues), 'stack');
+  runPractice(st, !!st.audio, st.cues, 'stack');
 }
 function runPractice(st, guided, cues, kind){
   cues=cues||st.cues;
@@ -1698,14 +1605,6 @@ function runPractice(st, guided, cues, kind){
     tone(432,.9,0);
     tone(392,.45,total-TAKEBACK); tone(523,.55,total-TAKEBACK+.3);
     tone(324,1.1,total); tone(432,1.3,total+.5);
-    /* Your own voice, if you recorded it, at the same boundaries the cue text
-       changes — and on the audio clock, so a sleeping screen cannot silence
-       it. Shrunken cues are never spoken: you recorded the long form, and a
-       clip that no longer matches the words on screen is worse than neither. */
-    if(mode==='voice' && kind!=='probe'){
-      const span=(total-TAKEBACK)/cues.length;
-      cues.forEach((c,i)=>vload(c).then(bf=>{ if(bf) speakAt(bf, i*span); }));
-    }
   }
   const C=2*Math.PI*112;
   const t0=Date.now();
@@ -1937,44 +1836,6 @@ STEPS.forEach((st,i)=>{
 });
 $('#pvOut').onclick=exitPreview;
 $('#pvWhen').onclick=()=>enterPreview(pvStep, !pvLate);
-
-let vrecorder=null, vrecFor=null;
-function renderVoice(){
-  const L=$('#vList'); L.innerHTML='';
-  voiceLines().forEach(c=>{
-    const row=el('div','vrow'+(voiceHave.indexOf(c)>=0?' has':'')+(vrecFor===c?' rec':''));
-    row.appendChild(el('span','vp', c));
-    const rec=el('button','vrec', vrecFor===c ? 'Stop' : voiceHave.indexOf(c)>=0 ? 'Redo' : 'Record');
-    rec.onclick=()=>vrecFor===c ? stopRec() : startRec(c);
-    row.appendChild(rec);
-    if(voiceHave.indexOf(c)>=0){
-      const pl=el('button', null, 'Play');
-      pl.onclick=()=>vload(c).then(b=>{ if(b){ ctx.resume&&ctx.resume(); speakAt(b,0); } });
-      row.appendChild(pl);
-      const dl=el('button', null, 'Delete');
-      dl.onclick=()=>vdel(c).then(()=>{ delete vbuf[c]; refreshVoice().then(renderVoice); });
-      row.appendChild(dl);
-    }
-    L.appendChild(row);
-  });
-}
-function startRec(c){
-  if(!navigator.mediaDevices) return alert('This browser will not let a page record audio.');
-  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
-    const chunks=[];
-    vrecorder=new MediaRecorder(stream);
-    vrecorder.ondataavailable=e=>{ if(e.data.size) chunks.push(e.data); };
-    vrecorder.onstop=()=>{
-      stream.getTracks().forEach(t=>t.stop());
-      const blob=new Blob(chunks,{type:vrecorder.mimeType||'audio/webm'});
-      vrecFor=null; vrecorder=null;
-      vput(c,blob).then(()=>{ delete vbuf[c]; refreshVoice().then(()=>{ renderVoice(); renderJourney(); }); });
-    };
-    vrecFor=c; vrecorder.start(); renderVoice();
-  }).catch(()=>alert('No microphone available, or permission was refused.'));
-}
-function stopRec(){ if(vrecorder && vrecorder.state!=='inactive') vrecorder.stop(); }
-refreshVoice().then(renderVoice);
 
 /* The thing this programme is actually for is not in the app, so hand it over
    as something that leaves: a lock-screen image with the sequence on it. Six

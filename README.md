@@ -572,34 +572,27 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
-### The voice in your head should be yours
+### The recorded-voice feature, and why it is gone
 
-Every guided track is a stranger pacing you through a self-paced technique, and
-the voice you hear during a self-suggestion exercise is somebody else's. So the
-formulae can now be recorded by the person practising them, which is autogenic
-in the literal sense — and it fixes what text cues never could: with your eyes
-shut a line on screen reaches nobody, and a clip of your own voice reaches you.
+Built, shipped, and removed the same day. Recording the formulae in your own
+voice sounds like it serves this method — it is autogenic in the literal sense
+— and it fails the product's one real test.
 
-Thirteen distinct lines across the whole ladder, recorded once each and keyed
-by the exact cue string, so a line shared between steps is used everywhere it
-appears. Clips are blobs in IndexedDB; localStorage would need base64 and would
-blow its quota by the third one. A third mode, **My voice**, appears next to
-Guided and Timer only once anything has been recorded, and the clips are
-scheduled on the audio clock beside the chimes so a sleeping screen cannot
-silence them either.
+The app's whole claim is that you stop needing it. A set of your own recordings
+is a personal library: an artefact that makes the app more yours and leaving it
+more expensive. `DESIGN.md` §6 forbids a library for exactly that reason, and
+§1 says every standard engagement mechanic is harmful here. It was a retention
+mechanic, built by the same person who wrote the section forbidding them.
 
-Shrinking and your own voice are alternative scaffolds rather than stackable
-ones. You recorded the long form, so a shrunken line on screen with a
-full-length clip against it would be worse than either alone — anything spoken,
-the synthetic recording or your own voice, keeps the words that were spoken.
-Timer only still shrinks, and says nothing.
+The diagnosis was wrong too. The problem was "eyes shut, a line on screen
+reaches nobody" — which is true and does not argue for audio. Someone in timer
+mode is *supposed* to be issuing the phrase to themselves; that is the
+practice, not a gap in it. And a nicer voice is a stickier scaffold: guided →
+timer → nothing works partly because a stranger's pacing is mild friction, and
+friction is what gets people to drop it on schedule.
 
-Costs nothing to run, works in every language, and solves accent, gender and
-register in one move. The synthetic voice stays for the films, which are
-teaching rather than practice, and where a narrator is the right thing.
-
-A phrase plus three buttons does not fit 390px and the last one was clipped, so
-the rows wrap.
+Kept in `DESIGN.md` as a withdrawn section rather than deleted, so it does not
+get reinvented in three months.
 
 ### Look ahead, but never advance
 

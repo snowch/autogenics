@@ -106,7 +106,41 @@ it is a day of work.
 
 ---
 
-## 4. The voice should be the user's
+## 4. The voice should be the user's — withdrawn
+
+*This section was implemented and then removed. It is kept because the argument
+against it is more useful than the argument for it was.*
+
+The original claim: every guided track is a stranger pacing you through a
+self-paced technique, so let people record the formulae themselves. It was
+built — thirteen lines, stored on device, a third practice mode.
+
+It was wrong, and the reason is one this document already contains. §1 says
+every standard engagement mechanic is harmful here because the method's one
+instruction is *do not try*, and §6 forbids a library because a catalogue makes
+the ending commercially inconvenient. A set of your own recordings **is** a
+personal library: it is an artefact that makes the app more yours and leaving
+it more expensive. That is a retention mechanic, and it was built by the same
+person who wrote the section forbidding them.
+
+The deeper error was in the diagnosis. The problem was stated as "with your
+eyes shut a line on screen reaches nobody" — true, and it does not argue for
+audio. Someone practising eyes-closed in timer mode is *supposed* to be
+issuing the phrase to themselves; that is the practice, not a gap in it. The
+observation argues for the cues mattering less as you go, which the fade
+already does. Enriching the scaffold was the opposite of the indicated move.
+
+And a nicer voice is a stickier scaffold. Guided → timer → nothing works
+because guided is mildly unsatisfying: a stranger's pacing is friction, and
+friction is what makes people drop it on schedule. Removing that friction
+without removing the crutch makes the crutch more comfortable to keep.
+
+The genuine residue: an always-available audio path is an **accessibility**
+requirement for anyone who cannot read the screen, and the synthetic guided
+track already serves that. That is a different argument from training, and it
+does not rescue self-recording.
+
+## 4b. The voice should be the user's — the original argument
 
 Every guided track is a stranger pacing you through a self-paced technique.
 Two problems: the pacing is wrong for everyone except the average, and the
@@ -404,7 +438,7 @@ Written after building most of it. Section by section:
 | | Built |
 |---|---|
 | §3 contrast induction | yes — 43 seconds, offered before practice one, findable from Learn after |
-| §4 the user's own voice | yes — 13 lines, IndexedDB, a third practice mode |
+| §4 the user's own voice | built, then **withdrawn** — see §4, it was a retention mechanic |
 | §5 retrieval / transfer | transfer yes — the sequence practice is deliberately staged badly from step two. Retrieval-before-audio: no |
 | §5 compressed heaviness | **no — see below** |
 | §6 no numbers, no streaks, no library | yes |
