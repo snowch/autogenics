@@ -572,6 +572,29 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Settings is not a tab; nidra was in the wrong room
+
+Asked whether Settings should be promoted to a fourth tab, on the reasonable
+grounds that it had grown a lot. The growth was the symptom.
+
+Settings was created behind a gear on the principle that the tab bar is for
+things you do, and preferences are not one of them. That principle still holds.
+What had happened is that a whole second practice — a twelve-minute nidra
+session and the sankalpa it is aimed at — had been filed in the preferences
+drawer, where it was both mis-shelved and effectively unfindable. The commit
+that put it there said Settings is where features go when nobody has decided
+what they are, and then left it there, which was the tell.
+
+`DESIGN.md` §8 already said where it goes: nidra is the door at the end. So the
+card now sits on Practice, below the hero, appearing when the ladder is
+finished — which is exactly when the Practice screen has the least to say and a
+"what now" belongs. Its copy changed with its address, from an apology for
+being in Settings to the thing it is: *you have the entry, this is somewhere to
+put it.* A finished session returns there rather than to Settings.
+
+Settings is back to four preference cards — appearance, look ahead, reminders,
+your record — which is a gear's worth of screen.
+
 ### The three sankalpa modes are named for what they are
 
 They were *Simplify being*, *Enquiry* and *Embodied* — a triad lifted from a

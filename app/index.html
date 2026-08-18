@@ -178,7 +178,7 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .gear:hover{color:var(--ink)}
 .gear svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.7;
   stroke-linecap:round}
-#s-settings .modes{margin-top:14px}
+#s-settings .modes,#ndCard .modes{margin-top:14px}
 .pvbar{position:fixed; left:0; right:0; bottom:0; z-index:60; display:flex;
   align-items:center; justify-content:space-between; gap:12px; padding:11px 16px;
   background:var(--accent-soft); border-top:1px solid var(--accent);
@@ -428,6 +428,30 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <div id="briefCard" class="hidden"></div>
       <div id="nowCard"></div>
       <div id="nudge" class="hidden"></div>
+      <div class="card hidden" id="ndCard">
+        <h2>Primed nidra <span class="pill" style="margin-left:6px">Experimental</span></h2>
+        <p class="lede">You have the entry. This is somewhere to put it — a silent staged timer, with a chime at each boundary and no voice. Autogenic training gave you a way in and nothing to do once you are there; this is the other half.</p>
+        <div class="modes" id="ndKind" style="margin-top:14px">
+          <button data-nd="full">12 min</button>
+          <button data-nd="field">Field, 3 min</button>
+          <button data-nd="sleep">Sleep</button>
+        </div>
+        <p class="smeta" id="ndMeta"></p>
+        <button class="btn ghost" id="ndGo" style="margin-top:12px">Begin</button>
+        <h2 style="margin-top:18px">At the sankalpa stages</h2>
+        <div class="modes" id="ndSankalpa">
+          <button data-sk="presence">Presence</button>
+          <button data-sk="question">Question</button>
+          <button data-sk="resolve">Resolve</button>
+        </div>
+        <div id="vowBox" class="hidden">
+          <p class="smeta" style="margin-top:12px">One sentence, present tense, stated as already true — <em>I sleep deeply and wake rested</em>, not <em>I want to sleep better</em>. Short enough to issue without reading it.</p>
+          <input id="vowText" type="text" maxlength="90" placeholder="Your resolve, as though it were already so">
+          <button class="btn ghost" id="vowSave" style="margin-top:10px">Set it</button>
+          <p class="smeta" id="vowMeta"></p>
+        </div>
+      </div>
+
       <p class="footnote">A self-training method, not medical treatment or advice.
         <button class="linky" data-go="learn">Cautions and how to finish</button></p>
     </section>
@@ -492,30 +516,6 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <button data-theme-set="system">System</button>
           <button data-theme-set="light">Light</button>
           <button data-theme-set="dark">Dark</button>
-        </div>
-      </div>
-
-      <div class="card hidden" id="ndCard">
-        <h2>Primed nidra <span class="pill" style="margin-left:6px">Experimental</span></h2>
-        <p class="lede">A silent staged timer: autogenic entry, then the content stages, with a chime at each boundary and no voice. It assumes you already have the phrases from Practice — it will not teach them to you.</p>
-        <div class="modes" id="ndKind" style="margin-top:14px">
-          <button data-nd="full">12 min</button>
-          <button data-nd="field">Field, 3 min</button>
-          <button data-nd="sleep">Sleep</button>
-        </div>
-        <p class="smeta" id="ndMeta"></p>
-        <button class="btn ghost" id="ndGo" style="margin-top:12px">Begin</button>
-        <h2 style="margin-top:18px">At the sankalpa stages</h2>
-        <div class="modes" id="ndSankalpa">
-          <button data-sk="presence">Presence</button>
-          <button data-sk="question">Question</button>
-          <button data-sk="resolve">Resolve</button>
-        </div>
-        <div id="vowBox" class="hidden">
-          <p class="smeta" style="margin-top:12px">One sentence, present tense, stated as already true — <em>I sleep deeply and wake rested</em>, not <em>I want to sleep better</em>. Short enough to issue without reading it.</p>
-          <input id="vowText" type="text" maxlength="90" placeholder="Your resolve, as though it were already so">
-          <button class="btn ghost" id="vowSave" style="margin-top:10px">Set it</button>
-          <p class="smeta" id="vowMeta"></p>
         </div>
       </div>
 
@@ -2039,7 +2039,7 @@ function endNidra(complete){
     st.count++; st.pair=(st.pair+1)%NIDRA_PAIRS.length;   /* one pair per session */
     save();
   }else hush();
-  renderNidra(); go('settings');
+  renderNidra(); renderJourney(); go('journey');
 }
 /* The segment picks a length and the button starts it. They were one control
    at first, which put a tap that begins twelve minutes of silence in the same
