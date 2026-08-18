@@ -623,7 +623,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="d9d15dc+";
+window.__BUILD__="dd9ba15+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -867,6 +867,39 @@ function renderBrief(){
 /* The gate lives on Progress now, so the two moments that actually change what
    the user does have to surface on the screen they open every day. Anything
    less and the app silently waits for them to go looking. */
+/* The three daily practices are not three of the same practice.
+
+   Doing the whole growing stack three times a day means the element actually
+   being learned gets two of eight cue slots by the eighth step — a quarter of
+   the session — while five already-consolidated ones take the rest. The
+   instructional design was inverted: the new thing got the least exposure.
+
+   So: the phrase alone at full time, one earlier element drawn in rotation,
+   and the stack once. Same ninety seconds, three times, no extra minutes.
+   Interleaving the review is the point — blocked practice looks better in the
+   session and retains worse — and drawing it from *consolidated* material
+   rather than competing new material is what stops interleaving feeling like
+   punishment: it is the practice where something still works.
+
+   It only splits once you are off the guided track, because during those days
+   the recording is the session and there is no recording of a phrase alone. */
+const aloneCues=st=>['I am completely calm.', st.phrase, st.phrase, st.phrase,
+                     st.phrase, st.phrase, st.phrase, 'I am completely calm.'];
+function sessionPlan(){
+  const split = S.step>0 && !guidedDefault() && step().audio;
+  if(!split) return [0,1,2].map(()=>({kind:'stack', idx:S.step}));
+  return [{kind:'new',      idx:S.step},
+          {kind:'review',   idx:(S.rev||0)%S.step},
+          {kind:'sequence', idx:S.step}];
+}
+const sessionCues=p=>
+  (p.kind==='stack'||p.kind==='sequence') ? STEPS[p.idx].cues : aloneCues(STEPS[p.idx]);
+const SLOT_LAB={stack:['Morning','Midday','Evening'],
+                split:['The phrase','Review','Sequence']};
+/* Which of the day's three is next. Anything beyond the third repeats the
+   stack, because a fourth practice is not part of the design. */
+function nextSlot(){ return Math.min(dayLog(today()).length, 2); }
+
 function renderNudge(){
   const n=$('#nudge'); n.innerHTML=''; n.classList.add('hidden');
   const g=gate();
@@ -903,14 +936,20 @@ function renderJourney(){
     : 'Say it silently, to yourself, in your own voice.'));
   if(st.warn) now.appendChild(el('p','scaution', st.warn));
 
+  const plan=sessionPlan(), split=plan[0].kind!=='stack';
+  const labs=split?SLOT_LAB.split:SLOT_LAB.stack;
   const dose=el('div','dose');
-  ['Morning','Midday','Evening'].forEach((lab,i)=>{
-    const sl=el('div','slot'+(i<es.length?' done':''));
+  labs.forEach((lab,i)=>{
+    const sl=el('div','slot'+(i<es.length?' done':'')+(i===nextSlot()&&!dayDone?' cur':''));
     sl.appendChild(el('span','n', i<es.length ? String(es[i].r) : '-'));
     sl.appendChild(el('span','lab', lab));
     dose.appendChild(sl);
   });
   now.appendChild(dose);
+  if(split) now.appendChild(el('p','phrasehint',
+    plan[1].idx===plan[nextSlot()].idx && plan[nextSlot()].kind==='review'
+      ? '' : 'Today\u2019s review is '+STEPS[plan[1].idx].n.toLowerCase()
+             +' \u00b7 '+STEPS[plan[1].idx].q+'.'));
 
   /* Three a day is the whole mechanism, and the app never once acknowledged
      hitting it — the button just changed to "Practise again", which reads as
@@ -919,8 +958,13 @@ function renderJourney(){
      and often should not push for a fourth. */
   if(dayDone) now.appendChild(el('p','donenote',
     'That is today\u2019s three. Nothing more is needed — this is a dose, not a total.'));
+  const nk=plan[nextSlot()];
   const goBtn=el('button', dayDone ? 'btn ghost go' : 'btn go',
-                 dayDone ? 'Practise anyway' : 'Start practice');
+                 dayDone ? 'Practise anyway'
+                 : nk.kind==='review'   ? 'Start review \u2014 '+STEPS[nk.idx].n.toLowerCase()
+                 : nk.kind==='sequence' ? 'Start the sequence'
+                 : nk.kind==='new'      ? 'Start \u2014 the phrase alone'
+                 : 'Start practice');
   goBtn.onclick=startPractice;
   now.appendChild(goBtn);
 
@@ -933,8 +977,13 @@ function renderJourney(){
     m.appendChild(g); m.appendChild(t); now.appendChild(m);
   }
   /* Unguided, the chimes are the only thing reaching someone with their eyes
-     shut, so say what they mean once, where the choice is made. */
-  if(mode==='timer'||!st.audio)
+     shut, so say what they mean once, where the choice is made. Once the day
+     is split there is no recording of a phrase alone or of a review, so two of
+     the three are unguided whatever this switch says. */
+  if(split && mode==='guided' && st.audio)
+    now.appendChild(el('p','phrasehint',
+      'The recording covers the sequence. The phrase and the review are yours to pace.'));
+  if(mode==='timer'||!st.audio||split)
     now.appendChild(el('p','phrasehint',
       'One note to begin. Two rising notes when it is time to take it back — '
       + 'arms, breath, eyes. Two low notes when you are done.'));
@@ -1211,6 +1260,7 @@ document.addEventListener('visibilitychange',()=>{
    it was not practising, would corrupt the one record the app asks the user
    to trust. */
 let revising=null;
+let session=null;
 function startPractice(){
   const st=step();
   if(st.warn && !(S.warned||[]).includes(S.step)){
@@ -1219,18 +1269,28 @@ function startPractice(){
     S.warned=(S.warned||[]).concat(S.step); save();
   }
   revising=null;
-  runPractice(st, mode==='guided'&&st.audio);
+  session=sessionPlan()[nextSlot()];
+  /* Only the stack has a recording. The phrase alone and the review are the
+     same ninety seconds with a different cue list, and no voice for either. */
+  const guided = session.kind==='stack' && mode==='guided' && st.audio;
+  runPractice(STEPS[session.idx], guided, sessionCues(session), session.kind);
 }
 function revise(i){
-  revising=i;
+  revising=i; session=null;
   const st=STEPS[i];
-  runPractice(st, !!st.audio);
+  runPractice(st, !!st.audio, st.cues, 'stack');
 }
-function runPractice(st, guided){
+function runPractice(st, guided, cues, kind){
+  cues=cues||st.cues;
   const total=st.secs;
   $('#practice').classList.add('on');
-  $('#pxCue').textContent=guided?'':st.cues[0];
-  $('#pxPhase').textContent=revising!==null?'Revision':(guided?'Guided':'Practice');
+  $('#pxCue').textContent=guided?'':cues[0];
+  $('#pxPhase').textContent = revising!==null ? 'Revision'
+    : guided ? 'Guided'
+    : kind==='review' ? 'Review \u00b7 '+st.n.toLowerCase()
+    : kind==='sequence' ? 'Sequence'
+    : kind==='new' ? 'The phrase'
+    : 'Practice';
   const a=$('#pxAudio');
   keepAwake(true); hush();
   if(guided){ a.src=AUDIO[st.audio]; a.currentTime=0; a.play().catch(()=>{}); }
@@ -1258,12 +1318,12 @@ function runPractice(st, guided){
          all, in the one part of the practice the cautions call non-optional
          and the onboarding promises the app always runs. */
       const wake = e > total - TAKEBACK;
-      $('#pxPhase').textContent = wake ? 'Waking up' : 'Practice';
+      if(wake) $('#pxPhase').textContent='Waking up';
       $('#pxCue').textContent = wake
         ? TAKEBACK_CUES[Math.min(TAKEBACK_CUES.length-1,
             Math.floor((e-(total-TAKEBACK))/(TAKEBACK/TAKEBACK_CUES.length)))]
-        : st.cues[Math.min(st.cues.length-1,
-            Math.floor(e/((total-TAKEBACK)/st.cues.length)))];
+        : cues[Math.min(cues.length-1,
+            Math.floor(e/((total-TAKEBACK)/cues.length)))];
     }
     if(e>=d) finishPractice();
   },250);
@@ -1280,7 +1340,14 @@ function finishPractice(early){
   $('#rating').classList.add('on');
 }
 function logRating(r){
-  S.log.push({d:today(), t:new Date().toISOString(), step:S.step, r, m:mode});
+  /* A review is evidence about the step it revisited, not about the current
+     one — which is also what keeps the gate honest: the phrase alone and the
+     sequence are the two that speak for today's step. */
+  const idx = session ? session.idx : S.step;
+  S.log.push({d:today(), t:new Date().toISOString(), step:idx, r,
+              m: session && session.kind!=='stack' ? session.kind : mode});
+  if(session && session.kind==='review') S.rev=(S.rev||0)+1;
+  session=null;
   save(); $('#rating').classList.remove('on'); renderJourney();
 }
 
