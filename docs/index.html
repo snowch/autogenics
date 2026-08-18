@@ -400,6 +400,9 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <p>The phrase is yours, thought silently, not listened to. The recordings only show you the shape — the practice is you thinking the words, in your head, at your own pace. In the older books these phrases are called <em>formulae</em>.</p></details>
         <details><summary>Short and often, not long and rare</summary>
           <p>Ninety seconds, three times a day. Frequency builds the response; duration does not. One long session a day is not the same thing and will not do the same thing.</p></details>
+        <details><summary>What heaviness actually feels like</summary>
+          <p>Forty seconds that show you rather than tell you: clench your fist hard, let go, and notice what the forearm does for the twenty seconds afterwards. That release is heaviness. Worth repeating any time the word has gone abstract on you.</p>
+          <button class="btn ghost" id="lDrill" style="margin-top:10px">Do the drill</button></details>
       </div>
 
       <div class="card">
@@ -577,6 +580,22 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   </div>
 </div>
 
+<div class="full" id="drill">
+  <p class="phase" id="drStage">Ready</p>
+  <div class="ring">
+    <div class="halo"></div>
+    <svg viewBox="0 0 240 240" aria-hidden="true">
+      <circle class="track" cx="120" cy="120" r="112"></circle>
+      <circle class="prog" id="drArc" cx="120" cy="120" r="112" stroke-dasharray="703.7" stroke-dashoffset="703.7"></circle>
+    </svg>
+    <span class="time" id="drTime">0:43</span>
+  </div>
+  <p class="cue" id="drCue"></p>
+  <div class="btnrow" style="max-width:330px;width:100%">
+    <button class="btn ghost" id="drQuit">Stop</button>
+  </div>
+</div>
+
 <div class="full" id="nidra">
   <p class="phase" id="ndStage">Settle</p>
   <div class="ring">
@@ -623,7 +642,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="dd9ba15+";
+window.__BUILD__="d361a23+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -959,7 +978,8 @@ function renderJourney(){
   if(dayDone) now.appendChild(el('p','donenote',
     'That is today\u2019s three. Nothing more is needed — this is a dose, not a total.'));
   const nk=plan[nextSlot()];
-  const goBtn=el('button', dayDone ? 'btn ghost go' : 'btn go',
+  const drillFirst = !S.drilled && !S.log.length;   /* the drill is the day-one action */
+  const goBtn=el('button', dayDone||drillFirst ? 'btn ghost go' : 'btn go',
                  dayDone ? 'Practise anyway'
                  : nk.kind==='review'   ? 'Start review \u2014 '+STEPS[nk.idx].n.toLowerCase()
                  : nk.kind==='sequence' ? 'Start the sequence'
@@ -1036,6 +1056,24 @@ mode = guidedDefault() ? 'guided' : 'timer';
     }
     if(!g2.ready && g2.days>=14 && g2.met===0)
       rv.appendChild(el('p','note','Two weeks without it landing usually means one of four things: trying too hard, sessions too long, too few practices a day, or a posture you cannot relax in. Stay here and change one of them.'));
+  }
+
+  /* Before the first practice there is nothing to report and nothing to
+     review, so the one useful thing the app can do is make "heavy" mean
+     something. Offered, not forced, and it disappears once it is done. */
+  if(!S.drilled && !S.log.length){
+    const d=el('div','review');
+    d.appendChild(el('h2', null, 'First, feel it once'));
+    d.appendChild(el('p','note','Forty seconds, before you start. Clench your fist, let go, and notice what the arm does. That sensation is what the phrase is pointing at — much easier to aim for once you have felt it.'));
+    const db=el('button','btn','Do the drill');
+    db.style.marginTop='14px'; db.onclick=runDrill;
+    d.appendChild(db);
+    const sk=el('button','btn ghost','Skip it');
+    sk.style.marginTop='8px'; sk.onclick=()=>{ S.drilled=true; save(); renderJourney(); };
+    d.appendChild(sk);
+    /* Above the hero, not below it — it is the first thing to do, and appended
+       underneath a filled-in "Start practice" it read as an afterthought. */
+    $('#nowCard').insertBefore(d, now);
   }
 
   /* ---- the path: everything finished, plus exactly one step ahead.
@@ -1473,6 +1511,46 @@ mode = guidedDefault() ? 'guided' : 'timer';
     renderJourney(); go('journey'); obOpen();
   }
 };
+
+/* ---------- the contrast drill ----------
+   Day one used to explain heaviness and then ask someone to go and produce it,
+   which is aiming at a target you have never seen. Clenching and releasing
+   produces the sensation in the room, first time, in everybody — so the phrase
+   afterwards points at something remembered rather than something described.
+   Forty-three seconds, offered once, and findable again from Learn. */
+const DRILL=[
+  {t:6,  n:'Ready',       c:'Right arm resting, palm down. Nothing to do yet.'},
+  {t:10, n:'Clench',      c:'Now make a fist. Hard as you can, and keep it.'},
+  {t:20, n:'Let go',      c:'Let go completely. Do nothing at all — just notice the arm.'},
+  {t:7,  n:'That is it',  c:'That weight is heaviness. The phrase points at this.'}];
+let drTimer=null;
+function runDrill(){
+  const total=DRILL.reduce((a,x)=>a+x.t,0), C=2*Math.PI*112, t0=Date.now();
+  $('#drill').classList.add('on'); keepAwake(true); hush();
+  let at=0; DRILL.forEach((sg,i)=>{ if(i) tone(432,.6,at); at+=sg.t; });
+  tone(324,1.1,at); tone(432,1.3,at+.5);
+  let shown=-1;
+  clearInterval(drTimer);
+  drTimer=setInterval(()=>{
+    const e=(Date.now()-t0)/1000;
+    let acc=0,i=DRILL.length-1;
+    for(let k=0;k<DRILL.length;k++){ if(e<acc+DRILL[k].t){ i=k; break; } acc+=DRILL[k].t; }
+    if(i!==shown){ shown=i; $('#drStage').textContent=DRILL[i].n; $('#drCue').textContent=DRILL[i].c; }
+    const left=Math.max(0,total-e);
+    $('#drTime').textContent=Math.floor(left/60)+':'+String(Math.floor(left%60)).padStart(2,'0');
+    $('#drArc').style.strokeDashoffset=C*(1-Math.min(1,e/total));
+    if(e>=total) endDrill(true);
+  },250);
+}
+function endDrill(complete){
+  clearInterval(drTimer); drTimer=null; keepAwake(false);
+  if(!complete) hush();
+  $('#drill').classList.remove('on');
+  if(complete){ S.drilled=true; save(); }
+  renderJourney(); go('journey');
+}
+$('#drQuit').onclick=()=>endDrill(false);
+$('#lDrill').onclick=runDrill;   /* a drill you have done is still findable */
 
 /* ---------- the nidra session runner ---------- */
 let ndTimer=null;
