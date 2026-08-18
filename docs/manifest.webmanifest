@@ -1,7 +1,7 @@
 {
-  "name": "Autogenic Training",
-  "short_name": "Autogenics",
-  "description": "The six standard exercises, at the dose the method actually calls for.",
+  "name": "Switch",
+  "short_name": "Switch",
+  "description": "A trained response, in ninety seconds a day.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

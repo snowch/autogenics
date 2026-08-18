@@ -572,6 +572,30 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### It is called Switch
+
+The tab, the bookmark and the home screen said *Autogenic Training* and
+*Autogenics*. Nobody arrives knowing the term and nobody searches for it, and
+naming the product after the method had become wrong in a second way: the
+method is no longer the whole product. Yoga nidra is in here too, and a name
+that covers one half misdescribes the thing.
+
+Switch covers both, and in both directions — off, which is the ladder and the
+trained relaxation response, and on, which is the sankalpa and whatever it is
+aimed at. It is one word, six letters, legible as an icon label, and it names a
+capacity rather than an outcome, which keeps it clear of the claims line that
+*Change* and *Mind Strengthening* both crossed. It is also already the
+approved headline: *an off switch you can reach for.*
+
+The first screen still supplies the off-reading immediately, so the name is
+legible on day one and grows an extra meaning when nidra arrives at the end.
+
+One honest cost: as a search term it belongs to a games console. Irrelevant for
+a personal install, and it would matter on a store listing.
+
+`autogenics` stays as the repository and Pages URL. Renaming those would break
+every installed copy for the sake of tidiness.
+
 ### Pull-to-refresh, off
 
 Scrolling a list with a thumb ends at the top of the page as often as not, and
