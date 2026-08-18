@@ -134,7 +134,7 @@ def check(path: Path) -> list[str]:
 def main() -> int:
     targets = [Path(a) for a in sys.argv[1:]] or \
               [ROOT / "app" / "index.html", ROOT / "docs" / "index.html",
-               ROOT / "build" / "heaviness.html"]
+               ROOT / "build" / "autogenics.html"]
     bad = 0
     for t in targets:
         if not t.exists():

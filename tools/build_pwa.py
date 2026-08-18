@@ -117,7 +117,7 @@ def main() -> int:
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Heaviness">
+<meta name="apple-mobile-web-app-title" content="Autogenics">
 <meta name="description" content="Autogenic training: the six standard exercises, at the dose the method actually calls for.">
 </head>""")
     html = html.replace("</head>", head, 1)
@@ -176,8 +176,8 @@ if('serviceWorker' in navigator){
     (DOCS / "index.html").write_text(html, encoding="utf-8")
 
     (DOCS / "manifest.webmanifest").write_text(json.dumps({
-        "name": "Heaviness — autogenic training",
-        "short_name": "Heaviness",
+        "name": "Autogenic Training",
+        "short_name": "Autogenics",
         "description": "The six standard exercises, at the dose the method actually calls for.",
         "start_url": "./", "scope": "./",
         "display": "standalone", "orientation": "portrait",

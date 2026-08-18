@@ -232,7 +232,7 @@ straightforward.
 ```bash
 python3 tools/check_app.py                        # syntax-check first
 python3 tools/shoot_app.py                        # screenshot the screens
-python3 tools/build_app_artifact.py --standalone   # -> build/heaviness.html
+python3 tools/build_app_artifact.py --standalone   # -> build/autogenics.html
 ```
 
 `build_app_artifact.py` inlines everything as data URIs, and re-encodes the
@@ -272,6 +272,22 @@ Now or Later, any of which opens to show what it is.
 
 An earlier version crammed all three into the open step. It carried eight
 things at once and read as a wall.
+
+### The app was still called Heaviness
+
+The tab title, the manifest name and the home-screen label all said
+*Heaviness* — the name from when heaviness was the only exercise it taught. Ten
+steps and six exercises later, a bookmark was advertising the first week.
+
+**Autogenic Training** for the tab and the manifest, because that is what
+someone will recognise it as in a bookmark list, and **Autogenics** for the
+home screen, which truncates. The single-file build is `autogenics.html` for
+the same reason.
+
+Worth noting the audience split here: the positioning aims at people who tried
+meditation and stopped, who may not know the term — but by the time this is on
+a home screen they have installed it, and recognising what it is beats pitching
+to them again. The pitch belongs in a store listing.
 
 ### A settings screen behind the gear
 

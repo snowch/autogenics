@@ -6,7 +6,7 @@ sideloaded copy has no such neighbours and, for artifacts, a CSP that blocks
 every external host — so this inlines the recordings as data: URIs and strips
 the document skeleton the artifact host supplies itself.
 
-    python3 tools/build_app_artifact.py            # -> build/heaviness.html
+    python3 tools/build_app_artifact.py            # -> build/autogenics.html
     python3 tools/build_app_artifact.py --standalone   # keep <html> wrapper
 """
 import base64, re, subprocess, sys, tempfile
@@ -103,7 +103,7 @@ def main() -> int:
                                   head, re.S))
         html = keep + body
 
-    dest = ROOT / "build" / "heaviness.html"
+    dest = ROOT / "build" / "autogenics.html"
     dest.parent.mkdir(exist_ok=True)
     dest.write_text(html, encoding="utf-8")
     print(f"\nWrote {dest} — {dest.stat().st_size/1_048_576:.1f} MB"
