@@ -505,11 +505,11 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
         </div>
         <p class="smeta" id="ndMeta"></p>
         <button class="btn ghost" id="ndGo" style="margin-top:12px">Begin</button>
-        <h2 style="margin-top:18px">Sankalpa mode</h2>
+        <h2 style="margin-top:18px">At the sankalpa stages</h2>
         <div class="modes" id="ndSankalpa">
-          <button data-sk="simplify">Simplify being</button>
-          <button data-sk="enquiry">Enquiry</button>
-          <button data-sk="embodied">Embodied</button>
+          <button data-sk="presence">Presence</button>
+          <button data-sk="question">Question</button>
+          <button data-sk="resolve">Resolve</button>
         </div>
         <div id="vowBox" class="hidden">
           <p class="smeta" style="margin-top:12px">One sentence, present tense, stated as already true — <em>I sleep deeply and wake rested</em>, not <em>I want to sleep better</em>. Short enough to issue without reading it.</p>
@@ -813,15 +813,15 @@ const shrink=(full,mid,mature)=>n=> n<8 ? full : n<20 ? mid : mature;
 function nidraStages(kind, n, pair, sankalpa, vow){
   const P=NIDRA_PAIRS[pair%NIDRA_PAIRS.length];
   const gen='My arms and legs are heavy and warm. My heartbeat and breathing are calm and regular. My solar plexus is warm. My forehead is cool. I am completely calm.';
-  /* The embodied mode used to display the instruction — "your resolve, stated
+  /* Resolve mode used to display the instruction — "your resolve, stated
      as already true" — and never ask what the resolve was, so the one stage
      the whole practice is aimed at pointed at nothing. If it has been written
      down, it is what appears here, in the words it was written in and no
      others: invariance is the discipline autogenic training lends nidra, and
      it applies to the sankalpa before anything else. */
   vow = vow!==undefined ? vow : (S.nidra && S.nidra.vow && S.nidra.vow.text);
-  const sow = sankalpa==='embodied' ? (vow || 'Your resolve, stated as already true.')
-            : sankalpa==='enquiry'  ? 'What do I most deeply want? Ask once, then listen.'
+  const sow = sankalpa==='resolve'  ? (vow || 'Your resolve, stated as already true.')
+            : sankalpa==='question' ? 'What do I most deeply want? Ask once, then listen.'
             : 'Presence. Nothing asked for.';
   if(kind==='field') return [
     {t:20, n:'Settle',       c:'I am completely calm.'},
@@ -1959,7 +1959,15 @@ function endProbe(){
 
 /* ---------- the nidra session runner ---------- */
 let ndTimer=null;
-function ndState(){ return S.nidra = S.nidra || {count:0, pair:0, sankalpa:'simplify', kind:'full'}; }
+/* The three were once named after another author's framework. They are now
+   named after what they actually are, which is better writing as well as
+   nobody else's vocabulary. Old records carry the old keys. */
+const SK_OLD={simplify:'presence', enquiry:'question', embodied:'resolve'};
+function ndState(){
+  const st = S.nidra = S.nidra || {count:0, pair:0, sankalpa:'presence', kind:'full'};
+  if(SK_OLD[st.sankalpa]) st.sankalpa=SK_OLD[st.sankalpa];
+  return st;
+}
 function renderNidra(){
   const st=ndState();
   /* It has no business existing before the ladder is finished. Someone on step
@@ -1969,10 +1977,10 @@ function renderNidra(){
      once the ladder is done — or if it has already been used, since taking a
      thing away from someone using it is worse than having offered it early. */
   $('#ndCard').classList.toggle('hidden', !(gate().done || st.count));
-  /* Only the embodied mode has a resolve to state. Presence asks for nothing
-     and enquiry asks a question, and giving either of them a text box would be
-     inviting people to answer something the practice does not ask. */
-  $('#vowBox').classList.toggle('hidden', st.sankalpa!=='embodied');
+  /* Only Resolve has one to state. Presence asks for nothing and Question asks
+     a question, and a text box under either would invite people to answer
+     something the practice is not asking. */
+  $('#vowBox').classList.toggle('hidden', st.sankalpa!=='resolve');
   const v=st.vow;
   $('#vowText').value = v ? v.text : '';
   $('#vowMeta').textContent = !v ? ''

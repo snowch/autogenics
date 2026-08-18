@@ -140,7 +140,7 @@ cancellation. The third stays pure AT.
 | 6 | *It breathes me* | **Pranamaya** — count breaths 11→1 | Reach 1 with the count *recovered* after a lapse, not unbroken |
 | 7 | *My solar plexus is warm* | **Opposites 3** — tense / at ease | Hold both 10s |
 | 8 | *My forehead is cool* | **Sakshi**, 60s | *No criterion — time only* |
-| 9 | Generalisation formula ×1 | **Sankalpa — enter enquiry mode** | *No criterion — runs until it resolves* |
+| 9 | Generalisation formula ×1 | **Sankalpa — enter Question mode** | *No criterion — runs until it resolves* |
 | 10 | Generalisation ×2 | **Opposites 4** — unwelcome / welcome | Hold both 10s |
 | 11 | Generalisation ×2 | **Opposites 5** — sadness / joy | Hold both 10s |
 | 12 | Assembly — full 12-min, card read *beforehand* | — | Complete without consulting card |
@@ -208,17 +208,20 @@ demand a settled life-resolve before you are allowed to begin, and arriving at
 one is the work of months. The invariance rule below makes premature choice
 expensive. So the slot runs in one of three modes and never blocks you.
 
-**Mode 1 — Simplify being.** The slot is held open with no content. Presence,
-arrival, nothing asked for. Available from session one, requires no decision,
-and is a complete practice in its own right rather than a placeholder to be
-embarrassed about.
+The three are named for what they are rather than after anyone's framework —
+the terms here were borrowed from a modern author's vocabulary and have been
+replaced with plain description.
 
-**Mode 2 — Enquiry.** Rather than stating a resolve, hold a question and
-listen. *What do I most deeply want?* Ask once, listen roughly twenty seconds,
-and if nothing arrives, drop it entirely and move on.
+**Mode 1 — Presence.** The slot is held open with no content. Arrival, nothing
+asked for. Available from session one, requires no decision, and is a complete
+practice in its own right rather than a placeholder to be embarrassed about.
 
-**Mode 3 — Embodied intention.** The classical form: a short fixed resolve,
-present tense, phrased as already true, felt in the body rather than thought.
+**Mode 2 — Question.** Rather than stating a resolve, hold one and listen.
+*What do I most deeply want?* Ask once, listen roughly twenty seconds, and if
+nothing arrives, drop it entirely and move on.
+
+**Mode 3 — Resolve.** The classical form: a short fixed statement, present
+tense, phrased as already true, felt in the body rather than thought.
 Invariance applies here and only here.
 
 ### The modes are a pipeline, not a difficulty gradient
@@ -228,7 +231,7 @@ Mode 2 is not an easier substitute for mode 3 — it is the mechanism that
 repeatedly until you notice it has been the same one for a month. Which gives
 the transition a real criterion:
 
-> **Move from enquiry to embodied when the same answer has arrived unbidden
+> **Move from Question to Resolve when the same answer has arrived unbidden
 > across roughly five consecutive sessions, and lands as a felt yes rather than
 > as a good idea.**
 
@@ -236,7 +239,7 @@ Still generating fresh candidates each session means not ready. That is
 information, not failure — and the negative result is more useful than a
 resolve adopted on schedule.
 
-**The enquiry's failure mode is thinking.** Problem-solving your life while
+**Question's failure mode is thinking.** Problem-solving your life while
 lying down is the exact opposite of the state the induction just produced. The
 twenty-second cap is what prevents it. Answers arrive between sessions at least
 as often as during them.
@@ -319,12 +322,12 @@ stages consolidating and freeing up attention, not as a trained skill.
 |---|---|---|---|
 | 0:00–0:30 | **Settle** | Supine, eyes closed. Opening formula only — no content, no resolve. | AT |
 | 0:30–2:00 | **Induction** | Generalisation formula ×2, unhurried. Stands in for the rotation of consciousness. | AT |
-| 2:00–2:30 | **Sankalpa (sowing)** | Whichever mode is current — presence, enquiry, or the fixed resolve stated as already true. | Nidra |
+| 2:00–2:30 | **Sankalpa (sowing)** | Whichever mode is current — Presence, Question, or the fixed Resolve stated as already true. | Nidra |
 | 2:30–3:30 | **Refuge** | Go to it as *sensation*, not as a picture. Warmth, contact, weight. Establish it is available, then leave it. | Nidra |
 | 3:30–5:00 | **Pranamaya** | *It breathes me.* Then count breaths down from 11, restarting on any lapse without annoyance. | Both |
 | 5:00–8:00 | **Pairs of opposites** | One pair per session, ~45s each pole, then both simultaneously — the simultaneity is the actual work. | Nidra |
 | 8:00–10:00 | **Sakshi / anandamaya** | Drop the object. Rest as the awareness present through every stage, including the AT sensations. No formula, no task. | Nidra |
-| 10:00–11:30 | **Sankalpa (repeat) + Intention** | Sankalpa again, verbatim if in mode 3. Then the Intention, often enquiry mode indefinitely. Let both land in the softened state rather than being asserted at it. | Nidra |
+| 10:00–11:30 | **Sankalpa (repeat) + Intention** | Sankalpa again, verbatim if in Resolve mode. Then the Intention, often Question mode indefinitely. Let both land in the softened state rather than being asserted at it. | Nidra |
 | 11:30–12:00 | **Externalisation** | AT cancellation, brisk. Sit up before the eyes fully re-engage. | Both |
 
 The closing slot runs 90 seconds, not 60: a verbatim sankalpa followed by an
@@ -497,7 +500,7 @@ Three lengths, matching the document:
 | Field, 3 min | Settle, Induction, Refuge, Sankalpa, Cancellation | 180s | itself |
 | Sleep | Induction, Rotation, No exit | open-ended, counting up | never — you fall asleep |
 
-The sankalpa can be written down, and in embodied mode it is what appears at
+The sankalpa can be written down, and in Resolve mode it is what appears at
 both sankalpa stages — in the words it was written in and no others. Rewording
 it after it has been running asks for confirmation, because the same sentence
 every time is the discipline autogenic training lends nidra, and a resolve

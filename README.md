@@ -572,6 +572,27 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The three sankalpa modes are named for what they are
+
+They were *Simplify being*, *Enquiry* and *Embodied* — a triad lifted from a
+modern author's framework. They are now **Presence**, **Question** and
+**Resolve**, which is what each one actually does: the slot held open with
+nothing asked for, a question asked once and listened to, or a fixed statement
+held as already true.
+
+Worth separating the two things tangled together here. Short names and labels
+are not protected by copyright, and a *method* is explicitly excluded from it —
+this is a trademark-and-attribution question, and a mild one. The Sanskrit is a
+separate matter again and carries no risk at all: *sankalpa*, *pranamaya*,
+*sakshi* are traditional terms centuries older than anyone's book, and they
+stay.
+
+But the borrowed triad was worth losing regardless, because it was also the
+worse writing. *Simplify being* tells a first-time reader nothing, and
+*Embodied* is jargon standing where a plain noun belongs.
+
+Old records carry the old keys, so `ndState()` maps them forward on read.
+
 ### The look-ahead could not see the ending
 
 Preview marked no step as probed, so `gate().ready` and `gate().done` were
