@@ -572,6 +572,24 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The gear was a sun
+
+The header button had `class="gear"`, `aria-label="Settings"` and a `data-go`
+pointing at the settings screen — and drew a circle with eight radiating lines,
+which is a sun. On a phone a sun means one thing: switch to light mode. So the
+one control that opened Settings was advertising a theme toggle, and this
+README had been calling it a gear for days on the strength of the class name.
+
+Almost certainly a fossil: Settings began life as the theme control, where a
+sun was apt, and grew into a screen without the icon following. It draws a gear
+now.
+
+Worth noting how it survived. `check_app.py` verifies that every `$('#id')`
+resolves and every on-screen cue is spoken; nothing it does could ever look at
+a path and see the wrong picture. Neither could `test_journey.py`, which clicks
+the button and lands on Settings exactly as intended. This one needed eyes, and
+it took a user's.
+
 ### Settings is not a tab; nidra was in the wrong room
 
 Asked whether Settings should be promoted to a fourth tab, on the reasonable
