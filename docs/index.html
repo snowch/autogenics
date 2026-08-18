@@ -605,7 +605,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="0abed78+";
+window.__BUILD__="a7013a0+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -914,6 +914,12 @@ function renderJourney(){
     t.onclick=()=>{mode='timer'; renderJourney();};
     m.appendChild(g); m.appendChild(t); now.appendChild(m);
   }
+  /* Unguided, the chimes are the only thing reaching someone with their eyes
+     shut, so say what they mean once, where the choice is made. */
+  if(mode==='timer'||!st.audio)
+    now.appendChild(el('p','phrasehint',
+      'One note to begin. Two rising notes when it is time to take it back — '
+      + 'arms, breath, eyes. Two low notes when you are done.'));
 
   /* ---- review: how it is going, and whether to move on ---- */
   const g2=gate();
@@ -1145,17 +1151,43 @@ mode = guidedDefault() ? 'guided' : 'timer';
 }
 
 let timer=null, ctx=null;
+/* Tones are scheduled on the audio clock rather than fired by the interval,
+   because a phone with the screen off throttles or freezes setInterval and the
+   chime is the only thing an eyes-closed practitioner receives. Scheduling
+   ahead means the practice stays audible even when the JS timer does not run.
+   hush() exists so a practice quit early does not chime at you a minute later. */
+let scheduled=[];
+function hush(){ scheduled.forEach(o=>{try{o.stop();}catch(e){}}); scheduled=[]; }
 function tone(freq,dur,when){
   try{
     ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
+    if(ctx.state==='suspended') ctx.resume();
     const o=ctx.createOscillator(), g=ctx.createGain(), t=ctx.currentTime+(when||0);
     o.type='sine'; o.frequency.value=freq;
     g.gain.setValueAtTime(0,t);
     g.gain.linearRampToValueAtTime(.22,t+.04);
     g.gain.exponentialRampToValueAtTime(.0001,t+dur);
     o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+dur+.05);
+    scheduled.push(o); o.onended=()=>{ scheduled=scheduled.filter(x=>x!==o); };
   }catch(e){}
 }
+
+/* Ninety seconds with the eyes shut is longer than any phone's screen timeout,
+   and a sleeping screen takes the timer and the chimes with it. Released on
+   the way out, and re-taken on return because hiding the page drops the lock. */
+let wake=null;
+function keepAwake(on){
+  try{
+    if(on){ if(!wake && navigator.wakeLock)
+      navigator.wakeLock.request('screen').then(w=>{wake=w; w.onrelease=()=>{wake=null;};},()=>{}); }
+    else if(wake){ wake.release().catch(()=>{}); wake=null; }
+  }catch(e){ wake=null; }
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState!=='visible') return;
+  if(ctx && ctx.state==='suspended') ctx.resume();
+  if(document.querySelector('#practice.on, #nidra.on')) keepAwake(true);
+});
 /* Revision runs an earlier step's audio without logging it. A repeat is not
    today's dose: letting it fill a slot, or count toward the gate on a phrase
    it was not practising, would corrupt the one record the app asks the user
@@ -1182,8 +1214,18 @@ function runPractice(st, guided){
   $('#pxCue').textContent=guided?'':st.cues[0];
   $('#pxPhase').textContent=revising!==null?'Revision':(guided?'Guided':'Practice');
   const a=$('#pxAudio');
+  keepAwake(true); hush();
   if(guided){ a.src=AUDIO[st.audio]; a.currentTime=0; a.play().catch(()=>{}); }
-  else{ a.removeAttribute('src'); tone(432,.9,0); }
+  else{
+    a.removeAttribute('src');
+    /* Three marks, scheduled now: begin, come back, done. The take-back had no
+       sound at all — its cues changed on screen, which is no use to someone
+       with their eyes shut, in the one part of the practice the cautions call
+       non-optional and onboarding promises the app always runs. */
+    tone(432,.9,0);
+    tone(392,.45,total-TAKEBACK); tone(523,.55,total-TAKEBACK+.3);
+    tone(324,1.1,total); tone(432,1.3,total+.5);
+  }
   const C=2*Math.PI*112;
   const t0=Date.now();
   clearInterval(timer);
@@ -1208,10 +1250,13 @@ function runPractice(st, guided){
     if(e>=d) finishPractice();
   },250);
 }
-function finishPractice(){
+function finishPractice(early){
   clearInterval(timer); timer=null;
+  keepAwake(false);
   $('#pxAudio').pause();
-  if(mode!=='guided'||!step().audio){ tone(324,1.1,0); tone(432,1.3,.5); }
+  /* A timed practice already has its closing pair scheduled on the audio
+     clock. Only a practice stopped by hand needs one played now. */
+  if(early){ hush(); if(mode!=='guided'||!step().audio){ tone(324,1.1,0); tone(432,1.3,.5); } }
   $('#practice').classList.remove('on');
   if(revising!==null){ revising=null; renderJourney(); return; }
   $('#rating').classList.add('on');
@@ -1232,10 +1277,11 @@ function go(name){
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
 
-$('#pxStop').onclick=finishPractice;
+$('#pxStop').onclick=()=>finishPractice(true);
 $('#pxQuit').onclick=()=>{           /* leave with nothing logged */
   revising=null;
   clearInterval(timer); timer=null;
+  hush(); keepAwake(false);          /* or it chimes at you a minute later */
   $('#pxAudio').pause();
   $('#practice').classList.remove('on');
 };
@@ -1323,6 +1369,13 @@ function runNidra(kind){
   const total=stages.reduce((a,x)=>a+x.t,0);
   const openEnded = kind==='sleep';        /* no clock, no exit, by design */
   $('#nidra').classList.add('on');
+  keepAwake(true); hush();
+  /* Twelve minutes lying still is where a screen sleeps and setInterval stops,
+     and here the chimes are not decoration — they are the entire instruction.
+     Every boundary is scheduled on the audio clock before the session starts. */
+  let at=0;
+  stages.forEach((sg,i)=>{ if(i) tone(432,.6,at); at+=sg.t; });
+  if(!openEnded){ tone(324,1.1,at); tone(432,1.3,at+.5); }
   const C=2*Math.PI*112, t0=Date.now();
   let shown=-1;
   clearInterval(ndTimer);
@@ -1331,8 +1384,7 @@ function runNidra(kind){
     let acc=0, i=stages.length-1;
     for(let k=0;k<stages.length;k++){ if(e<acc+stages[k].t){ i=k; break; } acc+=stages[k].t; }
     if(i!==shown){
-      shown=i;
-      if(shown>0) tone(432,.6,0);          /* the boundary chime */
+      shown=i;                             /* chimes are pre-scheduled above */
       $('#ndStage').textContent=stages[i].n;
       $('#ndCue').textContent=stages[i].c;
       $('#ndNext').textContent = stages[i+1] ? 'Next: '+stages[i+1].n : '';
@@ -1349,13 +1401,13 @@ function runNidra(kind){
 }
 function endNidra(complete){
   clearInterval(ndTimer); ndTimer=null;
+  keepAwake(false);
   $('#nidra').classList.remove('on');
-  if(complete){
+  if(complete){                          /* closing pair is already scheduled */
     const st=ndState();
     st.count++; st.pair=(st.pair+1)%NIDRA_PAIRS.length;   /* one pair per session */
     save();
-    tone(324,1.1,0); tone(432,1.3,.5);
-  }
+  }else hush();
   renderNidra(); go('settings');
 }
 /* The segment picks a length and the button starts it. They were one control

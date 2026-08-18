@@ -571,6 +571,33 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The take-back was silent, and the screen went to sleep
+
+Two bugs that only exist in real use, found by thinking about what the app does
+on a phone lying on a chest for ninety seconds with the eyes shut.
+
+**The take-back had no sound.** In timer mode its three cues changed on screen
+and nowhere else. The cautions call the take-back non-optional and the
+onboarding promises the app always runs it — and it was running it as text, to
+somebody who is not looking. It now has two rising notes at the boundary, and
+the practice card says what they mean where the mode is chosen: one note to
+begin, two rising to come back, two low when done.
+
+**Nothing held the screen awake.** Every phone's screen timeout is shorter than
+a practice. A sleeping screen throttles or freezes `setInterval`, which is what
+fires the chimes, so the longer the session the more likely it ended in silence
+— and the twelve-minute nidra runner, where the chimes *are* the instruction,
+was the worst case. Two fixes, because either alone is thin: a screen wake lock
+held for the duration and re-taken when the page comes back, and every tone
+scheduled on the Web Audio clock at session start rather than fired by the
+interval. The audio clock keeps time whether or not the JS timer runs. Verified
+by reading the schedule back: `0, 81, 81.3, 96, 96.5` for a 96-second step, and
+the nine nidra boundaries at `30, 120, 150, 210, 300, 480, 600, 690, 720`.
+
+Scheduling ahead brings its own bug, so `hush()` cancels the pending
+oscillators when a practice is cancelled or a nidra session stopped. Otherwise
+the app chimes at you a minute after you walked away.
+
 ### Absence used to count as practice
 
 The gate has two halves: at least seven days on the phrase, and evidence it is
