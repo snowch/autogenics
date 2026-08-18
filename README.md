@@ -572,6 +572,24 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The look-ahead could not see the ending
+
+Preview marked no step as probed, so `gate().ready` and `gate().done` were
+false at every step it could show. It let you look ahead at every step's
+practice and none of the moments that decide anything: the gate unlocking, the
+Finished screen, the sequence-as-an-image offer, and the nidra door behind it.
+The last screen in the programme was the one screen preview could not reach —
+and that is where the sankalpa lives.
+
+"A week in" now means the gate is genuinely open, which is what someone looking
+ahead is looking for. "Just arrived" still shows the criteria unmet, because
+that is the honest day-one view.
+
+So the sankalpa is reachable today without waiting ten weeks for it: Settings →
+Look ahead → step 10 → a week in. Nothing written in there is saved, which is
+the point of preview and also the limitation — a resolve set in preview is a
+rehearsal, not the real one.
+
 ### No splash screen, but no flash either
 
 Asked whether the app should open on a screen saying *Switch*. It should not,

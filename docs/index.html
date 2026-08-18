@@ -727,7 +727,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="7aa96e6+";
+window.__BUILD__="4b80149+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -904,8 +904,14 @@ function previewRecord(n, late){
     log.push({d:dk(own+2+(n-i)*8+b), t:'', step:i, r:3, m:'timer'});
   for(let b=0;b<own;b++) for(let k=0;k<2;k++)
     log.push({d:dk(b+off), t:'', step:n, r:3, m:'timer'});
+  /* "A week in" has to mean the gate is open, or the look-ahead shows every
+     step's practice and none of the moments that decide anything — the gate
+     unlocking, the ending, and the door to nidra behind it. The probe was
+     never marked, so gate().ready and gate().done were false at every step and
+     the last screen in the programme could not be previewed at all. */
+  const probed=[]; if(late) for(let i=0;i<=n;i++) probed.push(i);
   return {step:n, log, stepStart:dk(own), onboarded:true, drilled:true, halfway:true,
-          warned:STEPS.map((x,i)=>i), briefed:['after-first'], skipped:[], probed:[],
+          warned:STEPS.map((x,i)=>i), briefed:['after-first'], skipped:[], probed,
           rev:0, weekAsked:dk(2), theme:S.theme||'system', reminders:S.reminders};
 }
 function enterPreview(n, late){
