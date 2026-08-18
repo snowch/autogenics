@@ -803,9 +803,16 @@ function gate(){
     if(good>=GATE.needPerDay)met++;
   }
   const last=S.step>=STEPS.length-1;
-  const landed=days>=GATE.minDays&&met>=GATE.window;
+  /* The third criterion. Days and ratings both describe a session that had
+     cues on screen or a voice in your ear, so they measure the response with
+     the scaffolding still holding it up. The probe is the same practice with
+     nothing at all — which is the thing being trained, and the only way to
+     catch a formula that has quietly become recitation. */
+  const probeOk=(S.probed||[]).includes(S.step);
+  const earned=days>=GATE.minDays&&met>=GATE.window;
+  const landed=earned&&probeOk;
   return {days, met, floorOk:days>=GATE.minDays, evidenceOk:met>=GATE.window,
-          ready:!last&&landed, last, done:last&&landed};
+          probeOk, earned, ready:!last&&landed, last, done:last&&landed};
 }
 const guidedDefault=()=>step().audio!==null && priorStepDays()<3;
 
@@ -877,6 +884,40 @@ function renderBrief(){
 /* The gate lives on Progress now, so the two moments that actually change what
    the user does have to surface on the screen they open every day. Anything
    less and the app silently waits for them to go looking. */
+/* Cue-shrinking, carried over from the nidra protocol for the same reason:
+   the endpoint of consolidation is an instruction small enough to cost nothing
+   to issue. A line shrinks on how many days you have actually been saying it,
+   counted from the record, so inside one sequence the old elements are already
+   down to a word while the one you are learning is still a whole sentence.
+
+   Never applied to a guided session — those cues have to match what the
+   recording says, and the recording says the long form. */
+const CUE_SHORT={
+ 'I am completely calm.':               ['Completely calm.',            'Calm.'],
+ 'My right arm is heavy.':              ['Right arm, heavy.',           'Heavy.'],
+ 'My left arm is heavy.':               ['Left arm, heavy.',            'Heavy.'],
+ 'Both arms are heavy.':                ['Both arms, heavy.',           'Heavy.'],
+ 'My arms are heavy.':                  ['Arms, heavy.',                'Heavy.'],
+ 'My legs are heavy.':                  ['Legs, heavy.',                'Heavy.'],
+ 'My arms and legs are heavy.':         ['Arms and legs, heavy.',       'Heavy.'],
+ 'My right arm is warm.':               ['Right arm, warm.',            'Warm.'],
+ 'My arms are warm.':                   ['Arms, warm.',                 'Warm.'],
+ 'My heartbeat is calm and regular.':   ['Heartbeat, calm and regular.','Heartbeat, calm.'],
+ 'It breathes me.':                     ['It breathes me.',             'Breathing.'],
+ 'My solar plexus is warm.':            ['Solar plexus, warm.',         'Warm centre.'],
+ 'My forehead is cool.':                ['Forehead, cool.',             'Cool.']};
+function cueDays(c){
+  const d=new Set();
+  S.log.forEach(e=>{ const st=STEPS[e.step];
+    if(st && st.cues.indexOf(c)>=0) d.add(e.d); });
+  return d.size;
+}
+const shrinkCue=c=>{
+  const f=CUE_SHORT[c]; if(!f) return c;
+  const n=cueDays(c);
+  return n<8 ? c : n<20 ? f[0] : f[1];
+};
+
 /* The three daily practices are not three of the same practice.
 
    Doing the whole growing stack three times a day means the element actually
@@ -902,8 +943,10 @@ function sessionPlan(){
           {kind:'review',   idx:(S.rev||0)%S.step},
           {kind:'sequence', idx:S.step}];
 }
-const sessionCues=p=>
+const rawCues=p=>
   (p.kind==='stack'||p.kind==='sequence') ? STEPS[p.idx].cues : aloneCues(STEPS[p.idx]);
+const sessionCues=(p,guided)=>
+  guided ? rawCues(p) : rawCues(p).map(shrinkCue);
 const SLOT_LAB={stack:['Morning','Midday','Evening'],
                 split:['The phrase','Review','Sequence']};
 /* Which of the day's three is next. Anything beyond the third repeats the
@@ -1033,6 +1076,15 @@ function renderJourney(){
     const hr=document.createElement('hr'); hr.className='sep'; rv.appendChild(hr);
     crit(g2.floorOk,'At least '+GATE.minDays+' days practising this phrase — % so far',g2.days);
     crit(g2.evidenceOk,'Clearly there twice a day, three days running — %/3',g2.met);
+    crit(g2.probeOk,'Held it once with no cues and no recording','');
+    /* Offered only once the other two are met: a probe you cannot pass yet is
+       just a way of telling someone they are failing. */
+    if(g2.earned && !g2.probeOk){
+      const pb=el('button','btn','Run it yourself');
+      pb.style.marginTop='14px'; pb.onclick=runProbe;
+      rv.appendChild(el('p','note','One last thing. The same practice with nothing on screen and nothing playing — a note to begin and a note to finish, and the sequence held by you. That is the thing you are actually learning, and it is the only part of this the ratings cannot see.'));
+      rv.appendChild(pb);
+    }
     if(g2.ready){
       const adv=el('button','btn','Move to the next step');
       adv.style.marginTop='14px';
@@ -1302,7 +1354,7 @@ function startPractice(){
   /* Only the stack has a recording. The phrase alone and the review are the
      same ninety seconds with a different cue list, and no voice for either. */
   const guided = session.kind==='stack' && mode==='guided' && st.audio;
-  runPractice(STEPS[session.idx], guided, sessionCues(session), session.kind);
+  runPractice(STEPS[session.idx], guided, sessionCues(session, guided), session.kind);
 }
 function revise(i){
   revising=i; session=null;
@@ -1313,12 +1365,13 @@ function runPractice(st, guided, cues, kind){
   cues=cues||st.cues;
   const total=st.secs;
   $('#practice').classList.add('on');
-  $('#pxCue').textContent=guided?'':cues[0];
+  $('#pxCue').textContent = kind==='probe' ? '' : (guided?'':cues[0]);
   $('#pxPhase').textContent = revising!==null ? 'Revision'
     : guided ? 'Guided'
     : kind==='review' ? 'Review \u00b7 '+st.n.toLowerCase()
     : kind==='sequence' ? 'Sequence'
     : kind==='new' ? 'The phrase'
+    : kind==='probe' ? 'On your own'
     : 'Practice';
   const a=$('#pxAudio');
   keepAwake(true); hush();
@@ -1341,7 +1394,13 @@ function runPractice(st, guided, cues, kind){
     const d=guided&&a.duration?a.duration:total, left=Math.max(0,d-e);
     $('#pxTime').textContent=Math.floor(left/60)+':'+String(Math.floor(left%60)).padStart(2,'0');
     $('#pxArc').style.strokeDashoffset=C*(1-Math.min(1,e/d));
-    if(!guided){
+    if(kind==='probe'){
+      /* Nothing on screen is the whole point. Only the take-back appears,
+         because the cautions do not make an exception for a test. */
+      if(e > total - TAKEBACK){ $('#pxPhase').textContent='Waking up';
+        $('#pxCue').textContent=TAKEBACK_CUES[Math.min(TAKEBACK_CUES.length-1,
+          Math.floor((e-(total-TAKEBACK))/(TAKEBACK/TAKEBACK_CUES.length)))]; }
+    }else if(!guided){
       /* The last stretch is the take-back, and it was labelled "Waking up"
          while the cue still said "I am completely calm" — no instruction at
          all, in the one part of the practice the cautions call non-optional
@@ -1366,6 +1425,7 @@ function finishPractice(early){
   if(early){ hush(); if(mode!=='guided'||!step().audio){ tone(324,1.1,0); tone(432,1.3,.5); } }
   $('#practice').classList.remove('on');
   if(revising!==null){ revising=null; renderJourney(); return; }
+  if(session && session.kind==='probe'){ session=null; return endProbe(); }
   $('#rating').classList.add('on');
 }
 function logRating(r){
@@ -1542,6 +1602,23 @@ function endDrill(complete){
 }
 $('#drQuit').onclick=()=>endDrill(false);
 $('#lDrill').onclick=runDrill;   /* a drill you have done is still findable */
+
+/* The probe: the current step's own length, one note at each end, nothing in
+   between. Passing is self-reported because nothing else can report it — but
+   the question is about what you could do, not how it felt, and it is asked
+   immediately afterwards rather than remembered. */
+function runProbe(){
+  session={kind:'probe', idx:S.step};
+  revising=null;
+  runPractice(step(), false, [], 'probe');
+}
+function endProbe(){
+  const held=confirm('Could you hold the sequence, start to finish, without prompts?\n\n'
+    + 'OK if you got through it under your own steam. Cancel if you lost the thread, '
+    + 'or found you were waiting for a cue that never came.');
+  if(held){ S.probed=(S.probed||[]).concat(S.step); save(); }
+  renderJourney(); go('progress');
+}
 
 /* ---------- the nidra session runner ---------- */
 let ndTimer=null;

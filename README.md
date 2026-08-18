@@ -571,6 +571,35 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Three practices, a probe, and a shrinking cue
+
+Three changes from `DESIGN.md` that together make the middle of the programme a
+design rather than a syllabus.
+
+**The day is no longer three of the same practice.** The stack three times over
+gave the element being learned two of eight cue slots by the eighth step, while
+five consolidated ones took the rest. It is now the phrase alone, one earlier
+element in rotation, and the stack once — six exposures for the new formula
+instead of two, and somewhere for the old ones to be rehearsed rather than
+recited. It splits only off the guided track, since no recording exists of a
+phrase alone. A review is logged against the step it revisited, which keeps the
+two-a-day evidence rule meaning what it did.
+
+**The gate has a third criterion.** Days and ratings both describe a session
+with cues on screen or a voice in your ear, so they measure the response with
+the scaffolding still holding it up. The probe is the same length with nothing
+at all — one note to begin, one to finish — and it is the only thing that
+catches a formula which has quietly become recitation. Offered only once the
+other two are met, because a probe you cannot pass yet is a way of telling
+someone they are failing.
+
+**Cues shrink as they consolidate.** `My right arm is heavy.` → `Right arm,
+heavy.` → `Heavy.`, keyed to how many days you have actually been saying that
+line, counted from the record. Inside one sequence the old elements are down to
+a word while the one being learned is still a whole sentence, which is exactly
+the right shape. Never applied to a guided session, where the cues have to
+match what the recording says.
+
 ### Reminders, without a server
 
 Three practices a day is the entire method, and the app had no way to ask for
