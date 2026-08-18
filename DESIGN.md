@@ -198,7 +198,145 @@ becomes a content product and the ending becomes commercially inconvenient.
 
 ---
 
-## 7. Design the ending, then put a door in it
+## 7. The middle: weeks two to ten
+
+Everything above is about week one, and calling the rest "a syllabus" was a
+dodge. The middle has its own failure modes, and they are not the same ones.
+
+Week one's problem is *I feel nothing, is this working?* The middle's problems
+are: the novelty is gone and the finish is not in sight, every new exercise
+makes you a beginner again, the sequence grows while the clock does not, and
+life happens.
+
+### Three practices a day should not be three of the same practice
+
+This is the change I would make first. Today all three daily practices are the
+same growing stack, and by step eight the new element gets two of eight cue
+slots — a quarter of the session — while five consolidated elements it does not
+need to train take the rest. The instructional design is inverted: the thing
+being learned gets the least exposure.
+
+Split them:
+
+| | What | Why |
+|---|---|---|
+| 1 | **The new element, alone, full time** | This is the training. It should get a whole session, not a corner of one. |
+| 2 | **One earlier element, drawn at random** | Interleaving, and a guaranteed win on a bad day. |
+| 3 | **The full sequence, briskly** | Integration. Once a day is enough for this. |
+
+Same ninety seconds, three times, no extra cost. It also makes the three
+distinguishable, and three identical repetitions a day are more boring than
+three different ones — which is not a small point across nine weeks.
+
+The interleaving has support: blocked practice (AAAA BBBB) produces faster
+apparent gains and worse retention than interleaved, one of the better
+replicated findings in motor learning. But it comes with a tension worth
+naming rather than glossing: **interleaving reliably makes practice feel worse
+while you are doing it**, and this product's main risk is people quitting
+because they do not feel progress.
+
+The resolution is which element you interleave. Do not mix *competing new*
+material — draw the review from what is already consolidated. Then the second
+practice is the one where something works, sitting in the middle of a week
+where the new thing does not. Interleaving that reassures rather than
+frustrates.
+
+### Every step up feels like a step down — design that moment
+
+You spend nine days getting heaviness reliable, and the reward is warmth,
+which does not come. Repeated six times. Right now the app hands over a new
+phrase and a briefing film and says nothing about this.
+
+It should say it, using the user's own record: *"Heaviness took you nine days.
+You are on day one of warmth. This is what day one felt like then, too."* A
+generic reassurance is weak; their own history is not, and it gets stronger
+every step. This is the one place where accumulated data earns its keep
+emotionally rather than administratively.
+
+### Gate on a probe, not on a rating
+
+The current gate is days plus self-rated evidence. Both are reports about a
+guided or timed session — so they measure the response *with the scaffolding
+in place*, which is not the skill.
+
+Add a **probe**: one session with no cues at all, a bell at each end, run it
+yourself. That is the actual deliverable, tested. Passing the probe is what
+should open the next step, and failing it is diagnostic rather than punitive —
+it means the scaffold is doing work you think you are doing.
+
+It also detects the classic failure of this method, which nothing currently
+looks for: the formula degrading into recitation. Saying "my right arm is
+heavy" without waiting for the arm is the most common way to practise
+diligently for two months and learn nothing. A probe catches it; a rating
+never will, because the person reciting believes they are practising.
+
+### Shrink the phrase across the programme, not just in nidra
+
+`PRIMED-NIDRA.md` specifies cue-shrinking — full wording, then compressed, then
+one word — and it is built for the nidra runner. It belongs in the main ladder
+too, and for the same reason: the endpoint of consolidation is a cue small
+enough to cost nothing to issue. *My right arm is heavy* → *arm, heavy* →
+*heavy* → a breath.
+
+This is also what makes the endgame concrete in the middle. The scaffolding
+visibly thins — guided, then timer, then silence, and the words themselves
+getting shorter — so "you end up not needing this" stops being a promise on the
+first screen and becomes something happening in front of you in week five.
+
+### Lapses: design the return, and fix the floor
+
+A nine-week programme will be interrupted. Illness, travel, a bad fortnight.
+Three rules:
+
+1. **Never show what was missed.** No "you missed 14 sessions". The record
+   shows density; a gap is a gap and is allowed to be unremarkable.
+2. **Return on a win, not where you left off.** Coming back after a week
+   should offer one session of the last element that was solid, alone. Get the
+   response back, then resume. Resuming cold on the hardest current material
+   is how a lapse becomes a stop.
+3. **Absence must not count as practice.** It currently does. `stepDays()`
+   measures calendar days since the step began, so the floor is satisfied by
+   elapsed time rather than by practice — two sessions, three weeks away, then
+   three good days, and the gate opens on six days of actual work spread over
+   twenty-four. Count days *practised*, and the same rule that protects the
+   floor makes lapses harmless rather than silently rewarded.
+
+### Put a landmark at the end of warmth
+
+Nine weeks with one acknowledgement at the very end is too long a run. There is
+a natural halfway house and it is not the numerical middle: it is the end of
+warmth. Heaviness and warmth are the two exercises that do most of the work and
+carry most of what evidence exists. Arriving there is worth marking — *you now
+have the part that most people who learn this ever actually use* — with the
+same handover tone as the closing film, not a celebration.
+
+### Re-teach discharge where it actually happens
+
+Autogenic discharge is explained once, after the first practice, and never
+mentioned again. It becomes *more* likely deeper in — the warm centre and the
+cool head are where unexpected emotion tends to turn up, in week six or seven,
+a month and a half after the only time anyone mentioned it. The briefings are
+already just-in-time by design; this should be too.
+
+### Let the cautioned steps be skipped without failing
+
+The heartbeat and the warm centre carry real cautions and are traditionally
+taught in person. The path currently assumes all ten steps. Someone with a
+heart condition or in pregnancy should be able to *finish* — "the first five"
+is a legitimate and traditional endpoint — rather than stall against a step
+they were correctly told to avoid. A programme that cannot be completed safely
+by the people it warns is badly designed, not cautious.
+
+### One weekly question
+
+Daily ratings are for the gate. The useful reflection is weekly and
+comparative: *compared with last week — easier, the same, or harder?* That is
+the signal that detects a plateau, it costs one tap every seven days, and
+nothing in the daily log surfaces it.
+
+---
+
+## 8. Design the ending, then put a door in it
 
 The product's best and most unusual claim is that it finishes. Almost no
 product-design vocabulary exists for this, which makes it a differentiator
@@ -223,7 +361,7 @@ has decided what they are.
 
 ---
 
-## 8. Form factor
+## 9. Form factor
 
 If the interaction is ninety seconds, eyes closed, three times a day, in
 arbitrary places, then the phone is a compromise and the **watch is the correct
@@ -238,11 +376,14 @@ companion.
 
 ---
 
-## 9. What I would test first, in order
+## 10. What I would test first, in order
 
 1. **Contrast induction on day one.** Cheap, no dependencies, and it either
    raises day-3 retention or it does not. Measure: proportion reaching practice
    four.
+1b. **Split the three daily practices** into new / review / sequence. Also
+   cheap, and it is the middle-game equivalent of the contrast drill: no new
+   content, no extra minutes, a straight rearrangement of what already runs.
 2. **Compressed heaviness** (two steps, not four). Measure: time-to-warmth and
    the drop-off between them.
 3. **Self-recorded phrases.** Measure: completion, and whether people ever
