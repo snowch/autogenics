@@ -44,7 +44,12 @@
   --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
+/* Pull-to-refresh, off. Scrolling a list with a thumb ends at the top of the
+   page as often as not, and one more millimetre there reloads the app — which
+   during a practice destroys a running session outright: the timer, the
+   scheduled chimes and the take-back all live in memory. Nothing here needs
+   refreshing by hand anyway; the service worker updates itself. */
+html,body{margin:0;padding:0; overscroll-behavior-y:contain}
 body{background:var(--ground); color:var(--ink); font-family:var(--sans);
   font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased;
   /* dvh, not vh. Android Firefox slides its address bar away as you scroll and
@@ -230,6 +235,7 @@ body.pv nav{bottom:var(--pvh,56px)}
 .cell.r3{background:var(--accent); border-color:var(--accent)}
 
 .full{position:fixed; inset:0; z-index:40; background:var(--ground); display:none;
+  overscroll-behavior:contain;
   flex-direction:column; align-items:center; justify-content:center; gap:26px;
   padding:32px 24px calc(32px + var(--safeb)); text-align:center}
 .full.on{display:flex}
@@ -257,6 +263,7 @@ body.pv nav{bottom:var(--pvh,56px)}
 .rate .t{font-size:1rem; line-height:1.35; text-align:left; color:var(--ink)}
 
 #onboard{position:fixed; inset:0; z-index:60; background:var(--ground); display:none;
+  overscroll-behavior:contain;
   flex-direction:column; padding:0 24px calc(24px + var(--safeb))}
 #onboard.on{display:flex}
 .obwrap{max-width:440px; margin:0 auto; width:100%; flex:1; display:flex; flex-direction:column}
@@ -680,7 +687,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="e07613b+";
+window.__BUILD__="f1da5f0+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',

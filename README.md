@@ -572,6 +572,20 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Pull-to-refresh, off
+
+Scrolling a list with a thumb ends at the top of the page as often as not, and
+one more millimetre there reloads the app. Reported as an annoyance; it is
+worse than that. A reload during a practice destroys the session outright —
+the timer, the pre-scheduled chimes and the take-back all live in memory, and
+the take-back is the part the cautions call non-optional.
+
+`overscroll-behavior-y: contain` on the root turns the gesture off, and the
+full-screen overlays get `overscroll-behavior: contain` too so a swipe on a
+practice screen cannot chain out to the page behind it. Nothing here needs
+refreshing by hand: the service worker updates itself, and now defers the
+reload while a practice is running.
+
 ### A tab bar of double height
 
 Reported from Android Firefox: the bottom nav sometimes drew at twice its
