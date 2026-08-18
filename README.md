@@ -111,6 +111,7 @@ with no signal. Rebuild it with:
 
 ```bash
 python3 tools/check_app.py     # syntax-check the JS — run this before publishing
+python3 tools/test_gate.py     # behavioural: does the gate open for the right reasons?
 python3 tools/build_pwa.py
 ```
 
@@ -569,6 +570,35 @@ promising to get out of the way.
 While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
+
+### Absence used to count as practice
+
+The gate has two halves: at least seven days on the phrase, and evidence it is
+landing. The second half was doing all the work, because the first was
+measuring the wrong thing — `stepDays()` returned calendar days since the step
+opened, so a lapse counted as progress. Two sessions, three weeks away, three
+good days on return, and a gate that means "about a week on this phrase" opened
+on six days of practice spread over twenty-four. Six honest days passed it too,
+for the same reason.
+
+It now counts days on which something was actually logged for this step. The
+same change makes lapses behave sensibly everywhere else: a fortnight away
+neither advances you nor punishes you, it simply does not count, which is the
+only defensible reading of a criterion-referenced gate.
+
+`guidedDefault()` moved to the same footing — the first three days you turn up,
+not the first three on the calendar, so someone practising on days 1, 5 and 9
+still gets guided through all three. It reads the days *behind* today rather
+than including it, because counting today flipped the mode partway through the
+third day, between one practice and the next.
+
+This is the class of bug `check_app.py` cannot see: the code parsed cleanly
+whichever thing it counted. So `tools/test_gate.py` loads the real app in a
+browser and asks `gate()` what it thinks about six scenarios — the lapse
+exploit, an honest week, six days, once-a-day, faint ratings, and landing that
+happened but has since stopped. Run against the commit before the fix it
+reports two failures. It is the first behavioural test in the repository and
+there should be more of them.
 
 ### The nidra runner is silent, and that is the whole point
 

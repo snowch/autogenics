@@ -746,8 +746,17 @@ function load(){
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
 const step=()=>STEPS[Math.min(S.step,STEPS.length-1)];
 const dayLog=d=>S.log.filter(e=>e.d===d);
-const stepDays=()=>Math.floor(
-  (new Date(today()+'T00:00:00')-new Date(S.stepStart+'T00:00:00'))/864e5)+1;
+/* Days *practised* on this step, not days elapsed since it opened. Measuring
+   the calendar meant absence counted as progress: two sessions, three weeks
+   away, then three good days, and a gate that is supposed to mean "about a
+   week on this phrase" opened on six days of work spread over twenty-four.
+   Nothing else needs to know about lapses once this is counted correctly. */
+const stepDayKeys=()=>new Set(S.log.filter(e=>e.step===S.step).map(e=>e.d));
+const stepDays=()=>stepDayKeys().size;
+/* Guided for the first three days you actually turn up. Deciding this from
+   today's count would flip the mode partway through the third day, between one
+   practice and the next, so it is decided from the days already behind you. */
+const priorStepDays=()=>{ const k=stepDayKeys(); k.delete(today()); return k.size; };
 
 function gate(){
   const days=stepDays();
@@ -761,7 +770,7 @@ function gate(){
   return {days, met, floorOk:days>=GATE.minDays, evidenceOk:met>=GATE.window,
           ready:!last&&landed, last, done:last&&landed};
 }
-const guidedDefault=()=>step().audio!==null && stepDays()<=3;
+const guidedDefault=()=>step().audio!==null && priorStepDays()<3;
 
 const $=s=>document.querySelector(s);
 const el=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c;
@@ -913,7 +922,7 @@ function renderJourney(){
     strip.appendChild(c);
   }
   rv.appendChild(strip);
-  rv.appendChild(el('p','smeta','Last '+STRIP_DAYS+' days \u00b7 day '+stepDays()+' of this step'));
+  rv.appendChild(el('p','smeta','Last '+STRIP_DAYS+' days \u00b7 '+stepDays()+' practised on this step'));
 
   if(g2.done){
     rv.appendChild(el('p','note','Learned, on your own record — five days at the last step with it landing twice a day, three days running. The app is optional from here; the response is not going anywhere as long as you keep using it.'));
@@ -929,7 +938,7 @@ function renderJourney(){
       r.appendChild(sp); rv.appendChild(r);
     };
     const hr=document.createElement('hr'); hr.className='sep'; rv.appendChild(hr);
-    crit(g2.floorOk,'At least '+GATE.minDays+' days on this phrase — day %',g2.days);
+    crit(g2.floorOk,'At least '+GATE.minDays+' days practising this phrase — % so far',g2.days);
     crit(g2.evidenceOk,'Clearly there twice a day, three days running — %/3',g2.met);
     if(g2.ready){
       const adv=el('button','btn','Move to the next step');
