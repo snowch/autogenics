@@ -47,6 +47,21 @@ def check(path: Path) -> list[str]:
     # In a built file the injected map replaces the fallback entirely, so any
     # key the code reads must be present in it. A missing optional key fails
     # silently at runtime — that is how the video shipped without its poster.
+    # Inline scripts share one global scope, so a `var x` in one and a
+    # `let x` in another is a SyntaxError that kills the second script
+    # outright. node --check passes each in isolation and sees nothing; the
+    # PWA's service-worker registration was silently dead this way.
+    if Path(node).exists() and len(scripts) > 1:
+        with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False,
+                                         encoding="utf-8") as t:
+            t.write("\n;\n".join(scripts)); joined = t.name
+        r = subprocess.run([node, "--check", joined], capture_output=True, text=True)
+        Path(joined).unlink()
+        if r.returncode:
+            first = next((l for l in r.stderr.splitlines() if "Error" in l), "")
+            errs.append("the inline scripts clash when combined, which is how "
+                        "the browser runs them: " + first.strip())
+
     # A local `const go = ...` inside a function shadows the top-level go()
     # navigator for that whole scope, so every call to it from a handler
     # declared there silently returns a DOM element instead of navigating.

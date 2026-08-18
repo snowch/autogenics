@@ -128,16 +128,34 @@ def main() -> int:
     # to clear site data. Check on launch and on resume, and reload once when a
     # new worker takes over.
     html = html.replace("</body>", """<script>
+(function(){
 if('serviceWorker' in navigator){
   /* claimed is a running flag, not a snapshot. Read once at load it is false
      on a first-ever visit, stays false when that first worker claims the page,
      and then swallows the reload for the genuine update that follows. */
-  var claimed = !!navigator.serviceWorker.controller;
-  navigator.serviceWorker.addEventListener('controllerchange', function(){
-    if(!claimed){ claimed = true; return; }   /* first install: nothing to replace */
-    if(window.__reloading) return;            /* can fire more than once */
+  var claimed = !!navigator.serviceWorker.controller, pending = false, waitTimer = null;
+  /* Never reload out from under a running practice. Someone is lying down with
+     their eyes shut for ninety seconds; restarting the app mid-exercise is the
+     one moment this must not happen. The same goes for a film playing and for
+     the rating screen, which holds a result not yet written down. */
+  function busy(){
+    return !!document.querySelector('#practice.on, #brief.on, #rating.on');
+  }
+  function swap(){
+    if(window.__reloading) return;
+    if(busy()){                       /* wait, and keep waiting */
+      pending = true;
+      if(!waitTimer) waitTimer = setInterval(function(){
+        if(!busy()){ clearInterval(waitTimer); waitTimer = null; swap(); }
+      }, 4000);
+      return;
+    }
     window.__reloading = true;
     location.reload();
+  }
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if(!claimed){ claimed = true; return; }   /* first install: nothing to replace */
+    swap();
   });
   var check = function(){
     navigator.serviceWorker.getRegistration()
@@ -147,9 +165,12 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('./sw.js').then(check).catch(function(){});
   });
   document.addEventListener('visibilitychange', function(){
-    if(!document.hidden) check();
+    if(document.hidden) return;
+    if(pending) return swap();      /* an update has been waiting for a gap */
+    check();
   });
 }
+})();
 </script>
 </body>""", 1)
     (DOCS / "index.html").write_text(html, encoding="utf-8")

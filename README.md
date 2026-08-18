@@ -114,7 +114,13 @@ python3 tools/check_app.py     # syntax-check the JS — run this before publish
 python3 tools/build_pwa.py
 ```
 
-`check_app.py` parses the inline scripts with `node --check` and verifies that
+`check_app.py` parses the inline scripts with `node --check`, then **checks
+them concatenated**, which is how the browser actually runs them: a `var` in
+one and a `let` of the same name in another is a SyntaxError that kills the
+second script outright, and checking each in isolation sees nothing. That is
+exactly how the service-worker registration went silently dead — `var timer`
+against the app's `let timer` — leaving a PWA with no worker at all. It also
+verifies that
 every `$('#id')` resolves, every audio key is defined, that **no local variable
 shadows a top-level function** — `const go = …` inside `renderJourney` quietly
 turned every `go('progress')` in that scope into a DOM element, which is valid
@@ -145,6 +151,13 @@ The worker `skipWaiting()`s and claims clients, so a deploy activates — but th
 page already on screen keeps rendering the HTML it loaded, and an installed PWA
 is almost never navigated away from. The result was a user sitting on a stale
 build with no way forward except clearing site data by hand.
+
+**It never reloads during a practice.** Someone is lying down with their eyes
+shut for ninety seconds; restarting the app under them is the one moment this
+must not happen. A waiting update holds while the practice screen, a film, or
+the rating screen is up, and lands the moment the user leaves it. Found by
+running the case rather than reasoning about it — the first version reloaded
+straight out of a running timer.
 
 Registration now checks for a new worker on launch **and on resume**
 (`visibilitychange`), and reloads once when a new worker takes over. The flag
