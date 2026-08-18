@@ -1,6 +1,6 @@
 # Autogenic Training — Warm centre
 
-**The fifth standard exercise · ~90 seconds · step 8**
+**The fifth standard exercise · ~90 seconds**
 
 Warmth through the upper abdomen, behind the stomach.
 
@@ -16,7 +16,8 @@ This one has the strongest tradition of in-person teaching behind it. Treat the 
 ## Moving on
 
 Stay here until it arrives by itself in roughly two practices out of three
-across three days running, and at least five days regardless.
+across three days running, at least seven days regardless, and you can hold the
+sequence once with nothing playing and nothing on screen.
 
 ---
 
@@ -104,7 +105,7 @@ And open your eyes.
 
 ### Handover
 
-That's step 8. Ninety seconds, three times a day, on your own.
+That's it. Ninety seconds, three times a day, on your own.
 
 [pause 1.5]
 

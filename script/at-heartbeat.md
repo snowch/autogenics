@@ -1,6 +1,6 @@
 # Autogenic Training — Heartbeat
 
-**The third standard exercise · ~90 seconds · step 6**
+**The third standard exercise · ~90 seconds**
 
 Attention rests on the heartbeat without altering it. Notice it; leave it alone.
 
@@ -16,7 +16,8 @@ If watching the heartbeat makes you anxious, stop and stay with heaviness and wa
 ## Moving on
 
 Stay here until it arrives by itself in roughly two practices out of three
-across three days running, and at least five days regardless.
+across three days running, at least seven days regardless, and you can hold the
+sequence once with nothing playing and nothing on screen.
 
 ---
 
@@ -96,7 +97,7 @@ And open your eyes.
 
 ### Handover
 
-That's step 6. Ninety seconds, three times a day, on your own.
+That's it. Ninety seconds, three times a day, on your own.
 
 [pause 1.5]
 

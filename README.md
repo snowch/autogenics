@@ -572,6 +572,41 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### A full content pass after the ladder changed
+
+Cutting heaviness twice left copy pointing at a shape that no longer existed.
+A sweep of every script, slide and screen turned up six kinds of drift, and
+only two of them needed audio.
+
+**Spoken step numbers, again.** The last pass stripped them from the *opening*
+of six recordings and missed the *closing* line of five — "That's step five.
+Ninety seconds, three times a day, on your own." Half a fix reads exactly like
+a whole one when you only grep the thing you remember writing. Every script is
+now silent about its position: the screen says which step you are on and the
+recordings never contradict it.
+
+**The intro enumerated the old ladder.** "Heaviness in the arms. Then
+warmth" — spoken, and the ladder slide agreed with it. Both name arms and legs
+now, which is what the single heaviness formula actually says.
+
+**The intro denied its own gate.** "You move on when your own record says it is
+landing — not when a week has passed" was wrong in two directions: a week is
+required, and there is a probe as well. It now says landing *and* unaided, with
+a week as the least it takes rather than the whole of it.
+
+**Five scripts stated the old criteria** in prose — "at least five days
+regardless" against a seven-day floor and an unguided probe. Prose, so no
+re-render.
+
+**Five briefings named a step number** in their headers, from a ladder two
+edits ago. They say "when you reach it" now.
+
+**Onboarding hard-coded "10 steps."** It reads `STEPS.length`, because that
+number has now been wrong twice.
+
+Also swept out: two cue-shrink entries for formulae no step speaks any more,
+and dead audio keys in the fallback map.
+
 ### Heaviness lost a week, and the recordings stopped counting
 
 Four heaviness steps — right arm, left arm, both arms, legs — was four weeks

@@ -1,6 +1,6 @@
 # Autogenic Training — Warmth
 
-**The second standard exercise · ~90 seconds · step 5**
+**The second standard exercise · ~90 seconds**
 
 Circulation rather than muscle. For most people this one arrives faster than heaviness did.
 
@@ -15,7 +15,8 @@ Warmth is vascular: blood moving back into the hands. Cold hands are common at f
 ## Moving on
 
 Stay here until it arrives by itself in roughly two practices out of three
-across three days running, and at least five days regardless.
+across three days running, at least seven days regardless, and you can hold the
+sequence once with nothing playing and nothing on screen.
 
 ---
 
@@ -95,7 +96,7 @@ And open your eyes.
 
 ### Handover
 
-That's step 5. Ninety seconds, three times a day, on your own.
+That's it. Ninety seconds, three times a day, on your own.
 
 [pause 1.5]
 

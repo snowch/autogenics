@@ -74,8 +74,8 @@ There are six exercises, and you learn them in order.
 
 [pause 0.6]
 
-Heaviness in the arms. Then warmth. Then the heartbeat, the breath, the warmth
-of your centre, and a cool forehead.
+Heaviness in the arms and legs. Then warmth. Then the heartbeat, the breath,
+the warmth of your centre, and a cool forehead.
 
 [pause 0.9]
 
@@ -97,8 +97,8 @@ Because the point is that you end up not needing this.
 
 [pause 0.9]
 
-You move on when your own record says it is landing — not when a week has
-passed.
+You move on when your own record says it is landing, and you can run it with
+nothing playing. A week is the least it takes, not the whole of it.
 
 [pause 0.8]
 

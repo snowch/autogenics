@@ -1,6 +1,6 @@
 # Autogenic Training — Cool head
 
-**The sixth standard exercise · ~90 seconds · step 9**
+**The sixth standard exercise · ~90 seconds**
 
 The only one that goes the other way: everything else warms and settles, this stays clear.
 
@@ -16,7 +16,8 @@ Cool rather than cold. Overdone, this exercise can bring on a headache in people
 ## Moving on
 
 Stay here until it arrives by itself in roughly two practices out of three
-across three days running, and at least five days regardless.
+across three days running, at least seven days regardless, and you can hold the
+sequence once with nothing playing and nothing on screen.
 
 ---
 
@@ -104,7 +105,7 @@ And open your eyes.
 
 ### Handover
 
-That's step 9. Ninety seconds, three times a day, on your own.
+That's it. Ninety seconds, three times a day, on your own.
 
 [pause 1.5]
 

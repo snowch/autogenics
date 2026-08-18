@@ -585,7 +585,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <div class="obstat">
       <div><span class="num">90s</span><span class="cap">a practice</span></div>
       <div><span class="num">3×</span><span class="cap">a day</span></div>
-      <div><span class="num">10</span><span class="cap">steps</span></div>
+      <div><span class="num" id="obSteps">8</span><span class="cap">steps</span></div>
     </div>
 
     <p class="obend"><b>And then you stop needing it.</b>
@@ -1080,8 +1080,6 @@ const elemDays=i=>new Set(S.log.filter(e=>e.step===i).map(e=>e.d)).size;
 const CUE_SHORT={
  'I am completely calm.':               ['Completely calm.',            'Calm.'],
  'My right arm is heavy.':              ['Right arm, heavy.',           'Heavy.'],
- 'My arms are heavy.':                  ['Arms, heavy.',                'Heavy.'],
- 'My legs are heavy.':                  ['Legs, heavy.',                'Heavy.'],
  'My arms and legs are heavy.':         ['Arms and legs, heavy.',       'Heavy.'],
  'My right arm is warm.':               ['Right arm, warm.',            'Warm.'],
  'My arms are warm.':                   ['Arms, warm.',                 'Warm.'],
@@ -2117,6 +2115,7 @@ applyTheme();
 $('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
 
 mode = guidedDefault() ? 'guided' : 'timer';
+$('#obSteps').textContent=STEPS.length;   /* never hand-count the ladder */
 renderJourney();
 if(!S.onboarded) obOpen();
 document.documentElement.classList.remove('first');   /* the frame is real now */
