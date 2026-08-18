@@ -23,8 +23,8 @@ FILMS = [("intro", "intro.mp4", "intro-poster.jpg"),
          ("bForehead", "brief-forehead.mp4", "brief-forehead-poster.jpg"),
          ("finished", "finished.mp4", "finished-poster.jpg")]
 
-TRACKS = {"s1": "arm-heaviness-example.mp3", "s3": "arm-heaviness-example-3.mp3",
-          "legs": "at-heaviness-legs.mp3",
+TRACKS = {"s1": "arm-heaviness-example.mp3",
+          "all": "at-heaviness-all.mp3",
           "warmth": "at-warmth.mp3", "heartbeat": "at-heartbeat.mp3",
           "breathing": "at-breathing.mp3", "solar": "at-solar-plexus.mp3",
           "forehead": "at-forehead.mp3"}

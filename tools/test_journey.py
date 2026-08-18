@@ -105,7 +105,9 @@ with sync_playwright() as pw:
     ck('and still renders its step', bool(pg.query_selector('#nowCard .ename')),
        pg.inner_text('#nowCard .ename') if pg.query_selector('#nowCard .ename') else 'nothing rendered')
     rec = pg.evaluate("()=>JSON.parse(localStorage['autogenics.v2'])")
-    ck('the remap is written back', rec.get('v') == 2 and rec['step'] == 3, rec.get('step'))
+    landed = pg.inner_text('#nowCard .ename') if pg.query_selector('#nowCard .ename') else ''
+    ck('the remap lands on the same exercise', landed.lower().startswith('warmth'), landed)
+    ck('and is written back', bool(rec.get('v')), rec.get('v'))
 
     ck('no page errors', not errs, errs)
     b.close()

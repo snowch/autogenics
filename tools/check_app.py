@@ -96,8 +96,7 @@ def check(path: Path) -> list[str]:
     # silently; guided mode plays the recording. If a cue is not a line the
     # recording actually speaks, the two halves of the same step disagree — and
     # editing one without the other is exactly how that happens.
-    SCRIPTS = {"s1": "arm-heaviness-example", "s2": "arm-heaviness-example-2",
-               "s3": "arm-heaviness-example-3", "legs": "at-heaviness-legs",
+    SCRIPTS = {"s1": "arm-heaviness-example", "all": "at-heaviness-all",
                "warmth": "at-warmth", "heartbeat": "at-heartbeat",
                "breathing": "at-breathing", "solar": "at-solar-plexus",
                "forehead": "at-forehead"}

@@ -575,11 +575,22 @@ anybody says. The final step gets its own.
 ### Heaviness lost a week, and the recordings stopped counting
 
 Four heaviness steps — right arm, left arm, both arms, legs — was four weeks
-for something the body largely does by transfer. The one that went is *both
-arms, in turn*, whose only job was to show the response crosses to the other
-arm; *both arms* shows that too, and at the same time. What is left is the
-dominant arm where the response is actually learned, both arms where it
-generalises, and the legs where the classical formula lands. Nine steps.
+for something the body largely does by transfer, and it went to two in two
+goes. The dominant arm keeps a step of its own: that is where the response is
+learned against never having felt it, and where nothing may happen for a
+fortnight. Everything after it is the classical formula, *my arms and legs are
+heavy*, naming all four limbs at once.
+
+The three intermediate stops were spent proving something that happens anyway.
+The response is learned once; after that it is being named somewhere else,
+not learned again. Time-to-warmth — the first unmistakable sensation — goes
+from four weeks to two, and the ladder is eight steps.
+
+The objection to two turned out to be about a recording rather than a
+principle: merging the legs in *looked* like changing the phrase mid-step,
+because the legs track was written as "arms first, now legs". Rewritten as one
+formula, with the arm you already have as an anchor said once at the start,
+nothing changes mid-step.
 
 The blocker was that six recordings opened by announcing their own position —
 "Step seven. Heaviness, warmth, heartbeat, then the breath" — so any change to

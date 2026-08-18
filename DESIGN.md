@@ -440,7 +440,7 @@ Written after building most of it. Section by section:
 | §3 contrast induction | yes — 43 seconds, offered before practice one, findable from Learn after |
 | §4 the user's own voice | built, then **withdrawn** — see §4, it was a retention mechanic |
 | §5 retrieval / transfer | transfer yes — the sequence practice is deliberately staged badly from step two. Retrieval-before-audio: no |
-| §5 compressed heaviness | four steps to three — see below |
+| §5 compressed heaviness | yes, four steps to two |
 | §6 no numbers, no streaks, no library | yes |
 | §6 anchored reminders | as calendar events, since a serverless PWA cannot schedule a notification |
 | §7 all six middle-game changes | yes |
@@ -450,17 +450,23 @@ Written after building most of it. Section by section:
 
 Two deliberate omissions, both flagged rather than quietly dropped.
 
-**Compressing heaviness** happened, at three steps rather than the two argued
-for here. The step that went is *both arms, in turn* — a whole week whose only
-job was to show the response crosses to the other arm, which *both arms* shows
-as well and at the same time. What remains is the dominant arm, where the
-response is actually learned; both arms, where it generalises; and the legs,
-where the classical formula lands and which mostly arrives free.
+**Compressing heaviness** happened, in two goes, and ended where this section
+argued: two steps. The dominant arm keeps its own, because that is where the
+response is genuinely learned against never having felt it, and where nothing
+may happen for a fortnight. Everything after it is the classical formula
+naming all four limbs.
 
-Two was not right. Merging the legs into the arms step changes the phrase
-mid-step, and the phrase is the one thing this method holds invariant. Three
-saves the week that was genuinely redundant and keeps the checkpoint that is
-not, and the ladder is nine steps instead of ten.
+The intermediate stops — *left arm*, *both arms*, *legs* — were three weeks
+spent proving something the body does unaided. The response is learned once;
+after that it is being *named* somewhere else, not learned again.
+
+One objection raised against two turned out to be about a recording rather than
+a principle. Merging the legs in looked like it changed the phrase mid-step,
+because the legs track was written as *arms first, now legs*. Rewritten as a
+single formula, with the arm you already have as an anchor said once at the
+start, there is no mid-step change at all. The ladder is eight steps, and
+time-to-warmth — the first unmistakable sensation, and the metric §5 says the
+whole ladder should be tuned against — is two weeks instead of four.
 
 **Measurement** is the biggest single win in this document and it is fourth on
 the list for a reason: displaying physiology moves the product toward the

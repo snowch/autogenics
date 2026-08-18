@@ -720,11 +720,8 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 <script>
 "use strict";
 const AUDIO = window.__AUDIO__ || {
-  explainer:'../audio/explainer.mp3',
   s1:'../audio/arm-heaviness-example.mp3',
-  s2:'../audio/arm-heaviness-example-2.mp3',
-  s3:'../audio/arm-heaviness-example-3.mp3',
-  legs:'../audio/at-heaviness-legs.mp3',
+  all:'../audio/at-heaviness-all.mp3',
   warmth:'../audio/at-warmth.mp3', heartbeat:'../audio/at-heartbeat.mp3',
   breathing:'../audio/at-breathing.mp3', solar:'../audio/at-solar-plexus.mp3',
   forehead:'../audio/at-forehead.mp3',
@@ -745,14 +742,10 @@ const STEPS=[
    desc:'Your dominant arm only. For the first week this is the whole exercise.',
    cues:['I am completely calm.','My right arm is heavy.','My right arm is heavy.','My right arm is heavy.',
          'My right arm is heavy.','My right arm is heavy.','My right arm is heavy.','I am completely calm.']},
-  {n:'Heaviness', q:'both arms', phrase:'Both arms are heavy.', audio:'s3', secs:96,
-   desc:'The second arm joins and the response generalises. The practice does not get any longer.',
-   cues:['I am completely calm.','Both arms are heavy.','Both arms are heavy.','Both arms are heavy.',
-         'Both arms are heavy.','Both arms are heavy.','Both arms are heavy.','I am completely calm.']},
-  {n:'Heaviness', q:'legs', phrase:'My legs are heavy.', audio:'legs', secs:96,
-   desc:'The arms taught the skill; the legs mostly follow on their own. This is where the classical formula lands — arms and legs together.',
-   cues:['I am completely calm.','My arms are heavy.','My legs are heavy.','My legs are heavy.',
-         'My legs are heavy.','My arms and legs are heavy.','My arms and legs are heavy.','I am completely calm.']},
+  {n:'Heaviness', q:'arms and legs', phrase:'My arms and legs are heavy.', audio:'all', secs:96,
+   desc:'The classical formula, naming all four limbs. The arm taught the response; the rest mostly follow it.',
+   cues:['I am completely calm.','My right arm is heavy.','My arms and legs are heavy.','My arms and legs are heavy.',
+         'My arms and legs are heavy.','My arms and legs are heavy.','My arms and legs are heavy.','I am completely calm.']},
   {n:'Warmth', q:'hands', phrase:'My right arm is warm.', audio:'warmth', secs:96,
    desc:'Circulation rather than muscle. Often quicker to arrive than heaviness was.',
    cues:['I am completely calm.','My arms and legs are heavy.','My arms and legs are heavy.','My right arm is warm.',
@@ -853,7 +846,12 @@ const TAKEBACK=15;
 const TAKEBACK_CUES=['Bend and stretch your arms. Fists clenched, firmly.',
                      'A deep breath in — and out.',
                      'And open your eyes.'];
-const LADDER_V=2, OLD_TO_NEW=[0,1,1,2,3,4,5,6,7,8];
+/* Two ladder edits, so two hops. v1 was ten steps and lost "both arms, in
+   turn"; v2 was nine and lost the separate legs step, since the classical
+   formula names all four limbs and the arm is the only one anyone has to
+   learn. A record is walked forward through whichever hops it has missed. */
+const LADDER_V=3;
+const HOPS={1:[0,1,1,2,3,4,5,6,7,8], 2:[0,1,1,2,3,4,5,6,7]};
 const KEY='autogenics.v2';
 const today=()=>new Date().toISOString().slice(0,10);
 const dayKey=back=>{const d=new Date(); d.setDate(d.getDate()-back); return d.toISOString().slice(0,10);};
@@ -867,12 +865,15 @@ let S=load(), open=null, mode='guided';
    looking at a heartbeat. Both old both-arms steps land on the surviving one. */
 function migrate(r){
   if(r.v>=LADDER_V) return r;
-  const m=i=>OLD_TO_NEW[i]!==undefined ? OLD_TO_NEW[i] : (i>0 ? i-1 : 0);
-  r.step=m(r.step||0);
-  r.log=(r.log||[]).map(e=>Object.assign({}, e, {step:m(e.step)}));
   const uniq=a=>a.filter((x,i)=>a.indexOf(x)===i);
-  r.skipped=uniq((r.skipped||[]).map(m));
-  r.probed=uniq((r.probed||[]).map(m));
+  for(let v=(r.v||1); v<LADDER_V; v++){
+    const map=HOPS[v]; if(!map) continue;
+    const m=i=>map[i]!==undefined ? map[i] : (i>0 ? i-1 : 0);
+    r.step=m(r.step||0);
+    r.log=(r.log||[]).map(e=>Object.assign({}, e, {step:m(e.step)}));
+    r.skipped=uniq((r.skipped||[]).map(m));
+    r.probed=uniq((r.probed||[]).map(m));
+  }
   r.v=LADDER_V;
   /* Write it back now. Leaving the remap in memory means it is redone from the
      old numbers on every load until something happens to save, and a record
@@ -1079,7 +1080,6 @@ const elemDays=i=>new Set(S.log.filter(e=>e.step===i).map(e=>e.d)).size;
 const CUE_SHORT={
  'I am completely calm.':               ['Completely calm.',            'Calm.'],
  'My right arm is heavy.':              ['Right arm, heavy.',           'Heavy.'],
- 'Both arms are heavy.':                ['Both arms, heavy.',           'Heavy.'],
  'My arms are heavy.':                  ['Arms, heavy.',                'Heavy.'],
  'My legs are heavy.':                  ['Legs, heavy.',                'Heavy.'],
  'My arms and legs are heavy.':         ['Arms and legs, heavy.',       'Heavy.'],
