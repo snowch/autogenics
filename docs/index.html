@@ -435,7 +435,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
         </div>
       </div>
 
-      <div class="card">
+      <div class="card hidden" id="ndCard">
         <h2>Primed nidra <span class="pill" style="margin-left:6px">Experimental</span></h2>
         <p class="lede">A silent staged timer: autogenic entry, then the content stages, with a chime at each boundary and no voice. It assumes you already have the phrases from Practice — it will not teach them to you.</p>
         <div class="modes" id="ndKind" style="margin-top:14px">
@@ -570,7 +570,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <circle class="track" cx="120" cy="120" r="112"></circle>
       <circle class="prog" id="pxArc" cx="120" cy="120" r="112" stroke-dasharray="703.7" stroke-dashoffset="703.7"></circle>
     </svg>
-    <span class="time" id="pxTime">1:36</span>
+    <span class="time" id="pxTime"></span>
   </div>
   <p class="cue" id="pxCue"></p>
   <audio id="pxAudio" preload="auto"></audio>
@@ -604,7 +604,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <circle class="track" cx="120" cy="120" r="112"></circle>
       <circle class="prog" id="ndArc" cx="120" cy="120" r="112" stroke-dasharray="703.7" stroke-dashoffset="703.7"></circle>
     </svg>
-    <span class="time" id="ndTime">12:00</span>
+    <span class="time" id="ndTime"></span>
   </div>
   <p class="cue" id="ndCue"></p>
   <p class="smeta" id="ndNext"></p>
@@ -642,7 +642,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="775f944+";
+window.__BUILD__="1ed756c+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -1104,7 +1104,17 @@ function renderJourney(){
   rv.appendChild(el('p','smeta','Last '+STRIP_DAYS+' days \u00b7 '+stepDays()+' practised on this step'));
 
   if(g2.done){
-    rv.appendChild(el('p','note','Learned, on your own record — five days at the last step with it landing twice a day, three days running. The app is optional from here; the response is not going anywhere as long as you keep using it.'));
+    /* Copy said five days; the floor has been seven since the intro film and
+       the gate were made to agree. */
+    rv.appendChild(el('p','note','Learned, on your own record \u2014 '+GATE.minDays
+      +' days at the last step, landing twice a day for three days running, and held once '
+      +'with nothing playing. The app is optional from here; the response is not going '
+      +'anywhere as long as you keep using it.'));
+    /* The deliverable is not this app, so make it leave. */
+    const cb=el('button','btn','Save the sequence as an image');
+    cb.style.marginTop='14px'; cb.onclick=phraseCard;
+    rv.appendChild(cb);
+    rv.appendChild(el('p','note','For your lock screen, or to print. Six formulae and nothing else on it \u2014 no link back here, because you do not need one.'));
   }else if(g2.last){
     rv.appendChild(el('p','note','You are practising without guidance. Keep the record going — it is how you notice a slip before it becomes a stop.'));
   }else{
@@ -1264,7 +1274,15 @@ mode = guidedDefault() ? 'guided' : 'timer';
   const list=$('#journey'); list.innerHTML='';
   const ahead = S.step+1 < STEPS.length ? 1 : 0;
   $('#pathHead').classList.remove('hidden');
-  $('#pathCnt').textContent = S.step===1 ? '1 done' : S.step+' done';
+  /* The first screen promises you stop needing this, and in the middle that is
+     an abstraction. Counted from the pace they are actually going at, it is
+     not — and it is the only number in the app that is supposed to fall. */
+  const stepsLeft=STEPS.length-1-S.step;
+  const allDays=new Set(S.log.map(e=>e.d)).size;
+  $('#pathCnt').textContent = (stepsLeft>0 && S.step>0 && allDays>=GATE.minDays)
+    ? S.step+' done \u00b7 about '+Math.max(1,Math.round(
+        stepsLeft*Math.max(GATE.minDays, allDays/S.step)/7))+' weeks left at your pace'
+    : S.step===1 ? '1 done' : S.step+' done';
 
   /* The path is the journey, so it opens on the film about the journey. Every
      film is now replayable from one place, in the order it was met: the
@@ -1528,7 +1546,9 @@ function runPractice(st, guided, cues, kind){
   timer=setInterval(()=>{
     const e=guided&&a.currentTime?a.currentTime:(Date.now()-t0)/1000;
     const d=guided&&a.duration?a.duration:total, left=Math.max(0,d-e);
-    $('#pxTime').textContent=Math.floor(left/60)+':'+String(Math.floor(left%60)).padStart(2,'0');
+    /* No digits. A countdown is something to check, and checking is a mild
+       form of trying — the one thing this method says not to do. The ring
+       carries "it is going somewhere" without offering anything to measure. */
     $('#pxArc').style.strokeDashoffset=C*(1-Math.min(1,e/d));
     if(kind==='probe'){
       /* Nothing on screen is the whole point. Only the take-back appears,
@@ -1739,6 +1759,31 @@ function endDrill(complete){
 $('#drQuit').onclick=()=>endDrill(false);
 $('#lDrill').onclick=runDrill;   /* a drill you have done is still findable */
 
+/* The thing this programme is actually for is not in the app, so hand it over
+   as something that leaves: a lock-screen image with the sequence on it. Six
+   formulae and nothing else — no branding, no link back here. A product that
+   sells its own ending should be willing to make the ending portable. */
+function phraseCard(){
+  const seq=dropSkipped(STEPS[STEPS.length-2].cues)
+              .filter((c,i,a)=>a.indexOf(c)===i);
+  const W=1080,H=1920, cv=document.createElement('canvas');
+  cv.width=W; cv.height=H;
+  const x=cv.getContext('2d');
+  x.fillStyle='#0D1218'; x.fillRect(0,0,W,H);
+  x.fillStyle='#E0A15C'; x.font='500 34px ui-monospace,monospace';
+  x.textAlign='center'; x.fillText('N I N E T Y   S E C O N D S', W/2, 460);
+  x.fillStyle='#E7ECF2'; x.textAlign='center';
+  let y=640;
+  seq.forEach(c=>{ x.font='300 52px Georgia,serif'; x.fillText(c, W/2, y); y+=104; });
+  x.fillStyle='#7C8794'; x.font='300 30px ui-monospace,monospace';
+  x.fillText('eyes closed or not \u00b7 nobody guiding you', W/2, y+80);
+  cv.toBlob(bl=>{
+    const u=URL.createObjectURL(bl), a=document.createElement('a');
+    a.href=u; a.download='the-sequence.png'; document.body.appendChild(a); a.click();
+    a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000);
+  },'image/png');
+}
+
 /* The probe: the current step's own length, one note at each end, nothing in
    between. Passing is self-reported because nothing else can report it — but
    the question is about what you could do, not how it felt, and it is asked
@@ -1761,6 +1806,13 @@ let ndTimer=null;
 function ndState(){ return S.nidra = S.nidra || {count:0, pair:0, sankalpa:'simplify', kind:'full'}; }
 function renderNidra(){
   const st=ndState();
+  /* It has no business existing before the ladder is finished. Someone on step
+     two has an entry technique they cannot yet issue and no reason to want
+     somewhere to put it; offering a second practice contradicts the one-thing-
+     at-a-time discipline that is the whole of AT's contribution here. Shown
+     once the ladder is done — or if it has already been used, since taking a
+     thing away from someone using it is worse than having offered it early. */
+  $('#ndCard').classList.toggle('hidden', !(gate().done || st.count));
   document.querySelectorAll('#ndSankalpa button').forEach(b=>
     b.classList.toggle('sel', b.dataset.sk===st.sankalpa));
   document.querySelectorAll('#ndKind button').forEach(b=>
@@ -1799,8 +1851,6 @@ function runNidra(kind){
     if(openEnded){
       $('#ndTime').textContent=Math.floor(e/60)+':'+String(Math.floor(e%60)).padStart(2,'0');
     }else{
-      const left=Math.max(0,total-e);
-      $('#ndTime').textContent=Math.floor(left/60)+':'+String(Math.floor(left%60)).padStart(2,'0');
       $('#ndArc').style.strokeDashoffset=C*(1-Math.min(1,e/total));
       if(e>=total) endNidra(true);
     }

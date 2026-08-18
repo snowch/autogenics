@@ -571,6 +571,34 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The ending is a handover, so make it leave
+
+**No digits during a practice.** A countdown is something to check, and
+checking is a mild form of trying — the one thing the method says not to do.
+The ring still turns; there is simply nothing to measure yourself against.
+Gone from the nidra runner too, except the sleep variant, where counting up is
+the only readout there is.
+
+**A countdown that falls.** The path header now reads *"4 done · about 11 weeks
+left at your pace"*, computed from the days they have actually practised rather
+than a nominal schedule. It is the only number in the app that is supposed to
+decrease, and it makes the first screen's promise concrete in week five instead
+of week ten.
+
+**The deliverable leaves the app.** Finishing offers the sequence as a
+1080×1920 PNG for a lock screen — six formulae, no branding, no link back here,
+and skipped exercises left out of it. A product that spends nine steps
+promising to get out of the way should be willing to make the ending portable.
+
+**Nidra moved out of Settings to the end.** Someone on step two has an entry
+technique they cannot yet issue and no reason to want somewhere to put it, and
+offering a second practice contradicts the one-thing-at-a-time discipline that
+is the whole of what autogenic training contributes to that graft. It appears
+once the ladder is done — or if it has already been used, since taking a thing
+away from someone using it is worse than having offered it early. Settings is
+where features go when nobody has decided what they are, and this one now has
+a place.
+
 ### The middle of the programme has a design now
 
 Six changes, all from `DESIGN.md` §7, all about the weeks where the novelty has
