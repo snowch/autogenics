@@ -43,6 +43,12 @@ SHOTS = [
         save(); renderJourney(); go('progress');"""),
     ("05-learn", NEXT * 4 + "go('learn')"),
     ("11-settings", NEXT * 4 + "go('settings')"),
+    ("11b-settings-nidra", NEXT * 4 + """
+        S.nidra={count:9,pair:3,sankalpa:'enquiry',kind:'full'}; save();
+        renderNidra(); go('settings'); window.scrollTo(0,260);"""),
+    ("11c-nidra-running", NEXT * 4 + """
+        S.nidra={count:0,pair:0,sankalpa:'enquiry',kind:'full'}; save();
+        renderNidra(); runNidra('full');"""),
     ("05b-learn-lower", NEXT * 4 + "go('learn');window.scrollTo(0,9999);"),
     ("10-final-step", NEXT * 4 + """
         S.step=9; S.stepStart=new Date(Date.now()-40*864e5).toISOString().slice(0,10);

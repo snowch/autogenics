@@ -134,6 +134,16 @@ forgotten in the reset leaves stale data behind a wipe. A malformed string
 literal takes out the entire script block and leaves a page that renders but
 does nothing — grepping the HTML will not catch it, and one shipped that way.
 
+It also refuses **a block that appears twice**. Inserting the settings screen
+with an anchor that happened to match three times pasted `applyTheme()`, the
+theme-button wiring and the build stamp into the step-advance handler and the
+reset handler as well as at the top level, and it shipped: forty-eight dead
+lines, and a theme control silently rewired on every step advance. Nested
+function declarations are legal and identical copies parse, so nothing above
+saw it. Two greps do — a function declared more than once, or a long comment
+appearing more than once, means a block was pasted more than once. The same
+edit tried it again on the nidra runner and was caught before the commit.
+
 ### The app says which build it is
 
 Under *Your record*, quietly: `Build 4958f0a`. The short commit the PWA was
@@ -559,6 +569,35 @@ promising to get out of the way.
 While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
+
+### The nidra runner is silent, and that is the whole point
+
+`PRIMED-NIDRA.md` argues that autogenic training and yoga nidra each fix the
+other's main defect: nidra has content but no training method, AT has a
+training method but its six exercises are all induction and no content. The
+argument is only worth anything if the graft can be built, and the piece that
+tests it is small — a **silent staged timer**, under Settings, marked
+experimental.
+
+Silence is the substance, not a limitation. Every nidra tool is a recording,
+and a recording is precisely what the protocol removes: a recording carries on
+whether or not anyone is still listening, which is why people fall asleep in
+the middle of one and call it a practice. A sequence you issue to yourself
+stops when you do. So the runner chimes at each stage boundary, shows a cue
+rather than narration, and never speaks.
+
+Three lengths: 12 minutes tiling nine stages exactly, a 3-minute field version,
+and a sleep version that counts *up* with no arc, no cancellation stage and no
+ending — you are meant to fall asleep in it, so it does not count towards
+anything. Cue wording shrinks with completed sessions (full under 8, compressed
+under 20, one word after), because the endpoint of consolidation is an
+instruction small enough to cost nothing to issue. The opposites pair advances
+one step per session, so the nine cycle rather than being chosen.
+
+The length segment and the Begin button are separate controls. They were one at
+first, which put a tap that starts twelve minutes of silence in the same visual
+language as a theme preference — and a settings screen is somewhere people poke
+at things to find out what they do.
 
 ### Every exercise introduces itself
 

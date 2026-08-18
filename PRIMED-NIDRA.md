@@ -483,5 +483,26 @@ gate that requires seven days *plus* evidence the response is arriving unbidden
 before it opens the next step. That gate is the "criterion rather than a
 calendar" this document argues nidra lacks, already implemented.
 
-What is genuinely new here, and unbuilt, is the grafting: the 40-second drills,
-the cue-shrinking schedule, and the weaning ladder.
+Phase 1 and the two variants are now built as well, under Settings → Primed
+nidra, marked experimental. What is there is a **silent staged timer**, and the
+silence is the point: every nidra tool on the market is a recording, and a
+recording is the one thing this protocol removes. It chimes at each stage
+boundary, shows a cue rather than narration, and never speaks.
+
+Three lengths, matching the document:
+
+| | Stages | Runs for | Ends |
+|---|---|---|---|
+| 12 min | Settle, Induction, Sankalpa, Refuge, Pranamaya, Opposites, Sakshi, Sankalpa again, Cancellation | 720s, tiled exactly | itself, then the cancellation stage |
+| Field, 3 min | Settle, Induction, Refuge, Sankalpa, Cancellation | 180s | itself |
+| Sleep | Induction, Rotation, No exit | open-ended, counting up | never — you fall asleep |
+
+Cue-shrinking is implemented as the document specifies it, keyed to completed
+sessions: full wording under 8, compressed under 20, one word after that. The
+opposites pair advances one step per completed session, so the nine pairs cycle
+rather than being chosen. Sankalpa mode switches the wording of both sankalpa
+stages between the three modes above. The sleep variant has no arc, no
+countdown and no cancellation stage, and does not count towards shrinking —
+stopping it in the morning is not a completed session.
+
+Still unbuilt: the 40-second drills, and the weaning ladder.

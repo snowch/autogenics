@@ -427,6 +427,24 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       </div>
 
       <div class="card">
+        <h2>Primed nidra <span class="pill" style="margin-left:6px">Experimental</span></h2>
+        <p class="lede">A silent staged timer: autogenic entry, then the content stages, with a chime at each boundary and no voice. It assumes you already have the phrases from Practice — it will not teach them to you.</p>
+        <div class="modes" id="ndKind" style="margin-top:14px">
+          <button data-nd="full">12 min</button>
+          <button data-nd="field">Field, 3 min</button>
+          <button data-nd="sleep">Sleep</button>
+        </div>
+        <p class="smeta" id="ndMeta"></p>
+        <button class="btn ghost" id="ndGo" style="margin-top:12px">Begin</button>
+        <h2 style="margin-top:18px">Sankalpa mode</h2>
+        <div class="modes" id="ndSankalpa">
+          <button data-sk="simplify">Simplify being</button>
+          <button data-sk="enquiry">Enquiry</button>
+          <button data-sk="embodied">Embodied</button>
+        </div>
+      </div>
+
+      <div class="card">
         <h2>Your record</h2>
         <p class="lede">Stored on this device only. Nothing is sent anywhere, and there is no account.</p>
         <div class="btnrow">
@@ -541,6 +559,23 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   </div>
 </div>
 
+<div class="full" id="nidra">
+  <p class="phase" id="ndStage">Settle</p>
+  <div class="ring">
+    <div class="halo"></div>
+    <svg viewBox="0 0 240 240" aria-hidden="true">
+      <circle class="track" cx="120" cy="120" r="112"></circle>
+      <circle class="prog" id="ndArc" cx="120" cy="120" r="112" stroke-dasharray="703.7" stroke-dashoffset="703.7"></circle>
+    </svg>
+    <span class="time" id="ndTime">12:00</span>
+  </div>
+  <p class="cue" id="ndCue"></p>
+  <p class="smeta" id="ndNext"></p>
+  <div class="btnrow" style="max-width:330px;width:100%">
+    <button class="btn ghost" id="ndQuit">Stop</button>
+  </div>
+</div>
+
 <div class="full" id="brief">
   <div class="brwrap">
     <p class="bkick" id="brKick"></p>
@@ -570,7 +605,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="06a69e9+";
+window.__BUILD__="21aa1e6+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -646,6 +681,56 @@ const STEPS=[
    and leaves "do not add until the last one comes readily" as advice. */
 const GATE={minDays:7, window:3, needPerDay:2, needRating:2, slots:3};
 const STRIP_DAYS=7;
+/* ---------- primed nidra ----------
+   A silent staged timer, which is the one artefact the protocol needs and
+   nothing else provides: every nidra tool is a recording, and a recording is
+   the thing the protocol is trying to remove. Stage boundaries are chimed, the
+   wording on screen is a cue rather than narration, and it never speaks. */
+const NIDRA_PAIRS=[
+  ['Heavy','Light'], ['Cool','Warm'], ['Tense','At ease'],
+  ['Effortful','Effortless'], ['Restless','Settled'],
+  ['Unwelcome','Welcome'], ['Sadness','Joy'],
+  ['Fear','Safety'], ['Small self','Spacious']];
+
+/* Cue-shrinking: the same drill at three levels of compression. Which one you
+   are shown depends on how many sessions you have run, because the endpoint of
+   consolidation is an instruction small enough to cost nothing to issue. */
+const shrink=(full,mid,mature)=>n=> n<8 ? full : n<20 ? mid : mature;
+
+function nidraStages(kind, n, pair, sankalpa){
+  const P=NIDRA_PAIRS[pair%NIDRA_PAIRS.length];
+  const gen='My arms and legs are heavy and warm. My heartbeat and breathing are calm and regular. My solar plexus is warm. My forehead is cool. I am completely calm.';
+  const sow = sankalpa==='embodied' ? 'Your resolve, stated as already true.'
+            : sankalpa==='enquiry'  ? 'What do I most deeply want? Ask once, then listen.'
+            : 'Presence. Nothing asked for.';
+  if(kind==='field') return [
+    {t:20, n:'Settle',       c:'I am completely calm.'},
+    {t:80, n:'Induction',    c:gen},
+    {t:40, n:'Refuge',       c:shrink('Go there as sensation — warmth, contact, weight. Not a picture.','Refuge — as sensation.','Refuge.')(n)},
+    {t:25, n:'Sankalpa',     c:sow},
+    {t:15, n:'Cancellation', c:'Arms clenched and stretched, three times. A deep breath. Open your eyes.'}];
+  if(kind==='sleep') return [
+    {t:120, n:'Induction',  c:gen+' — at half pace.'},
+    {t:240, n:'Rotation',   c:'Right side to left, unhurried. Name each part and move on.'},
+    {t:0,   n:'No exit',    c:'No cancellation. Let it run downhill.'}];
+  return [
+    {t:30,  n:'Settle',        c:'I am completely calm.'},
+    {t:90,  n:'Induction',     c:gen+' — twice, unhurried.'},
+    {t:30,  n:'Sankalpa',      c:sow},
+    {t:60,  n:'Refuge',        c:shrink('Go there as sensation — warmth, contact, weight. Establish it is available, then leave it.','Refuge — as sensation, then leave it.','Refuge.')(n)},
+    {t:90,  n:'Pranamaya',     c:shrink('It breathes me. Then count breaths down from 11, restarting on any lapse without annoyance.','It breathes me. Count 11 down.','Count down.')(n)},
+    /* The mature cue is one word, so by then the pair has to be named
+       separately or there is nothing to hold. Before that it is already in
+       the sentence, and repeating it reads as a stutter. */
+    {t:180, n:'Opposites',     c:shrink(
+              'Let '+P[0].toLowerCase()+' fill you. Now release it and find '+P[1].toLowerCase()+'. Now both at once.',
+              P[0]+'… '+P[1].toLowerCase()+'… both.',
+              'Both.  ('+P[0]+' / '+P[1]+')')(n)},
+    {t:120, n:'Sakshi',        c:'Drop the object. Rest as the awareness that has been present throughout.'},
+    {t:90,  n:'Sankalpa again',c:sow+'  Then the Intention.'},
+    {t:30,  n:'Cancellation',  c:'Arms clenched and stretched, three times. A deep breath. Open your eyes.'}];
+}
+
 /* Fifteen seconds, matching what the cautions and the guided tracks say. In
    bed to fall asleep is the one exception, and the cautions carry it. */
 const TAKEBACK=15;
@@ -1208,6 +1293,75 @@ mode = guidedDefault() ? 'guided' : 'timer';
     renderJourney(); go('journey'); obOpen();
   }
 };
+
+/* ---------- the nidra session runner ---------- */
+let ndTimer=null;
+function ndState(){ return S.nidra = S.nidra || {count:0, pair:0, sankalpa:'simplify', kind:'full'}; }
+function renderNidra(){
+  const st=ndState();
+  document.querySelectorAll('#ndSankalpa button').forEach(b=>
+    b.classList.toggle('sel', b.dataset.sk===st.sankalpa));
+  document.querySelectorAll('#ndKind button').forEach(b=>
+    b.classList.toggle('sel', b.dataset.nd===(st.kind||'full')));
+  const P=NIDRA_PAIRS[st.pair%NIDRA_PAIRS.length];
+  $('#ndMeta').textContent = st.count
+    ? st.count+' session'+(st.count===1?'':'s')+' · next pair: '+P[0].toLowerCase()+' / '+P[1].toLowerCase()
+    : 'Not started · first pair: '+P[0].toLowerCase()+' / '+P[1].toLowerCase();
+}
+function runNidra(kind){
+  const st=ndState();
+  const stages=nidraStages(kind, st.count, st.pair, st.sankalpa);
+  const total=stages.reduce((a,x)=>a+x.t,0);
+  const openEnded = kind==='sleep';        /* no clock, no exit, by design */
+  $('#nidra').classList.add('on');
+  const C=2*Math.PI*112, t0=Date.now();
+  let shown=-1;
+  clearInterval(ndTimer);
+  ndTimer=setInterval(()=>{
+    const e=(Date.now()-t0)/1000;
+    let acc=0, i=stages.length-1;
+    for(let k=0;k<stages.length;k++){ if(e<acc+stages[k].t){ i=k; break; } acc+=stages[k].t; }
+    if(i!==shown){
+      shown=i;
+      if(shown>0) tone(432,.6,0);          /* the boundary chime */
+      $('#ndStage').textContent=stages[i].n;
+      $('#ndCue').textContent=stages[i].c;
+      $('#ndNext').textContent = stages[i+1] ? 'Next: '+stages[i+1].n : '';
+    }
+    if(openEnded){
+      $('#ndTime').textContent=Math.floor(e/60)+':'+String(Math.floor(e%60)).padStart(2,'0');
+    }else{
+      const left=Math.max(0,total-e);
+      $('#ndTime').textContent=Math.floor(left/60)+':'+String(Math.floor(left%60)).padStart(2,'0');
+      $('#ndArc').style.strokeDashoffset=C*(1-Math.min(1,e/total));
+      if(e>=total) endNidra(true);
+    }
+  },250);
+}
+function endNidra(complete){
+  clearInterval(ndTimer); ndTimer=null;
+  $('#nidra').classList.remove('on');
+  if(complete){
+    const st=ndState();
+    st.count++; st.pair=(st.pair+1)%NIDRA_PAIRS.length;   /* one pair per session */
+    save();
+    tone(324,1.1,0); tone(432,1.3,.5);
+  }
+  renderNidra(); go('settings');
+}
+/* The segment picks a length and the button starts it. They were one control
+   at first, which put a tap that begins twelve minutes of silence in the same
+   visual language as a theme preference — settings screens are somewhere you
+   poke at things to see what they do. */
+document.querySelectorAll('#ndKind button').forEach(b=>b.onclick=()=>{
+  ndState().kind=b.dataset.nd; save(); renderNidra();
+});
+$('#ndGo').onclick=()=>runNidra(ndState().kind||'full');
+document.querySelectorAll('#ndSankalpa button').forEach(b=>b.onclick=()=>{
+  ndState().sankalpa=b.dataset.sk; save(); renderNidra();
+});
+$('#ndQuit').onclick=()=>endNidra(false);
+renderNidra();
 
 /* System, light or dark. Dark at night is a real preference for a thing people
    do lying down at eleven at night, and following the OS is not always what
