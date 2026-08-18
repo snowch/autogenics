@@ -642,7 +642,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="b727961+";
+window.__BUILD__="775f944+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -893,6 +893,37 @@ function renderBrief(){
 /* The gate lives on Progress now, so the two moments that actually change what
    the user does have to surface on the screen they open every day. Anything
    less and the app silently waits for them to go looking. */
+/* Two exercises carry real cautions and are traditionally taught in person,
+   and one more says outright that stopping at the first five is fine. The path
+   assumed all ten anyway, so somebody correctly told to avoid the heartbeat
+   had no way to finish — they could only stall against it. A programme that
+   cannot be completed safely by the people it warns is badly designed, not
+   careful. Skipping is allowed, and a skipped element is then removed from
+   every sequence that would otherwise have gone on instructing it. */
+const skipped=()=>S.skipped||[];
+const dropSkipped=cues=>{
+  const gone=skipped().map(i=>STEPS[i].phrase);
+  const out=cues.filter(c=>gone.indexOf(c)<0);
+  return out.length>2 ? out : cues;      /* never strip a session to nothing */
+};
+
+/* Days since anything at all was logged. A fortnight away is not a failure and
+   is not progress; it is a gap, and the only thing it should change is what
+   the app offers you when you come back. */
+function daysSinceLast(){
+  if(!S.log.length) return 0;
+  const last=S.log.map(e=>e.d).sort().slice(-1)[0];
+  return Math.round((new Date(today()+'T00:00:00')-new Date(last+'T00:00:00'))/864e5);
+}
+/* The most recent element you had, to come back on. Returning cold on the
+   hardest current material is how a lapse becomes a stop. */
+function lastSolid(){
+  for(let i=S.step;i>=0;i--)
+    if(skipped().indexOf(i)<0 && S.log.some(e=>e.step===i&&e.r>=GATE.needRating)) return i;
+  return null;
+}
+const elemDays=i=>new Set(S.log.filter(e=>e.step===i).map(e=>e.d)).size;
+
 /* Cue-shrinking, carried over from the nidra protocol for the same reason:
    the endpoint of consolidation is an instruction small enough to cost nothing
    to issue. A line shrinks on how many days you have actually been saying it,
@@ -948,12 +979,15 @@ const aloneCues=st=>['I am completely calm.', st.phrase, st.phrase, st.phrase,
 function sessionPlan(){
   const split = S.step>0 && !guidedDefault() && step().audio;
   if(!split) return [0,1,2].map(()=>({kind:'stack', idx:S.step}));
+  const pool=[]; for(let i=0;i<S.step;i++) if(skipped().indexOf(i)<0) pool.push(i);
+  if(!pool.length) return [0,1,2].map(()=>({kind:'stack', idx:S.step}));
   return [{kind:'new',      idx:S.step},
-          {kind:'review',   idx:(S.rev||0)%S.step},
+          {kind:'review',   idx:pool[(S.rev||0)%pool.length]},
           {kind:'sequence', idx:S.step}];
 }
 const rawCues=p=>
-  (p.kind==='stack'||p.kind==='sequence') ? STEPS[p.idx].cues : aloneCues(STEPS[p.idx]);
+  (p.kind==='stack'||p.kind==='sequence') ? dropSkipped(STEPS[p.idx].cues)
+                                          : aloneCues(STEPS[p.idx]);
 const sessionCues=(p,guided)=>
   guided ? rawCues(p) : rawCues(p).map(shrinkCue);
 const SLOT_LAB={stack:['Morning','Midday','Evening'],
@@ -1094,6 +1128,23 @@ function renderJourney(){
       rv.appendChild(el('p','note','One last thing. The same practice with nothing on screen and nothing playing — a note to begin and a note to finish, and the sequence held by you. That is the thing you are actually learning, and it is the only part of this the ratings cannot see.'));
       rv.appendChild(pb);
     }
+    /* An exit for the two steps that carry real cautions, and the one that
+       says stopping at the first five is fine. Not a failure state and not
+       hidden: the people who need it were told to need it by this app. */
+    if(STEPS[S.step].warn && !g2.ready){
+      const sk=el('button','btn ghost','This one is not for me — skip it');
+      sk.style.marginTop='14px';
+      sk.onclick=()=>{
+        if(!confirm('Skip '+STEPS[S.step].n.toLowerCase()+'?\n\n'
+          +'It will be left out of every sequence from here on, and you can still '
+          +'finish the programme. You can come back to it with an instructor.')) return;
+        S.skipped=skipped().concat(S.step);
+        S.step++; S.stepStart=today(); open=null;
+        mode = guidedDefault() ? 'guided' : 'timer';
+        save(); renderJourney(); go('journey');
+      };
+      rv.appendChild(sk);
+    }
     if(g2.ready){
       const adv=el('button','btn','Move to the next step');
       adv.style.marginTop='14px';
@@ -1109,6 +1160,82 @@ mode = guidedDefault() ? 'guided' : 'timer';
     if(!g2.ready && g2.days>=14 && g2.met===0)
       rv.appendChild(el('p','note','Two weeks without it landing usually means one of four things: trying too hard, sessions too long, too few practices a day, or a posture you cannot relax in. Stay here and change one of them.'));
   }
+
+  /* Nine weeks with a single acknowledgement at the very end is too long a
+     run. The halfway house is not the numerical middle, it is the end of
+     warmth: heaviness and warmth are the two that do most of the work and
+     carry most of what evidence exists. Same handover tone as the ending. */
+  if(S.step===5 && S.halfway!==true){
+    const h=el('div','review');
+    h.appendChild(el('h2', null, 'Heaviness and warmth are yours'));
+    h.appendChild(el('p','note','Worth stopping on. Those two are the ones that do most of the work in this method, and they are the part most people who ever learn it actually use. Everything from here is refinement — useful, and not the thing you came for.'));
+    const hb=el('button','btn ghost','Carry on');
+    hb.style.marginTop='14px';
+    hb.onclick=()=>{ S.halfway=true; save(); renderJourney(); };
+    h.appendChild(hb);
+    $('#nowCard').insertBefore(h, now);
+  }
+
+  /* Daily ratings are for the gate. The signal that detects a plateau is
+     weekly and comparative, and nothing in the daily log surfaces it. */
+  const wk=S.weekAsked ? Math.round((new Date(today()+'T00:00:00')
+      -new Date(S.weekAsked+'T00:00:00'))/864e5) : 99;
+  if(wk>=7 && S.log.length>=6){
+    const q=el('div','review');
+    q.appendChild(el('h2', null, 'Once a week'));
+    q.appendChild(el('p','note','Compared with last week, is this getting easier, staying the same, or getting harder?'));
+    const row=el('div','modes'); row.style.marginTop='14px';
+    [['easier','Easier'],['same','The same'],['harder','Harder']].forEach(([k,lab])=>{
+      const bt=el('button', null, lab);
+      bt.onclick=()=>{ S.weekAsked=today();
+        S.weeks=(S.weeks||[]).concat({d:today(), step:S.step, v:k});
+        save(); renderJourney(); };
+      row.appendChild(bt);
+    });
+    q.appendChild(row);
+    $('#nowCard').insertBefore(q, now);
+  }
+
+  /* Coming back after a gap. Never show what was missed — the record shows
+     density and a gap is allowed to be unremarkable — and never resume cold on
+     the hardest current material. One session of something you already had,
+     then carry on. */
+  const away=daysSinceLast(), back=lastSolid();
+  if(away>=5 && back!==null && S.backOn!==today()){
+    const w=el('div','review');
+    w.appendChild(el('h2', null, 'Welcome back'));
+    w.appendChild(el('p','note','It has been '+away+' days. Nothing is lost and nothing needs making up — start with '+STEPS[back].n.toLowerCase()+' \u00b7 '+STEPS[back].q+', which you already had, and pick the current phrase back up afterwards.'));
+    const wb=el('button','btn','Start with '+STEPS[back].n.toLowerCase());
+    wb.style.marginTop='14px';
+    wb.onclick=()=>{ S.backOn=today(); save();
+      session={kind:'review', idx:back}; revising=null;
+      runPractice(STEPS[back], false, sessionCues(session,false), 'review'); };
+    w.appendChild(wb);
+    const ws=el('button','btn ghost','Straight to today\u2019s practice');
+    ws.style.marginTop='8px';
+    ws.onclick=()=>{ S.backOn=today(); save(); renderJourney(); };
+    w.appendChild(ws);
+    $('#nowCard').insertBefore(w, now);
+  }
+
+  /* Every step up feels like a step down, six times over. A generic
+     reassurance is weak; the user's own record is not, and it gets stronger
+     every step. */
+  const prev=S.step-1;
+  if(S.step>0 && stepDays()<=3 && elemDays(prev)>0)
+    now.appendChild(el('p','note','This is meant to feel like going backwards. '
+      +STEPS[prev].n+' took you '+elemDays(prev)+' days, and you are on day '
+      +stepDays()+' of this one.'));
+
+  /* Autogenic discharge is explained once, after the first practice, and then
+     not mentioned for a month and a half — by which point you are at the warm
+     centre and the cool head, which is exactly where unexpected emotion turns
+     up. The briefings are just-in-time by design; so is this. */
+  if((S.step===7||S.step===8) && stepDays()<=3)
+    now.appendChild(el('p','note','A reminder for the deeper ones: restlessness, '
+      +'a twitch or unexpected emotion is an autogenic discharge — recognised, and '
+      +'not a sign anything is wrong. If it is uncomfortable, open your eyes, move '
+      +'your arms and legs, and stop there for that session.'));
 
   /* Before the first practice there is nothing to report and nothing to
      review, so the one useful thing the app can do is make "heavy" mean

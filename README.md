@@ -571,6 +571,42 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The middle of the programme has a design now
+
+Six changes, all from `DESIGN.md` §7, all about the weeks where the novelty has
+gone and the finish is not in sight.
+
+**Lapses.** Five days away or more offers one session of the last element you
+had solid, then the current phrase afterwards. It never shows what was missed —
+the record shows density, and a gap is allowed to be unremarkable. Returning
+cold onto the hardest current material is how a lapse becomes a stop.
+
+**The regression.** Every step up feels like a step down, six times over. The
+app now says so on a new step, using the record: *"Warmth took you 7 days, and
+you are on day 1 of this one."* A generic reassurance is weak; their own
+history is not, and it gets stronger every step.
+
+**A halfway mark.** Nine weeks with one acknowledgement at the very end is too
+long. The landmark is not the numerical middle but the end of warmth —
+heaviness and warmth are the two that do most of the work and carry most of
+what evidence exists. Same handover tone as the ending, no celebration.
+
+**Discharge, again, where it happens.** It was explained once after the first
+practice and then not mentioned for six weeks, by which point you are at the
+warm centre and the cool head, which is exactly where unexpected emotion turns
+up. Re-surfaced there.
+
+**A dignified exit from the cautioned steps.** The heartbeat and the warm
+centre are traditionally taught in person, and the cool head says outright that
+stopping at the first five is fine — but the path assumed all ten, so somebody
+correctly told to avoid an exercise could only stall against it. Skipping is
+allowed, the skipped formula is then dropped from every sequence that would
+have gone on instructing it, and the review never draws it.
+
+**One weekly question.** *Compared with last week — easier, the same, or
+harder?* Daily ratings are for the gate; the signal that detects a plateau is
+weekly and comparative, and nothing in the daily log surfaces it.
+
 ### Three practices, a probe, and a shrinking cue
 
 Three changes from `DESIGN.md` that together make the middle of the programme a
