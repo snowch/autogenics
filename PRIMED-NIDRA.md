@@ -497,6 +497,13 @@ Three lengths, matching the document:
 | Field, 3 min | Settle, Induction, Refuge, Sankalpa, Cancellation | 180s | itself |
 | Sleep | Induction, Rotation, No exit | open-ended, counting up | never — you fall asleep |
 
+The sankalpa can be written down, and in embodied mode it is what appears at
+both sankalpa stages — in the words it was written in and no others. Rewording
+it after it has been running asks for confirmation, because the same sentence
+every time is the discipline autogenic training lends nidra, and a resolve
+edited every fortnight is a wish list the practice cannot get behind. After
+twenty sessions the app asks once whether it is still the one.
+
 Cue-shrinking is implemented as the document specifies it, keyed to completed
 sessions: full wording under 8, compressed under 20, one word after that. The
 opposites pair advances one step per completed session, so the nine pairs cycle
