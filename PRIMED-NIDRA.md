@@ -17,14 +17,50 @@ consequence.
 | **How it is taught** | A voice, indefinitely | One element at a time, invariant wording, three short reps a day |
 | **When you progress** | Whenever the teacher says | When a criterion is met |
 | **Where you can do it** | Lying down, undisturbed, headphones | A car park, a train, a desk |
+| **If you lose consciousness** | The voice carries on without you | The practice stops — it needs you to issue it |
 | **How it ends** | When the recording ends | You choose: cancel and be alert, or omit and sleep |
 
-**What AT gives nidra.** Not a faster induction — a *training method*. AT is the
+**What AT gives nidra.** Not a faster induction — a *training method*, and an
+answer to the sleep problem below. AT is the
 only relaxation tradition that treats consolidation as an engineering problem:
 fix the wording, drill one element at a time, three short reps a day, and let a
 competence criterion rather than a calendar decide when you move on. Nidra has
 no equivalent, which is why practitioners of twenty years still need a voice to
 walk them through it. That, and portability, and an exit you control.
+
+### Length is not a minor complaint — it is the mechanism of the main failure
+
+The commonest thing that happens in a yoga nidra session is that the
+practitioner falls asleep, and length is why. Thirty-five minutes, supine,
+warm, eyes closed, a soft voice, and almost nothing asked of you moment to
+moment: those are not merely conditions under which sleep is possible, they are
+the standard clinical recipe for inducing it. The practice is aiming at the
+threshold — conscious, on the edge — and holds you there for long enough that
+sleep pressure reliably wins.
+
+**The recording is what allows it.** A voice continues whether or not anyone is
+listening, so nothing in the system notices you have gone. That is the deep
+structural flaw, and it is not fixable by making a better recording. A
+self-issued sequence has the check built in for free: if you fall asleep during
+autogenic training, *the practice stops*, because it will not proceed without
+you issuing the next formula. Nobody has to notice — the absence of the next
+step is the noticing.
+
+This is also why "just do a shorter nidra" is not the answer. Without a
+self-issued induction, a shorter nidra is only a rushed one; the length is
+carrying the depth. Replacing the long entry with a fast one you perform
+yourself is what makes the shortening possible rather than merely faster.
+
+**Length costs a second thing, which is easy to miss:** it costs the dose.
+Thirty-five minutes is a practice you do weekly. Ninety seconds is a practice
+you do three times a day. Autogenic training's central claim about frequency —
+that short and often builds the response and long and rare does not — makes
+that an argument about efficacy, not convenience. A practice too long to repeat
+is under-dosed by construction, however good each session is.
+
+And sleep is not always the failure. It is the failure only when it was not
+chosen, which is precisely what nidra gives you no control over. See the
+cancellation, below.
 
 **What nidra gives AT.** Content. AT trains deliberate access to a state and
 then, for most practitioners, stops — the six standard exercises are *all*
@@ -64,6 +100,13 @@ Same practice, two outcomes. Perform the AT cancellation at the end and you are
 alert, restored, back to work. Omit it and the practice runs downhill into
 sleep. This is the one control a recording structurally cannot give you,
 because a recording does not know which you need tonight.
+
+Read against the sleep problem above, this is the actual repair. Nidra's
+trouble is not that people fall asleep — it is that falling asleep is not a
+*decision*. The same session drifts into sleep at 10pm, which is fine, and at
+2pm, which wastes the afternoon, and the practitioner has no lever either way.
+Making the exit an explicit act you perform turns an unreliable outcome into a
+switch with two labelled positions.
 
 ### On the sankalpa's position
 
@@ -247,8 +290,11 @@ retrieval. One step at a time, about a week each:
 1. Full guided track, as normal.
 2. Guided, but skip the induction — start at the rotation of consciousness.
 3. Guided, and silently issue each stage cue **before the voice does**. *This is
-   the load-bearing step.* Anticipating the instruction forces retrieval;
-   listening to it only rehearses recognition.
+   the load-bearing step*, for two reasons. Anticipating the instruction forces
+   retrieval, where listening to it only rehearses recognition — and it is the
+   first step in the ladder you cannot sleep through, because staying ahead of
+   the voice is a continuous demand. If you drift, you notice immediately: the
+   voice says something you had not yet issued.
 4. Silent, with a timer chiming stage boundaries.
 5. Silent, no timer.
 
@@ -382,6 +428,14 @@ have:
 - *It works lying down but not seated in a car park.* The induction is fine;
   the generalisation is not. Practise the field version specifically, seated,
   as one of your three daily sessions.
+- *I keep falling asleep in the 12-minute session.* Expected, and it is the
+  failure this protocol is built to fix, so treat it as a signal rather than a
+  verdict. In order: practise seated rather than supine for a fortnight; move
+  the session away from the end of the day; and check you are actually
+  performing the cancellation every time, since skipping it teaches the
+  sequence to end in sleep. If it persists while the field version stays
+  reliable, you are not under-trained — you are sleep-deprived, and the
+  practice is reporting it accurately.
 - *It does not arrive at all, and has not for weeks.* Check the four usual
   causes in order: trying too hard, sessions too long, too few per day, a
   posture you cannot relax in. In that order, and one at a time.
