@@ -26,7 +26,7 @@ in the guided track itself.
 
 <!-- narration:start -->
 
-That's one. Here is what it was, and what to look for next time.
+That's one practice. Here is what it was, and what to look for next time.
 
 [pause 0.9]
 

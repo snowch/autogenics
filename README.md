@@ -435,6 +435,14 @@ to sit inside a list row, the three-a-day rows are the part worth keeping since
 they teach the dose, and the gate never looks back further than five days
 anyway.
 
+### Naming the thing instead of pointing at it
+
+Two lines said "it" where the word was doing real work. The debrief opened on
+"That's one." — one what? — and the example track said "Do it with me" before
+the listener knew what *it* was. Now "That's one practice." and "Practise with
+me", which also puts the example in the repo's own grammar: practice the noun,
+practise the verb.
+
 ### A briefing you have watched is still findable
 
 Replay hung only off *finished* steps, so a film about the step you are on was

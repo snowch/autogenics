@@ -54,7 +54,7 @@ it the one safe place to say "now do this yourself."
 ### Practice
 
 This is one practice, at the length you should be doing daily. Ninety seconds.
-Do it with me.
+Practise with me.
 
 [pause 2]
 
