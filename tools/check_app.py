@@ -5,6 +5,7 @@ Structural greps do not catch a broken string literal; only a parser does.
 Uses node --check when available, then a light DOM/asset sanity pass.
 """
 import re, shutil, subprocess, sys, tempfile
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -62,11 +63,27 @@ def check(path: Path) -> list[str]:
             errs.append("the inline scripts clash when combined, which is how "
                         "the browser runs them: " + first.strip())
 
+    # A sed insert whose anchor matched three times pasted the same block into
+    # two function bodies as well as the top level, and shipped: the theme
+    # control was rewired on every step advance and every reset. Nested
+    # function declarations are legal, identical copies parse, and nothing
+    # above sees it. Duplicated bodies are the tell.
+    js = "\n".join(scripts)
+    for name, n in sorted(Counter(re.findall(r"\bfunction (\w+)\(", js)).items()):
+        if n > 1:
+            errs.append(f"function {name}() is declared {n} times — a block was "
+                        f"pasted more than once")
+    for line, n in sorted(Counter(
+            l.strip() for l in js.splitlines()
+            if l.strip().startswith("/*") and len(l.strip()) > 45).items()):
+        if n > 1:
+            errs.append(f"comment appears {n} times, so the block under it is "
+                        f"duplicated: {line[:60]}")
+
     # A local `const go = ...` inside a function shadows the top-level go()
     # navigator for that whole scope, so every call to it from a handler
     # declared there silently returns a DOM element instead of navigating.
     # Valid JavaScript, invisible to node --check, and it shipped once.
-    js = "\n".join(scripts)
     top = set(re.findall(r"^function (\w+)\(", js, re.M))
     for name in sorted(top):
         for m in re.finditer(r"\b(?:const|let|var)\s+" + name + r"\s*=", js):

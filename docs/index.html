@@ -570,7 +570,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="f9789da+";
+window.__BUILD__="06a69e9+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -860,30 +860,6 @@ function renderJourney(){
       adv.style.marginTop='14px';
       adv.onclick=()=>{ if(!gate().ready)return;
         S.step++; S.stepStart=today(); open=null;
-        /* System, light or dark. Dark at night is a real preference for a thing people
-   do lying down at eleven at night, and following the OS is not always what
-   they want. Stored with the record so it survives a reload. */
-function applyTheme(){
-  const t=S.theme||'system';
-  if(t==='system') document.documentElement.removeAttribute('data-theme');
-  else document.documentElement.setAttribute('data-theme', t);
-  const dark = t==='dark' || (t==='system' &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches);
-  const m=document.querySelector('meta[name="theme-color"]');
-  if(m) m.setAttribute('content', dark ? '#0D1218' : '#EEF1F5');
-  document.querySelectorAll('#themeSeg button').forEach(b=>
-    b.classList.toggle('sel', b.dataset.themeSet===t));
-}
-document.querySelectorAll('#themeSeg button').forEach(b=>b.onclick=()=>{
-  S.theme=b.dataset.themeSet; save(); applyTheme();
-});
-applyTheme();
-
-/* Which build is this device actually running? Without an answer, a deploy
-   that silently failed and a service worker that never updated look exactly
-   the same from the outside — which cost an afternoon once. */
-$('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
-
 mode = guidedDefault() ? 'guided' : 'timer';
         save(); renderJourney();
         /* what changed is what to practise, so land on the practice screen —
@@ -1228,30 +1204,6 @@ $('#lReset').onclick=()=>{
        the user standing on the Learn screen they pressed the button from. */
     S={step:0,log:[],stepStart:today(),onboarded:false,warned:[],briefed:[],theme:S.theme||'system'};
     open=null; save();
-    /* System, light or dark. Dark at night is a real preference for a thing people
-   do lying down at eleven at night, and following the OS is not always what
-   they want. Stored with the record so it survives a reload. */
-function applyTheme(){
-  const t=S.theme||'system';
-  if(t==='system') document.documentElement.removeAttribute('data-theme');
-  else document.documentElement.setAttribute('data-theme', t);
-  const dark = t==='dark' || (t==='system' &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches);
-  const m=document.querySelector('meta[name="theme-color"]');
-  if(m) m.setAttribute('content', dark ? '#0D1218' : '#EEF1F5');
-  document.querySelectorAll('#themeSeg button').forEach(b=>
-    b.classList.toggle('sel', b.dataset.themeSet===t));
-}
-document.querySelectorAll('#themeSeg button').forEach(b=>b.onclick=()=>{
-  S.theme=b.dataset.themeSet; save(); applyTheme();
-});
-applyTheme();
-
-/* Which build is this device actually running? Without an answer, a deploy
-   that silently failed and a service worker that never updated look exactly
-   the same from the outside — which cost an afternoon once. */
-$('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
-
 mode = guidedDefault() ? 'guided' : 'timer';
     renderJourney(); go('journey'); obOpen();
   }
