@@ -26,7 +26,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step eight. The whole run-through, and then the centre.
+The whole run-through, and then the centre.
 
 [pause 2]
 

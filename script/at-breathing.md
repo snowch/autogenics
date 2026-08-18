@@ -25,7 +25,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step seven. Heaviness, warmth, heartbeat — then the breath.
+Heaviness, warmth, heartbeat — then the breath.
 
 [pause 2]
 

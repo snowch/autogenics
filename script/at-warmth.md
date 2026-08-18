@@ -25,7 +25,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step five. Heaviness is yours now, so we add warmth.
+Heaviness is yours now, so we add warmth.
 
 [pause 2]
 

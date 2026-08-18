@@ -440,7 +440,7 @@ Written after building most of it. Section by section:
 | §3 contrast induction | yes — 43 seconds, offered before practice one, findable from Learn after |
 | §4 the user's own voice | built, then **withdrawn** — see §4, it was a retention mechanic |
 | §5 retrieval / transfer | transfer yes — the sequence practice is deliberately staged badly from step two. Retrieval-before-audio: no |
-| §5 compressed heaviness | **no — see below** |
+| §5 compressed heaviness | four steps to three — see below |
 | §6 no numbers, no streaks, no library | yes |
 | §6 anchored reminders | as calendar events, since a serverless PWA cannot schedule a notification |
 | §7 all six middle-game changes | yes |
@@ -450,13 +450,17 @@ Written after building most of it. Section by section:
 
 Two deliberate omissions, both flagged rather than quietly dropped.
 
-**Compressing heaviness from four steps to two** is the one recommendation here
-that deletes a month of somebody's programme and two recordings with it. The
-argument for it is good — the schedule is a group-teaching artefact and no
-trial establishes dose-response — but "the literature does not support the
-current number" is not the same as "two is the right number", and the person
-who would lose the month should be the one to decide. It is a choice, not a
-fix, so it is still a proposal.
+**Compressing heaviness** happened, at three steps rather than the two argued
+for here. The step that went is *both arms, in turn* — a whole week whose only
+job was to show the response crosses to the other arm, which *both arms* shows
+as well and at the same time. What remains is the dominant arm, where the
+response is actually learned; both arms, where it generalises; and the legs,
+where the classical formula lands and which mostly arrives free.
+
+Two was not right. Merging the legs into the arms step changes the phrase
+mid-step, and the phrase is the one thing this method holds invariant. Three
+saves the week that was genuinely redundant and keeps the checkpoint that is
+not, and the ladder is nine steps instead of ten.
 
 **Measurement** is the biggest single win in this document and it is fourth on
 the list for a reason: displaying physiology moves the product toward the

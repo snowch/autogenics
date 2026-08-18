@@ -41,7 +41,7 @@ three across three days running, and at least five days regardless.
 
 ### Practice
 
-Step four. The arms are yours now. The legs come the same way — and mostly they
+The arms are yours now. The legs come the same way — and mostly they
 come on their own.
 
 [pause 2]

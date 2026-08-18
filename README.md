@@ -572,6 +572,37 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Heaviness lost a week, and the recordings stopped counting
+
+Four heaviness steps — right arm, left arm, both arms, legs — was four weeks
+for something the body largely does by transfer. The one that went is *both
+arms, in turn*, whose only job was to show the response crosses to the other
+arm; *both arms* shows that too, and at the same time. What is left is the
+dominant arm where the response is actually learned, both arms where it
+generalises, and the legs where the classical formula lands. Nine steps.
+
+The blocker was that six recordings opened by announcing their own position —
+"Step seven. Heaviness, warmth, heartbeat, then the breath" — so any change to
+the ladder desynchronised the narration from the screen. That had already
+shipped once, when inserting the legs left five recordings saying a number one
+lower than the app displayed. The numbers are simply gone now; the screen says
+which step you are on, and the recordings never contradict it again because
+they no longer have an opinion. Six re-renders, cheap because the segment cache
+only missed the lines that actually changed.
+
+A stored record still points at the old indices, and silently — the numbers
+resolve, they just mean a different exercise. So `migrate()` remaps step, log,
+`probed` and `skipped` once, writes the result back, and stamps `v`. Both old
+both-arms steps land on the surviving one.
+
+Two bugs in writing it, the same shape twice: a `const` referenced by a hoisted
+function that runs before the declaration is evaluated. `load()` is called
+above where it is defined, so `STEPS` and then `LADDER_V` were both in their
+temporal dead zone, and each one threw at boot and took the entire script with
+it. `check_app.py` passed on both, because the file parses perfectly either
+way. `test_journey.py` now boots a pre-v2 record and asserts no page errors,
+which is the only thing that would have caught either.
+
 ### The gear was a sun
 
 The header button had `class="gear"`, `aria-label="Settings"` and a `data-go`

@@ -26,7 +26,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step nine. The full sequence, and then the last formula.
+The full sequence, and then the last formula.
 
 [pause 2]
 

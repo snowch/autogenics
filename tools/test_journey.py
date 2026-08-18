@@ -89,6 +89,24 @@ with sync_playwright() as pw:
     st=pg.evaluate("JSON.parse(localStorage['autogenics.v2'])")
     ck('reset cleared the record', st['log']==[] and st['step']==0 and st['onboarded']==False, st.get('step'))
 
+    # A record written against the ten-step ladder must load, remap and render.
+    # Both bugs in that change were the same shape: a const referenced by a
+    # hoisted function that runs before the declaration is evaluated. Each one
+    # threw at boot and took the whole script with it, and check_app.py passed
+    # on both, because the file parses perfectly either way.
+    pg.evaluate("""()=>localStorage.setItem('autogenics.v2', JSON.stringify(
+      {step:4, log:[{d:'2026-08-10',t:'',step:2,r:3,m:'timer'},
+                    {d:'2026-08-11',t:'',step:9,r:3,m:'timer'}],
+       stepStart:'2026-08-12', onboarded:true, drilled:true, warned:[],
+       briefed:['after-first'], theme:'system', probed:[1,2], skipped:[5]}))""")
+    errs.clear()
+    pg.reload(); pg.wait_for_timeout(400)
+    ck('a pre-v2 record boots without error', not errs, errs)
+    ck('and still renders its step', bool(pg.query_selector('#nowCard .ename')),
+       pg.inner_text('#nowCard .ename') if pg.query_selector('#nowCard .ename') else 'nothing rendered')
+    rec = pg.evaluate("()=>JSON.parse(localStorage['autogenics.v2'])")
+    ck('the remap is written back', rec.get('v') == 2 and rec['step'] == 3, rec.get('step'))
+
     ck('no page errors', not errs, errs)
     b.close()
 print('  ok' if not fails else f'  {len(fails)} FAILURE(S)')

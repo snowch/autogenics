@@ -26,7 +26,7 @@ across three days running, and at least five days regardless.
 
 ### Practice
 
-Step six. Heaviness and warmth first, then the heartbeat.
+Heaviness and warmth first, then the heartbeat.
 
 [pause 2]
 
