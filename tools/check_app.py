@@ -123,7 +123,9 @@ def check(path: Path) -> list[str]:
 
     # Reset promises "start again from the beginning". It once set
     # onboarded:true, which reset the record but skipped first run entirely.
-    rst = re.search(r"lReset'\)\.onclick[\s\S]*?S=\{(.*?)\};", html)
+    # [\s\S] rather than . — a reset object spread over two lines is normal
+    # code, and a checker that only sees one-liners fails on correct input.
+    rst = re.search(r"lReset'\)\.onclick[\s\S]*?S=\{([\s\S]*?)\};", html)
     fresh = re.search(r"return \{(step:0[^}]*)\};", html)
     if rst and fresh:
         rkeys = set(re.findall(r"(\w+)\s*:", rst.group(1)))

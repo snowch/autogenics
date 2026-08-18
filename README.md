@@ -571,6 +571,31 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Reminders, without a server
+
+Three practices a day is the entire method, and the app had no way to ask for
+any of them. The obvious fix is push notifications, and it is not available:
+web push needs a backend and an identity, which this app has spent its whole
+design refusing; notification triggers never shipped; periodic background sync
+is Chrome-only and twelve-hourly at best. A native wrapper would solve it, and
+that is a real answer, but not one you can act on this week.
+
+The phone already contains a reliable scheduler that runs offline, survives
+reboots, and nobody has to be talked into trusting. Settings now takes three
+times and hands the calendar an `.ics` — three daily repeating two-minute
+events, each with an alarm, generated on the device and passed straight to the
+calendar app. Floating local time on purpose, so half past seven stays half
+past seven in another country.
+
+Verified by generating one in the browser, reading the download back, and
+parsing it with an RFC 5545 parser: three events, daily recurrence, one alarm
+each, CRLF throughout — which the spec requires and real parsers enforce.
+
+The times are a setting, not a practice record, so they survive Reset the way
+the theme does. And three time pickers side by side overflowed the card and
+scrolled the whole page sideways on a 390px screen, because a 12-hour locale
+renders AM/PM and a clock affordance in each one. They are stacked now.
+
 ### The take-back was silent, and the screen went to sleep
 
 Two bugs that only exist in real use, found by thinking about what the app does
