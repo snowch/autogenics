@@ -1909,7 +1909,11 @@ $('#lDrill').onclick=runDrill;   /* a drill you have done is still findable */
 STEPS.forEach((st,i)=>{
   const b=el('button', null, (i+1)+'. '+st.n+(st.q?' \u00b7 '+st.q:''));
   b.style.flex='1 1 100%';
-  b.onclick=()=>enterPreview(i);
+  /* The last step opens on its finished state. "Just arrived" at step ten is
+     barely different from step nine, while a week in is the ending — the
+     handover, the sequence as an image, and the nidra door — which is the
+     thing anyone picking the last step came to look at. */
+  b.onclick=()=>enterPreview(i, i===STEPS.length-1);
   $('#pvPick').appendChild(b);
 });
 $('#pvOut').onclick=exitPreview;
