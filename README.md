@@ -571,6 +571,31 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Look ahead, but never advance
+
+The gate is the one thing that makes this better than a syllabus, so there is
+no way to skip a step. But that left the whole programme invisible: on day one
+you could see day one, and nothing else. Wanting to know what is coming is not
+the same as wanting to be given it, and refusing both is a design mistake
+dressed up as rigour.
+
+Settings now lists every step and drops you into it — running on an invented
+record, in a sandbox. The trick is a single line: `save()` returns early while
+previewing. Everything downstream keeps working exactly as it does normally —
+ratings, the gate, the probe, skipping, the weekly question, the shrinking cues
+— and none of it survives leaving. Nothing else in the app knows it is in a
+sandbox.
+
+Each step gets two moments, because a step is not one screen. *Just arrived* is
+where the regression note, the cautions and the discharge reminder live; *a
+week in* is where the gate, the probe and the shrunken cues are. Previewing one
+would show half the content and imply the other half does not exist.
+
+A fixed 56px nav offset for the preview bar was wrong the moment the label
+wrapped to two lines, so the bar measures itself and sets the offset. This is
+the third layout bug this session caused by guessing a size instead of asking
+for one.
+
 ### The ending is a handover, so make it leave
 
 **No digits during a practice.** A countdown is something to check, and
