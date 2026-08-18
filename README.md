@@ -431,6 +431,39 @@ were re-rendered to say *my arms and legs are heavy*. Leaving them would have
 put the guided cue and the voice out of step — the one failure this pipeline
 exists to prevent.
 
+### Timer mode never told you how to finish
+
+Guided tracks walk the take-back. Timer mode reserved the last fourteen seconds
+for it and changed the heading to "Waking up" — while the cue underneath still
+read *I am completely calm*. No instruction at all, in the one part the
+cautions call non-optional and the onboarding promises the app always runs.
+
+The last fifteen seconds now carry it: bend and stretch, a deep breath, open
+your eyes. The practice cues are spread across the remaining time rather than
+the whole duration, so they no longer run into it.
+
+### The dose is ninety seconds of practice, not ninety of everything
+
+Measured off the example track's own timings rather than assumed:
+
+| | |
+| --- | --- |
+| settle → last "completely calm" | 79.8s |
+| take-back | 21.9s |
+| six repetitions, 4s apart | 38.5s of that |
+| formula delivery | 121 words/min |
+
+So ninety seconds is comfortably enough for the practice proper — six
+repetitions at an unhurried pace only fill 38 of it — and the take-back is
+fifteen on top, which is how the copy already describes it. The app's timer
+budgets 96–104s per step, which is the two added together.
+
+**No pauses inside the phrase.** The gap belongs *between* repetitions, and at
+four seconds it is longer than the phrase itself. Breaking *my right arm is
+heavy* into separate words would turn the formula into something you assemble,
+and assembling it is the effortful attention the whole method is trying to
+avoid. It should pass through and be let go.
+
 ### Finishing the day is a moment
 
 Three practices a day is the entire mechanism, and hitting it was never

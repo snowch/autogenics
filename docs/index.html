@@ -570,7 +570,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="7593377+";
+window.__BUILD__="f9789da+";
 const AUDIO = window.__AUDIO__ || {
   explainer:'./audio/explainer.mp3',
   s1:'./audio/arm-heaviness-example.mp3',
@@ -646,6 +646,12 @@ const STEPS=[
    and leaves "do not add until the last one comes readily" as advice. */
 const GATE={minDays:7, window:3, needPerDay:2, needRating:2, slots:3};
 const STRIP_DAYS=7;
+/* Fifteen seconds, matching what the cautions and the guided tracks say. In
+   bed to fall asleep is the one exception, and the cautions carry it. */
+const TAKEBACK=15;
+const TAKEBACK_CUES=['Bend and stretch your arms. Fists clenched, firmly.',
+                     'A deep breath in — and out.',
+                     'And open your eyes.'];
 const KEY='autogenics.v2';
 const today=()=>new Date().toISOString().slice(0,10);
 const dayKey=back=>{const d=new Date(); d.setDate(d.getDate()-back); return d.toISOString().slice(0,10);};
@@ -1117,8 +1123,17 @@ function runPractice(st, guided){
     $('#pxTime').textContent=Math.floor(left/60)+':'+String(Math.floor(left%60)).padStart(2,'0');
     $('#pxArc').style.strokeDashoffset=C*(1-Math.min(1,e/d));
     if(!guided){
-      $('#pxCue').textContent=st.cues[Math.min(st.cues.length-1,Math.floor(e/(total/st.cues.length)))];
-      $('#pxPhase').textContent=e>total-14?'Waking up':'Practice';
+      /* The last stretch is the take-back, and it was labelled "Waking up"
+         while the cue still said "I am completely calm" — no instruction at
+         all, in the one part of the practice the cautions call non-optional
+         and the onboarding promises the app always runs. */
+      const wake = e > total - TAKEBACK;
+      $('#pxPhase').textContent = wake ? 'Waking up' : 'Practice';
+      $('#pxCue').textContent = wake
+        ? TAKEBACK_CUES[Math.min(TAKEBACK_CUES.length-1,
+            Math.floor((e-(total-TAKEBACK))/(TAKEBACK/TAKEBACK_CUES.length)))]
+        : st.cues[Math.min(st.cues.length-1,
+            Math.floor(e/((total-TAKEBACK)/st.cues.length)))];
     }
     if(e>=d) finishPractice();
   },250);
