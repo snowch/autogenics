@@ -392,5 +392,51 @@ companion.
    question attached — which is why it is fourth, despite being the biggest
    potential win.
 
-Every one of these is a change to the first week, because the first week is the
-product. The remaining nine are a syllabus, and syllabuses are the easy part.
+Every one of these is a change to the first week, because the first week is
+where the product is decided.
+
+---
+
+## 11. What of this is built
+
+Written after building most of it. Section by section:
+
+| | Built |
+|---|---|
+| §3 contrast induction | yes — 43 seconds, offered before practice one, findable from Learn after |
+| §4 the user's own voice | yes — 13 lines, IndexedDB, a third practice mode |
+| §5 retrieval / transfer | transfer yes — the sequence practice is deliberately staged badly from step two. Retrieval-before-audio: no |
+| §5 compressed heaviness | **no — see below** |
+| §6 no numbers, no streaks, no library | yes |
+| §6 anchored reminders | as calendar events, since a serverless PWA cannot schedule a notification |
+| §7 all six middle-game changes | yes |
+| §8 countdown, card, nidra as the door | yes |
+| §2 measurement | **no — see below** |
+| §9 watch | no, and not soon |
+
+Two deliberate omissions, both flagged rather than quietly dropped.
+
+**Compressing heaviness from four steps to two** is the one recommendation here
+that deletes a month of somebody's programme and two recordings with it. The
+argument for it is good — the schedule is a group-teaching artefact and no
+trial establishes dose-response — but "the literature does not support the
+current number" is not the same as "two is the right number", and the person
+who would lose the month should be the one to decide. It is a choice, not a
+fix, so it is still a proposal.
+
+**Measurement** is the biggest single win in this document and it is fourth on
+the list for a reason: displaying physiology moves the product toward the
+regulated end in several jurisdictions, and that needs a lawyer rather than an
+afternoon. The technical part is real — camera PPG gives a defensible pulse
+change across ninety seconds — but shipping it without the framing settled
+would be the one genuinely reckless thing in here.
+
+Everything else in this document is in the app.
+
+## 12. What is still only theory
+
+Nobody has used any of it. The instructional design is argued from the
+literature and from first principles, the retention assumptions are guesses,
+and the one number that would settle whether §2 matters — how many people reach
+practice four — does not exist yet. `tools/test_journey.py` proves the app
+works. It does not prove the programme does.

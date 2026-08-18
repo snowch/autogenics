@@ -112,6 +112,7 @@ with no signal. Rebuild it with:
 ```bash
 python3 tools/check_app.py     # syntax-check the JS — run this before publishing
 python3 tools/test_gate.py     # behavioural: does the gate open for the right reasons?
+python3 tools/test_journey.py  # the whole journey in a browser, install to reset
 python3 tools/build_pwa.py
 ```
 

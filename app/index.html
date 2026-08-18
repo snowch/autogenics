@@ -1185,9 +1185,17 @@ function renderJourney(){
   });
   now.appendChild(dose);
   if(split) now.appendChild(el('p','phrasehint',
-    plan[1].idx===plan[nextSlot()].idx && plan[nextSlot()].kind==='review'
-      ? '' : 'Today\u2019s review is '+STEPS[plan[1].idx].n.toLowerCase()
-             +' \u00b7 '+STEPS[plan[1].idx].q+'.'));
+    'Today\u2019s review is '+STEPS[plan[1].idx].n.toLowerCase()
+    +' \u00b7 '+STEPS[plan[1].idx].q+'.'));
+  /* Transfer. The point of this method is a waiting room, not a bedroom, and
+     nothing tested that until the very last step — far too late to find out
+     that a response only works lying down somewhere quiet. So from the second
+     step the sequence practice is deliberately staged badly: sitting up, eyes
+     open, wherever you happen to be. A response that only survives ideal
+     conditions has not been trained, it has been staged. */
+  if(split && nextSlot()===2) now.appendChild(el('p','note',
+    'Do this one somewhere ordinary — sitting up, eyes open if you like, without '
+    +'arranging the room first. It is the version you will actually use.'));
 
   /* Three a day is the whole mechanism, and the app never once acknowledged
      hitting it — the button just changed to "Practise again", which reads as
