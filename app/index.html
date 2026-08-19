@@ -1082,6 +1082,55 @@ function lastSolid(){
 }
 const elemDays=i=>new Set(S.log.filter(e=>e.step===i).map(e=>e.d)).size;
 
+/* The nidra grafts.
+
+   The whole argument of PRIMED-NIDRA.md is that autogenic training has a
+   pedagogy and nidra has none, so nidra's elements should be trained the way
+   AT trains its formulae — one at a time, invariant wording, on the back of
+   the formula that shares its substrate. Refuge is entered through warmth and
+   contact, so it grafts onto the warmth step; counting breaths grafts onto the
+   breath. Forty seconds appended to a practice, not a second practice.
+
+   Two of the day's three carry it and the review stays pure AT, which is the
+   protocol's own ratio. Guided sessions never carry one — the recordings do
+   not contain it, and the graft is issued by you in any case.
+
+   Sakshi has no criterion and Sankalpa has none, deliberately: they are
+   defined by the absence of a doing, and drilling them toward automaticity
+   would condition a manoeuvre where the point is that no manoeuvre occurs.
+   They get time, not reps. Everything else states what it is aiming at
+   without gating on it — the ladder already paces progression, and a second
+   gate on a self-reported ten seconds would be a scaffold pretending to be a
+   measurement. */
+const DRILLS=[
+  {step:2, n:'Refuge', secs:40,
+   c:['Somewhere safe, entered as sensation — warmth, contact, weight, never a picture. Establish it is there, then leave it.',
+      'Refuge — as sensation, then leave it.', 'Refuge.'],
+   crit:'It arrives inside ten seconds, as sensation rather than an image.'},
+  {step:3, n:'Opposites · heavy and light', secs:40,
+   c:['Let heaviness fill the arms. Now release it and find lightness. Now both at once.',
+      'Heavy\u2026 light\u2026 both.', 'Both.'],
+   crit:'Both poles held together for ten seconds, without one collapsing.'},
+  {step:4, n:'Pranamaya · counting down', secs:40,
+   c:['It breathes me. Count the breaths down from eleven, and on any lapse start again without annoyance.',
+      'It breathes me. Count eleven down.', 'Count down.'],
+   crit:'You reach one with the count recovered after a lapse — not unbroken.'},
+  {step:5, n:'Opposites · cool and warm', secs:40,
+   c:['Let coolness fill you. Now release it and find warmth. Now both at once.',
+      'Cool\u2026 warm\u2026 both.', 'Both.'],
+   crit:'Both poles held together for ten seconds.'},
+  {step:6, n:'Sakshi', secs:60,
+   c:['Drop the object. Rest as the awareness that has been present throughout.',
+      'Drop the object. Rest as the awareness.', 'Witness.'],
+   crit:null},
+  {step:7, n:'Sankalpa', secs:40,
+   c:['What do I most deeply want? Ask once, then listen. If nothing arrives, let it go.',
+      'Ask once, then listen.', 'Ask, and listen.'],
+   crit:null}];
+const drillFor=n=>DRILLS.find(d=>d.step===n)||null;
+/* Shrinks on days the drill has been carried, which is days on its own step. */
+const drillCue=d=>{ const n=elemDays(d.step); return n<8 ? d.c[0] : n<20 ? d.c[1] : d.c[2]; };
+
 /* Cue-shrinking, carried over from the nidra protocol for the same reason:
    the endpoint of consolidation is an instruction small enough to cost nothing
    to issue. A line shrinks on how many days you have actually been saying it,
@@ -1210,6 +1259,21 @@ function renderJourney(){
   if(split) now.appendChild(el('p','phrasehint',
     'Today\u2019s review is '+STEPS[plan[1].idx].n.toLowerCase()
     +' \u00b7 '+STEPS[plan[1].idx].q+'.'));
+  /* What is grafted on this week, and what it is aiming at. Stated rather than
+     gated: the ladder already paces progression, and a second gate on a
+     self-reported ten seconds would be a scaffold pretending to be a ruler. */
+  const gr=drillFor(S.step);
+  if(gr && mode==='timer'){
+    const g=el('div','review');
+    g.appendChild(el('h2', null, 'Also this week'));
+    g.appendChild(el('p','phrase', gr.n));
+    g.appendChild(el('p','note', drillCue(gr)));
+    g.appendChild(el('p','smeta', gr.secs+' seconds, after the formula and before you come back \u2014 on the phrase and the sequence, not the review.'));
+    if(gr.crit) g.appendChild(el('p','smeta','Aiming at: '+gr.crit));
+    else g.appendChild(el('p','smeta','No criterion for this one. It gets time, not repetitions.'));
+    now.appendChild(g);
+  }
+
   /* Transfer. The point of this method is a waiting room, not a bedroom, and
      nothing tested that until the very last step — far too late to find out
      that a response only works lying down somewhere quiet. So from the second
@@ -1255,8 +1319,10 @@ function renderJourney(){
       'The recording covers the sequence. The phrase and the review are yours to pace.'));
   if(mode==='timer'||!st.audio||split)
     now.appendChild(el('p','phrasehint',
-      'One note to begin. Two rising notes when it is time to take it back — '
-      + 'arms, breath, eyes. Two low notes when you are done.'));
+      'One note to begin.'
+      + (gr && mode==='timer' ? ' One more when the formula is done and ' + gr.n.split(' \u00b7 ')[0].toLowerCase() + ' begins.' : '')
+      + ' Two rising notes when it is time to take it back — arms, breath, eyes.'
+      + ' Two low notes when you are done.'));
 
   /* ---- review: how it is going, and whether to move on ---- */
   const g2=gate();
@@ -1681,16 +1747,20 @@ function startPractice(){
   /* Only the stack has a recording. The phrase alone and the review are the
      same ninety seconds with a different cue list, and no voice for either. */
   const guided = session.kind==='stack' && mode==='guided' && st.audio;
-  runPractice(STEPS[session.idx], guided, sessionCues(session, guided), session.kind);
+  /* Two of the day's three carry the graft; the review stays pure AT. A
+     guided session never does — the recording has no room for it. */
+  const graft = (!guided && session.kind!=='review') ? drillFor(S.step) : null;
+  runPractice(STEPS[session.idx], guided, sessionCues(session, guided), session.kind, graft);
 }
 function revise(i){
   revising=i; session=null;
   const st=STEPS[i];
   runPractice(st, !!st.audio, st.cues, 'stack');
 }
-function runPractice(st, guided, cues, kind){
+function runPractice(st, guided, cues, kind, graft){
   cues=cues||st.cues;
-  const total=st.secs;
+  const gs = graft ? graft.secs : 0;
+  const total=st.secs + gs;
   $('#practice').classList.add('on');
   $('#pxCue').textContent = kind==='probe' ? '' : (guided?'':cues[0]);
   $('#pxPhase').textContent = revising!==null ? 'Revision'
@@ -1710,6 +1780,7 @@ function runPractice(st, guided, cues, kind){
        with their eyes shut, in the one part of the practice the cautions call
        non-optional and onboarding promises the app always runs. */
     tone(432,.9,0);
+    if(graft) tone(466,.4,total-TAKEBACK-gs);   /* formula done, graft begins */
     tone(392,.45,total-TAKEBACK); tone(523,.55,total-TAKEBACK+.3);
     tone(324,1.1,total); tone(432,1.3,total+.5);
   }
@@ -1735,12 +1806,14 @@ function runPractice(st, guided, cues, kind){
          all, in the one part of the practice the cautions call non-optional
          and the onboarding promises the app always runs. */
       const wake = e > total - TAKEBACK;
+      const inGraft = graft && !wake && e > total - TAKEBACK - gs;
       if(wake) $('#pxPhase').textContent='Waking up';
+      else if(inGraft){ $('#pxPhase').textContent=graft.n; $('#pxCue').textContent=drillCue(graft); }
       $('#pxCue').textContent = wake
         ? TAKEBACK_CUES[Math.min(TAKEBACK_CUES.length-1,
             Math.floor((e-(total-TAKEBACK))/(TAKEBACK/TAKEBACK_CUES.length)))]
         : cues[Math.min(cues.length-1,
-            Math.floor(e/((total-TAKEBACK)/cues.length)))];
+            Math.floor(e/((total-TAKEBACK-gs)/cues.length)))];
     }
     if(e>=d) finishPractice();
   },250);

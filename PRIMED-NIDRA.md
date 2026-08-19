@@ -515,4 +515,24 @@ stages between the three modes above. The sleep variant has no arc, no
 countdown and no cancellation stage, and does not count towards shrinking —
 stopping it in the morning is not a completed session.
 
-Still unbuilt: the 40-second drills, and the weaning ladder.
+The 40-second drills are built, as grafts rather than as a separate practice.
+Each is appended to the formula that shares its substrate — refuge onto warmth,
+counting breaths onto the breath — and carried by two of the day's three
+sessions, with the review left as pure autogenic training. That is this
+document's own ratio. Guided sessions never carry one, because the recordings
+have no room for it and the graft is self-issued anyway.
+
+The ladder is shorter than the table above, so the grafts moved with it: none
+on the first two steps, then refuge, opposites, pranamaya, opposites, sakshi
+and the sankalpa question. Wording is fixed and shrinks on days carried, by the
+same mechanism as the formulae.
+
+Criteria are stated and not gated. The ladder already paces progression, and a
+second gate on a self-reported ten seconds would be a scaffold pretending to be
+a ruler. Sakshi and the sankalpa show *no criterion* at all, as this document
+requires: they get time, not repetitions.
+
+Still unbuilt: the weaning ladder — though most of it is moot here, since the
+runner has been silent from the start. Steps 1 to 3 assume a recording to wean
+off; what remains is 4 and 5, silent with chimes and then silent without, and
+the app only does the first.

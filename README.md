@@ -572,6 +572,42 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Nidra's elements get trained the way the formulae do
+
+The thesis of `PRIMED-NIDRA.md` is that autogenic training has a pedagogy and
+nidra has none. Until now the app only demonstrated half of that: the ladder
+trained its formulae properly and then dropped the nidra elements in whole, at
+minute four of a twelve-minute session, exactly the way every nidra recording
+does.
+
+They are now **grafts** — forty seconds appended to a practice, not a second
+practice. Each sits on the formula sharing its substrate: refuge is entered
+through warmth and contact, so it lands on the warmth step; counting breaths
+lands on the breath. Two of the day's three carry it and the review stays pure
+AT, which is the protocol's own ratio, and a guided session never does, because
+the recording has no room and the graft is self-issued anyway.
+
+Wording is fixed and shrinks on days carried, by the same mechanism as the
+formulae — *"Let heaviness fill the arms. Now release it and find lightness.
+Now both at once."* → *"Heavy… light… both."* → *"Both."*
+
+**Sakshi is deliberately not drilled**, and neither is the sankalpa. The
+document is explicit: they are defined by the absence of a doing, so training
+them toward automaticity would condition a manoeuvre where the point is that no
+manoeuvre occurs. They get time, not repetitions, and the card says so instead
+of showing a criterion.
+
+Criteria for the rest are stated and not gated. The ladder already paces
+progression; a second gate on a self-reported ten seconds would be a scaffold
+pretending to be a ruler.
+
+A third chime marks the formula ending and the graft beginning, since two
+thirds of the practice is now eyes-closed with something changing partway.
+
+One trap worth recording: a test seeded a record without a version stamp, so
+the migration correctly walked its step down two ladders and the graft looked
+broken. The app was right and the fixture was wrong — seeds need `v` now.
+
 ### Look ahead stopped at the end of the ladder
 
 It listed every step and nothing after them, so the half of the programme that
