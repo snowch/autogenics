@@ -2112,7 +2112,8 @@ applyTheme();
 /* Which build is this device actually running? Without an answer, a deploy
    that silently failed and a service worker that never updated look exactly
    the same from the outside — which cost an afternoon once. */
-$('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev');
+$('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev')
+  + (window.__ASSETS__ ? ' \u00b7 assets ' + window.__ASSETS__ : '');
 
 mode = guidedDefault() ? 'guided' : 'timer';
 $('#obSteps').textContent=STEPS.length;   /* never hand-count the ladder */

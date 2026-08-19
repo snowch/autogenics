@@ -40,6 +40,24 @@ def ffmpeg() -> str:
         return "ffmpeg"
 
 
+def asset_version() -> str:
+    """The number the service worker caches under.
+
+    build_id() names the commit at build time, which is the commit *before* the
+    one the build ships in — accurate about the tree, misleading about the
+    deploy. This is derived from the bytes actually written, so two devices
+    showing the same number are running the same files, whatever git thinks.
+    """
+    tot = 0
+    for n in TRACKS.values():
+        f = DOCS / "audio" / n
+        if f.exists(): tot += f.stat().st_size
+    for _, mp4, _ in FILMS:
+        f = DOCS / "video" / mp4
+        if f.exists(): tot += f.stat().st_size
+    return str(tot)
+
+
 def build_id() -> str:
     """Short commit for the stamp shown under Your record.
 
@@ -100,7 +118,9 @@ def main() -> int:
     html = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
     html = html.replace("'../audio/", "'./audio/")
     html = html.replace("<script>\n\"use strict\";",
-                        f'<script>\n"use strict";\nwindow.__BUILD__="{build_id()}";', 1)
+                        f'<script>\n"use strict";\n'
+                        f'window.__BUILD__="{build_id()}";'
+                        'window.__ASSETS__="@@ASSETS@@";', 1)
     (DOCS / "video").mkdir(exist_ok=True)
     for _, mp4, poster in FILMS:
         for n in (mp4, poster):
@@ -172,6 +192,7 @@ if('serviceWorker' in navigator){
 })();
 </script>
 </body>""", 1)
+    html = html.replace("@@ASSETS@@", asset_version())
     (DOCS / "index.html").write_text(html, encoding="utf-8")
 
     (DOCS / "manifest.webmanifest").write_text(json.dumps({
