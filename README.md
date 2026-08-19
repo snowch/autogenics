@@ -602,6 +602,30 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### A new phrase inherited the old one's day
+
+Reported from real use: arriving on the second exercise, morning and midday
+were already ticked with threes. They were — the ones from the phrase before.
+
+`dayLog(today())` is every practice logged today whatever step it belonged to,
+and the dose slots read straight from it. So advancing after a full day handed
+the new phrase three completed slots, a *that is today's three* it had not
+earned, and a next-practice pointer aimed at the sequence slot before the
+phrase had been said once. The gate itself was never fooled — it counts
+`e.step===S.step` — which is why this looked like a display quirk and was
+actually the app telling somebody they had done work they had not done.
+
+Log entries carry a timestamp, so the honest set is the practices logged since
+you arrived on this phrase. Advancing now stamps `stepAt`, and the day's three
+are counted from there.
+
+It is worth saying this is the *ordinary* path, not an edge case: the gate
+opens once the day's three are in, so almost everybody advances with a full day
+behind them. Three more the same day is a lot to ask, so the new phrase says so
+— you have already practised three times today, starting this one tomorrow is
+perfectly fine, the count begins whenever you do — and the note goes as soon as
+the first practice on the new phrase is logged.
+
 ### Two people felt it on the first listen
 
 Reported from real use, which the app had no answer for. Every criterion in the

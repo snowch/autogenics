@@ -779,7 +779,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="e7b8257+";window.__ASSETS__="10575215";
+window.__BUILD__="c3450e9+";window.__ASSETS__="10575215";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1264,7 +1264,14 @@ const SLOT_LAB={stack:['Morning','Midday','Evening'],
                 split:['The phrase','Review','Sequence']};
 /* Which of the day's three is next. Anything beyond the third repeats the
    stack, because a fourth practice is not part of the design. */
-function nextSlot(){ return Math.min(dayLog(today()).length, 2); }
+/* Today's three, on *this* phrase. dayLog(today()) is every practice logged
+   today whatever step it belonged to, so advancing after a full day handed the
+   new phrase three ticked-off slots and a "done today" it had not earned — and
+   sent the next practice to the sequence slot before the phrase had been said
+   once. Entries carry a timestamp, so the honest set is the ones logged since
+   you arrived here. */
+const todayHere=()=>dayLog(today()).filter(e=>!S.stepAt || (e.t && e.t>=S.stepAt));
+function nextSlot(){ return Math.min(todayHere().length, 2); }
 
 function renderNudge(){
   const n=$('#nudge'); n.innerHTML=''; n.classList.add('hidden');
@@ -1296,7 +1303,7 @@ function renderJourney(){
   }
   renderBrief();
   renderNudge();
-  const st=step(), es=dayLog(today());
+  const st=step(), es=todayHere();
   $('#topPos').textContent = S.step>=STEPS.length-1 ? 'Unaided' : 'Step '+(S.step+1);
   $('#pathCnt').textContent=S.step+' of '+STEPS.length+' done';
 
@@ -1312,6 +1319,15 @@ function renderJourney(){
     ? 'Every formula, start to finish, with nothing playing.'
     : 'Say it silently, to yourself, in your own voice.'));
   if(st.warn) now.appendChild(el('p','scaution', st.warn));
+
+  /* The gate opens once the day's three are logged, so arriving on a new phrase
+     with a full day already behind you is the ordinary case, not an edge one.
+     Three more today is a lot to ask and nothing is lost by starting tomorrow. */
+  const earlier=dayLog(today()).length - todayHere().length;
+  if(earlier>0 && !todayHere().length)
+    now.appendChild(el('p','note','You have already practised '+earlier+' time'
+      +(earlier===1?'':'s')+' today on the last phrase. Starting this one tomorrow is '
+      +'perfectly fine — the count begins whenever you do.'));
 
   const plan=sessionPlan(), split=plan[0].kind!=='stack';
   const labs=split?SLOT_LAB.split:SLOT_LAB.stack;
@@ -1474,7 +1490,7 @@ function renderJourney(){
           +'It will be left out of every sequence from here on, and you can still '
           +'finish the programme. You can come back to it with an instructor.')) return;
         S.skipped=skipped().concat(S.step);
-        S.step++; S.stepStart=today(); open=null;
+        S.step++; S.stepStart=today(); S.stepAt=new Date().toISOString(); open=null;
         mode = guidedDefault() ? 'guided' : 'timer';
         save(); renderJourney(); go('journey');
       };
@@ -1484,7 +1500,7 @@ function renderJourney(){
       const adv=el('button','btn','Move to the next step');
       adv.style.marginTop='14px';
       adv.onclick=()=>{ if(!gate().ready)return;
-        S.step++; S.stepStart=today(); open=null;
+        S.step++; S.stepStart=today(); S.stepAt=new Date().toISOString(); open=null;
 mode = guidedDefault() ? 'guided' : 'timer';
         save(); renderJourney();
         /* what changed is what to practise, so land on the practice screen —
