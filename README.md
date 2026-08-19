@@ -572,6 +572,36 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The intro film left the critical path
+
+Asked whether onboarding needed the cards *and* a film, and then whether the
+film earned its place at all. Laid side by side the answer was not close: the
+first two screens were the film's own script, in text, immediately before the
+film. *Less noise in the head — not silence, the volume down* is on screen one
+and in the narration, word for word. So is *ninety seconds, three times a day*.
+So is *you end up not needing this*.
+
+And the film is not animation, whatever the effort in it. It is eighteen
+typographic cards with a synthetic voice reading alongside them — which is
+slower than reading and thinner than watching. Two minutes and fifteen seconds
+of being told about something you could have spent ninety seconds doing.
+
+This decision had already been made once. The six-minute explainer was deleted
+months of commits ago and replaced with just-in-time briefings, on the argument
+that nobody has the questions before they have the experience. The intro film
+was the last survivor of the explain-first era and nobody had applied the
+lesson to it.
+
+Onboarding is two screens now — what this is, and the cautions — with the dose
+strip and *and then you stop needing it* folded up from the deleted screen, so
+nothing is lost. The film moved to Learn under *The two-minute introduction*,
+where somebody who wants the overview can have it and nobody is made to sit
+through it first.
+
+Day one is now: one screen, the cautions, the contrast drill, and a practice.
+The drill is forty-three seconds and produces the sensation the whole method is
+aimed at, which is a better use of a first minute than a narrated summary.
+
 ### The practice screen had grown a queue
 
 Reported as cluttered, and measured before touching it: on a step change with a

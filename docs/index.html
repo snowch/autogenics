@@ -503,6 +503,10 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <p>Let the phrase be yours, thought silently. The guided track only shows you the shape and the pacing; the practice itself is you thinking the words, in your head, at your own speed — which is why it fades to a timer and then to nothing. In the older books these phrases are called <em>formulae</em>.</p></details>
         <details><summary>Short and often, not long and rare</summary>
           <p>Ninety seconds, three times a day. Frequency builds the response; duration does not. One long session a day is not the same thing and will not do the same thing.</p></details>
+        <details><summary>The two-minute introduction</summary>
+          <p>What the method is for, the six exercises in order, and how the whole thing ends. It used to sit between you and your first practice, which is two minutes of being told about something you could have spent ninety seconds doing.</p>
+          <video id="lIntroVid" controls playsinline preload="none"
+                 style="width:100%;border-radius:12px;margin-top:10px;background:#000"></video></details>
         <details><summary>What the notes mean</summary>
           <p>Practising without a recording, the notes are the only thing that reaches you with your eyes shut.</p>
           <p><strong>One note</strong> to begin. <strong>One more</strong>, partway, when the formula is done and the week's second exercise starts — only on the days that carry one. <strong>Two rising notes</strong> when it is time to take it back: arms, breath, eyes. <strong>Two low notes</strong> when you are done.</p></details>
@@ -597,20 +601,6 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
         Plenty of people use it as a reset between two demanding things.</span></li>
     </ul>
 
-    <p class="obcaveat">Physical, not a mood — nothing to believe in and nothing
-      to concentrate on. What arrives, and how quickly, varies between people.
-      The method is called autogenic training.</p>
-  </div>
-
-  <div class="obstep">
-    <hr class="obrule">
-    <p class="obkick">What it asks</p>
-    <h2 class="obtitle">Ninety seconds, three times a day.</h2>
-
-    <p class="obbody">Short and often. Frequency is what builds the response —
-      one long session a day is not the same thing and will not do the same
-      thing.</p>
-
     <div class="obstat">
       <div><span class="num">90s</span><span class="cap">a practice</span></div>
       <div><span class="num">3×</span><span class="cap">a day</span></div>
@@ -620,15 +610,10 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <p class="obend"><b>And then you stop needing it.</b>
       <span>Guided for your first few days, then only a timer, then nothing at
       all. The point is to end up not opening this.</span></p>
-  </div>
 
-  <div class="obstep">
-    <p class="obkick">How this works</p>
-    <h2 class="obtitle">Two minutes, then you start.</h2>
-    <div class="obvidwrap">
-      <video class="obvid" id="obVideo" controls playsinline preload="metadata"></video>
-      <p class="obcaveat">Two minutes, with sound. Everything in it is also written under Learn, so skipping costs you nothing.</p>
-    </div>
+    <p class="obcaveat">Physical, not a mood — nothing to believe in and nothing
+      to concentrate on. What arrives, and how quickly, varies between people.
+      The method is called autogenic training.</p>
   </div>
 
   <div class="obstep">
@@ -748,7 +733,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="562c5d3+";window.__ASSETS__="13415665";
+window.__BUILD__="26154d1+";window.__ASSETS__="13415665";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1952,11 +1937,11 @@ $('#obSkip').onclick=()=>{        /* skips the film, never the safety panel */
 $('#lIntro').onclick=()=>obOpen('learn');
 
 if(AUDIO.intro){
-  $('#obVideo').src=AUDIO.intro;
-  if(AUDIO.introPoster) $('#obVideo').poster=AUDIO.introPoster;
+  $('#lIntroVid').src=AUDIO.intro;
+  if(AUDIO.introPoster) $('#lIntroVid').poster=AUDIO.introPoster;
 }
 /* never leave the intro playing behind the app */
-function obStopVideo(){ const v=$('#obVideo'); if(v && !v.paused) v.pause(); }
+function obStopVideo(){ const v=$('#lIntroVid'); if(v && !v.paused) v.pause(); }
 /* Reminders, without a server and without asking for notification rights.
    Web push needs a backend and an account, which this app has spent its whole
    design refusing; notification triggers were never shipped; periodic sync is
