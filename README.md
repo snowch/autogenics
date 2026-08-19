@@ -602,6 +602,23 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### The three things were a list pretending to be a paragraph
+
+Slide three ran to 137 words in three paragraphs, the last of them five lines
+deep. The bulk of it was that the three practices — the resolve, the opposites,
+the sitting still — were being read out as prose when they are plainly a list,
+and a reader has to hold all three in their head to see there are three.
+
+They are a list now, in the same bulleted style the benefits use, and the
+opener says how many are coming before they arrive. 97 words on screen, down
+from 137, with no idea removed.
+
+The recording explanation went into the quieter caveat style, which is the
+right register for it: it is the reason behind the screen rather than one of
+the three things on it. It also lost the closing clause about issuing the
+instructions being possible only because you can make the state — true, and
+already said twice on this screen and the one before.
+
 ### Tighter, minus three regressions
 
 A tightening pass came back with real improvements and a few things that undid
