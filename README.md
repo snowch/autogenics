@@ -602,6 +602,35 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Tighter, minus three regressions
+
+A tightening pass came back with real improvements and a few things that undid
+the last two fixes. Taken: **The state is the foundation** as slide three's
+opener, which is a better sentence than the one it replaced; shorter clauses
+throughout; and dropping the trailing *instead of lying there running the day
+back*, which the sleep line did not need.
+
+Not taken, and worth naming:
+
+*Repeat a short phrase **like** "my right arm is heavy"* reintroduces the
+example ambiguity fixed one commit earlier — it is not like the phrase, it is
+the phrase, and *there are eight in all* went with it.
+
+*It's **proof** you've entered the state.* Heaviness is a sign, not proof.
+Peripheral warmth and muscle tone are correlates of the shift, and calling a
+correlate proof is the kind of sentence a claims review removes. Sign is both
+safer and more accurate.
+
+*It works, and you don't even have to try.* Two problems: it is a bare efficacy
+claim, and it replaced the hinge — *it has nothing at all for you to do once
+you are there* — which is the line that sets up the entire next screen.
+
+And the flagged one was right. *Recordings can't replace it* asserts the
+conclusion and drops the reason. A recording keeps going whether or not you are
+still awake, so you recognise the instructions instead of issuing them, and
+recognising is not learning. That is the argument for the whole product, and it
+now sits on the screen rather than being alluded to.
+
 ### "One short phrase" needed to say which one
 
 *You repeat one short phrase to yourself — my right arm is heavy — and after a
