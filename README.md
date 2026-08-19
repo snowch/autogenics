@@ -602,6 +602,26 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Both halves now have the same shape
+
+Slide three's list worked, so slide two got the same treatment — and it had the
+same defect for the same reason. *Less noise in your head. Coming down faster
+after something stressful. Getting to sleep.* was three list items trailing off
+the end of a paragraph about something else, which is where a reader stops
+noticing them.
+
+Both screens are now **lead, list, caveat**. Slide two: what you do, what the
+heaviness means, what people notice, then the hinge into the next screen. Slide
+three: how many are coming, the three of them, then why a recording cannot
+teach them. The parallel is worth having beyond tidiness — the two halves of
+the product are meant to be counterparts, and reading identically is the
+cheapest way to say so.
+
+Slide two lost about fifteen words on the way: *"you notice it happen"* after
+"the arm does feel heavy" was saying the same thing twice, and *"there are
+eight in all, one at a time"* moved into the caveat where the other
+housekeeping lives.
+
 ### The three things were a list pretending to be a paragraph
 
 Slide three ran to 137 words in three paragraphs, the last of them five lines
