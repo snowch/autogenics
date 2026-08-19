@@ -591,12 +591,36 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       notice it happen. Nothing to concentrate on and nothing to believe: it is
       a physical response, trained the way any physical skill is.</p>
 
+    <p class="obcaveat">What arrives, and how quickly, varies between people. The
+      method is autogenic training. From the third step a second one joins it —
+      it is what the state is <em>for</em> — and Learn says why.</p>
+  </div>
+
+  <div class="obstep">
+    <hr class="obrule">
+    <p class="obkick">What people notice</p>
+    <h2 class="obtitle">In ordinary places.</h2>
+
     <ul class="cautions bens">
-      <li><span class="m"></span><span><strong>Less noise in your head.</strong></span></li>
-      <li><span class="m"></span><span><strong>Coming down faster after something stressful.</strong></span></li>
-      <li><span class="m"></span><span><strong>Getting to sleep.</strong></span></li>
-      <li><span class="m"></span><span><strong>A clearer head between two demanding things.</strong></span></li>
+      <li><span class="m"></span><span><strong>Less noise in your head.</strong>
+        Not silence — the volume down.</span></li>
+      <li><span class="m"></span><span><strong>Coming down faster.</strong>
+        Instead of staying wound up for hours after something stressful.</span></li>
+      <li><span class="m"></span><span><strong>Getting to sleep.</strong>
+        Settling, instead of lying there running the day back.</span></li>
+      <li><span class="m"></span><span><strong>A clearer head afterwards.</strong>
+        Plenty of people use it as a reset between two demanding things.</span></li>
     </ul>
+  </div>
+
+  <div class="obstep">
+    <hr class="obrule">
+    <p class="obkick">What it asks</p>
+    <h2 class="obtitle">Ninety seconds, three times a day.</h2>
+
+    <p class="obbody">Short and often. Frequency is what builds the response —
+      one long session a day is not the same thing and will not do the same
+      thing.</p>
 
     <div class="obstat">
       <div><span class="num">90s</span><span class="cap">a practice</span></div>
@@ -607,10 +631,6 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <p class="obend"><b>And then you stop needing it.</b>
       <span>Guided for your first few days, then only a timer, then nothing at
       all. The point is to end up not opening this.</span></p>
-
-    <p class="obcaveat">What arrives, and how quickly, varies between people. The
-      method is autogenic training. From the third step a second one joins it —
-      it is what the state is <em>for</em> — and Learn says why.</p>
   </div>
 
   <div class="obstep">
@@ -639,7 +659,10 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
   <div class="obfoot">
     <div class="obdots" id="obDots"></div>
-    <button class="btn" id="obNext">Next</button>
+    <div class="btnrow">
+      <button class="btn ghost hidden" id="obBack">Back</button>
+      <button class="btn" id="obNext">Next</button>
+    </div>
     <button class="obskip hidden" id="obSkip"></button>
   </div>
  </div>
@@ -730,7 +753,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="5b42d73+";window.__ASSETS__="11096147";
+window.__BUILD__="bd9d225+";window.__ASSETS__="11096147";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1877,8 +1900,35 @@ function obShow(i){
   [...$('#obDots').children].forEach((d,k)=>d.classList.toggle('on',k===i));
   $('#obNext').textContent =
     i===obSteps.length-1 ? 'Start practising' : (i===0 ? 'Show me' : 'Next');
+  $('#obBack').classList.toggle('hidden', i===0);
   $('#obSkip').classList.add('hidden');
+  obWrap.scrollTop=0;
 }
+/* Four short screens instead of one long one, so each says a single thing —
+   what it is, what people notice, what it asks, and the cautions. Which only
+   works if going back is as easy as going on: a stack of dots you cannot
+   return through is a slideshow, not a thing you can read at your own pace. */
+const obWrap=document.querySelector('.obwrap');
+$('#obBack').onclick=()=>obShow(Math.max(0, ob-1));
+[...$('#obDots').children].forEach((d,k)=>{ d.onclick=()=>obShow(k); });
+document.addEventListener('keydown',e=>{
+  if(!$('#onboard').classList.contains('on')) return;
+  if(e.key==='ArrowLeft') obShow(Math.max(0, ob-1));
+  if(e.key==='ArrowRight') obShow(Math.min(obSteps.length-1, ob+1));
+});
+/* Swipe, with the vertical check that stops a scroll being read as a page
+   turn — these screens are taller than a phone and scrolling them is the
+   commonest gesture on here. */
+let sx=0, sy=0, stime=0;
+$('#onboard').addEventListener('touchstart',e=>{
+  const t=e.changedTouches[0]; sx=t.clientX; sy=t.clientY; stime=e.timeStamp;
+},{passive:true});
+$('#onboard').addEventListener('touchend',e=>{
+  const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+  if(e.timeStamp-stime>600) return;
+  if(Math.abs(dx)<48 || Math.abs(dx)<Math.abs(dy)*1.5) return;
+  obShow(dx<0 ? Math.min(obSteps.length-1, ob+1) : Math.max(0, ob-1));
+},{passive:true});
 /* Onboarding was the only content in the app you could not get back to: shown
    on a first run, and after that gone. Everything else that explains something
    stays findable — the films replay from the path, the drill sits in Learn —

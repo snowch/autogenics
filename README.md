@@ -572,6 +572,27 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Four screens, and a way back through them
+
+The introduction had been squeezed to two screens on the way to cutting
+clutter, which made the first one carry the mechanism, four benefits, the dose,
+the fade and a caveat — 855px of one screen doing four jobs. Splitting it back
+out gives each screen a single thing to say: **what this is**, **what people
+notice**, **what it asks**, and the cautions. Nothing over 735px, and the
+benefits got their explanatory sub-clauses back, since there is room again.
+
+The part that makes four screens work rather than merely tolerable is being
+able to go back. A row of dots you cannot return through is a slideshow, not
+something you can read at your own pace — so there is a Back button from the
+second screen on, the dots are tappable, arrow keys work, and swipe goes both
+ways.
+
+The swipe has the check that matters: a gesture is only a page turn if the
+horizontal distance beats the vertical by half again. These screens are taller
+than a phone, scrolling them is the commonest thing anyone will do here, and a
+scroll misread as a page turn would be worse than no swipe at all. Verified by
+dispatching a steep drag and confirming the screen does not change.
+
 ### The introduction never said what it was
 
 It opened on a benefit — *an off switch you can reach for* — listed four more,
