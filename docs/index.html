@@ -503,6 +503,9 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <p>Let the phrase be yours, thought silently. The guided track only shows you the shape and the pacing; the practice itself is you thinking the words, in your head, at your own speed — which is why it fades to a timer and then to nothing. In the older books these phrases are called <em>formulae</em>.</p></details>
         <details><summary>Short and often, not long and rare</summary>
           <p>Ninety seconds, three times a day. Frequency builds the response; duration does not. One long session a day is not the same thing and will not do the same thing.</p></details>
+        <details><summary>What the notes mean</summary>
+          <p>Practising without a recording, the notes are the only thing that reaches you with your eyes shut.</p>
+          <p><strong>One note</strong> to begin. <strong>One more</strong>, partway, when the formula is done and the week's second exercise starts — only on the days that carry one. <strong>Two rising notes</strong> when it is time to take it back: arms, breath, eyes. <strong>Two low notes</strong> when you are done.</p></details>
         <details><summary>What heaviness actually feels like</summary>
           <p>Forty seconds that show you rather than tell you: clench your fist hard, let go, and notice what the forearm does for the twenty seconds afterwards. That release is heaviness. Worth repeating any time the word has gone abstract on you.</p>
           <button class="btn ghost" id="lDrill" style="margin-top:10px">Do the drill</button></details>
@@ -745,7 +748,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="e1588fb+";window.__ASSETS__="13415665";
+window.__BUILD__="562c5d3+";window.__ASSETS__="13415665";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1142,6 +1145,13 @@ const DRILLS=[
       'Ask once, then listen.', 'Ask, and listen.'],
    crit:null}];
 const drillFor=n=>DRILLS.find(d=>d.step===n)||null;
+/* Both of these were pinned to step numbers, and the ladder has since lost two
+   steps — so the halfway landmark fired at the warm centre and the discharge
+   reminder never fired at all. Ask the ladder what it contains instead. */
+const afterLast=name=>{ let i=-1; STEPS.forEach((x,k)=>{ if(x.n===name) i=k; }); return i+1; };
+const HALFWAY_AT=afterLast('Warmth');
+const DEEP_STEPS=STEPS.map((x,i)=>({x,i})).filter(o=>o.x.n==='Warm centre'||o.x.n==='Cool head')
+                      .map(o=>o.i);
 /* Shrinks on days the drill has been carried, which is days on its own step. */
 const drillCue=d=>{ const n=elemDays(d.step); return n<8 ? d.c[0] : n<20 ? d.c[1] : d.c[2]; };
 
@@ -1270,9 +1280,7 @@ function renderJourney(){
     dose.appendChild(sl);
   });
   now.appendChild(dose);
-  if(split) now.appendChild(el('p','phrasehint',
-    'Today\u2019s review is '+STEPS[plan[1].idx].n.toLowerCase()
-    +' \u00b7 '+STEPS[plan[1].idx].q+'.'));
+
   /* What is grafted on this week, and what it is aiming at. Stated rather than
      gated: the ladder already paces progression, and a second gate on a
      self-reported ten seconds would be a scaffold pretending to be a ruler. */
@@ -1283,7 +1291,7 @@ function renderJourney(){
     /* The first one arrives with no warning otherwise: a Sanskrit noun
        appended to an autogenic practice, for no stated reason. */
     if(gr===DRILLS[0]){
-      g.appendChild(el('p','note','The second method starts here. It is attached to the end of a practice rather than done on its own, because it needs the state the formula has just produced \u2014 done cold it is a much harder exercise.'));
+      g.appendChild(el('p','note','The second method starts here, on the end of a practice rather than on its own \u2014 it needs the state the formula has just made.'));
       const lk=el('button','linky','Why there are two methods here');
       lk.onclick=()=>{ go('learn'); requestAnimationFrame(()=>{
         const d=[...document.querySelectorAll('#s-learn details')]
@@ -1292,10 +1300,16 @@ function renderJourney(){
       g.appendChild(lk);
     }
     g.appendChild(el('p','phrase', gr.n));
-    g.appendChild(el('p','note', drillCue(gr)));
-    g.appendChild(el('p','smeta', gr.secs+' seconds, after the formula and before you come back \u2014 on the phrase and the sequence, not the review.'));
-    if(gr.crit) g.appendChild(el('p','smeta','Aiming at: '+gr.crit));
-    else g.appendChild(el('p','smeta','No criterion for this one. It gets time, not repetitions.'));
+    /* The cue appears during the practice, where it is needed. Here it only
+       has to say what is coming and how long, with the rest one tap away. */
+    g.appendChild(el('p','smeta', gr.secs+' seconds, on the end of the phrase and the sequence.'));
+    const dt=document.createElement('details');
+    const sm=document.createElement('summary'); sm.textContent='What to do';
+    dt.appendChild(sm);
+    dt.appendChild(el('p','note', drillCue(gr)));
+    dt.appendChild(el('p','smeta', gr.crit ? 'Aiming at: '+gr.crit
+      : 'No criterion for this one. It gets time, not repetitions.'));
+    g.appendChild(dt);
     now.appendChild(g);
   }
 
@@ -1342,12 +1356,10 @@ function renderJourney(){
   if(split && mode==='guided' && st.audio)
     now.appendChild(el('p','phrasehint',
       'The recording covers the sequence. The phrase and the review are yours to pace.'));
+  /* This was three lines explaining four sounds, on the screen you open six
+     times a day. It is reference, so it lives in Learn now. */
   if(mode==='timer'||!st.audio||split)
-    now.appendChild(el('p','phrasehint',
-      'One note to begin.'
-      + (gr && mode==='timer' ? ' One more when the formula is done and ' + gr.n.split(' \u00b7 ')[0].toLowerCase() + ' begins.' : '')
-      + ' Two rising notes when it is time to take it back — arms, breath, eyes.'
-      + ' Two low notes when you are done.'));
+    now.appendChild(el('p','phrasehint','Notes mark each part. Two rising means take it back.'));
 
   /* ---- review: how it is going, and whether to move on ---- */
   const g2=gate();
@@ -1435,11 +1447,19 @@ mode = guidedDefault() ? 'guided' : 'timer';
       rv.appendChild(el('p','note','Two weeks without it landing usually means one of four things: trying too hard, sessions too long, too few practices a day, or a posture you cannot relax in. Stay here and change one of them.'));
   }
 
+  /* Only one thing may sit above the hero, and only if it changes what you are
+     about to practise. Four cards had the right to that position — the drill
+     offer, the welcome back, the halfway mark and the weekly question — and on
+     a bad day two of them stacked and pushed Start practice off the screen.
+     An acknowledgement and a survey are not reasons to hide the button. */
+  let above=0;
+  const putAbove=el2=>{ if(above++) return false; $('#nowCard').insertBefore(el2, now); return true; };
+
   /* Nine weeks with a single acknowledgement at the very end is too long a
      run. The halfway house is not the numerical middle, it is the end of
      warmth: heaviness and warmth are the two that do most of the work and
      carry most of what evidence exists. Same handover tone as the ending. */
-  if(S.step===5 && S.halfway!==true){
+  if(S.step===HALFWAY_AT && S.halfway!==true){
     const h=el('div','review');
     h.appendChild(el('h2', null, 'Heaviness and warmth are yours'));
     h.appendChild(el('p','note','Worth stopping on. Those two are the ones that do most of the work in this method, and they are the part most people who ever learn it actually use. Everything from here is refinement — useful, and not the thing you came for.'));
@@ -1447,7 +1467,7 @@ mode = guidedDefault() ? 'guided' : 'timer';
     hb.style.marginTop='14px';
     hb.onclick=()=>{ S.halfway=true; save(); renderJourney(); };
     h.appendChild(hb);
-    $('#nowCard').insertBefore(h, now);
+    $('#nowCard').appendChild(h);
   }
 
   /* Daily ratings are for the gate. The signal that detects a plateau is
@@ -1467,7 +1487,7 @@ mode = guidedDefault() ? 'guided' : 'timer';
       row.appendChild(bt);
     });
     q.appendChild(row);
-    $('#nowCard').insertBefore(q, now);
+    $('#nowCard').appendChild(q);
   }
 
   /* Coming back after a gap. Never show what was missed — the record shows
@@ -1489,7 +1509,7 @@ mode = guidedDefault() ? 'guided' : 'timer';
     ws.style.marginTop='8px';
     ws.onclick=()=>{ S.backOn=today(); save(); renderJourney(); };
     w.appendChild(ws);
-    $('#nowCard').insertBefore(w, now);
+    putAbove(w);
   }
 
   /* Every step up feels like a step down, six times over. A generic
@@ -1505,7 +1525,7 @@ mode = guidedDefault() ? 'guided' : 'timer';
      not mentioned for a month and a half — by which point you are at the warm
      centre and the cool head, which is exactly where unexpected emotion turns
      up. The briefings are just-in-time by design; so is this. */
-  if((S.step===7||S.step===8) && stepDays()<=3)
+  if(DEEP_STEPS.indexOf(S.step)>=0 && stepDays()<=3)
     now.appendChild(el('p','note','A reminder for the deeper ones: restlessness, '
       +'a twitch or unexpected emotion is an autogenic discharge — recognised, and '
       +'not a sign anything is wrong. If it is uncomfortable, open your eyes, move '
@@ -1526,7 +1546,7 @@ mode = guidedDefault() ? 'guided' : 'timer';
     d.appendChild(sk);
     /* Above the hero, not below it — it is the first thing to do, and appended
        underneath a filled-in "Start practice" it read as an afterthought. */
-    $('#nowCard').insertBefore(d, now);
+    putAbove(d);
   }
 
   /* ---- the path: everything finished, plus exactly one step ahead.

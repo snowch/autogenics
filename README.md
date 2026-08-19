@@ -572,6 +572,41 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The practice screen had grown a queue
+
+Reported as cluttered, and measured before touching it: on a step change with a
+week's question due, the practice screen ran to 1,020px and **Start practice
+was below the fold**. Four separate cards had claimed the position above the
+hero — the day-one drill, the welcome back, the halfway landmark and the weekly
+question — and any two of them together buried the button you open the app to
+press.
+
+Only one card may sit there now, and only if it changes what you are about to
+practise: the drill offer and the return from a lapse qualify, an
+acknowledgement and a survey do not. Those two moved below the hero.
+
+Three redundancies went with it. The sound key was three lines explaining four
+notes on the screen you open six times a day — one line now, the full version
+in Learn. The graft block was six elements for a forty-second addendum; the cue
+appears during the practice where it is needed, so the card names it, says how
+long, and puts the rest behind *What to do*. And *"Today's review is heaviness
+· right arm"* was the third place on one screen saying the same thing, after
+the slot labelled REVIEW and a button reading *Start review — heaviness*.
+
+An ordinary week is 715px with Start fully visible; day one is 496px.
+
+### Two landmarks were pinned to step numbers
+
+Found while measuring the clutter, not by looking for it. The halfway card
+fired on `S.step===5` and the discharge reminder on `S.step===7||S.step===8`,
+both written against the ten-step ladder. After two cuts that put the halfway
+mark at the warm centre — three steps late — and the discharge reminder past
+the end of the ladder, where it could never fire at all.
+
+They read the ladder now: halfway is the step after the last Warmth step,
+and the deep ones are whichever steps are called Warm centre and Cool head. A
+number that means "the step after warmth" should never have been written as 5.
+
 ### Nowhere did the app say it was two methods
 
 The grafts shipped without a word of explanation. Somebody on the warmth step
