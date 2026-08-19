@@ -586,10 +586,17 @@ as a recording to lie down and listen to. That is the whole thesis of
 `PRIMED-NIDRA.md`, it is where the name Switch comes from, and until now it was
 readable only in Learn, three taps in, after someone had already committed.
 
-So screen one is the shape — *a way in, and somewhere to go* — with the two
-methods named in the caveat underneath rather than in the headline, since
-"autogenic training" and "yoga nidra" are two jargons to lead with and neither
-means anything on first read.
+So screen one is the shape. It first named the two methods only in a caveat at
+the bottom, on the grounds that they are jargon — which does not survive
+scrutiny, and was the earlier fix applied mechanically rather than thought
+through. Removing *autogenic training* from the kicker was right because it
+stood alone as an unexplained label ahead of any reason to care. Naming both
+methods as the answer to *what is this* is a different act: it is the specific
+claim, the combination is the entire product, and two named traditions carry
+more weight than an abstract promise about halves.
+
+The headline names them and the shape follows immediately underneath, so the
+specificity comes first and the meaning a line later.
 
 The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
