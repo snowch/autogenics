@@ -602,6 +602,27 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Give each half its own screen, and drop the benefits
+
+The two-halves explanation was three paragraphs stacked on one screen — the
+most distinctive thing the product has to say, crammed — while a whole screen
+went to four soft benefit bullets we had deliberately kept vague for claims
+reasons. The real estate was allocated backwards.
+
+Each method has its own screen now. **The way in** and **Somewhere to go**,
+titled with what each contributes rather than with its name, since the headline
+before them has already given both names. And *Somewhere to go* finally says
+what nidra actually contains — a resolve held as though already true, opposite
+sensations invited and let go, resting as the awareness that was there the whole
+time — which the app had never stated anywhere on the way in.
+
+The benefits screen is gone. They survive as a clause inside *The way in*,
+which is where they belong: less noise in your head, coming down faster,
+getting to sleep, said in passing while describing what does it, rather than as
+a list of promises on a screen of their own. Learn keeps the fuller version.
+
+Five screens, none over 735px, all navigable both ways.
+
 ### Four screens, and a way back through them
 
 The introduction had been squeezed to two screens on the way to cutting
