@@ -572,6 +572,31 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The introduction never said what it was
+
+It opened on a benefit — *an off switch you can reach for* — listed four more,
+gave the dose, and explained the fade to nothing. Why and how, and no what. The
+closest it came was a caveat at the bottom saying what it is *not*: not a mood,
+nothing to believe in, nothing to concentrate on, and here is a German name for
+it.
+
+The what had only ever been said in the film — *"you repeat one short phrase to
+yourself, my right arm is heavy, and after a few days the arm actually does
+feel heavy"* — so deleting the film took it out of the product entirely. Nobody
+noticed for one commit, which is the interesting part: the pitch reads fine
+without it, right up until you ask what the thing actually is.
+
+It leads on the mechanism now, before any benefit: one phrase, a few days, the
+arm feels heavy, you notice it happen. The four benefits lost their explanatory
+sub-clauses to pay for it, which they could afford — *"Getting to sleep"* did
+not need a second sentence about lying there running the day back.
+
+The caveat also stopped pretending there is one method. It names autogenic
+training, says a second one joins at the third step and that it is what the
+state is *for*, and points at Learn. Someone reaching the warmth step and
+finding Refuge grafted onto their practice has now been told twice that it was
+coming.
+
 ### The intro film is gone
 
 Demoted to Learn in the morning and deleted by the afternoon, for a reason the
