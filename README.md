@@ -602,6 +602,33 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### The two halves were not joined
+
+Slide three opened on *"the state you have just made"* — and slide two had
+never said there was a state. It described a phrase and a heavy arm, then ended
+on "getting you somewhere" and "once you arrive", both of which are the
+narrator knowing something the reader has not been told.
+
+The missing link was already written, in the film shown after the first
+practice: heaviness is not the goal, it is the *signal* that the body has
+dropped out of alert mode. Which is exactly the sentence that makes the rest of
+the product make sense, and it was being withheld until after somebody's first
+attempt.
+
+Slide two now says it, in the middle where the benefits used to start cold:
+the heaviness is not the point, it is the sign the body has shifted, and that
+settled state — reached on purpose in about ninety seconds — is the thing being
+trained. The benefits follow it as consequences rather than as a list, and the
+closing line changed from "getting you somewhere" to "getting you into that
+state".
+
+Slide three then reads *three things, and every one of them needs that state
+first — which is why nobody can teach you these on their own*, which is both
+the join and the argument for the whole product, in one sentence.
+
+Neither screen grew: both are still 733px, because the words that were doing no
+work paid for the ones that were.
+
 ### Reading the introduction back, three cuts
 
 **Slide one lost its caveat.** *"You will be taught one thing at a time, in
