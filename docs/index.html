@@ -512,6 +512,9 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <p>Worked out in Berlin in the 1920s, as an attempt to take the hypnotist out of hypnosis — to let people reach the same settled state on their own, with nobody guiding them.</p></details>
         <details><summary>What people notice</summary>
           <p>Less noise in the head — not silence, the volume down. Coming down faster after something stressful. Settling into sleep. A cleaner head between two demanding things. What arrives, and when, varies a lot between people.</p></details>
+        <details><summary>The introduction, again</summary>
+          <p>The four screens from your first run — what this is, what it asks, the film, and the cautions. They only ever appeared once, which made them the one thing in here you could not go back to.</p>
+          <button class="btn ghost" id="lIntro" style="margin-top:10px">Replay it</button></details>
       </div>
 
     </section>
@@ -727,7 +730,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="0373860+";window.__ASSETS__="13415665";
+window.__BUILD__="b36b877+";window.__ASSETS__="13415665";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1807,20 +1810,27 @@ function obShow(i){
     i===obSteps.length-1 ? 'Start practising' : (i===0 ? 'Show me' : 'Next');
   $('#obSkip').classList.add('hidden');
 }
-function obOpen(){ $('#onboard').classList.add('on'); obShow(0); }
+/* Onboarding was the only content in the app you could not get back to: shown
+   on a first run, and after that gone. Everything else that explains something
+   stays findable — the films replay from the path, the drill sits in Learn —
+   and the four screens that set the whole thing up did not. Replaying returns
+   you where you asked from, rather than dumping you on Practice. */
+let obFrom=null;
+function obOpen(from){ obFrom=from||null; $('#onboard').classList.add('on'); obShow(0); }
 $('#obNext').onclick=()=>{
   if(ob<obSteps.length-1){ obStopVideo(); return obShow(ob+1); }
   obStopVideo();
   $('#onboard').classList.remove('on');
   if(!S.onboarded){ S.onboarded=true; S.stepStart=today(); }
-  save(); go('journey');
+  save(); go(obFrom||'journey'); obFrom=null;
 };
 $('#obSkip').onclick=()=>{        /* skips the film, never the safety panel */
   obStopVideo();
   $('#onboard').classList.remove('on');
   if(!S.onboarded){ S.onboarded=true; S.stepStart=today(); }
-  save(); go('journey');
+  save(); go(obFrom||'journey'); obFrom=null;
 };
+$('#lIntro').onclick=()=>obOpen('learn');
 
 if(AUDIO.intro){
   $('#obVideo').src=AUDIO.intro;

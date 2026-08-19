@@ -572,6 +572,31 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### The introduction was the one thing you could not go back to
+
+Reported as "I don't see the changes" after the first screen was rewritten, on
+a device confirmed to be running the new build. Both were true. The four
+onboarding screens are shown by `if(!S.onboarded) obOpen()` and from the reset
+handler, and from nowhere else — so once you have onboarded, that copy is
+unreachable no matter how many times it is rewritten.
+
+Which makes it the only content in the app you could not get back to. The films
+replay from the path, the contrast drill sits in Learn, briefings stay findable
+after they are watched — that principle is written down in this README, and the
+screens that set the whole thing up were the exception nobody noticed.
+
+Learn now has *The introduction, again*. Replaying returns you to the screen
+you asked from rather than dumping you on Practice, and touches no state: a
+record part-way through the ladder comes back with its step, its log and its
+onboarded flag exactly as they were.
+
+Worth naming the diagnostic failure too. The first three explanations offered
+were a failed deploy, a stale service worker and a cached install — all
+plausible, all checkable, all wrong, and two of them cost a build stamp fix to
+rule out. The actual cause was that the screen renders once in the app's
+lifetime. "It is not deployed" and "you cannot get there" look identical from
+the outside, and only one of them was worth checking first.
+
 ### Not leading with somebody else's category
 
 The first screen and the first film both opened on *if meditation never stuck*.
