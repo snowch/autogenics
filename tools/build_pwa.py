@@ -14,8 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 # key in the app's AUDIO map -> file. Adding a film means adding one row here.
-FILMS = [("intro", "intro.mp4", "intro-poster.jpg"),
-         ("afterFirst", "after-first.mp4", "after-first-poster.jpg"),
+FILMS = [("afterFirst", "after-first.mp4", "after-first-poster.jpg"),
          ("bWarmth", "brief-warmth.mp4", "brief-warmth-poster.jpg"),
          ("bHeartbeat", "brief-heartbeat.mp4", "brief-heartbeat-poster.jpg"),
          ("bBreathing", "brief-breathing.mp4", "brief-breathing-poster.jpg"),

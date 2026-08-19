@@ -572,7 +572,31 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
-### The intro film left the critical path
+### The intro film is gone
+
+Demoted to Learn in the morning and deleted by the afternoon, for a reason the
+demotion did not fix: it described autogenic training and nothing else. That
+stopped being the product two methods ago. A film that opens *"there are six
+exercises"* and never mentions the second half is not merely thin, it is
+wrong — and keeping it in Learn only meant the wrong version was one tap away
+instead of unavoidable.
+
+It was also the single largest maintenance burden in the repository. Every
+content change meant re-rendering two minutes of narration and eighteen slides
+to keep it honest, four times in one day, and it fell out of date between the
+render and the commit more than once. What it explained now lives under Learn,
+where a correction is a sentence rather than a build.
+
+Deleted with it: `script/intro.md`, `audio/intro.mp3`, `video/intro.mp4`, its
+poster, its slides and its timings — and the path row that replayed it, the
+`AUDIO.intro` keys, and `obStopVideo()`, which had nothing left to pause. The
+built site went from 13.1 MB to 10.9 MB.
+
+If an overview film is ever worth making again, it has to describe both methods
+and the graft between them, and it should be made once the shape has stopped
+moving.
+
+### How it got there: the intro film left the critical path
 
 Asked whether onboarding needed the cards *and* a film, and then whether the
 film earned its place at all. Laid side by side the answer was not close: the
