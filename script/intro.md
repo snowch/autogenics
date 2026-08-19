@@ -29,8 +29,8 @@ half-watched.
 
 <!-- narration:start -->
 
-If you have tried to meditate and it never really stuck, this is a different
-thing.
+There is a settled state your body reaches on its own, usually when you are
+not looking. This is how you learn to reach it deliberately.
 
 [pause 0.8]
 

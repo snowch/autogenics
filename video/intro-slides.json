@@ -1,8 +1,9 @@
 [
  {
   "kind": "point",
-  "text": "Autogenic training.",
-  "seg": 0
+  "text": "Deliberate access.",
+  "seg": 0,
+  "kick": "What this is"
  },
  {
   "kind": "formula",

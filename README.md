@@ -572,6 +572,40 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Not leading with somebody else's category
+
+The first screen and the first film both opened on *if meditation never stuck*.
+It is an efficient hook — five words that tell you this is not what you assume
+and that it asks less. It also has to go.
+
+**The product now ends in yoga nidra, which is meditation.** Not concentration
+meditation, and not seated attention training, but a meditative practice by any
+ordinary use of the word. Opening with "meditation didn't work for you" and
+closing with a twelve-minute nidra session is a contradiction anyone who gets
+there will notice, and they will be right.
+
+Two more reasons, both true before nidra was in. Negative positioning defines
+the thing by what it is not, and hands its category to the competitor in the
+first line. And it addresses a failure state, so everyone who never tried
+meditation is excluded by the opening words.
+
+The screen leads on **a response you train**, and the film on *there is a
+settled state your body reaches on its own, usually when you are not looking —
+this is how you learn to reach it deliberately*. Its first slide said
+"Autogenic training." — the jargon problem again, in the film this time — and
+now says what that means.
+
+What is worth keeping from the meditation frame is true of both halves and
+belongs at the end rather than the front: neither AT nor nidra asks for
+sustained concentration, which is the thing people actually fail at. That is a
+better claim than "not meditation", and it is only credible once someone has
+felt it.
+
+The benefits list stays as it is. It is all switching *off* — quieter head,
+coming down faster, sleep — which is honestly what the first eight steps
+deliver. The switching *on* half is the sankalpa, it has the least evidence
+behind it, and it arrives when it becomes real.
+
 ### A full content pass after the ladder changed
 
 Cutting heaviness twice left copy pointing at a shape that no longer existed.
