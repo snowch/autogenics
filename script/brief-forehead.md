@@ -2,7 +2,7 @@
 
 **~70 seconds · offered when you reach it, before its first practice**
 
-<!-- render: --speed 1.0 --lead-in 0.4 -->
+<!-- render: --speed 1.1 --lead-in 0.4 -->
 
 Each new exercise introduces itself at the moment it starts, rather than being
 explained weeks earlier in a single upfront lecture nobody can hold. This is the

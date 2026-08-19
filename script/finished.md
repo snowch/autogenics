@@ -2,7 +2,7 @@
 
 **~70 seconds · offered once, when the last step's own record says it has landed**
 
-<!-- render: --speed 1.0 --lead-in 0.4 -->
+<!-- render: --speed 1.1 --lead-in 0.4 -->
 
 The first screen promises that you end up not needing this. Until now nothing
 ever said so — the last step simply ran forever, with no acknowledgement that

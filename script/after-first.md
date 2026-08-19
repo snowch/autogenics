@@ -2,7 +2,7 @@
 
 **~100 seconds · offered once, after the first logged practice**
 
-<!-- render: --speed 1.0 --lead-in 0.4 -->
+<!-- render: --speed 1.1 --lead-in 0.4 -->
 
 This is the half of the old explainer that works far better *after* the first
 attempt than before it. "What was I supposed to feel?" is a question nobody

@@ -602,6 +602,26 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Explaining and guiding are not the same pace
+
+The films were all rendering at ElevenLabs' 1.0, which is that voice's natural
+cadence: measured, unhurried, right for walking somebody into a relaxation
+exercise and wrong for telling them a fact. Reported as too slow, and it was.
+
+The distinction is what the recording is *doing*. A practice track paces your
+breathing; a briefing is somebody explaining something. So the seven
+explanatory films — after-first, finished and the five exercise briefings — now
+render at 1.1, and the practice recordings stay at 0.96 where they belong.
+Roughly ten percent off each, and *after your first practice* comes down from
+1m 44s to 1m 33s.
+
+Not touched: the pauses. Nine seconds of silence across a hundred-second film
+is not what makes it feel slow, and those pauses are where a slide change
+lands.
+
+All seven audio tracks and all seven films re-rendered, posters regenerated in
+the same pass so they cannot drift from the video they came from.
+
 ### Both halves now have the same shape
 
 Slide three's list worked, so slide two got the same treatment — and it had the
