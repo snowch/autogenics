@@ -602,6 +602,35 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Two people felt it on the first listen
+
+Reported from real use, which the app had no answer for. Every criterion in the
+gate is about the response *not yet being there* — seven days, evidence it is
+arriving, a probe. Someone in whom it arrives immediately rates three
+unmistakable practices a day and is told *day 3 of 7*, which reads as the app
+not listening.
+
+The floor moves now. Four unbroken days where every single practice on the
+phrase was immediate and unmistakable drops it from seven to four. Anything less
+than all of that — one merely-clear rating, one missed day — and it is seven
+again.
+
+It does not go to zero, and the reason is worth stating rather than assuming.
+Feeling heaviness on a first guided listen tells you the suggestion works,
+which is a good sign and is not the same as having trained anything. A
+recording told you your arm was heavy while you lay still with your eyes shut.
+What is being trained is producing it yourself, in ninety seconds, sitting up,
+on a bad day, with nothing playing — and the probe is the only criterion that
+tests that, which is why it does not move at all.
+
+The recency requirement was not in the first version and the tests caught it: a
+day three weeks ago plus a strong return counted as four days on the phrase, so
+the fast floor let a lapse through the gate the slow floor had just been fixed
+to hold. It now asks for the last four days specifically.
+
+Learn gains *It happened on the first try*, which until now had no entry — the
+whole of "if it feels wrong" addressed people who felt nothing.
+
 ### Explaining and guiding are not the same pace
 
 The films were all rendering at ElevenLabs' 1.0, which is that voice's natural

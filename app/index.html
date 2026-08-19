@@ -505,6 +505,9 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
       <div class="card">
         <h2>If it feels wrong</h2>
+        <details><summary>It happened on the first try</summary>
+          <p>Common, and a good sign — but not the same as having trained it. A guided recording tells you your arm is heavy while you lie still with your eyes shut, and a body that responds to that is a body worth training. What it does not yet show is that you can produce it yourself, in ninety seconds, sitting up, on a bad day, with nothing playing.</p>
+          <p>That is why moving on still asks for a few days and one run with no cues at all. If every practice is immediate and unmistakable the wait gets shorter — but it does not disappear, because the thing being trained is the reliability, not the sensation.</p></details>
         <details><summary>Nothing is happening</summary>
           <p>Expect nothing for the first few days. It usually appears somewhere between a few days and two weeks, and may arrive as warmth, tingling, sinking, or the arm feeling larger or further away — those all count.</p></details>
         <details><summary>Restlessness or emotion comes up</summary>
@@ -828,7 +831,14 @@ const STEPS=[
    film and let someone advance faster than any instructor-led course allows.
    The evidence criterion is ours: the classical protocol paces by the calendar
    and leaves "do not add until the last one comes readily" as advice. */
-const GATE={minDays:7, window:3, needPerDay:2, needRating:2, slots:3};
+/* fastDays: some people get heaviness on the first guided listen. A floor that
+   ignores that is a calendar pretending to be a criterion — which is the exact
+   complaint this gate was built to answer. So the floor moves when the evidence
+   is unambiguous: every practice on this step immediate and unmistakable, and
+   the landing rule already met. It does not go to zero, because what is being
+   trained is not the sensation but producing it unaided, on a bad day, in
+   ninety seconds — and the probe is the only part that tests that. */
+const GATE={minDays:7, fastDays:4, window:3, needPerDay:2, needRating:2, slots:3};
 const STRIP_DAYS=7;
 /* ---------- primed nidra ----------
    A silent staged timer, which is the one artefact the protocol needs and
@@ -1010,9 +1020,16 @@ function gate(){
      nothing at all — which is the thing being trained, and the only way to
      catch a formula that has quietly become recitation. */
   const probeOk=(S.probed||[]).includes(S.step);
-  const earned=days>=GATE.minDays&&met>=GATE.window;
+  const mine=S.log.filter(e=>e.step===S.step);
+  const unbroken=[];
+  for(let i=0;i<GATE.fastDays;i++) unbroken.push(mine.some(e=>e.d===dayKey(i)));
+  const emphatic = mine.length>=GATE.window*GATE.needPerDay
+                   && mine.every(e=>e.r>=3) && met>=GATE.window
+                   && unbroken.every(Boolean);
+  const floor = emphatic ? GATE.fastDays : GATE.minDays;
+  const earned=days>=floor&&met>=GATE.window;
   const landed=earned&&probeOk;
-  return {days, met, floorOk:days>=GATE.minDays, evidenceOk:met>=GATE.window,
+  return {days, met, floor, emphatic, floorOk:days>=floor, evidenceOk:met>=GATE.window,
           probeOk, earned, ready:!last&&landed, last, done:last&&landed};
 }
 const guidedDefault=()=>step().audio!==null && priorStepDays()<3;
@@ -1420,7 +1437,13 @@ function renderJourney(){
       r.appendChild(sp); rv.appendChild(r);
     };
     const hr=document.createElement('hr'); hr.className='sep'; rv.appendChild(hr);
-    crit(g2.floorOk,'At least '+GATE.minDays+' days practising this phrase — % so far',g2.days);
+    crit(g2.floorOk,'At least '+g2.floor+' days practising this phrase — % so far',g2.days);
+    if(g2.emphatic && g2.days<GATE.minDays)
+      rv.appendChild(el('p','note','Every practice on this phrase has been immediate '
+        +'and unmistakable, so the floor has come down from '+GATE.minDays+' days to '
+        +GATE.fastDays+'. It does not go lower. What is being trained is not the '
+        +'feeling — it is producing it unaided, on a bad day, in ninety seconds, and '
+        +'that is what the last condition tests.'));
     crit(g2.evidenceOk,'Clearly there twice a day, three days running — %/3',g2.met);
     crit(g2.probeOk,'Held it once with no cues and no recording','');
     /* Offered only once the other two are met: a probe you cannot pass yet is
