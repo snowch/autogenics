@@ -19,6 +19,8 @@ Stay here until it arrives by itself in roughly two practices out of three
 across three days running, at least seven days regardless, and you can hold the
 sequence once with nothing playing and nothing on screen.
 
+<!-- render: --speed 0.90 --lead-in 0.4 -->
+
 ---
 
 ## Narration

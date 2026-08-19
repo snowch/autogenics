@@ -120,6 +120,25 @@ def check(path: Path) -> list[str]:
                 errs.append(f"step '{n} — {q}': the on-screen cue {cue!r} is "
                             f"never spoken in {src.name}")
 
+    # A recording either paces somebody's breathing or tells them a fact, and
+    # the two want different speeds — 0.90 to be walked into a practice, 1.1 to
+    # be told something. Six practice scripts were relying on the tool default
+    # and one named its own, so the newest was quietly faster than the siblings
+    # it shares a sequence with. Every script states its pace now, and this
+    # keeps it that way.
+    PRACTICE, EXPLAIN = 0.90, 1.1
+    for md in sorted((root / "script").glob("*.md")):
+        m = re.search(r"<!--\s*render:.*?--speed\s+([\d.]+)", md.read_text(encoding="utf-8"))
+        if not m:
+            errs.append(f"{md.name}: no render speed — it would silently take "
+                        f"the tool default")
+            continue
+        want = PRACTICE if md.stem in SCRIPTS.values() else EXPLAIN
+        if abs(float(m.group(1)) - want) > 0.001:
+            kind = "a guided practice" if want == PRACTICE else "an explainer"
+            errs.append(f"{md.name}: speed {m.group(1)} but it is {kind}, "
+                        f"which renders at {want}")
+
     # Reset promises "start again from the beginning". It once set
     # onboarded:true, which reset the record but skipped first run entirely.
     # [\s\S] rather than . — a reset object spread over two lines is normal

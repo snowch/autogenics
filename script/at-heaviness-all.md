@@ -25,7 +25,7 @@ The recording opens on the arm you already have. That is not a second formula
 creeping in — it is the anchor, said once, to start from something present
 rather than something hoped for.
 
-<!-- render: --speed 0.96 --lead-in 0.4 -->
+<!-- render: --speed 0.90 --lead-in 0.4 -->
 
 ---
 

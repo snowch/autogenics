@@ -45,6 +45,8 @@ it the one safe place to say "now do this yourself."
   than by resampling, which leaves no artefacts on a low voice.
 - Voice: same as the sessions, for continuity.
 
+<!-- render: --speed 0.90 --lead-in 0.4 -->
+
 ---
 
 ## Narration

@@ -619,6 +619,14 @@ Not touched: the pauses. Nine seconds of silence across a hundred-second film
 is not what makes it feel slow, and those pauses are where a slide change
 lands.
 
+Auditing that turned up a quieter inconsistency. Six of the seven practice
+recordings carried no render directive at all and were taking the tool's
+default, while the newest named 0.96 — so the one recorded last was faster than
+the six it shares a sequence with, for no reason anybody chose. Every script
+states its pace now, and `check_app.py` enforces the rule: a script the ladder
+plays renders at 0.90, everything else at 1.1. Verified by flipping a briefing
+to practice pace and watching the build refuse it.
+
 All seven audio tracks and all seven films re-rendered, posters regenerated in
 the same pass so they cannot drift from the video they came from.
 
