@@ -179,6 +179,13 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .gear svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.7;
   stroke-linecap:round}
 #s-settings .modes,#ndCard .modes{margin-top:14px}
+.ndlist{margin:10px 0 0; padding:0; list-style:none}
+.ndlist li{display:grid; grid-template-columns:auto 1fr; gap:4px 12px;
+  padding:9px 0; border-top:1px solid var(--line)}
+.ndlist li:first-child{border-top:0}
+.ndlist .t{font-family:var(--mono); font-size:.75rem; color:var(--accent)}
+.ndlist .n{font-weight:600; font-size:.88rem}
+.ndlist .c{grid-column:2; font-size:.83rem; color:var(--ink-2)}
 .pvbar{position:fixed; left:0; right:0; bottom:0; z-index:60; display:flex;
   align-items:center; justify-content:space-between; gap:12px; padding:11px 16px;
   background:var(--accent-soft); border-top:1px solid var(--accent);
@@ -446,6 +453,9 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
         </div>
         <p class="smeta" id="ndMeta"></p>
         <button class="btn ghost" id="ndGo" style="margin-top:12px">Begin</button>
+        <details style="margin-top:12px"><summary>What is in it</summary>
+          <ol class="ndlist" id="ndList"></ol>
+          <p class="smeta" id="ndPairs"></p></details>
         <h2 style="margin-top:18px">At the sankalpa stages</h2>
         <div class="modes" id="ndSankalpa">
           <button data-sk="presence">Presence</button>
@@ -730,7 +740,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="b36b877+";window.__ASSETS__="13415665";
+window.__BUILD__="ef3c06d+";window.__ASSETS__="13415665";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1951,6 +1961,17 @@ STEPS.forEach((st,i)=>{
   b.onclick=()=>enterPreview(i, i===STEPS.length-1);
   $('#pvPick').appendChild(b);
 });
+/* The ladder is not the whole programme any more. What comes after it was
+   reachable only by knowing that the last step, a week in, is where the door
+   appears — which is not a thing anyone should have to know. */
+(function(){
+  const b=el('button', null, 'After the ladder \u00b7 primed nidra');
+  b.style.flex='1 1 100%';
+  b.onclick=()=>{ enterPreview(STEPS.length-1, true);
+    requestAnimationFrame(()=>{ const c=$('#ndCard');
+      if(c) c.scrollIntoView({block:'start'}); }); };
+  $('#pvPick').appendChild(b);
+})();
 $('#pvOut').onclick=exitPreview;
 $('#pvWhen').onclick=()=>enterPreview(pvStep, !pvLate);
 
@@ -2031,6 +2052,17 @@ function renderNidra(){
   document.querySelectorAll('#ndKind button').forEach(b=>
     b.classList.toggle('sel', b.dataset.nd===(st.kind||'full')));
   const P=NIDRA_PAIRS[st.pair%NIDRA_PAIRS.length];
+  /* You could run the session and never read it. Twelve minutes is a long way
+     to find out what is in something, and the stages are right here. */
+  const list=$('#ndList'); list.innerHTML='';
+  nidraStages(st.kind||'full', st.count, st.pair, st.sankalpa).forEach(sg=>{
+    const li=document.createElement('li');
+    const t=el('span','t', sg.t ? Math.floor(sg.t/60)+':'+String(sg.t%60).padStart(2,'0') : '—');
+    li.appendChild(t); li.appendChild(el('span','n', sg.n)); li.appendChild(el('span','c', sg.c));
+    list.appendChild(li);
+  });
+  $('#ndPairs').textContent='Opposites rotate one pair per session: '
+    + NIDRA_PAIRS.map(x=>x[0].toLowerCase()+' / '+x[1].toLowerCase()).join(', ') + '.';
   $('#ndMeta').textContent = st.count
     ? st.count+' session'+(st.count===1?'':'s')+' · next pair: '+P[0].toLowerCase()+' / '+P[1].toLowerCase()
     : 'Not started · first pair: '+P[0].toLowerCase()+' / '+P[1].toLowerCase();

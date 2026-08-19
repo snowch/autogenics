@@ -572,6 +572,26 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Look ahead stopped at the end of the ladder
+
+It listed every step and nothing after them, so the half of the programme that
+is not autogenic training — the stages, the sankalpa, the opposites — could be
+*run* but never *read*. Twelve minutes is a long way to go to find out what
+something is made of, and the stage table was sitting in `nidraStages()` the
+whole time.
+
+The nidra card now carries **What is in it**: every stage of the selected
+length with its duration and its cue, generated from the same function the
+runner uses, so it cannot describe a session the app does not deliver. All
+three lengths, including the sleep variant's open-ended third stage, which
+shows a dash rather than a time because it has no end. Underneath, the nine
+opposites pairs and the note that they rotate one per session.
+
+Look ahead also gains a final row — *After the ladder · primed nidra* — which
+enters the finished state and scrolls to the card. That was reachable before
+only by knowing that the last step, a week in, is where the door appears, which
+is not something anyone should have to know.
+
 ### The introduction was the one thing you could not go back to
 
 Reported as "I don't see the changes" after the first screen was rewritten, on
