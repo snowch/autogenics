@@ -572,6 +572,29 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### "What this is" was describing one exercise
+
+The screen headed *what this is* said: you repeat a phrase, the arm goes heavy,
+it is a physical response. Which is how the **first exercise** works, not what
+the product is — and after two rounds of fixing that screen it was still
+answering a smaller question than the one it asked.
+
+What it is, is two halves that need each other. Autogenic training is very good
+at getting you somewhere and has nothing for you to do once you arrive; yoga
+nidra is almost all content and cannot be learned, because it only ever arrives
+as a recording to lie down and listen to. That is the whole thesis of
+`PRIMED-NIDRA.md`, it is where the name Switch comes from, and until now it was
+readable only in Learn, three taps in, after someone had already committed.
+
+So screen one is the shape — *a way in, and somewhere to go* — with the two
+methods named in the caveat underneath rather than in the headline, since
+"autogenic training" and "yoga nidra" are two jargons to lead with and neither
+means anything on first read.
+
+The heaviness mechanism moved to *what it asks*, where it belongs: it is the
+concrete how, and it reads better next to ninety seconds and three times a day
+than it did standing in for a definition.
+
 ### Four screens, and a way back through them
 
 The introduction had been squeezed to two screens on the way to cutting
