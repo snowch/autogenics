@@ -602,6 +602,23 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### "One short phrase" needed to say which one
+
+*You repeat one short phrase to yourself — my right arm is heavy — and after a
+few days the arm actually does feel heavy.* The dashes make it read as an
+example drawn from a set nobody has described, which raises the question it was
+meant to answer: one phrase out of what?
+
+It is not an example. It is the phrase they will be handed about a minute
+later, and the ladder is eight of them. So: *You repeat one short phrase to
+yourself. The first is my right arm is heavy… There are eight in all, one at a
+time.* Same length, and it previews the thing rather than gesturing at it —
+someone arriving on the practice screen now recognises the sentence.
+
+It also quietly does a job screen four was doing alone: the ladder has a size,
+and knowing it is eight before agreeing to start is fairer than finding out
+afterwards.
+
 ### The two halves were not joined
 
 Slide three opened on *"the state you have just made"* — and slide two had
