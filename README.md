@@ -602,6 +602,32 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Reading the introduction back, three cuts
+
+**Slide one lost its caveat.** *"You will be taught one thing at a time, in
+order, and never the second before the first can carry it"* is reassurance
+about pacing, offered before anyone knows what the pacing is of. The headline
+and one paragraph say what the thing is; that was the screen's whole job.
+
+**The mechanism moved to slide two and out of slide four.** *You repeat one
+short phrase — my right arm is heavy — and after a few days the arm actually
+does feel heavy* was sitting on the dose screen, describing the first half a
+screen and a half after the first half had been described. It belongs in *The
+way in*, and slide four is about ninety seconds and three times a day.
+
+**Slide three was insider vocabulary.** "A resolve held as though already
+true", "opposite sensations invited and let go", "resting as the awareness that
+was there the whole time" — every phrase in it presumed the reader already knew
+the practice being described. It says what you actually do now: you say one
+sentence about how you mean to be as though it were already so, you call up a
+feeling and then its opposite — heavy, then light, which is the exercise they
+are about to start — and you spend a few minutes with nothing to do at all,
+which is harder than it sounds.
+
+That last change matters most. Naming the opposites pair as *heavy, then light*
+ties the abstract half to the concrete one on the previous screen, and it is
+the actual first opposites drill they will meet at step four.
+
 ### Give each half its own screen, and drop the benefits
 
 The two-halves explanation was three paragraphs stacked on one screen — the
