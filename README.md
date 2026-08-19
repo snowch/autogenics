@@ -572,6 +572,31 @@ While looking at that screen: the hint under the phrase read "say it silently,
 in your own voice" beneath *All six, in sequence* — which is not a phrase
 anybody says. The final step gets its own.
 
+### Nowhere did the app say it was two methods
+
+The grafts shipped without a word of explanation. Somebody on the warmth step
+would have found a Sanskrit noun appended to their autogenic practice, for no
+stated reason, from an app whose entire pitch had been six formulae. The intro
+film is pure AT, Learn covered doing it right and what to do when it feels
+wrong, and the fusion — the actual thesis — appeared nowhere a user could
+reach.
+
+Learn now has **Why there are two methods here**: autogenic training is very
+good at getting you somewhere and has nothing for you to do once you arrive,
+since all six exercises are ways *in*; nidra is almost all content and has no
+way to teach any of it, arriving as a recording that carries on whether or not
+you are still awake. Each supplies what the other lacks.
+
+That section also answers the question the design raises, which is why the
+nidra elements hang off the end of a practice instead of being practised on
+their own: **they need the state the formula has just produced.** Refuge
+entered cold is a different and much harder exercise, and it is the one that
+does not stick. That is the whole of "primed" in Primed Nidra, and it had never
+been said outside a markdown file.
+
+The first graft carries a short version of it plus a link into that section,
+and later grafts do not repeat it.
+
 ### Nidra's elements get trained the way the formulae do
 
 The thesis of `PRIMED-NIDRA.md` is that autogenic training has a pedagogy and

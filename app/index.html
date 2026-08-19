@@ -510,6 +510,11 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
       <div class="card">
         <h2>Background</h2>
+        <details><summary>Why there are two methods here</summary>
+          <p>Autogenic training is very good at one thing: getting you into a settled state on demand, reliably, in ninety seconds. It is also strangely empty. All six of its exercises are ways <em>in</em> — heaviness, warmth, the heartbeat — and none of them is anything to do once you are there.</p>
+          <p>Yoga nidra has the opposite problem. It is almost all content — a resolve held as already true, opposite sensations invited and released, resting as the awareness that was there the whole time — and it has no way of teaching any of it. It arrives as a recording you lie down and listen to, so nothing is ever retrieved, only recognised. The recording carries on whether or not you are still awake, which is why so many people finish one having slept through the middle and count it as a practice.</p>
+          <p>So each supplies what the other lacks. Autogenic training lends its method: one element at a time, the same words every time, and nothing new until the last thing arrives on its own. Nidra lends somewhere to go once you can get there.</p>
+          <p>That is why the nidra elements are attached to the end of a practice from the third step rather than being practised on their own. They need the state the formula has just produced. Doing them cold is a different and much harder exercise, and it is the one that does not stick.</p></details>
         <details><summary>Where it comes from</summary>
           <p>Worked out in Berlin in the 1920s, as an attempt to take the hypnotist out of hypnosis — to let people reach the same settled state on their own, with nobody guiding them.</p></details>
         <details><summary>What people notice</summary>
@@ -1266,6 +1271,17 @@ function renderJourney(){
   if(gr && mode==='timer'){
     const g=el('div','review');
     g.appendChild(el('h2', null, 'Also this week'));
+    /* The first one arrives with no warning otherwise: a Sanskrit noun
+       appended to an autogenic practice, for no stated reason. */
+    if(gr===DRILLS[0]){
+      g.appendChild(el('p','note','The second method starts here. It is attached to the end of a practice rather than done on its own, because it needs the state the formula has just produced \u2014 done cold it is a much harder exercise.'));
+      const lk=el('button','linky','Why there are two methods here');
+      lk.onclick=()=>{ go('learn'); requestAnimationFrame(()=>{
+        const d=[...document.querySelectorAll('#s-learn details')]
+          .find(x=>/two methods/.test(x.textContent));
+        if(d){ d.open=true; d.scrollIntoView({block:'center'}); } }); };
+      g.appendChild(lk);
+    }
     g.appendChild(el('p','phrase', gr.n));
     g.appendChild(el('p','note', drillCue(gr)));
     g.appendChild(el('p','smeta', gr.secs+' seconds, after the formula and before you come back \u2014 on the phrase and the sequence, not the review.'));
