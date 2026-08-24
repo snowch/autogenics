@@ -738,6 +738,79 @@ being asked for, which keeps Practice one-thing-to-do on day one without
 locking anything. And `check_app.py` caught a top-level `sx` — the onboarding
 swipe's start-x — shadowed by the path's per-step `sx`; renamed `swX`.
 
+### One thing per surface
+
+Told twice that the screen still looked cluttered, and then: *if you could
+start from a clean sheet, what would you do?* The first answer was a trim —
+fewer words in the same boxes — and the reply was that it looked exactly the
+same. It did.
+
+**The timeline was the wrong metaphor.** A rail of dots with expandable rows,
+a card nested inside a step inside a programme inside a screen, is the
+course-app default, and it frames a method as a syllabus of things you owe.
+The promise here is the opposite: it ends, and you keep something. What you
+keep is the sequence you can say — and that sequence appeared exactly once, in
+the lock-screen image, after nine weeks.
+
+Progress is the sequence now. The run-through as you actually say it, in
+serif, growing every time a step lands, with the framing line set quieter than
+the formulae, the newest one marked, and the next named underneath. Below it
+the week strip and one line — *6 of the last 7 days*. Below that, a link. No
+cards, no rail, no pills, nothing to press.
+
+**The gate moved to Practice.** *Can I move on?* is decided in one moment —
+just after practising, when you rate it. Behind a tab it became something you
+go and check, which is the behaviour a progress bar breeds. It sits under the
+hero now, above the landmark card and the weekly question, because those are
+an acknowledgement and a survey and this is the answer to what you just did.
+The "ready to move on" nudge went with it: a card telling you to go to another
+screen for something three inches below it is worse than no card.
+
+**A gate with three conditions shows one.** The panel used to print all three
+every day with a tick or a hollow circle against each — two of them things you
+can do nothing about today, and on a fresh phrase all three unticked, which is
+a report card issued before the term starts. The app already knew better: the
+probe button is withheld until it is passable, because *a probe you cannot
+pass yet is just a way of telling someone they are failing*. That was applied
+to the button and not to the list above it. Now: the binding condition, the
+one after it, and the whole rule folded into **How this opens**.
+
+**Then the measurements.** Screenshots taken `full_page` make everything look
+enormous, so: in viewports of 390×844, Progress and Programmes were 1.0–1.6
+and Practice was **2.7**, of which 736px was the nidra card — a lede, four
+lengths, a meta line, a warning, Begin, a fold, a second heading, three more
+buttons and a text box. Length is the only choice anybody makes daily.
+Everything set once went behind **Set up the session**, and then the card
+itself went to its own screen, leaving one row on Practice reading *Primed
+nidra · 12 min*. A second practice does not belong inline on the screen whose
+job is to say what the one thing to do now is.
+
+Programmes moved out the same way, and both lost the box they were drawn in:
+a card border around a whole screen is the nesting the rest of the app had
+just shed. Both keep the tab that owns them lit, since you got there by
+tapping rather than by navigating.
+
+| | before | after |
+|---|---|---|
+| Practice | 2.7 screens | 1.9 |
+| Progress | 1.0 | 1.0 |
+| Programmes | — | 1.6 |
+| Primed nidra | — | 1.0 |
+
+Three things that were said twice went as well: `STEP 2` in the title bar
+beside `1 of 3` above a rail whose dot fill said it a third time; `DONE` /
+`NOW` / `NEXT` pills against those dots; and the track name prefixing a
+subtitle you reached from that track's own column. The `PROGRAMMES` heading
+under a title bar reading Programmes, and the `N of 6 open` beside it, went
+too.
+
+One thing was tried and cut. Tapping a phrase in the stack to reach the step
+that taught it needs a cue-to-step mapping that does not exist — warmth is
+taught as *my right arm is warm* and appears in every later sequence as *my
+arms are warm*, so half the lines opened the wrong exercise. Revision and the
+briefings live on the map, where the steps are, and Progress stays the one
+surface with nothing to press.
+
 ### Nidra was waiting for the whole ladder, for no reason
 
 Asked what the quickest route from autogenic training to nidra is, by somebody

@@ -59,9 +59,10 @@ with sync_playwright() as pw:
     g=pg.evaluate("gate()")
     ck('days and evidence met', g['earned'], g)
     ck('gate still shut without the probe', not g['ready'])
-    pg.evaluate("go('progress')"); pg.wait_for_timeout(250)
-    ck('probe offered', 'Run it yourself' in pg.inner_text('#s-progress'))
-    pg.evaluate("[...document.querySelectorAll('#s-progress button')].find(b=>b.textContent==='Run it yourself').click()")
+    # the gate lives on Practice now: the decision is made where you practise
+    pg.evaluate("go('journey')"); pg.wait_for_timeout(250)
+    ck('probe offered', 'Run it yourself' in pg.inner_text('#gateCard'))
+    pg.evaluate("[...document.querySelectorAll('#gateCard button')].find(b=>b.textContent==='Run it yourself').click()")
     pg.wait_for_timeout(400)
     ck('probe shows nothing', pg.inner_text('#pxCue')=='' and pg.inner_text('#pxPhase')=='ON YOUR OWN')
     pg.click('#pxStop'); pg.wait_for_timeout(500)
@@ -69,7 +70,7 @@ with sync_playwright() as pw:
     ck('gate opens after the probe', g['ready'], g)
 
     # ---- advance ----
-    pg.evaluate("[...document.querySelectorAll('#s-progress button')].find(b=>b.textContent==='Move to the next step').click()")
+    pg.evaluate("[...document.querySelectorAll('#gateCard button')].find(b=>b.textContent==='Move to the next step').click()")
     pg.wait_for_timeout(400)
     ck('advanced to step 2', pg.evaluate("S.step")==1, pg.evaluate("STEPS[S.step].n+' · '+STEPS[S.step].q"))
     ck('guided came back on', pg.evaluate("mode")=='guided')

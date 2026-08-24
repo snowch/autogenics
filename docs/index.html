@@ -240,6 +240,10 @@ body.pv nav{bottom:var(--pvh,56px)}
   border-top:1px solid var(--line)}
 .review h2{margin:0 0 12px; font-size:.66rem; font-weight:650; letter-spacing:.1em;
   text-transform:uppercase; color:var(--muted)}
+.backrow{display:flex; align-items:center; gap:6px; margin:2px 0 10px; padding:6px 2px;
+  min-height:36px; font-family:var(--mono); font-size:.64rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted)}
+.backrow::before{content:'\2039'; font-size:1.1rem; line-height:1}
 .pathhead{display:flex; align-items:baseline; justify-content:space-between; margin:6px 2px 2px}
 .pathhead h2{margin:0; font-size:.66rem; font-weight:650; letter-spacing:.1em;
   text-transform:uppercase; color:var(--muted)}
@@ -247,6 +251,22 @@ body.pv nav{bottom:var(--pvh,56px)}
 .track{margin:0 0 18px}
 .track h3{margin:0 0 8px 2px; font-size:.7rem; font-weight:650; letter-spacing:.09em;
   text-transform:uppercase; color:var(--muted)}
+/* What you hold. Not a list of chapters passed — the run-through as you
+   actually say it, which is the thing this method leaves you with and the only
+   thing on the screen that is worth reading rather than checking. */
+.seq{list-style:none; margin:12px 0 0; padding:0}
+.seq li{font-family:Georgia,serif; font-size:1.14rem; line-height:1.45; color:var(--ink);
+  padding:7px 0 7px 14px; border-left:2px solid transparent; text-align:left; width:100%;
+  display:block; background:none}
+.seq li.frame{color:var(--ink-2); font-size:1rem}
+.seq li.new{border-left-color:var(--accent)}
+.seq li.next{font-family:var(--mono); font-size:.68rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted); padding-top:14px}
+.rowlink{display:flex; align-items:center; justify-content:space-between; width:100%;
+  margin-top:26px; padding:15px 2px; border-top:1px solid var(--line);
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-2)}
+.rowlink::after{content:'\203a'; font-size:1.15rem; color:var(--muted)}
 .tcap{margin:0 0 10px 2px; font-size:.76rem; color:var(--ink-2); line-height:1.4}
 .tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px}
 .tile{display:flex; flex-direction:column; gap:4px; text-align:left; padding:13px;
@@ -281,15 +301,35 @@ body.pv nav{bottom:var(--pvh,56px)}
 .note{font-size:.83rem; color:var(--ink-2); margin:11px 0 0;
   border-left:2px solid var(--line); padding-left:11px}
 
+/* The status line. One condition at a time, so it can afford to be read at a
+   glance rather than parsed. */
+.gnow{margin:15px 0 0; font-size:1rem; color:var(--ink); line-height:1.35}
+.gthen{margin:5px 0 0; font-size:.85rem; color:var(--muted); line-height:1.4}
+/* Last thing in the card, so the shared details rule's closing rule hung in
+   space under it. */
+.gspec{margin-top:16px}
+.gspec:last-of-type{border-bottom:0; padding-bottom:0}
+.gspec summary{font-size:.78rem; font-weight:500; color:var(--muted)}
+.gspec .crit:first-of-type{margin-top:10px}
 .crit{display:flex; align-items:flex-start; gap:8px; font-size:.84rem; padding:4px 0; color:var(--ink-2)}
 .crit b{font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink)}
 .tick{width:15px; height:15px; flex:none; margin-top:3px}
 .sep{border:0; border-top:1px solid var(--line); margin:15px 0 12px}
 .sublab{font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase;
   color:var(--muted); margin:0 0 9px}
-.strip{display:grid; grid-template-columns:repeat(14,1fr); gap:3px}
-.strip .col{display:flex; flex-direction:column; gap:3px}
-.cell{height:13px; border-radius:3px; background:var(--sunk); border:1px solid var(--line)}
+/* Columns are counted by the browser, not typed in here. It said fourteen long
+   after the strip came down to seven, so the week rendered at half the card's
+   width in oversized blocks — a chart that had quietly stopped fitting. */
+.strip{display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:5px}
+.strip .col{display:flex; flex-direction:column; gap:4px}
+.cell{height:15px; border-radius:4px; background:var(--sunk); border:1px solid var(--line)}
+/* Twenty-one empty squares is not a record of anything. The weekday letters
+   give the week a direction and today an anchor, so an empty strip reads as a
+   week that has not happened yet rather than a scorecard of noughts. */
+.dow{margin-top:5px; text-align:center; font-family:var(--mono); font-size:.58rem;
+  letter-spacing:.05em; color:var(--muted)}
+.col.today .cell{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.col.today .dow{color:var(--accent)}
 .cell.r1{background:color-mix(in srgb,var(--accent) 24%,var(--sunk))}
 .cell.r2{background:color-mix(in srgb,var(--accent) 60%,var(--sunk)); border-color:var(--accent)}
 .cell.r3{background:var(--accent); border-color:var(--accent)}
@@ -462,9 +502,38 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <div id="briefCard" class="hidden"></div>
       <div id="nowCard"></div>
       <div id="nudge" class="hidden"></div>
-      <div class="card hidden" id="ndCard">
-        <h2>Primed nidra <span class="pill" style="margin-left:6px">Experimental</span></h2>
-        <p class="lede">Somewhere to put the entry you have been training — a silent staged timer, with a chime at each boundary and no voice. Carry on up the ladder as well: the two run alongside each other, and the induction here grows as your sequence does. The lengths are meant to be taken in order, shortest first, because each one adds a stage the ladder trains. None of them is locked; a dimmed one will still run, and says what you have not trained yet.</p>
+      <!-- A second practice does not belong inline on the screen that says what
+           the one thing to do now is. It is a row here and a screen of its own,
+           the same as the map: one thing per surface. -->
+      <button class="rowlink hidden" id="ndRow">Primed nidra</button>
+
+      <p class="footnote">A self-training method, not medical treatment or advice.
+        <button class="linky" data-go="learn">Cautions and how to finish</button></p>
+    </section>
+
+    <section class="screen" id="s-progress">
+      <div class="pathhead"><h2>Your sequence</h2><span class="cnt" id="seqCnt"></span></div>
+      <ol class="seq" id="seqStack"></ol>
+      <div class="pathhead" style="margin-top:24px"><h2>Turning up</h2><span class="cnt" id="weekCnt"></span></div>
+      <div class="strip" id="weekStrip"></div>
+      <div id="seqEnd"></div>
+      <button class="rowlink" id="toProgrammes">Programmes</button>
+    </section>
+
+    <section class="screen" id="s-nidra">
+      <!-- No card surface: this is the whole screen, and a box drawn around a
+           screen is the same nesting the rest of the app just lost. The title
+           bar already names it, so the heading that repeated the name is a
+           pill and nothing else. -->
+      <div class="hidden" id="ndCard">
+        <p><span class="pill">Experimental</span></p>
+        <!-- The card used to run to a third of this screen: five sentences of
+             lede, the lengths, a meta line, a warning, Begin, a fold, a second
+             heading, three more buttons and a text box. Length is the only
+             choice anybody makes daily. Everything you set once is behind the
+             fold, and the argument for the two methods running together is
+             written on Learn, where the arguments are. -->
+        <p class="lede">A silent staged timer for the entry you have been training — a chime at each boundary, and no voice. Shortest first; a dimmed length still runs, and says what you have not trained yet.</p>
         <div class="modes" id="ndKind" style="margin-top:14px">
           <button data-nd="field">3 min</button>
           <button data-nd="mid">7 min</button>
@@ -474,31 +543,31 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
         <p class="smeta" id="ndMeta"></p>
         <p class="note hidden" id="ndEarly"></p>
         <button class="btn ghost" id="ndGo" style="margin-top:12px">Begin</button>
-        <details style="margin-top:12px"><summary>What is in it</summary>
+        <details style="margin-top:12px"><summary>Set up the session</summary>
+          <p class="sublab" style="margin-top:14px">At the sankalpa stages</p>
+          <div class="modes" id="ndSankalpa">
+            <button data-sk="presence">Presence</button>
+            <button data-sk="question">Question</button>
+            <button data-sk="resolve">Resolve</button>
+          </div>
+          <div id="vowBox" class="hidden">
+            <p class="smeta" style="margin-top:12px">One sentence, present tense, stated as already true — <em>I sleep deeply and wake rested</em>, not <em>I want to sleep better</em>. Short enough to issue without reading it.</p>
+            <input id="vowText" type="text" maxlength="90" placeholder="Your resolve, as though it were already so">
+            <button class="btn ghost" id="vowSave" style="margin-top:10px">Set it</button>
+            <p class="smeta" id="vowMeta"></p>
+          </div>
+          <p class="sublab" style="margin-top:18px">What is in it</p>
           <ol class="ndlist" id="ndList"></ol>
           <p class="smeta" id="ndPairs"></p></details>
-        <h2 style="margin-top:18px">At the sankalpa stages</h2>
-        <div class="modes" id="ndSankalpa">
-          <button data-sk="presence">Presence</button>
-          <button data-sk="question">Question</button>
-          <button data-sk="resolve">Resolve</button>
-        </div>
-        <div id="vowBox" class="hidden">
-          <p class="smeta" style="margin-top:12px">One sentence, present tense, stated as already true — <em>I sleep deeply and wake rested</em>, not <em>I want to sleep better</em>. Short enough to issue without reading it.</p>
-          <input id="vowText" type="text" maxlength="90" placeholder="Your resolve, as though it were already so">
-          <button class="btn ghost" id="vowSave" style="margin-top:10px">Set it</button>
-          <p class="smeta" id="vowMeta"></p>
-        </div>
       </div>
 
-      <p class="footnote">A self-training method, not medical treatment or advice.
-        <button class="linky" data-go="learn">Cautions and how to finish</button></p>
     </section>
 
-    <section class="screen" id="s-progress">
-      <div class="pathhead"><h2>Programmes</h2><span class="cnt" id="progCnt"></span></div>
+    <section class="screen" id="s-programmes">
       <div id="progTiles"></div>
+      <button class="backrow hidden" id="pathBack">All programmes</button>
       <div class="pathhead hidden" id="pathHead"><h2>Your path</h2><span class="cnt" id="pathCnt"></span></div>
+      <p class="tcap hidden" id="pathSub"></p>
       <ol class="steps" id="journey"></ol>
     </section>
 
@@ -802,7 +871,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="348d131+";window.__ASSETS__="10575215";
+window.__BUILD__="6e5bd84+";window.__ASSETS__="10575215";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1385,9 +1454,10 @@ function progUnlock(p){
   return 'Opens after ' + PROGRAMMES.find(x=>x.id===p.needs).n.toLowerCase();
 }
 function renderProgrammes(){
+  /* The screen is called Programmes in the title bar; a PROGRAMMES heading
+     under it, and an "N of 6 open" beside that, were a caption and a statistic
+     for something already named and already legible from the tiles. */
   const wrap=$('#progTiles'); wrap.innerHTML='';
-  const nOpen=PROGRAMMES.filter(p=>progState(p)!=='locked').length;
-  $('#progCnt').textContent=nOpen+' of '+PROGRAMMES.length+' open';
   /* Order is stated twice and enforced once. The numbering and the captions say
      what the sequence is; only the ladder holds anybody to it, and it says why. */
   const CAP={'Autogenic training':'In order, and held to it: the next opens when the last has arrived. '
@@ -1416,9 +1486,8 @@ function renderProgrammes(){
          the same look-ahead the last step has always had. */
       b.onclick=()=>{
         if(p.steps){ pathOf=p.id; open=null; renderJourney();
-          return requestAnimationFrame(()=>$('#pathHead').scrollIntoView({block:'start'})); }
-        ndOpen=true; ndState().kind=p.kind; save(); renderNidra(); go('journey');
-        requestAnimationFrame(()=>$('#ndCard').scrollIntoView({block:'start'}));
+          return requestAnimationFrame(()=>window.scrollTo(0,0)); }
+        ndOpen=true; ndState().kind=p.kind; save(); renderNidra(); go('nidra');
       };
       if(p.steps && (pathOf ? p.id===pathOf : st==='now')) b.classList.add('sel');
       grid.appendChild(b);
@@ -1427,20 +1496,109 @@ function renderProgrammes(){
   });
 }
 
+/* This used to fire on "ready" as well, and send you to Progress to do the
+   thing. The gate is on this screen now, a few inches below, with the button
+   on it — a card telling you to go somewhere else for what is already here is
+   worse than no card. The ending is the one case left: that genuinely lives on
+   Progress, because what it hands over is the sequence. */
 function renderNudge(){
   const n=$('#nudge'); n.innerHTML=''; n.classList.add('hidden');
   const g=gate();
-  if(!g.ready && !g.done) return;
+  if(!g.done) return;
   n.classList.remove('hidden');
   const c=el('div','nudge');
-  c.appendChild(el('p','nkick', g.done ? 'Finished' : 'Ready to move on'));
-  c.appendChild(el('p','ntext', g.done
-    ? 'Your record says the last step has landed.'
-    : 'Both conditions are met on '+STEPS[S.step].n.toLowerCase()+'.'));
-  const b=el('button','btn ghost', g.done ? 'See your record' : 'Open Progress');
+  c.appendChild(el('p','nkick','Finished'));
+  c.appendChild(el('p','ntext','Your record says the last step has landed.'));
+  const b=el('button','btn ghost','See your record');
   b.onclick=()=>go('progress');
   c.appendChild(b);
   n.appendChild(c);
+}
+
+/* Selecting a programme is a move into it, not a highlight on a grid. The six
+   tiles and their captions are three-quarters of a phone screen, so leaving
+   them above the path meant the steps you asked for opened below the fold. The
+   tiles stand down and the path gets the screen; this brings them back. */
+$('#pathBack').onclick=()=>{ pathOf=null; open=null; renderJourney(); window.scrollTo(0,0); };
+$('#toProgrammes').onclick=()=>{ pathOf=null; open=null; renderJourney(); go('programmes'); };
+$('#ndRow').onclick=()=>go('nidra');
+
+/* ---------- Progress: what you hold, and whether you are turning up ----------
+
+   It used to be a timeline: a rail of dots, expandable rows, a card nested
+   inside a step inside a programme. That is the course-app default and it
+   frames a method as a syllabus of things you owe — but the whole promise here
+   is that it ends and you keep something, and what you keep is the sequence
+   you can say. That sequence was visible exactly once, in the lock-screen image
+   at the very end. It is the screen now, and it grows every time a step lands.
+
+   The rail is not gone, it has moved: it is what a programme opens into, under
+   Programmes, where a map belongs. */
+function renderStack(){
+  const seq=dropSkipped(step().cues).filter((c,i,a)=>a.indexOf(c)===i);
+  const cur=step().phrase;
+  const ol=$('#seqStack'); ol.innerHTML='';
+  seq.forEach(c=>{
+    /* Plainly a thing to read, not a menu. Making each line tap through to the
+       step that taught it needed a cue-to-step mapping that does not exist:
+       warmth is taught as "my right arm is warm" and appears in every later
+       sequence as "my arms are warm", so half the lines would have opened the
+       wrong exercise. Revision and the briefings live on the map, where the
+       steps are, and this screen stays the one surface with nothing to press. */
+    const li=document.createElement('li');
+    /* "I am completely calm." is the frame the sequence is said inside rather
+       than an exercise, and setting it in the same weight as the formulae made
+       the stack read one line longer than it is. */
+    li.className=(c===cur?'new ':'')+(c==='I am completely calm.'?'frame':'');
+    li.textContent=c;
+    ol.appendChild(li);
+  });
+  const nx = S.step+1<STEPS.length ? STEPS[S.step+1] : null;
+  if(nx && !gate().done){
+    const li=el('li','next', 'Next \u00b7 '+nx.n.toLowerCase()+' \u00b7 '+nx.q);
+    ol.appendChild(li);
+  }
+  $('#seqCnt').textContent = gate().done ? 'complete'
+    : 'step '+(S.step+1)+' of '+STEPS.length;
+
+  /* Turning up. The only thing a record of this method can honestly show. */
+  const strip=$('#weekStrip'); strip.innerHTML='';
+  let up=0;
+  for(let i=STRIP_DAYS-1;i>=0;i--){
+    const k=dayKey(i), c=el('div','col'+(i?'':' today')), e2=dayLog(k);
+    if(e2.length) up++;
+    for(let j=0;j<3;j++) c.appendChild(el('div','cell'+(e2[j]?' r'+e2[j].r:'')));
+    c.appendChild(el('span','dow',
+      new Date(k+'T00:00:00').toLocaleDateString('en-GB',{weekday:'narrow'})));
+    c.title=k;
+    strip.appendChild(c);
+  }
+  $('#weekCnt').textContent=up+' of the last '+STRIP_DAYS+' days';
+
+  /* The ending is a handover, and it belongs with the thing being handed over. */
+  const end=$('#seqEnd'); end.innerHTML='';
+  const g=gate();
+  if(g.done){
+    end.appendChild(el('p','note','Learned, on your own record \u2014 '+GATE.minDays
+      +' days at the last step, landing twice a day for three days running, and held '
+      +'once with nothing playing. The app is optional from here; the response is not '
+      +'going anywhere as long as you keep using it.'));
+    const cb=el('button','btn','Save the sequence as an image');
+    cb.style.marginTop='14px'; cb.onclick=phraseCard;
+    end.appendChild(cb);
+    end.appendChild(el('p','note','For your lock screen, or to print. The formulae and '
+      +'nothing else on it \u2014 no link back here, because you do not need one.'));
+    if(AUDIO.finished){
+      const fb=el('button','btn ghost','What it is for from here');
+      fb.style.marginTop='10px';
+      fb.onclick=()=>playBrief({src:'finished', poster:'finishedPoster',
+        kick:'You have all six', title:'That is the whole method.'});
+      end.appendChild(fb);
+    }
+  }else if(g.last){
+    end.appendChild(el('p','note','You are practising without guidance. Keep the record '
+      +'going \u2014 it is how you notice a slip before it becomes a stop.'));
+  }
 }
 
 function renderJourney(){
@@ -1458,6 +1616,8 @@ function renderJourney(){
   renderBrief();
   renderNudge();
   renderProgrammes();
+  renderStack();
+  ndRow();
   const st=step(), es=todayHere();
   $('#topPos').textContent = S.step>=STEPS.length-1 ? 'Unaided' : 'Step '+(S.step+1);
   $('#pathCnt').textContent=S.step+' of '+STEPS.length+' done';
@@ -1580,60 +1740,87 @@ function renderJourney(){
   /* built detached, then hung on the step it describes — the fourteen-day
      record and the two conditions are about the current step, and a card of
      their own above the path said so twice instead of showing it once. */
-  const rv=el('div','review');
-  rv.appendChild(el('h2', null, g2.done ? 'Finished' : g2.last ? 'Your record' : 'Ready to move on?'));
+  /* This belongs on Practice, not behind a tab.
 
-  const strip=el('div','strip');
-  for(let i=STRIP_DAYS-1;i>=0;i--){
-    const c=el('div','col'), e2=dayLog(dayKey(i));
-    for(let j=0;j<3;j++) c.appendChild(el('div','cell'+(e2[j]?' r'+e2[j].r:'')));
-    c.title=dayKey(i);
-    strip.appendChild(c);
-  }
-  rv.appendChild(strip);
-  rv.appendChild(el('p','smeta','Last '+STRIP_DAYS+' days \u00b7 '+stepDays()+' practised on this step'));
+     "Can I move on?" is decided in one moment — just after a practice, when you
+     rate it. Living on Progress it became something you go and check, which is
+     the behaviour a progress bar breeds and the opposite of what this app is
+     for. It sits under the hero now, where the answer changes what you do next.
+     The record it is drawn from stays on Progress, where a record belongs. */
+  const rv=el('div','review'); rv.id='gateCard';
+  /* Straight under the hero, above the landmark card and the weekly question.
+     Those are an acknowledgement and a survey; this is the answer to what you
+     just did, and it was landing fourth on the screen. */
+  if(!g2.done && !g2.last){
+    $('#nowCard').appendChild(rv);
+    /* One condition, not three.
 
-  if(g2.done){
-    /* Copy said five days; the floor has been seven since the introduction and
-       the gate were made to agree. */
-    rv.appendChild(el('p','note','Learned, on your own record \u2014 '+GATE.minDays
-      +' days at the last step, landing twice a day for three days running, and held once '
-      +'with nothing playing. The app is optional from here; the response is not going '
-      +'anywhere as long as you keep using it.'));
-    /* The deliverable is not this app, so make it leave. */
-    const cb=el('button','btn','Save the sequence as an image');
-    cb.style.marginTop='14px'; cb.onclick=phraseCard;
-    rv.appendChild(cb);
-    rv.appendChild(el('p','note','For your lock screen, or to print. Six formulae and nothing else on it \u2014 no link back here, because you do not need one.'));
-  }else if(g2.last){
-    rv.appendChild(el('p','note','You are practising without guidance. Keep the record going — it is how you notice a slip before it becomes a stop.'));
-  }else{
+       The gate has three and the panel used to print all of them, every day,
+       with a tick or a hollow circle against each — a specification where a
+       status line belonged. Two of the three are things you can do nothing
+       about today, and on a fresh phrase all three are unticked, which is a
+       report card issued before the term starts.
+
+       This app already knows better: the probe button is withheld until the
+       other two are met, because "a probe you cannot pass yet is just a way of
+       telling someone they are failing". That was applied to the button and
+       not to the list above it. So: the binding condition, then the one after
+       it, and the whole rule folded away for anybody who wants to audit it. */
+    const left=Math.max(0, g2.floor-g2.days);
+    const need=[];
+    if(!g2.floorOk) need.push({
+      n: left+' more day'+(left===1?'':'s')+' on this phrase.',
+      t: 'another '+left+' day'+(left===1?'':'s')+' on this phrase.'});
+    if(!g2.evidenceOk) need.push({
+      n: 'Clearly there twice a day, three days running'
+         + (g2.met ? ' \u2014 '+g2.met+' of 3.' : '.'),
+      t: 'clearly there twice a day, three days running.'});
+    if(!g2.probeOk) need.push({
+      n: (need.length ? '' : 'One thing left: ')+'hold it once with nothing playing.',
+      t: 'hold it once with nothing playing.'});
+
+    const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+    rv.appendChild(el('p','gnow', need.length ? cap(need[0].n) : 'Ready when you are.'));
+    if(need[1]) rv.appendChild(el('p','gthen','Then '+need[1].t));
+    if(g2.emphatic && g2.days<GATE.minDays)
+      rv.appendChild(el('p','gthen','Immediate every time so far, so the floor came '
+        +'down from '+GATE.minDays+' days to '+GATE.fastDays+'.'));
+
+    /* Offered only once the other two are met. */
+    if(g2.earned && !g2.probeOk){
+      const pb=el('button','btn','Run it yourself');
+      pb.style.marginTop='14px'; pb.onclick=runProbe;
+      rv.appendChild(pb);
+    }
+
+    const spec=document.createElement('details'); spec.className='gspec';
+    const sm=document.createElement('summary'); sm.textContent='How this opens';
+    spec.appendChild(sm);
     const crit=(ok,text,val)=>{
       const r=el('div','crit');
       r.innerHTML='<svg class="tick" viewBox="0 0 16 16" fill="none" stroke="'+
         (ok?'var(--good)':'var(--muted)')+'" stroke-width="2">'+
         (ok?'<path d="M3 8.5l3.2 3.2L13 5"/>':'<circle cx="8" cy="8" r="5.5"/>')+'</svg>';
       const sp=el('span'); sp.innerHTML=text.replace('%','<b>'+val+'</b>');
-      r.appendChild(sp); rv.appendChild(r);
+      r.appendChild(sp); spec.appendChild(r);
     };
-    const hr=document.createElement('hr'); hr.className='sep'; rv.appendChild(hr);
     crit(g2.floorOk,'At least '+g2.floor+' days practising this phrase — % so far',g2.days);
-    if(g2.emphatic && g2.days<GATE.minDays)
-      rv.appendChild(el('p','note','Every practice on this phrase has been immediate '
-        +'and unmistakable, so the floor has come down from '+GATE.minDays+' days to '
-        +GATE.fastDays+'. It does not go lower. What is being trained is not the '
-        +'feeling — it is producing it unaided, on a bad day, in ninety seconds, and '
-        +'that is what the last condition tests.'));
     crit(g2.evidenceOk,'Clearly there twice a day, three days running — %/3',g2.met);
     crit(g2.probeOk,'Held it once with no cues and no recording','');
-    /* Offered only once the other two are met: a probe you cannot pass yet is
-       just a way of telling someone they are failing. */
-    if(g2.earned && !g2.probeOk){
-      const pb=el('button','btn','Run it yourself');
-      pb.style.marginTop='14px'; pb.onclick=runProbe;
-      rv.appendChild(el('p','note','One last thing. The same practice with nothing on screen and nothing playing — a note to begin and a note to finish, and the sequence held by you. That is the thing you are actually learning, and it is the only part of this the ratings cannot see.'));
-      rv.appendChild(pb);
-    }
+    spec.appendChild(el('p','smeta','The bars are the last seven days, three to a day, '
+      +'shaded by how clearly it landed. '+stepDays()+' day'+(stepDays()===1?'':'s')
+      +' practised on this phrase.'));
+    if(g2.emphatic && g2.days<GATE.minDays)
+      spec.appendChild(el('p','note','The floor does not go below '+GATE.fastDays
+        +' days. What is being trained is not the feeling \u2014 it is producing it '
+        +'unaided, on a bad day, in ninety seconds, and that is what the last '
+        +'condition tests.'));
+    if(!g2.probeOk)
+      spec.appendChild(el('p','note','The last one is the same practice with nothing on '
+        +'screen and nothing playing \u2014 a note to begin, a note to finish, and the '
+        +'sequence held by you. It is the thing you are actually learning, and the only '
+        +'part of this the ratings cannot see.'));
+    rv.appendChild(spec);
     /* An exit for the two steps that carry real cautions, and the one that
        says stopping at the first five is fine. Not a failure state and not
        hidden: the people who need it were told to need it by this app. */
@@ -1687,7 +1874,7 @@ mode = guidedDefault() ? 'guided' : 'timer';
        which is not a coincidence — the three-minute session needs refuge, and
        refuge is grafted onto warmth. A landmark that hands you something beats
        a pat on the back. */
-    h.appendChild(el('p','note','They are also exactly what the short nidra session needed. It is on this screen now, below. Keep climbing the ladder as well — the two run alongside each other, and the longer sessions get easier as their parts arrive.'));
+    h.appendChild(el('p','note','They are also exactly what the short nidra session needed. It is open now — the row under this one. Keep climbing the ladder as well: the two run alongside each other, and the longer sessions get easier as their parts arrive.'));
     const hb=el('button','btn ghost','Carry on');
     hb.style.marginTop='14px';
     hb.onclick=()=>{ S.halfway=true; save(); renderJourney(); };
@@ -1794,6 +1981,14 @@ mode = guidedDefault() ? 'guided' : 'timer';
   const mine=shown.steps.filter(i=>i<=S.step);
   const ahead = (shown===here && S.step+1<STEPS.length
                  && shown.steps.indexOf(S.step+1)>=0) ? 1 : 0;
+  /* Master and detail on one screen. Resting state: the tiles, with the
+     programme you are in laid out underneath. Selected: that programme only. */
+  const focus=!!pathOf;
+  $('#progTiles').classList.toggle('hidden', focus);
+  $('#pathBack').classList.toggle('hidden', !focus);
+  $('#pathSub').classList.toggle('hidden', !focus);
+  if(focus) $('#pathSub').textContent = shown.sub
+    + (shown===here ? '' : ' Not open yet \u2014 tap a step to look at it.');
   $('#pathHead').classList.remove('hidden');
   $('#pathHead').querySelector('h2').textContent=shown.n;
   /* The first screen promises you stop needing this, and in the middle that is
@@ -1802,7 +1997,11 @@ mode = guidedDefault() ? 'guided' : 'timer';
   const stepsLeft=STEPS.length-1-S.step;
   const allDays=new Set(S.log.map(e=>e.d)).size;
   const doneHere=shown.steps.filter(i=>i<S.step).length;
-  $('#pathCnt').textContent = (stepsLeft>0 && S.step>0 && allDays>=GATE.minDays && shown===here)
+  /* "0 of 4" on a programme nobody has reached is a score against you rather
+     than a description of it. Somewhere you have not been has a size, not a
+     progress bar. */
+  $('#pathCnt').textContent = shown!==here && !doneHere ? shown.steps.length+' steps'
+    : (stepsLeft>0 && S.step>0 && allDays>=GATE.minDays && shown===here)
     ? doneHere+' of '+shown.steps.length+' \u00b7 about '+Math.max(1,Math.round(
         stepsLeft*Math.max(GATE.minDays, allDays/S.step)/7))+' weeks left overall'
     : doneHere+' of '+shown.steps.length;
@@ -1823,7 +2022,6 @@ mode = guidedDefault() ? 'guided' : 'timer';
     row.className='srow'; row.type='button';
     const head=el('div','shead');
     head.appendChild(el('span','stitle', sx.n + (sx.q ? ' \u2014 '+sx.q : '')));
-    head.appendChild(el('span','pill','Done'));
     row.appendChild(head);
 
     const isOpen = open===i;
@@ -1870,8 +2068,11 @@ mode = guidedDefault() ? 'guided' : 'timer';
     const row=document.createElement('button');
     row.className='srow'; row.type='button';
     const head=el('div','shead');
+    /* The rail carries the state: a filled dot is done, a ringed one is here,
+       a hollow one is later. DONE / NOW / NEXT beside them said it again in
+       words, three times down a screen that had four other position readouts
+       on it. */
     head.appendChild(el('span','stitle', cur.n + (cur.q ? ' \u2014 '+cur.q : '')));
-    head.appendChild(el('span','pill','Now'));
     row.appendChild(head);
     col.appendChild(row);
     const d=el('div','panel');
@@ -1892,7 +2093,6 @@ mode = guidedDefault() ? 'guided' : 'timer';
       });
       d.appendChild(rw);
     }
-    d.appendChild(rv);
     col.appendChild(d);
     li.appendChild(col); list.appendChild(li);
   }
@@ -1923,7 +2123,6 @@ mode = guidedDefault() ? 'guided' : 'timer';
       rw.appendChild(b); d.appendChild(rw);
       col.appendChild(d);
     }
-    col.appendChild(rv);
     li.appendChild(col); list.appendChild(li);
   }
 
@@ -1938,7 +2137,6 @@ mode = guidedDefault() ? 'guided' : 'timer';
     const col=document.createElement('div'), row=el('div','srow');
     const head=el('div','shead');
     head.appendChild(el('span','stitle', nx.n + (nx.q ? ' \u2014 '+nx.q : '')));
-    head.appendChild(el('span','pill','Next'));
     row.appendChild(head);
     row.appendChild(el('p','sdesc','Opens when this one lands.'));
     col.appendChild(row); li.appendChild(col); list.appendChild(li);
@@ -1959,7 +2157,6 @@ mode = guidedDefault() ? 'guided' : 'timer';
     head.appendChild(el('span','stitle', sx.n + (sx.q ? ' \u2014 '+sx.q : '')));
     head.appendChild(el('span','pill', 'Step '+(i+1)));
     row.appendChild(head);
-    row.appendChild(el('p','sdesc','Look at it without taking it on.'));
     row.onclick=()=>enterPreview(i, false);
     col.appendChild(row); li.appendChild(col); list.appendChild(li);
   });
@@ -2120,12 +2317,26 @@ function go(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   $('#s-'+name).classList.add('on');
   $('#topTitle').textContent = {learn:'Learn', progress:'Progress',
-    settings:'Settings'}[name] || 'Your practice';
-  $('#topPos').classList.toggle('hidden', name!=='journey' && name!=='progress');
-  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.go===name));
+    programmes:'Programmes', nidra:'Primed nidra', settings:'Settings'}[name]
+    || 'Your practice';
+  /* Progress already says where you are twice — "1 of 3" beside the programme
+     name, and the fill of the dots on the rail. A third copy in the title bar
+     is not reassurance, it is noise. */
+  $('#topPos').classList.toggle('hidden', name!=='journey');
+  /* Programmes is reached from Progress and belongs to it, so the tab stays lit
+     rather than leaving all three dark on a screen you got to by tapping. */
+  const OWNS={programmes:'progress', nidra:'journey'};
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',
+    b.dataset.go===name || b.dataset.go===OWNS[name]));
   window.scrollTo(0,0);
 }
-document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{
+  /* Progress opens on the map. The detail view is somewhere you go, not
+     somewhere you live, and arriving from the tab bar into a programme you
+     looked into yesterday is the wrong answer to "where am I up to". */
+  if(b.dataset.go==='progress' && pathOf){ pathOf=null; open=null; renderJourney(); }
+  go(b.dataset.go);
+});
 
 $('#pxStop').onclick=()=>finishPractice(true);
 $('#pxQuit').onclick=()=>{           /* leave with nothing logged */
@@ -2325,9 +2536,7 @@ STEPS.forEach((st,i)=>{
 (function(){
   const b=el('button', null, 'After the ladder \u00b7 primed nidra');
   b.style.flex='1 1 100%';
-  b.onclick=()=>{ ndOpen=true; renderNidra(); enterPreview(STEPS.length-1, true);
-    requestAnimationFrame(()=>{ const c=$('#ndCard');
-      if(c) c.scrollIntoView({block:'start'}); }); };
+  b.onclick=()=>{ ndOpen=true; enterPreview(STEPS.length-1, true); go('nidra'); };
   $('#pvPick').appendChild(b);
 })();
 $('#pvOut').onclick=exitPreview;
@@ -2372,7 +2581,7 @@ function endProbe(){
     + 'OK if you got through it under your own steam. Cancel if you lost the thread, '
     + 'or found you were waiting for a cue that never came.');
   if(held){ S.probed=(S.probed||[]).concat(S.step); save(); }
-  renderJourney(); go('progress');
+  renderJourney(); go('journey');   /* the gate it feeds is on Practice */
 }
 
 /* ---------- the nidra session runner ---------- */
@@ -2386,6 +2595,17 @@ function ndState(){
   if(SK_OLD[st.sankalpa]) st.sankalpa=SK_OLD[st.sankalpa];
   return st;
 }
+/* The row on Practice is what is offered or not; the screen behind it always
+   exists, since nothing is served by a link to an empty page. Kept apart from
+   renderNidra so the practice screen can refresh it without also rewriting the
+   resolve box \u2014 which would clear whatever was half-typed in it. */
+const NDN={field:'3 min', mid:'7 min', full:'12 min', sleep:'Sleep'};
+function ndRow(){
+  const st=ndState();
+  const anyReady=Object.keys(ND_NEEDS).some(ndReady);
+  $('#ndRow').classList.toggle('hidden', !(anyReady || st.count || ndOpen));
+  $('#ndRow').textContent='Primed nidra \u00b7 '+NDN[st.kind||'full'];
+}
 function renderNidra(){
   const st=ndState();
   /* Shown once the first session's parts are trained, or if it has already been
@@ -2395,8 +2615,8 @@ function renderNidra(){
      discipline that is the whole of AT's contribution here. That is a claim
      about what to offer, not about what to allow — Programmes will bring
      anybody here who wants it. */
-  const anyReady=Object.keys(ND_NEEDS).some(ndReady);
-  $('#ndCard').classList.toggle('hidden', !(anyReady || st.count || ndOpen));
+  $('#ndCard').classList.remove('hidden');
+  ndRow();
   /* Untrained lengths are dimmed rather than disabled: the dimming is the
      expected order, the tap still works. */
   document.querySelectorAll('#ndKind button').forEach(b=>{
