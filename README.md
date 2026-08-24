@@ -602,6 +602,35 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Programmes, so the territory is visible
+
+The app had two tracks and a set of prerequisites and no screen that showed
+either. The ladder arrived one step at a time, nidra turned up when it turned
+up, and the only way to know what existed was to have got there. Progress now
+opens on six tiles:
+
+| Autogenic training | Nidra |
+|---|---|
+| Heaviness and warmth | Short session — three minutes |
+| The deeper four | For sleep |
+| On your own | Full session — twelve minutes |
+
+Each tile reads *Done*, *In progress*, *Ready*, or the thing that opens it. And
+the prerequisites are the argument made visible: **Short session — opens after
+heaviness and warmth.** The way you unlock nidra is by doing autogenic
+training, which is the entire thesis, stated by the interface rather than in a
+paragraph.
+
+It is deliberately not a library. Six tiles, no browsing, nothing to collect,
+and a locked tile names its prerequisite instead of disappearing — `DESIGN.md`
+§6 forbids a catalogue and this is not one. Practice is still the one thing to
+do now; this is the territory that one thing sits in, which is exactly the
+split the app was missing.
+
+Tapping an open nidra tile selects that length and drops you on its card;
+tapping an autogenic tile goes to Practice; tapping a locked one does nothing
+at all rather than explaining itself twice.
+
 ### Making the short route visible, and parallel
 
 Opening nidra earlier is no use if nobody finds out. Three changes, and one of

@@ -244,6 +244,21 @@ body.pv nav{bottom:var(--pvh,56px)}
 .pathhead h2{margin:0; font-size:.66rem; font-weight:650; letter-spacing:.1em;
   text-transform:uppercase; color:var(--muted)}
 .pathhead .cnt{font-family:var(--mono); font-size:.64rem; color:var(--muted)}
+.track{margin:0 0 18px}
+.track h3{margin:0 0 8px 2px; font-size:.7rem; font-weight:650; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted)}
+.tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.tile{display:flex; flex-direction:column; gap:4px; text-align:left; padding:13px;
+  min-height:104px; border:1px solid var(--line); border-radius:13px;
+  background:var(--surface); box-shadow:var(--shadow)}
+.tile .tn{font-weight:650; font-size:.92rem; color:var(--ink); line-height:1.25}
+.tile .ts{font-size:.76rem; color:var(--ink-2); line-height:1.35}
+.tile .tp{margin-top:auto; font-family:var(--mono); font-size:.6rem;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.tile.now{border-color:var(--accent); background:var(--accent-soft)}
+.tile.now .tp{color:var(--accent)}
+.tile.done .tp{color:var(--good)}
+.tile.locked{opacity:.55; box-shadow:none}
 .dose{display:flex; gap:8px; margin:15px 0 0}
 .slot{flex:1; height:56px; border-radius:10px; border:1px solid var(--line); background:var(--sunk);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px}
@@ -476,6 +491,8 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     </section>
 
     <section class="screen" id="s-progress">
+      <div class="pathhead"><h2>Programmes</h2><span class="cnt" id="progCnt"></span></div>
+      <div id="progTiles"></div>
       <div class="pathhead hidden" id="pathHead"><h2>Your path</h2><span class="cnt" id="pathCnt"></span></div>
       <ol class="steps" id="journey"></ol>
     </section>
@@ -780,7 +797,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="5b38077+";window.__ASSETS__="10575215";
+window.__BUILD__="b997000+";window.__ASSETS__="10575215";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1287,6 +1304,71 @@ const SLOT_LAB={stack:['Morning','Midday','Evening'],
 const todayHere=()=>dayLog(today()).filter(e=>!S.stepAt || (e.t && e.t>=S.stepAt));
 function nextSlot(){ return Math.min(todayHere().length, 2); }
 
+/* The programmes.
+
+   The app had two tracks and a set of prerequisites and no screen that showed
+   either — the ladder appeared one step at a time and nidra simply turned up
+   when it turned up. So Progress carries a map: what exists, what is open,
+   what opens it. Practice stays the one thing to do now; this is the territory
+   it sits in.
+
+   Deliberately not a library. Six tiles, no browsing, and a locked one names
+   its prerequisite rather than hiding — which is the whole argument made
+   visible, since the way you unlock nidra is by doing autogenic training. */
+const PROGRAMMES=[
+  {id:'at1', track:'Autogenic training', n:'Heaviness and warmth',
+   sub:'The two that do most of the work.', steps:[0,1,2]},
+  {id:'at2', track:'Autogenic training', n:'The deeper four',
+   sub:'Heartbeat, breath, warm centre, cool head.', steps:[3,4,5,6], needs:'at1'},
+  {id:'atAll', track:'Autogenic training', n:'On your own',
+   sub:'The whole sequence, unaided.', steps:[7], needs:'at2'},
+  {id:'nd1', track:'Nidra', n:'Short session',
+   sub:'Three minutes. A refuge and a resolve.', kind:'field', needs:'at1'},
+  {id:'ndSleep', track:'Nidra', n:'For sleep',
+   sub:'Open-ended. No waking up at the end.', kind:'sleep', needs:'at1'},
+  {id:'ndAll', track:'Nidra', n:'Full session',
+   sub:'Twelve minutes. Every stage.', kind:'full', needs:'at2'}];
+
+function progState(p){
+  if(p.steps){
+    const last=Math.max.apply(null,p.steps);
+    if(S.step>last) return 'done';
+    return p.steps.indexOf(S.step)>=0 ? 'now' : 'locked';
+  }
+  return ndReady(p.kind) ? 'open' : 'locked';
+}
+function progUnlock(p){
+  if(!p.needs) return '';
+  const need=PROGRAMMES.find(x=>x.id===p.needs);
+  return 'Opens after ' + need.n.toLowerCase();
+}
+function renderProgrammes(){
+  const wrap=$('#progTiles'); wrap.innerHTML='';
+  const open=PROGRAMMES.filter(p=>progState(p)!=='locked').length;
+  $('#progCnt').textContent=open+' of '+PROGRAMMES.length+' open';
+  ['Autogenic training','Nidra'].forEach(tr=>{
+    const sec=el('div','track'); sec.appendChild(el('h3',null,tr));
+    const grid=el('div','tiles');
+    PROGRAMMES.filter(p=>p.track===tr).forEach(p=>{
+      const st=progState(p);
+      const b=el('button','tile '+st);
+      b.appendChild(el('span','tn',p.n));
+      b.appendChild(el('span','ts',p.sub));
+      b.appendChild(el('span','tp',
+        st==='done' ? 'Done' : st==='now' ? 'In progress'
+        : st==='open' ? 'Ready' : progUnlock(p)));
+      b.onclick=()=>{
+        if(st==='locked') return;
+        if(p.steps) return go('journey');
+        ndState().kind=p.kind; save(); renderNidra(); go('journey');
+        requestAnimationFrame(()=>$('#ndCard').scrollIntoView({block:'start'}));
+      };
+      grid.appendChild(b);
+    });
+    sec.appendChild(grid); wrap.appendChild(sec);
+  });
+}
+
 function renderNudge(){
   const n=$('#nudge'); n.innerHTML=''; n.classList.add('hidden');
   const g=gate();
@@ -1317,6 +1399,7 @@ function renderJourney(){
   }
   renderBrief();
   renderNudge();
+  renderProgrammes();
   const st=step(), es=todayHere();
   $('#topPos').textContent = S.step>=STEPS.length-1 ? 'Unaided' : 'Step '+(S.step+1);
   $('#pathCnt').textContent=S.step+' of '+STEPS.length+' done';
