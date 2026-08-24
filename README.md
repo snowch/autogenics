@@ -728,6 +728,52 @@ being asked for, which keeps Practice one-thing-to-do on day one without
 locking anything. And `check_app.py` caught a top-level `sx` — the onboarding
 swipe's start-x — shadowed by the path's per-step `sx`; renamed `swX`.
 
+### Two tabs were both answering "how am I doing"
+
+Observed, correctly: *practice and progress seem to be doing a lot of the same
+thing \u2014 tracking. Programme is hidden in progress.* Four counters across two
+screens:
+
+| | |
+| --- | --- |
+| Practice | today's three slots \u00b7 `1 more day on this phrase` |
+| Progress | `step 4 of 8` \u00b7 `6 of the last 7 days` |
+
+The second half of the complaint was the worse one, and self-inflicted. One
+commit earlier, shortening Progress, the programme tiles had been moved to a
+screen of their own behind a text link at the bottom of it. That left a tab
+holding a phrase stack, a week strip and a link, with the entire map of the
+product hidden behind the link. Splitting it gave neither half enough to be a
+screen and buried the half that mattered.
+
+So it is one fault, not two: the second tab was split across two screens, one
+thin and one hidden. They are one screen now \u2014 what you hold, whether you are
+turning up, what exists, and the path through whichever part of it you pick.
+Selecting a programme still collapses everything above it so the path gets the
+screen, which keeps the deep state at 1.1 viewports while the resting state is
+2.4.
+
+The line between the two remaining tabs is **time**: Practice is today, and
+this tab is everything longer than today. That is why the gate line stays on
+Practice \u2014 *one more day on this phrase* is the answer to the practice you just
+finished, and moving it here would restore the go-and-check behaviour it was
+moved out of. And why the week strip and the ladder position stay here.
+
+`step 4 of 8` went entirely. Position was stated three times on one screen: in
+that counter, in the tile reading `IN PROGRESS`, and in the selected path's own
+`0 of 4`. The track captions lost two lines each as well \u2014 they were written
+before the tiles were numbered, and the numbers now say the order, leaving the
+captions only the thing numbers cannot say, which is whether the order is
+enforced.
+
+**Still open, noticed while measuring rather than asked for:** the hero prints
+today's three slots as their ratings \u2014 `3 / 3 / \u2013`. That is an outcome score on
+the screen whose method says *do not try*, and `DESIGN.md` \u00a76 asks for the
+opposite: rate the effort, treat less as better, and demote the landed
+question. Onboarding is still five swipe screens of prose, and Learn is still
+6,000 characters behind fourteen folds. All three are eyes-open surfaces that
+have not had this argument applied to them.
+
 ### One thing per surface
 
 Told twice that the screen still looked cluttered, and then: *if you could
