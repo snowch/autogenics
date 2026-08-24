@@ -602,6 +602,34 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Nidra was waiting for the whole ladder, for no reason
+
+Asked what the quickest route from autogenic training to nidra is, by somebody
+already feeling settled after heaviness and warmth. Two things were holding it
+back and neither survived examination.
+
+**The induction hard-coded all six exercises.** *My arms and legs are heavy and
+warm. My heartbeat and breathing are calm and regular. My solar plexus is warm.
+My forehead is cool.* So no nidra session could run until the last exercise was
+learned — even though the induction's whole job is to make the state, and
+heaviness and warmth make it for most people. It is now built from the sequence
+you are actually practising and grows as you do.
+
+**The card unlocked on `gate().done`.** But the three-minute session is settle,
+induction, refuge, sankalpa and the cancellation — refuge is the only content
+element in it, and refuge is grafted onto warmth. Somebody holding heaviness
+and warmth has everything that session needs, and five more exercises was a
+gate with nothing behind it.
+
+Each length now opens when its own parts are trained: the field version and the
+sleep version after refuge, the twelve-minute one once opposites, pranamaya and
+sakshi are in. Locked lengths stay visible and say what opens them, since the
+path is more use than a missing button.
+
+The practical answer to the question: **three steps.** Heaviness in the arm,
+heaviness in all four limbs, warmth — then a real three-minute nidra. At the
+fast floor that is about twelve days rather than the eight weeks it was.
+
 ### A new phrase inherited the old one's day
 
 Reported from real use: arriving on the second exercise, morning and midday

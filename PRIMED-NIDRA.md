@@ -492,6 +492,19 @@ silence is the point: every nidra tool on the market is a recording, and a
 recording is the one thing this protocol removes. It chimes at each stage
 boundary, shows a cue rather than narration, and never speaks.
 
+**The induction is whatever formulae you have.** It was the full generalisation
+formula, which meant nidra could not start until the whole ladder was finished
+— a rule with nothing behind it, since the induction's only job is to produce
+the state, and heaviness and warmth produce it for most people. It is now built
+from the sequence you are actually practising, so it grows as you do.
+
+That moves the first real session a long way forward. The three-minute version
+is settle, induction, refuge, sankalpa and the cancellation, so refuge is the
+only content element it needs — and refuge is grafted onto warmth. Anyone
+holding heaviness and warmth has everything that session requires. Locked
+lengths stay on screen and name what opens them, because the path is more use
+than a hidden button.
+
 Three lengths, matching the document:
 
 | | Stages | Runs for | Ends |

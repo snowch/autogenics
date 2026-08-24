@@ -179,6 +179,7 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .gear svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.7;
   stroke-linecap:round}
 #s-settings .modes,#ndCard .modes{margin-top:14px}
+.modes button.locked{opacity:.4}
 .ndlist{margin:10px 0 0; padding:0; list-style:none}
 .ndlist li{display:grid; grid-template-columns:auto 1fr; gap:4px 12px;
   padding:9px 0; border-top:1px solid var(--line)}
@@ -779,7 +780,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="c3450e9+";window.__ASSETS__="10575215";
+window.__BUILD__="32246b3+";window.__ASSETS__="10575215";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -867,7 +868,9 @@ const shrink=(full,mid,mature)=>n=> n<8 ? full : n<20 ? mid : mature;
 
 function nidraStages(kind, n, pair, sankalpa, vow){
   const P=NIDRA_PAIRS[pair%NIDRA_PAIRS.length];
-  const gen='My arms and legs are heavy and warm. My heartbeat and breathing are calm and regular. My solar plexus is warm. My forehead is cool. I am completely calm.';
+  const learned=dropSkipped(STEPS[Math.min(S.step, STEPS.length-2)].cues)
+    .filter((c,i,a)=>a.indexOf(c)===i && c!=='I am completely calm.');
+  const gen=learned.join(' ')+' I am completely calm.';
   /* Resolve mode used to display the instruction — "your resolve, stated
      as already true" — and never ask what the resolve was, so the one stage
      the whole practice is aimed at pointed at nothing. If it has been written
@@ -1188,6 +1191,17 @@ const DRILLS=[
       'Ask once, then listen.', 'Ask, and listen.'],
    crit:null}];
 const drillFor=n=>DRILLS.find(d=>d.step===n)||null;
+/* A drill is trained once you have moved past the step that carried it. Which
+   is what decides when each nidra length becomes available: the three-minute
+   one is settle, induction, refuge, sankalpa and the cancellation, so refuge is
+   the only content it needs — and refuge is grafted onto warmth. Somebody who
+   has heaviness and warmth has everything that session requires, and making
+   them finish five more exercises first is a rule with nothing behind it. */
+const trained=d=>S.step>d.step;
+const ND_NEEDS={field:[0], sleep:[0], full:[0,1,2,3,4]};
+const ndReady=k=>ND_NEEDS[k].every(i=>trained(DRILLS[i]));
+const ndBlocker=k=>{ const i=ND_NEEDS[k].find(j=>!trained(DRILLS[j]));
+  return i===undefined ? null : DRILLS[i].n.split(' \u00b7 ')[0]; };
 /* Both of these were pinned to step numbers, and the ladder has since lost two
    steps — so the halfway landmark fired at the warm centre and the discharge
    reminder never fired at all. Ask the ladder what it contains instead. */
@@ -2200,7 +2214,19 @@ function renderNidra(){
      at-a-time discipline that is the whole of AT's contribution here. Shown
      once the ladder is done — or if it has already been used, since taking a
      thing away from someone using it is worse than having offered it early. */
-  $('#ndCard').classList.toggle('hidden', !(gate().done || st.count));
+  const anyReady=Object.keys(ND_NEEDS).some(ndReady);
+  $('#ndCard').classList.toggle('hidden', !(anyReady || st.count));
+  /* Locked lengths stay visible and say what opens them, because the path is
+     more use than the absence of a button. */
+  document.querySelectorAll('#ndKind button').forEach(b=>{
+    const ok=ndReady(b.dataset.nd);
+    b.disabled=!ok; b.classList.toggle('locked', !ok);
+    b.title = ok ? '' : 'Opens after '+ndBlocker(b.dataset.nd);
+  });
+  if(!ndReady(st.kind||'full')){
+    const first=Object.keys(ND_NEEDS).find(ndReady);
+    if(first) st.kind=first;
+  }
   /* Only Resolve has one to state. Presence asks for nothing and Question asks
      a question, and a text box under either would invite people to answer
      something the practice is not asking. */
