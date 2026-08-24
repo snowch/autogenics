@@ -456,8 +456,9 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
         <h2>Primed nidra <span class="pill" style="margin-left:6px">Experimental</span></h2>
         <p class="lede">You have the entry. This is somewhere to put it — a silent staged timer, with a chime at each boundary and no voice. Carry on up the ladder as well: the two run alongside each other, the induction here grows as your sequence does, and each longer session opens once its parts are trained.</p>
         <div class="modes" id="ndKind" style="margin-top:14px">
+          <button data-nd="field">3 min</button>
+          <button data-nd="mid">7 min</button>
           <button data-nd="full">12 min</button>
-          <button data-nd="field">Field, 3 min</button>
           <button data-nd="sleep">Sleep</button>
         </div>
         <p class="smeta" id="ndMeta"></p>
@@ -896,6 +897,23 @@ function nidraStages(kind, n, pair, sankalpa, vow){
     {t:40, n:'Refuge',       c:shrink('Go there as sensation — warmth, contact, weight. Not a picture.','Refuge — as sensation.','Refuge.')(n)},
     {t:25, n:'Sankalpa',     c:sow},
     {t:15, n:'Cancellation', c:'Arms clenched and stretched, three times. A deep breath. Open your eyes.'}];
+  /* Seven minutes, and the reason it exists is that the drills arrive in an
+     order: refuge, then opposites, then counting the breath. By the breathing
+     step you hold all three, which is a real session — and waiting until sakshi
+     for the twelve-minute one left nothing at all between three minutes and
+     the end of the ladder, in the stretch where there is least to look
+     forward to. */
+  if(kind==='mid') return [
+    {t:20, n:'Settle',       c:'I am completely calm.'},
+    {t:80, n:'Induction',    c:gen},
+    {t:30, n:'Sankalpa',     c:sow},
+    {t:50, n:'Refuge',       c:shrink('Go there as sensation — warmth, contact, weight. Establish it is available, then leave it.','Refuge — as sensation, then leave it.','Refuge.')(n)},
+    {t:90, n:'Pranamaya',    c:shrink('It breathes me. Then count breaths down from 11, restarting on any lapse without annoyance.','It breathes me. Count 11 down.','Count down.')(n)},
+    {t:120,n:'Opposites',    c:shrink(
+              'Let '+P[0].toLowerCase()+' fill you. Now release it and find '+P[1].toLowerCase()+'. Now both at once.',
+              P[0]+'\u2026 '+P[1].toLowerCase()+'\u2026 both.',
+              'Both.  ('+P[0]+' / '+P[1]+')')(n)},
+    {t:30, n:'Cancellation', c:'Arms clenched and stretched, three times. A deep breath. Open your eyes.'}];
   if(kind==='sleep') return [
     {t:120, n:'Induction',  c:gen+' — at half pace.'},
     {t:240, n:'Rotation',   c:'Right side to left, unhurried. Name each part and move on.'},
@@ -1208,10 +1226,10 @@ const drillFor=n=>DRILLS.find(d=>d.step===n)||null;
    has heaviness and warmth has everything that session requires, and making
    them finish five more exercises first is a rule with nothing behind it. */
 const trained=d=>S.step>d.step;
-const ND_NEEDS={field:[0], sleep:[0], full:[0,1,2,3,4]};
+const ND_NEEDS={field:[0], sleep:[0], mid:[0,1,2], full:[0,1,2,3,4]};
 const ndReady=k=>ND_NEEDS[k].every(i=>trained(DRILLS[i]));
-const ndBlocker=k=>{ const i=ND_NEEDS[k].find(j=>!trained(DRILLS[j]));
-  return i===undefined ? null : DRILLS[i].n.split(' \u00b7 ')[0]; };
+const ndBlocker=k=>{ const un=ND_NEEDS[k].filter(j=>!trained(DRILLS[j]));
+  return un.length ? DRILLS[Math.max.apply(null,un)].n.split(' \u00b7 ')[0] : null; };
 /* Both of these were pinned to step numbers, and the ladder has since lost two
    steps — so the halfway landmark fired at the warm centre and the discharge
    reminder never fired at all. Ask the ladder what it contains instead. */
@@ -1317,8 +1335,11 @@ const PROGRAMMES=[
    sub:'The whole sequence, unaided.', steps:[7], needs:'at2'},
   {id:'nd1', track:'Nidra', n:'Short session',
    sub:'Three minutes. A refuge and a resolve.', kind:'field', needs:'at1'},
-  {id:'ndSleep', track:'Nidra', n:'For sleep',
-   sub:'Open-ended. No waking up at the end.', kind:'sleep', needs:'at1'},
+  /* Sleep is not a rung — it shares its prerequisite with the short session,
+     so putting it in a level's slot invented a progression that was not there.
+     It lives on the card as a variant. This is the rung. */
+  {id:'nd2', track:'Nidra', n:'Longer session',
+   sub:'Seven minutes. Counting, and opposites.', kind:'mid', needs:'at2'},
   {id:'ndAll', track:'Nidra', n:'Full session',
    sub:'Twelve minutes. Every stage.', kind:'full', needs:'at2'}];
 
@@ -1331,9 +1352,9 @@ function progState(p){
   return ndReady(p.kind) ? 'open' : 'locked';
 }
 function progUnlock(p){
+  if(p.kind) return 'Opens after ' + (ndBlocker(p.kind)||'').toLowerCase();
   if(!p.needs) return '';
-  const need=PROGRAMMES.find(x=>x.id===p.needs);
-  return 'Opens after ' + need.n.toLowerCase();
+  return 'Opens after ' + PROGRAMMES.find(x=>x.id===p.needs).n.toLowerCase();
 }
 function renderProgrammes(){
   const wrap=$('#progTiles'); wrap.innerHTML='';

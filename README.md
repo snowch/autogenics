@@ -602,6 +602,36 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Getting the granularity right
+
+The six tiles were nearly right and had one flaw worth fixing rather than
+tidying around. The autogenic column is a real three-level progression, but the
+nidra column was not: *Short session* and *For sleep* share a prerequisite, so
+a reader scanning three tiles would infer a ladder that had two rungs and a
+variant standing in a rung's place.
+
+Two ways out — demote sleep, or build a genuine middle. The middle is the one
+that makes the structure true instead of merely honest, so: **seven minutes**,
+settle, induction, sankalpa, refuge, pranamaya, opposites, cancellation.
+
+It is not an invented length. The drills arrive in a fixed order — refuge, then
+opposites, then counting the breath — so by the breathing step you hold exactly
+the three that session needs. Before it there was nothing between three minutes
+and the end of the ladder, which is a long gap across precisely the weeks
+`DESIGN.md` §7 says have least to look forward to.
+
+Nidra is a three-rung ladder now (3, 7, 12 minutes, opening after refuge,
+pranamaya and sakshi), the columns are parallel, and sleep moved to the card as
+the variant it always was.
+
+Two things fell out of building it. A nidra tile is gated by a *drill*, not by a
+programme, and the two do not line up — the seven-minute session opens at the
+warm centre, partway through the deeper four — so the unlock labels had to come
+from the drill. And `ndBlocker` returned the *first* unmet requirement when the
+one holding a session back is the *last*, which had the seven- and
+twelve-minute sessions both claiming to open after opposites when they are four
+steps apart.
+
 ### Programmes, so the territory is visible
 
 The app had two tracks and a set of prerequisites and no screen that showed

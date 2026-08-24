@@ -507,11 +507,20 @@ than a hidden button.
 
 Three lengths, matching the document:
 
-| | Stages | Runs for | Ends |
+| | Stages | Runs for | Opens after |
 |---|---|---|---|
-| 12 min | Settle, Induction, Sankalpa, Refuge, Pranamaya, Opposites, Sakshi, Sankalpa again, Cancellation | 720s, tiled exactly | itself, then the cancellation stage |
-| Field, 3 min | Settle, Induction, Refuge, Sankalpa, Cancellation | 180s | itself |
-| Sleep | Induction, Rotation, No exit | open-ended, counting up | never — you fall asleep |
+| 3 min | Settle, Induction, Refuge, Sankalpa, Cancellation | 180s | Refuge |
+| 7 min | Settle, Induction, Sankalpa, Refuge, Pranamaya, Opposites, Cancellation | 420s | Pranamaya |
+| 12 min | Settle, Induction, Sankalpa, Refuge, Pranamaya, Opposites, Sakshi, Sankalpa again, Cancellation | 720s, tiled exactly | Sakshi |
+| Sleep | Induction, Rotation, No exit | open-ended, counting up | Refuge |
+
+Each length opens when the drills it is made of have been trained, which is why
+there are three of them rather than two. The drills arrive in order — refuge,
+opposites, counting the breath — so by the breathing step a seven-minute
+session is genuinely available, and without it there was nothing at all between
+three minutes and the end of the ladder, across the stretch with least to look
+forward to. Sleep is not a rung: it shares its prerequisite with the short
+session, so it is a variant on the card rather than a level of its own.
 
 The sankalpa can be written down, and in Resolve mode it is what appears at
 both sankalpa stages — in the words it was written in and no others. Rewording
