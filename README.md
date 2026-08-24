@@ -602,6 +602,34 @@ The heaviness mechanism moved to *what it asks*, where it belongs: it is the
 concrete how, and it reads better next to ninety seconds and three times a day
 than it did standing in for a definition.
 
+### Making the short route visible, and parallel
+
+Opening nidra earlier is no use if nobody finds out. Three changes, and one of
+them was already sitting there waiting.
+
+**The halfway landmark and the first nidra unlock fire on the same step.** Not
+a coincidence — the three-minute session needs refuge, refuge is grafted onto
+warmth, and the landmark marks the end of warmth. So the card that said
+*heaviness and warmth are yours* now adds that those two are exactly what the
+short session needed, that it is on this screen already, and that the ladder
+carries on alongside. A landmark that opens a door beats a pat on the back.
+
+**The graft says what it is for.** Refuge arrives at warmth with no stated
+purpose; it now ends with *once you move on from this step it is enough for a
+short nidra session of your own*, which turns a drill into a countdown.
+
+**The nidra card stopped reading like an ending.** *You have the entry, this is
+somewhere to put it* was written when the card only appeared after the last
+step. It now says to carry on up the ladder as well, that the induction here
+grows as the sequence does, and that each longer session opens as its parts are
+trained. The two tracks are meant to run together — that is what Phase 0 of
+`PRIMED-NIDRA.md` describes — and until now the app implied you had to finish
+one before starting the other.
+
+Also spotted in the screenshot rather than the code: the regression note read
+*"Warmth took you 4 days, and you are on day 0 of this one"*, because
+`stepDays()` counts days practised and that is zero on the day you arrive.
+
 ### Nidra was waiting for the whole ladder, for no reason
 
 Asked what the quickest route from autogenic training to nidra is, by somebody
