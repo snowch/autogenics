@@ -84,12 +84,22 @@ def check(path: Path) -> list[str]:
     # navigator for that whole scope, so every call to it from a handler
     # declared there silently returns a DOM element instead of navigating.
     # Valid JavaScript, invisible to node --check, and it shipped once.
+    # Top-level `let`s as well as functions. A local `const open` shadowed the
+    # global tracking which path row is expanded, so a handler assigning to it
+    # threw "assignment to constant variable" — the same shape as the go() bug
+    # and invisible while this only looked at function declarations.
     top = set(re.findall(r"^function (\w+)\(", js, re.M))
+    for decl in re.findall(r"^let ([^;\n]+);", js, re.M):
+        for part in decl.split(","):
+            name = part.split("=")[0].strip()
+            if name.isidentifier():
+                top.add(name)
     for name in sorted(top):
-        for m in re.finditer(r"\b(?:const|let|var)\s+" + name + r"\s*=", js):
+        for m in re.finditer(r"^[ \t]+(?:const|let|var)\s+" + name + r"\s*=",
+                             js, re.M):
             line = js[:m.start()].count("\n") + 1
             errs.append(f"line {line}: local '{name}' shadows the top-level "
-                        f"function {name}() — calls to it in that scope will "
+                        f"'{name}' — assignments and calls in that scope will "
                         f"not do what they look like")
 
     # Timer mode shows the cue lines on screen while the practitioner says them

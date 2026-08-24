@@ -22,14 +22,14 @@
    localStorage falls through to the defaults instead of taking the page down. */
 (function(){
   try{
-    var S = JSON.parse(localStorage.getItem('autogenics.v2') || '{}');
-    var t = S.theme || 'system';
+    var rec = JSON.parse(localStorage.getItem('autogenics.v2') || '{}');
+    var t = rec.theme || 'system';
     if(t !== 'system') document.documentElement.setAttribute('data-theme', t);
     var dark = t === 'dark' || (t === 'system' &&
       matchMedia('(prefers-color-scheme: dark)').matches);
     document.querySelector('meta[name="theme-color"]')
       .setAttribute('content', dark ? '#0D1218' : '#EEF1F5');
-    if(!S.onboarded) document.documentElement.className = 'first';
+    if(!rec.onboarded) document.documentElement.className = 'first';
   }catch(e){}
 })();
 </script>
@@ -259,6 +259,7 @@ body.pv nav{bottom:var(--pvh,56px)}
 .tile.now .tp{color:var(--accent)}
 .tile.done .tp{color:var(--good)}
 .tile.locked{opacity:.55; box-shadow:none}
+.tile.sel{outline:2px solid var(--accent); outline-offset:2px}
 .dose{display:flex; gap:8px; margin:15px 0 0}
 .slot{flex:1; height:56px; border-radius:10px; border:1px solid var(--line); background:var(--sunk);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px}
@@ -797,7 +798,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="b997000+";window.__ASSETS__="10575215";
+window.__BUILD__="bae4cc1+";window.__ASSETS__="10575215";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -983,6 +984,7 @@ function load(){
    of it survives leaving. That is the whole trick: nothing has to know it is
    in a sandbox except this one line. */
 let preview=false, pvLate=false, pvStep=0;
+let pathOf=null;   /* which programme's path is on Progress */
 const save=()=>{ if(preview) return;
   try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} };
 
@@ -1344,8 +1346,8 @@ function progUnlock(p){
 }
 function renderProgrammes(){
   const wrap=$('#progTiles'); wrap.innerHTML='';
-  const open=PROGRAMMES.filter(p=>progState(p)!=='locked').length;
-  $('#progCnt').textContent=open+' of '+PROGRAMMES.length+' open';
+  const nOpen=PROGRAMMES.filter(p=>progState(p)!=='locked').length;
+  $('#progCnt').textContent=nOpen+' of '+PROGRAMMES.length+' open';
   ['Autogenic training','Nidra'].forEach(tr=>{
     const sec=el('div','track'); sec.appendChild(el('h3',null,tr));
     const grid=el('div','tiles');
@@ -1357,12 +1359,16 @@ function renderProgrammes(){
       b.appendChild(el('span','tp',
         st==='done' ? 'Done' : st==='now' ? 'In progress'
         : st==='open' ? 'Ready' : progUnlock(p)));
+      /* An autogenic tile is a chapter you look at, so it scopes the path
+         below. A nidra tile is a session, so it starts one. */
       b.onclick=()=>{
         if(st==='locked') return;
-        if(p.steps) return go('journey');
+        if(p.steps){ pathOf=p.id; open=null; renderJourney();
+          return requestAnimationFrame(()=>$('#pathHead').scrollIntoView({block:'start'})); }
         ndState().kind=p.kind; save(); renderNidra(); go('journey');
         requestAnimationFrame(()=>$('#ndCard').scrollIntoView({block:'start'}));
       };
+      if(p.steps && (pathOf ? p.id===pathOf : st==='now')) b.classList.add('sel');
       grid.appendChild(b);
     });
     sec.appendChild(grid); wrap.appendChild(sec);
@@ -1724,24 +1730,37 @@ mode = guidedDefault() ? 'guided' : 'timer';
      is a backlog, and a product whose whole promise is that it ends should
      not borrow the endless-ladder look of one that never does. ---- */
   const list=$('#journey'); list.innerHTML='';
-  const ahead = S.step+1 < STEPS.length ? 1 : 0;
+  /* One path, scoped to a programme, rather than one flat list of everything.
+     The tiles above already answer "how far along am I", so a second, longer
+     answer underneath was the same question twice — and at eight steps it was
+     the longest thing on the screen. It shows the programme you are in unless
+     you tap another, which is how a finished chapter's briefings stay
+     reachable without nesting the current step two taps deep. */
+  const here=PROGRAMMES.find(x=>x.steps && x.steps.indexOf(S.step)>=0)
+           || PROGRAMMES.find(x=>x.steps);
+  const shown=PROGRAMMES.find(x=>x.id===pathOf) || here;
+  const mine=shown.steps.filter(i=>i<=S.step);
+  const ahead = (shown===here && S.step+1<STEPS.length
+                 && shown.steps.indexOf(S.step+1)>=0) ? 1 : 0;
   $('#pathHead').classList.remove('hidden');
+  $('#pathHead').querySelector('h2').textContent=shown.n;
   /* The first screen promises you stop needing this, and in the middle that is
      an abstraction. Counted from the pace they are actually going at, it is
      not — and it is the only number in the app that is supposed to fall. */
   const stepsLeft=STEPS.length-1-S.step;
   const allDays=new Set(S.log.map(e=>e.d)).size;
-  $('#pathCnt').textContent = (stepsLeft>0 && S.step>0 && allDays>=GATE.minDays)
-    ? S.step+' done \u00b7 about '+Math.max(1,Math.round(
-        stepsLeft*Math.max(GATE.minDays, allDays/S.step)/7))+' weeks left at your pace'
-    : S.step===1 ? '1 done' : S.step+' done';
+  const doneHere=shown.steps.filter(i=>i<S.step).length;
+  $('#pathCnt').textContent = (stepsLeft>0 && S.step>0 && allDays>=GATE.minDays && shown===here)
+    ? doneHere+' of '+shown.steps.length+' \u00b7 about '+Math.max(1,Math.round(
+        stepsLeft*Math.max(GATE.minDays, allDays/S.step)/7))+' weeks left overall'
+    : doneHere+' of '+shown.steps.length;
 
   /* The programme film is gone. It described autogenic training and nothing
      else, which stopped being the product two methods ago, and every content
      change meant re-rendering two minutes of narration to keep it honest.
      What it explained is written under Learn, where it can be corrected in a
      sentence. The path opens on the first step now. */
-  STEPS.slice(0, S.step).forEach((sx,i)=>{
+  mine.filter(i=>i<S.step).forEach(i=>{ const sx=STEPS[i];
     const li=el('li','step done');
     const rail=el('div','rail');
     rail.appendChild(el('span','dot')); rail.appendChild(el('span','line'));
@@ -1789,7 +1808,7 @@ mode = guidedDefault() ? 'guided' : 'timer';
      from the last finished step straight to the one after the current one —
      so on day one the path showed an introduction and a NEXT, and the record card
      above it described a step that was nowhere on screen. */
-  if(!gate().done){
+  if(!gate().done && shown===here){
     const cur=STEPS[S.step];
     const li=el('li','step cur');
     const rail=el('div','rail');
@@ -1988,9 +2007,9 @@ function runPractice(st, guided, cues, kind, graft){
          while the cue still said "I am completely calm" — no instruction at
          all, in the one part of the practice the cautions call non-optional
          and the onboarding promises the app always runs. */
-      const wake = e > total - TAKEBACK;
-      const inGraft = graft && !wake && e > total - TAKEBACK - gs;
-      if(wake) $('#pxPhase').textContent='Waking up';
+      const inTakeback = e > total - TAKEBACK;
+      const inGraft = graft && !inTakeback && e > total - TAKEBACK - gs;
+      if(inTakeback) $('#pxPhase').textContent='Waking up';
       else if(inGraft){ $('#pxPhase').textContent=graft.n; $('#pxCue').textContent=drillCue(graft); }
       $('#pxCue').textContent = wake
         ? TAKEBACK_CUES[Math.min(TAKEBACK_CUES.length-1,
