@@ -13,15 +13,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
-# key in the app's AUDIO map -> file. Adding a film means adding one row here.
-FILMS = [("afterFirst", "after-first.mp4", "after-first-poster.jpg"),
-         ("bWarmth", "brief-warmth.mp4", "brief-warmth-poster.jpg"),
-         ("bHeartbeat", "brief-heartbeat.mp4", "brief-heartbeat-poster.jpg"),
-         ("bBreathing", "brief-breathing.mp4", "brief-breathing-poster.jpg"),
-         ("bSolar", "brief-solar.mp4", "brief-solar-poster.jpg"),
-         ("bForehead", "brief-forehead.mp4", "brief-forehead-poster.jpg"),
-         ("finished", "finished.mp4", "finished-poster.jpg")]
-
+# key in the app's AUDIO map -> file. Adding a recording means one row here.
+#
+# Seven practice recordings, and nothing else. The briefings used to be seven
+# .mp4 films — 7.5 MB of an 11 MB app, a voice reading text over typographic
+# slides. They are text in the app now: a briefing is the eyes-open twenty
+# seconds either side of the practice, not the ninety seconds, so it should be
+# read in three seconds rather than listened to for fifty. Only the practice
+# itself is eyes-closed, and only the practice needs a recording.
 TRACKS = {"s1": "arm-heaviness-example.mp3",
           "all": "at-heaviness-all.mp3",
           "warmth": "at-warmth.mp3", "heartbeat": "at-heartbeat.mp3",
@@ -50,9 +49,6 @@ def asset_version() -> str:
     tot = 0
     for n in TRACKS.values():
         f = DOCS / "audio" / n
-        if f.exists(): tot += f.stat().st_size
-    for _, mp4, _ in FILMS:
-        f = DOCS / "video" / mp4
         if f.exists(): tot += f.stat().st_size
     return str(tot)
 
@@ -120,15 +116,6 @@ def main() -> int:
                         f'<script>\n"use strict";\n'
                         f'window.__BUILD__="{build_id()}";'
                         'window.__ASSETS__="@@ASSETS@@";', 1)
-    (DOCS / "video").mkdir(exist_ok=True)
-    for _, mp4, poster in FILMS:
-        for n in (mp4, poster):
-            src = ROOT / "video" / n
-            if not src.exists():
-                raise SystemExit(f"video/{n} missing — rebuild it before publishing")
-            shutil.copy(src, DOCS / "video" / n)
-        print(f"  {mp4:24s} {(DOCS/'video'/mp4).stat().st_size/1024:6.0f} KB")
-    html = html.replace("'../video/", "'./video/")
     head = ("""<link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
@@ -207,13 +194,11 @@ if('serviceWorker' in navigator){
                    "purpose": "any maskable"}],
     }, indent=2), encoding="utf-8")
 
-    films = [f"./video/{n}" for _, mp4, poster in FILMS for n in (mp4, poster)]
     assets = ["./", "./index.html", "./manifest.webmanifest",
-              "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"] + films + \
+              "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"] + \
              [f"./audio/{n}" for n in TRACKS.values()]
     # Cache name carries every asset's byte-count, so a re-render invalidates it.
-    ver = sum((DOCS / "audio" / n).stat().st_size for n in TRACKS.values()) \
-        + sum((DOCS / "video" / mp4).stat().st_size for _, mp4, _ in FILMS)
+    ver = sum((DOCS / "audio" / n).stat().st_size for n in TRACKS.values())
     (DOCS / "sw.js").write_text(f"""const CACHE='heaviness-{ver}';
 const ASSETS={json.dumps(assets)};
 self.addEventListener('install',e=>{{

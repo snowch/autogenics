@@ -49,7 +49,17 @@ with sync_playwright() as pw:
     ck('rating asked', pg.is_visible('#rating'))
     pg.evaluate("logRating(2)"); pg.wait_for_timeout(300)
     ck('logged', pg.evaluate("S.log.length")==1)
-    ck('after-first briefing offered', 'brief' in pg.inner_html('#brief').lower() or True)
+    # The briefing is text now, so this can actually be asserted: the lede is
+    # on the screen, the rest is behind one fold, and nothing plays.
+    bc = pg.inner_text('#briefCard')
+    ck('after-first briefing offered', 'nothing has gone wrong' in bc, bc.split('\n')[1:3])
+    ck('the rest is folded away', pg.eval_on_selector('#briefCard details', 'e=>!e.open'))
+    ck('and it opens', pg.eval_on_selector(
+        '#briefCard details', 'e=>{e.open=true; return e.innerText.includes("autogenic discharge")}'))
+    ck('nothing to play', pg.evaluate("document.querySelectorAll('#briefCard video,#briefCard audio').length")==0)
+    pg.eval_on_selector_all('#briefCard button', "e=>e.find(x=>/Got it/.test(x.textContent)).click()")
+    pg.wait_for_timeout(250)
+    ck('dismissing it sticks', pg.eval_on_selector('#briefCard','e=>e.classList.contains("hidden")'))
 
     # ---- walk a whole step to the gate ----
     pg.evaluate("""()=>{const dk=b=>{const d=new Date();d.setDate(d.getDate()-b);return d.toISOString().slice(0,10);};

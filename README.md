@@ -14,94 +14,84 @@ edit the markdown, re-run the tool.
 
 ## Sessions
 
-| Track | Script | Recording | Length |
+Seven recordings, and nothing else. Each one is the guided version of a step's
+ninety seconds; the app drops to a timer after your first few days and then to
+silence, so these are scaffolding with a planned end.
+
+| Step | Script | Recording | Length |
 | --- | --- | --- | --- |
-| After your first practice (film) | [`script/after-first.md`](script/after-first.md) | [`video/after-first.mp4`](video/after-first.mp4) | 1:41 |
-| Briefing — warmth (film) | [`script/brief-warmth.md`](script/brief-warmth.md) | [`video/brief-warmth.mp4`](video/brief-warmth.mp4) | 0:58 |
-| Briefing — heartbeat (film) | [`script/brief-heartbeat.md`](script/brief-heartbeat.md) | [`video/brief-heartbeat.mp4`](video/brief-heartbeat.mp4) | 1:08 |
-| Briefing — breathing (film) | [`script/brief-breathing.md`](script/brief-breathing.md) | [`video/brief-breathing.mp4`](video/brief-breathing.mp4) | 0:52 |
-| Briefing — warm centre (film) | [`script/brief-solar.md`](script/brief-solar.md) | [`video/brief-solar.mp4`](video/brief-solar.mp4) | 1:04 |
-| Briefing — cool head (film) | [`script/brief-forehead.md`](script/brief-forehead.md) | [`video/brief-forehead.mp4`](video/brief-forehead.mp4) | 0:55 |
-| Finished (film) | [`script/finished.md`](script/finished.md) | [`video/finished.mp4`](video/finished.mp4) | 1:08 |
-| **Stage 1 — right arm** | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:32 |
-| **Stage 2 — both arms, in turn** | [`script/arm-heaviness-example-2.md`](script/arm-heaviness-example-2.md) | [`audio/arm-heaviness-example-2.mp3`](audio/arm-heaviness-example-2.mp3) | 2:15 |
-| **Stage 3 — both arms together** | [`script/arm-heaviness-example-3.md`](script/arm-heaviness-example-3.md) | [`audio/arm-heaviness-example-3.mp3`](audio/arm-heaviness-example-3.mp3) | 2:05 |
-| **Heaviness — legs, step 4** | [`script/at-heaviness-legs.md`](script/at-heaviness-legs.md) | [`audio/at-heaviness-legs.mp3`](audio/at-heaviness-legs.mp3) | 1:48 |
-| Warmth — step 5 | [`script/at-warmth.md`](script/at-warmth.md) | [`audio/at-warmth.mp3`](audio/at-warmth.mp3) | 1:54 |
-| Heartbeat — step 6 | [`script/at-heartbeat.md`](script/at-heartbeat.md) | [`audio/at-heartbeat.mp3`](audio/at-heartbeat.mp3) | 1:57 |
-| Breathing — step 7 | [`script/at-breathing.md`](script/at-breathing.md) | [`audio/at-breathing.mp3`](audio/at-breathing.mp3) | 1:54 |
-| Warm centre — step 8 | [`script/at-solar-plexus.md`](script/at-solar-plexus.md) | [`audio/at-solar-plexus.mp3`](audio/at-solar-plexus.mp3) | 2:03 |
-| Cool head — step 9 | [`script/at-forehead.md`](script/at-forehead.md) | [`audio/at-forehead.mp3`](audio/at-forehead.mp3) | 2:00 |
+| 1 · Heaviness — right arm | [`script/arm-heaviness-example.md`](script/arm-heaviness-example.md) | [`audio/arm-heaviness-example.mp3`](audio/arm-heaviness-example.mp3) | 2:31 |
+| 2 · Heaviness — arms and legs | [`script/at-heaviness-all.md`](script/at-heaviness-all.md) | [`audio/at-heaviness-all.mp3`](audio/at-heaviness-all.mp3) | 1:32 |
+| 3 · Warmth — hands | [`script/at-warmth.md`](script/at-warmth.md) | [`audio/at-warmth.mp3`](audio/at-warmth.mp3) | 1:51 |
+| 4 · Heartbeat — chest | [`script/at-heartbeat.md`](script/at-heartbeat.md) | [`audio/at-heartbeat.mp3`](audio/at-heartbeat.mp3) | 1:54 |
+| 5 · Breathing — ribs | [`script/at-breathing.md`](script/at-breathing.md) | [`audio/at-breathing.mp3`](audio/at-breathing.mp3) | 1:51 |
+| 6 · Warm centre — abdomen | [`script/at-solar-plexus.md`](script/at-solar-plexus.md) | [`audio/at-solar-plexus.mp3`](audio/at-solar-plexus.mp3) | 2:00 |
+| 7 · Cool head — forehead | [`script/at-forehead.md`](script/at-forehead.md) | [`audio/at-forehead.mp3`](audio/at-forehead.mp3) | 1:58 |
+| 8 · On your own | — | none, by design | — |
 
-## Video slides
+The seven briefing scripts — [`after-first`](script/after-first.md),
+[`warmth`](script/brief-warmth.md), [`heartbeat`](script/brief-heartbeat.md),
+[`breathing`](script/brief-breathing.md), [`solar`](script/brief-solar.md),
+[`forehead`](script/brief-forehead.md), [`finished`](script/finished.md) —
+are no longer rendered to anything. They are the source the app's `BRIEFS` text
+was written from, and the section below says why.
 
-`tools/build_video.py` renders narrated video from a list of slide specs: the
-slides are HTML, screenshotted with the pre-installed Chromium, then assembled
-against a script's own audio. Because the audio pipeline already knows each
-segment's duration, cuts land on the narration rather than near it.
+## The briefings stopped being films
 
-```bash
-python3 tools/build_video.py slides.json --frames     # stills, for review
-python3 tools/build_video.py slides.json --audio audio/intro.mp3
-```
+They were seven narrated typographic videos: **7.5 MB of an 11 MB app**, and
+they shipped as video only, so the narration could not be heard without also
+downloading the slides. Two rounds of argument killed them.
 
-1080×1350, the app's palette, and Bitstream Charter — a real book serif that
-happens to be installed, rather than a fallback. Three slide kinds so far:
-statement, formula, and stats.
+First: a film cannot be skimmed and cannot be heard with your eyes shut, so it
+served neither reading nor listening. That suggested audio — and audio was
+wrong too, for a reason `DESIGN.md` §1 had already written down:
 
-The first one is built: [`video/intro.mp4`](video/intro.mp4), 2m 09s, eighteen
-slides, from [`script/intro.md`](script/intro.md).
+> Ninety seconds of the interaction is eyes-closed; twenty seconds either side
+> is not.
 
-```bash
-python3 tools/generate_audio.py script/intro.md -o audio/intro.mp3 \
-    --timings build/intro-timings.json
-python3 tools/build_video.py video/intro-slides.json \
-    --timings build/intro-timings.json --audio audio/intro.mp3 \
-    --out video/intro.mp4
-```
+**A briefing is the twenty seconds either side.** It is the eyes-open part, and
+the eyes-open part should be read in three seconds, re-readable, and workable in
+a waiting room with no headphones. Only the practice is eyes-closed, and only
+the practice needs a recording.
 
-`--timings` writes each spoken line's start and end; each slide names the last
-line it covers, so cuts land on the narration. Measured drift between audio and
-video on the built file: 0.00s.
+So each briefing is a `kick`, a `title`, a one-line `lede` and a `More` fold
+carrying the rest of what the narration said. 104–213 words each, which is a
+short screen. The app went **11 MB → 3.4 MB**, the ElevenLabs pipeline is needed
+only for the seven practice tracks, and a copy change is now a text edit rather
+than a re-render — which is what made the intro film go stale twice.
 
-**Slides anchor the narration, they do not repeat it.** The first cut of this
-deck put the spoken sentence on screen as it was spoken — twelve of eighteen
-slides were near-verbatim transcripts. Identical text and speech compete rather
-than reinforce: reading and speaking run at different speeds, so the viewer ends
-up doing both badly. Every slide is now six words or fewer, and the ones that
-carry weight are structural rather than textual — the phrase itself, the ladder,
-the dose. Two exceptions are deliberate: "Guided. Then a timer. Then nothing."
-condenses three sentences into a rhythm, and "You end up not needing this." is
-the thesis and worth landing on screen as it is said.
+`tools/build_video.py` still works and is left in the tree; nothing calls it.
+The slide specs and rendered films are in git history at the commit before this
+one if films are ever wanted back.
 
-Posters are written by `--poster` during the video build, from the middle of a
-named slide (the formula, by default) rather than frame one — frame one is a
-title card, and the poster is what invites the tap. Generating them in the build
-is the point: one shipped showing a slide that had since been edited, and
-nothing noticed until the screen was looked at.
+One thing worth keeping from that pipeline, because it is the same principle
+applied to a different surface: **slides anchor narration, they do not repeat
+it.** The first cut of the old intro deck put each spoken sentence on screen as
+it was spoken, and identical text and speech compete rather than reinforce —
+reading and speaking run at different speeds. The text version obeys the same
+rule from the other direction: the twenty visible words are a label, and the
+instruction is what is behind the fold, not a transcript of it.
 
-First run runs **invitation → what it asks → film → cautions → start**, in
-that order. The invitation and the dose were one panel until a phone
-screenshot showed it running edge to edge with nothing to breathe; the ask
-and the fact that it ends now get their own page.
+### Five of the seven were wired to the wrong exercise
 
-Safety was originally the first screen, on the reasoning that it is the
-responsible place for it. It made the app open on "not medical treatment",
-"never while driving" and "see a doctor" — which reads as a consent form and is
-a poor thing to meet before you know what the app is for. The cautions now sit
-immediately before the first practice, where they are still unavoidable and no
-longer the greeting. They also lead with the practical points and keep the
-medical disclaimer quiet at the bottom, since only one of those is a warning
-the practitioner acts on.
+`BRIEFS` carried step numbers written for the ten-step ladder. When the ladder
+was cut to eight, `HOPS` was written to migrate the user's saved `S.step` and
+nobody migrated these:
 
-The cautions stay **text with an explicit tap to continue**, never video: a
-film can be skipped, muted, or half-watched, and "they were told in a video" is
-a weaker position than "they tapped to acknowledge".
+| briefing | fired on | which was |
+| --- | --- | --- |
+| Warmth | 4 | Breathing — ribs |
+| Heartbeat | 5 | Warm centre — abdomen |
+| Breathing | 6 | Cool head — forehead |
+| Warm centre | 7 | On your own |
+| Cool head | 8 | **nothing. It never played.** |
 
-Graphics are diagrammatic, drawn from the app's own vocabulary — the day's three
-slots, the step rail, the practice ring — so the video and the product speak the
-same visual language. There is no image model in this environment, so
-illustration or photography is not available.
+That shipped, and nothing noticed — the file parses perfectly either way.
+`check_app.py` now refuses a briefing whose step is past the end of the ladder,
+or whose id does not name the exercise it fires on, matching against the step's
+name, its body part, or a word of its formula. Run against the last standalone
+build, the new rule reproduces all six faults.
+
 
 ## Install it on a phone
 

@@ -842,15 +842,6 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   </div>
 </div>
 
-<div class="full" id="brief">
-  <div class="brwrap">
-    <p class="bkick" id="brKick"></p>
-    <h2 class="brtitle" id="brTitle"></h2>
-    <video id="brVideo" controls playsinline preload="metadata"></video>
-    <button class="btn ghost" id="brDone">Close</button>
-  </div>
-</div>
-
 <div class="full" id="rating">
   <p class="phase">How was it?</p>
   <p class="cue" style="min-height:auto">What actually turned up — not what you hoped for.</p>
@@ -871,21 +862,13 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="6e5bd84+";window.__ASSETS__="10575215";
+window.__BUILD__="77465ad+";window.__ASSETS__="3284276";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
   warmth:'./audio/at-warmth.mp3', heartbeat:'./audio/at-heartbeat.mp3',
   breathing:'./audio/at-breathing.mp3', solar:'./audio/at-solar-plexus.mp3',
   forehead:'./audio/at-forehead.mp3',
-  bWarmth:'./video/brief-warmth.mp4', bWarmthPoster:'./video/brief-warmth-poster.jpg',
-  bHeartbeat:'./video/brief-heartbeat.mp4', bHeartbeatPoster:'./video/brief-heartbeat-poster.jpg',
-  bBreathing:'./video/brief-breathing.mp4', bBreathingPoster:'./video/brief-breathing-poster.jpg',
-  bSolar:'./video/brief-solar.mp4', bSolarPoster:'./video/brief-solar-poster.jpg',
-  bForehead:'./video/brief-forehead.mp4', bForeheadPoster:'./video/brief-forehead-poster.jpg',
-  finished:'./video/finished.mp4', finishedPoster:'./video/finished-poster.jpg',
-  afterFirst:'./video/after-first.mp4',
-  afterFirstPoster:'./video/after-first-poster.jpg'
 };
 
 const STEPS=[
@@ -1168,60 +1151,99 @@ const el=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c;
    seconds of deliberate settling and may be about to stand up and leave; a
    film that seizes that moment would undo the thing it is explaining. */
 const BRIEFS=[
-  {id:'after-first', step:0, src:'afterFirst', poster:'afterFirstPoster',
-   when:S=>S.log.length>=1,
+  /* Text, with an expand. These were seven typographic films \u2014 7.5 MB of an
+     11 MB app \u2014 and then briefly seven audio tracks, which was the same
+     mistake with a smaller file. A briefing is not the eyes-closed part: the
+     ninety seconds is, and DESIGN.md \u00a71 says the twenty seconds either side is
+     not. The eyes-open part should be as short as it can be and skimmable, and
+     it should work in a waiting room with no headphones. So: a line you read in
+     three seconds, and the rest of it one tap away if you want it.
+
+     The step numbers below were written for the ten-step ladder. When it was
+     cut to eight, HOPS migrated the user's saved step and nobody migrated
+     these \u2014 so the warmth briefing introduced breathing, the breathing one the
+     cool head, and the cool-head one never fired at all. check_app now refuses
+     a briefing whose step does not exist or whose id does not name it. */
+  {id:'after-first', step:0, when:S=>S.log.length>=1,
    kick:'After your first', title:'What was that, and what to look for.',
-   blurb:'Why heaviness in particular, what counts as it turning up, and the one thing that blocks it.'},
-  {id:'warmth', step:4, src:'bWarmth', poster:'bWarmthPoster',
-   kick:'New exercise', title:'Warmth — what this one does.',
-   blurb:'Heaviness was muscle; this one is circulation. A minute, before your first go at it.'},
-  {id:'heartbeat', step:5, src:'bHeartbeat', poster:'bHeartbeatPoster',
-   kick:'New exercise', title:'Heartbeat — and when to skip it.',
-   blurb:'Noticing the beat without adjusting it, and the two reasons to leave this step out.'},
-  {id:'breathing', step:6, src:'bBreathing', poster:'bBreathingPoster',
-   kick:'New exercise', title:'Breathing — why the phrase is odd.',
-   blurb:'The one you can seize control of without meaning to, and what to do when you notice.'},
-  {id:'solar', step:7, src:'bSolar', poster:'bSolarPoster',
-   kick:'New exercise', title:'Warm centre — and who should skip it.',
-   blurb:'Warmth further in, why it tests everything before it, and when to learn it in person.'},
-  {id:'finished', step:9, src:'finished', poster:'finishedPoster',
-   when:S=>gate().done,
+   lede:'If nothing happened, nothing has gone wrong. For most people it is a few days, sometimes two weeks, before anything turns up at all.',
+   more:['When your body drops out of alert mode, your muscles let go of the low background tension they have been holding all day. Heaviness is what that letting-go feels like from the inside \u2014 so it is not really the goal. It is the signal that the shift has happened.',
+         'And it may not arrive as heaviness exactly. Warmth, tingling, a sinking feeling, the arm seeming larger or further away than it is. Those all count.',
+         'Occasionally you get the opposite: restlessness, a twitch, an urge to move, or unexpected emotion. That has a name \u2014 an autogenic discharge \u2014 and it is a recognised part of the process, not a sign that anything is wrong. If it is uncomfortable, open your eyes, move your arms and legs, and stop there for that session.',
+         'One last thing, and it is the one that catches everybody. You cannot make this happen by trying. Effort is the single thing that reliably blocks it.']},
+
+  {id:'warmth', step:2,
+   kick:'New exercise', title:'Warmth \u2014 what this one does.',
+   lede:'Heaviness was muscle; this one is blood. Say the phrase and notice the hands \u2014 there is nothing to imagine.',
+   more:['What you are after is circulation: blood coming back into the hands and forearms, which is one of the things your body does as soon as it stops bracing. Do not picture a fire, or rub your hands together first.',
+         'For most people this one turns up faster than heaviness did, because you have already learned the harder half \u2014 letting it happen instead of doing it.',
+         'Cold hands at first are common, and are not a failure. Let the heaviness come back first, then add the warmth.']},
+
+  {id:'heartbeat', step:3,
+   kick:'New exercise', title:'Heartbeat \u2014 and when to skip it.',
+   lede:'Your attention rests on the beat. It does not adjust it \u2014 noticing it is the whole exercise, and the settling follows on its own.',
+   more:['Find it wherever it is easiest: the chest, the neck, the wrist, or just a general sense of it. You do not need a hand on your chest.',
+         'This is one of the exercises traditionally taught in person rather than from a recording. If you have any heart condition, learn it with an instructor instead.',
+         'And if attending to your own heartbeat makes you uneasy \u2014 which is common, and not a flaw \u2014 leave this step out. Stay with heaviness and warmth. They are the two that do most of the work.']},
+
+  {id:'breathing', step:4,
+   kick:'New exercise', title:'Breathing \u2014 why the phrase is odd.',
+   lede:'It breathes me \u2014 not \u201cI am breathing calmly\u201d. The odd grammar is the instruction: the breath is being done, and you are watching it.',
+   more:['This is the exercise people most often get wrong, because breathing is the one autonomic thing you can seize control of \u2014 so you will, without meaning to.',
+         'You will notice you are steering it. That is not a failure, that is the exercise working. Notice, let go of the wheel, and go back to watching.',
+         'Do not deepen it, slow it, or count it.']},
+
+  {id:'solar', step:5,
+   kick:'New exercise', title:'Warm centre \u2014 and who should skip it.',
+   lede:'Warmth again, but further in \u2014 the soft area of the upper abdomen, just below where the ribs meet.',
+   more:['Warmth there is the digestive side of the body coming back online, which it only does once you are genuinely not braced. That makes this one a fair test of everything before it: if the earlier steps are not landing, this will not either, and the answer is to go back rather than to push.',
+         'This is the second of the exercises traditionally taught in person. Skip it and learn it with an instructor if you have diabetes, a stomach ulcer, any abdominal condition, or you are pregnant.',
+         'Otherwise: settle, run the earlier phrases, then add this one.']},
+
+  {id:'forehead', step:6,
+   kick:'Last exercise', title:'Cool head \u2014 the one that goes the other way.',
+   lede:'Everything so far has been settling. This one stays clear \u2014 the body quiet, the head not foggy. Cool, not cold.',
+   more:['That contrast is the point. It is what separates this from drifting off, and it is why the full sequence leaves you rested rather than groggy.',
+         'A slight freshness across the forehead, as if a window were open somewhere. Keep it light and keep it brief.',
+         'If you are prone to headaches or migraine, keep it very brief \u2014 or leave this one out and stay with the first five. That is a complete practice.']},
+
+  {id:'finished', step:7, when:S=>gate().done,
    kick:'You have all six', title:'That is the whole method.',
-   blurb:'What it is for now that you can do it unaided, and the one thing that undoes it.'},
-  {id:'forehead', step:8, src:'bForehead', poster:'bForeheadPoster',
-   kick:'Last exercise', title:'Cool head — the one that goes the other way.',
-   blurb:'Everything else settles; this stays clear. Why that contrast is the point.'}
+   lede:'The useful thing now is not this app. It is that you can do this anywhere, with nothing.',
+   more:['On a train. Between two meetings. In a waiting room, or lying awake at two in the morning. Ninety seconds, eyes closed or not, with nobody guiding you. That was always the point.',
+         'Keep it up, though. This is a trained response, and like anything trained it fades if it is never used. Most people settle into once or twice a day, or reach for it when they need it. Either is fine \u2014 stopping completely, for months, is what undoes it.',
+         'You are welcome to keep logging here. It is how you notice a slip before it becomes a stop. But you do not need to.']}
 ];
 /* A step briefing surfaces when you arrive at its step and before its first
    practice — the moment it answers a question you are actually holding. */
 BRIEFS.forEach(b=>{ if(!b.when) b.when=S=>S.step===b.step && !S.log.some(e=>e.step===b.step); });
-function playBrief(b, after){
-  $('#brKick').textContent=b.kick;
-  $('#brTitle').textContent=b.title;
-  const v=$('#brVideo'); v.src=AUDIO[b.src];
-  if(AUDIO[b.poster]) v.poster=AUDIO[b.poster];
-  $('#brief').classList.add('on'); v.play().catch(()=>{});
-  $('#brDone').onclick=()=>{
-    v.pause(); $('#brief').classList.remove('on');
-    if(after) after(); else renderJourney();
-  };
+/* The briefing as a block of text: the line you need, and the rest one tap
+   away. Used both when a step opens and when you go back to it later. */
+function briefText(b){
+  const w=document.createElement('div');
+  w.appendChild(el('p','bkick', b.kick));
+  w.appendChild(el('p','btitle', b.title));
+  w.appendChild(el('p','bblurb', b.lede));
+  if(b.more && b.more.length){
+    const d=document.createElement('details'); d.className='bmore';
+    const sm=document.createElement('summary'); sm.textContent='More';
+    d.appendChild(sm);
+    b.more.forEach(t=>d.appendChild(el('p','note', t)));
+    w.appendChild(d);
+  }
+  return w;
 }
 function renderBrief(){
   const c=$('#briefCard'); c.innerHTML=''; c.classList.add('hidden');
-  const b=BRIEFS.find(b=>!(S.briefed||[]).includes(b.id) && b.when(S) && AUDIO[b.src]);
+  const b=BRIEFS.find(b=>!(S.briefed||[]).includes(b.id) && b.when(S));
   if(!b) return;
   c.classList.remove('hidden');
   const card=el('div','brief');
-  card.appendChild(el('p','bkick',b.kick));
-  card.appendChild(el('p','btitle',b.title));
-  card.appendChild(el('p','bblurb',b.blurb));
+  card.appendChild(briefText(b));
   const row=el('div','btnrow');
-  const play=el('button','btn','Watch');
-  play.onclick=()=>playBrief(b, dismiss);
-  const later=el('button','btn ghost','Not now');
-  later.onclick=dismiss;
-  function dismiss(){ (S.briefed=S.briefed||[]).push(b.id); save(); renderJourney(); }
-  row.appendChild(play); row.appendChild(later); card.appendChild(row);
+  const ok=el('button','btn ghost','Got it');
+  ok.onclick=()=>{ (S.briefed=S.briefed||[]).push(b.id); save(); renderJourney(); };
+  row.appendChild(ok); card.appendChild(row);
   c.appendChild(card);
 }
 
@@ -1588,13 +1610,8 @@ function renderStack(){
     end.appendChild(cb);
     end.appendChild(el('p','note','For your lock screen, or to print. The formulae and '
       +'nothing else on it \u2014 no link back here, because you do not need one.'));
-    if(AUDIO.finished){
-      const fb=el('button','btn ghost','What it is for from here');
-      fb.style.marginTop='10px';
-      fb.onclick=()=>playBrief({src:'finished', poster:'finishedPoster',
-        kick:'You have all six', title:'That is the whole method.'});
-      end.appendChild(fb);
-    }
+    const fin=BRIEFS.find(b=>b.id==='finished');
+    if(fin) end.appendChild(briefText(fin));
   }else if(g.last){
     end.appendChild(el('p','note','You are practising without guidance. Keep the record '
       +'going \u2014 it is how you notice a slip before it becomes a stop.'));
@@ -2039,15 +2056,11 @@ mode = guidedDefault() ? 'guided' : 'timer';
         again.onclick=ev=>{ ev.stopPropagation(); revise(i); };
         rw.appendChild(again);
       }
-      const films=BRIEFS.filter(b=>b.step===i && AUDIO[b.src]);
-      films.forEach(bf=>{
-        const rb=el('button','btn ghost',
-          'Watch again' + (films.length>1 ? ' \u00b7 '+bf.kick.toLowerCase() : ''));
-        rb.onclick=ev=>{ ev.stopPropagation(); playBrief(bf); };
-        rw.appendChild(rb);
-      });
       if(rw.childNodes.length) d.appendChild(rw);
       d.appendChild(el('p','smeta','Revision is not logged — it is not today\u2019s dose.'));
+      /* The briefing is text, so going back to it is not a playback control —
+         it unfolds where it already is. */
+      BRIEFS.filter(b=>b.step===i && b.lede).forEach(bf=>d.appendChild(briefText(bf)));
       col.appendChild(d);
     }
     li.appendChild(col);
@@ -2078,53 +2091,11 @@ mode = guidedDefault() ? 'guided' : 'timer';
     const d=el('div','panel');
     d.appendChild(el('p','phrase', cur.phrase));
     if(cur.warn) d.appendChild(el('p','scaution', cur.warn));
-    const curFilms=BRIEFS.filter(b=>b.step===S.step && AUDIO[b.src]);
-    if(curFilms.length){
-      /* a bare "Watch again" under a phrase says nothing about what it plays */
-      if(curFilms.length===1) d.appendChild(el('p','note', curFilms[0].title));
-      const rw=el('div','btnrow');
-      const many=curFilms.length>1;
-      curFilms.forEach(bf=>{
-        const seen=(S.briefed||[]).includes(bf.id);
-        const bt=el('button','btn ghost',
-          (seen?'Watch again':'Watch') + (many ? ' \u00b7 '+bf.kick.toLowerCase() : ''));
-        bt.onclick=ev=>{ ev.stopPropagation(); playBrief(bf); };
-        rw.appendChild(bt);
-      });
-      d.appendChild(rw);
-    }
+    BRIEFS.filter(b=>b.step===S.step && b.lede).forEach(bf=>d.appendChild(briefText(bf)));
     col.appendChild(d);
     li.appendChild(col); list.appendChild(li);
   }
 
-  if(gate().done && AUDIO.finished){
-    const li=el('li','step done');
-    const rail=el('div','rail');
-    rail.appendChild(el('span','dot')); rail.appendChild(el('span','line'));
-    li.appendChild(rail);
-    const col=document.createElement('div');
-    const row=document.createElement('button');
-    row.className='srow'; row.type='button';
-    const head=el('div','shead');
-    head.appendChild(el('span','stitle','Finished'));
-    head.appendChild(el('span','pill','Done'));
-    row.appendChild(head);
-    const isOpen = open==='finished';
-    row.onclick=()=>{ open = isOpen ? null : 'finished'; renderJourney(); };
-    col.appendChild(row);
-    if(isOpen){
-      const d=el('div','panel');
-      d.appendChild(el('p','note','What the method is for once you can do it unaided, and the one thing that undoes it.'));
-      const rw=el('div','btnrow');
-      const b=el('button','btn ghost','Watch again');
-      b.onclick=ev=>{ ev.stopPropagation();
-        playBrief({src:'finished', poster:'finishedPoster',
-                   kick:'You have all six', title:'That is the whole method.'}); };
-      rw.appendChild(b); d.appendChild(rw);
-      col.appendChild(d);
-    }
-    li.appendChild(col); list.appendChild(li);
-  }
 
   /* one step ahead, named but not openable: enough to know where this goes,
      not enough to read as a list of things you owe. */

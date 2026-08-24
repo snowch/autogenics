@@ -45,6 +45,28 @@ def check(path: Path) -> list[str]:
         if not re.search(rf"\b{key}\s*:", html):
             errs.append(f"audio key '{key}' is never defined")
 
+    # A briefing names an exercise and fires on a step number, and nothing tied
+    # the two together. The ladder was cut from ten steps to eight, HOPS was
+    # written to migrate the user's saved step, and BRIEFS was left alone — so
+    # the warmth briefing introduced breathing, the breathing one introduced the
+    # cool head, and the cool-head one pointed past the end of the ladder and
+    # never played at all. It shipped, and nothing here noticed.
+    steps = re.findall(r"\{n:'([^']+)', q:'([^']+)', phrase:'([^']+)'", html)
+    if steps:
+        for bid, bstep in re.findall(r"\{id:'([\w-]+)', step:(\d+)", html):
+            n = int(bstep)
+            if n >= len(steps):
+                errs.append(f"briefing '{bid}' fires on step {n}, "
+                            f"but the ladder only has {len(steps)}")
+                continue
+            # the id must name the exercise it fires on — its name, the body
+            # part, or a word of its formula ('solar' for the warm centre)
+            hay = " ".join(steps[n]).lower()
+            key = bid.replace("brief-", "")
+            if key not in {"after-first", "finished"} and key not in hay:
+                errs.append(f"briefing '{bid}' fires on step {n}, which is "
+                            f"'{steps[n][0]} \u00b7 {steps[n][1]}' — it introduces "
+                            f"the wrong exercise")
     # In a built file the injected map replaces the fallback entirely, so any
     # key the code reads must be present in it. A missing optional key fails
     # silently at runtime — that is how the video shipped without its poster.

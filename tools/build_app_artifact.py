@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 # One source for the asset map. This file used to keep its own copy, which is
 # how the artifact and the PWA drift apart without anything failing.
-from build_pwa import TRACKS, FILMS  # noqa: E402
+from build_pwa import TRACKS  # noqa: E402
 BITRATE = "32k"          # speech-only; keeps the whole page well inside 16 MB
 VIDEO_W, VIDEO_CRF = 540, 30   # films are static slides; text stays crisp
 
@@ -71,22 +71,6 @@ def main() -> int:
     print("Inlining audio:")
     blob = ",\n  ".join(
         f'{k}:"{encode(ROOT / "audio" / v)}"' for k, v in TRACKS.items())
-
-    # Every film and its poster. A film whose poster is missing ships a player
-    # showing a bare grey placeholder, which is how one went out before.
-    for key, mp4, poster in FILMS:
-        f, pj = ROOT / "video" / mp4, ROOT / "video" / poster
-        if not f.exists():
-            raise SystemExit(f"video/{mp4} missing — build it before publishing")
-        if not pj.exists():
-            raise SystemExit(f"video/{poster} missing — the player would show a "
-                             f"bare placeholder. Extract it with:\n"
-                             f"  ffmpeg -i video/{mp4} -vframes 1 video/{poster}")
-        blob += (f',\n  {key}:"data:video/mp4;base64,'
-                 + base64.b64encode(shrink(f)).decode() + '"')
-        blob += (f',\n  {key}Poster:"data:image/jpeg;base64,'
-                 + base64.b64encode(pj.read_bytes()).decode() + '"')
-        print(f"  {poster:34s} {pj.stat().st_size/1024:7.0f} KB")
 
     from build_pwa import build_id
     html = html.replace('<script>\n"use strict";',
