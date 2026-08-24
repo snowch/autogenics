@@ -689,6 +689,55 @@ Also spotted in the screenshot rather than the code: the regression note read
 *"Warmth took you 4 days, and you are on day 0 of this one"*, because
 `stepDays()` counts days practised and that is zero on the day you arrive.
 
+### The expected order, stated everywhere and enforced in one place
+
+Balance lets you start any programme without prerequisites, which is a fair
+challenge to a screen full of locks. The answer turned out not to be *lock
+everything* or *lock nothing* — the two tracks are not the same kind of thing.
+
+**The autogenic ladder stays gated, and the gate is not a content lock.** It is
+evidence that the response has arrived. You cannot skip warmth if warmth has
+not turned up, and no button can grant it. Refusing to advance there is the
+method; it is the one feature that makes this better than a syllabus.
+
+**Nidra is only ever advised.** A session is content, and refusing to let an
+adult open a twelve-minute recording is the wrong way to express a dependency.
+The worst case is following instructions you have not trained — which is what
+every nidra recording in the world asks of everyone. So the lengths open, and
+each one says what it is made of that you do not have yet:
+
+> This one uses sakshi, which you have not trained yet. It will still run — you
+> will be following the instruction rather than issuing it, which is the
+> difference the ladder is there to make.
+
+The tile pill changed with it, from *needs* to **Usually after sakshi**, and
+untrained lengths on the card are dimmed rather than disabled. Dimming is the
+expected order; the tap still works.
+
+So the order is now stated in four places and imposed in one:
+
+- tiles are **numbered** within their track — 1, 2, 3 down each column;
+- each track carries a caption saying what its order means. Autogenic: *in
+  order, and held to it… that is evidence, not a lock.* Nidra: *runs alongside
+  the ladder, from the first rung on… but none of it is locked;*
+- every tile names what comes before it;
+- the nidra card says the lengths are meant to be taken shortest first, and why
+  — each one adds a stage the ladder trains.
+
+**A locked tile is still tappable.** It cannot be practised early, but the
+point of stating an order is that you can see what is in it, so a locked
+autogenic tile now scopes the path below and lists its steps by name, each one
+opening the existing preview. Reading is not advancing — the same principle
+*Look ahead, but never advance* has always run on. Before this, tapping a
+locked tile did nothing at all, which is the one interaction that teaches
+nothing.
+
+Two defects fell out of it. The nidra card was hidden behind `anyReady`, so
+tapping a tile navigated to a card that was not there; it is now revealed by
+being asked for, which keeps Practice one-thing-to-do on day one without
+locking anything. And `check_app.py` caught a top-level `sx` — the onboarding
+swipe's start-x — shadowed by the path's per-step `sx`; renamed `swX`.
+
 ### Nidra was waiting for the whole ladder, for no reason
 
 Asked what the quickest route from autogenic training to nidra is, by somebody

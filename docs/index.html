@@ -179,7 +179,7 @@ main{flex:1; padding:0 20px 28px; display:flex; flex-direction:column; gap:16px}
 .gear svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.7;
   stroke-linecap:round}
 #s-settings .modes,#ndCard .modes{margin-top:14px}
-.modes button.locked{opacity:.4}
+.modes button.early{opacity:.62}
 .ndlist{margin:10px 0 0; padding:0; list-style:none}
 .ndlist li{display:grid; grid-template-columns:auto 1fr; gap:4px 12px;
   padding:9px 0; border-top:1px solid var(--line)}
@@ -247,6 +247,7 @@ body.pv nav{bottom:var(--pvh,56px)}
 .track{margin:0 0 18px}
 .track h3{margin:0 0 8px 2px; font-size:.7rem; font-weight:650; letter-spacing:.09em;
   text-transform:uppercase; color:var(--muted)}
+.tcap{margin:0 0 10px 2px; font-size:.76rem; color:var(--ink-2); line-height:1.4}
 .tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px}
 .tile{display:flex; flex-direction:column; gap:4px; text-align:left; padding:13px;
   min-height:104px; border:1px solid var(--line); border-radius:13px;
@@ -259,6 +260,7 @@ body.pv nav{bottom:var(--pvh,56px)}
 .tile.now .tp{color:var(--accent)}
 .tile.done .tp{color:var(--good)}
 .tile.locked{opacity:.55; box-shadow:none}
+.tile.early .tp{color:var(--accent)}
 .tile.sel{outline:2px solid var(--accent); outline-offset:2px}
 .dose{display:flex; gap:8px; margin:15px 0 0}
 .slot{flex:1; height:56px; border-radius:10px; border:1px solid var(--line); background:var(--sunk);
@@ -462,7 +464,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <div id="nudge" class="hidden"></div>
       <div class="card hidden" id="ndCard">
         <h2>Primed nidra <span class="pill" style="margin-left:6px">Experimental</span></h2>
-        <p class="lede">You have the entry. This is somewhere to put it — a silent staged timer, with a chime at each boundary and no voice. Carry on up the ladder as well: the two run alongside each other, the induction here grows as your sequence does, and each longer session opens once its parts are trained.</p>
+        <p class="lede">Somewhere to put the entry you have been training — a silent staged timer, with a chime at each boundary and no voice. Carry on up the ladder as well: the two run alongside each other, and the induction here grows as your sequence does. The lengths are meant to be taken in order, shortest first, because each one adds a stage the ladder trains. None of them is locked; a dimmed one will still run, and says what you have not trained yet.</p>
         <div class="modes" id="ndKind" style="margin-top:14px">
           <button data-nd="field">3 min</button>
           <button data-nd="mid">7 min</button>
@@ -470,6 +472,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
           <button data-nd="sleep">Sleep</button>
         </div>
         <p class="smeta" id="ndMeta"></p>
+        <p class="note hidden" id="ndEarly"></p>
         <button class="btn ghost" id="ndGo" style="margin-top:12px">Begin</button>
         <details style="margin-top:12px"><summary>What is in it</summary>
           <ol class="ndlist" id="ndList"></ol>
@@ -799,7 +802,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="79cd5b2+";window.__ASSETS__="10575215";
+window.__BUILD__="348d131+";window.__ASSETS__="10575215";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1003,6 +1006,11 @@ function load(){
    in a sandbox except this one line. */
 let preview=false, pvLate=false, pvStep=0;
 let pathOf=null;   /* which programme's path is on Progress */
+/* Nothing locks nidra any more, but Practice is still one thing to do — so the
+   card is not pushed at somebody on day one. It appears when the first session
+   is trained, when it has been used before, or the moment you go looking for
+   it from Programmes or Look ahead. Asked for is not the same as offered. */
+let ndOpen=false;
 const save=()=>{ if(preview) return;
   try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} };
 
@@ -1332,9 +1340,10 @@ function nextSlot(){ return Math.min(todayHere().length, 2); }
    what opens it. Practice stays the one thing to do now; this is the territory
    it sits in.
 
-   Deliberately not a library. Six tiles, no browsing, and a locked one names
-   its prerequisite rather than hiding — which is the whole argument made
-   visible, since the way you unlock nidra is by doing autogenic training. */
+   Deliberately not a library. Six tiles, no browsing, numbered within their
+   track, and each one names what comes before it rather than hiding. The order
+   is stated everywhere and enforced in one place: the ladder, whose gate is
+   evidence rather than a lock. Nidra is only ever advised. */
 const PROGRAMMES=[
   {id:'at1', track:'Autogenic training', n:'Heaviness and warmth',
    sub:'The two that do most of the work.', steps:[0,1,2]},
@@ -1358,10 +1367,20 @@ function progState(p){
     if(S.step>last) return 'done';
     return p.steps.indexOf(S.step)>=0 ? 'now' : 'locked';
   }
-  return ndReady(p.kind) ? 'open' : 'locked';
+  /* Not locked. A nidra session is content, and refusing to let an adult open
+     it is the wrong way to express a dependency — it also cannot hurt anybody,
+     since the worst case is following instructions you have not trained, which
+     is what every nidra recording asks of everyone. So it opens, and says what
+     it is made of that you do not have yet.
+
+     The autogenic ladder stays gated, and the distinction is real: its gate is
+     evidence that the response has arrived, not a lock on a file. You cannot
+     skip warmth because you have not got warmth. */
+  return ndReady(p.kind) ? 'open' : 'early';
 }
+/* Only the ladder reaches this — nidra tiles are never locked, so they label
+   themselves with the order they expect rather than a condition they impose. */
 function progUnlock(p){
-  if(p.kind) return 'Opens after ' + (ndBlocker(p.kind)||'').toLowerCase();
   if(!p.needs) return '';
   return 'Opens after ' + PROGRAMMES.find(x=>x.id===p.needs).n.toLowerCase();
 }
@@ -1369,24 +1388,36 @@ function renderProgrammes(){
   const wrap=$('#progTiles'); wrap.innerHTML='';
   const nOpen=PROGRAMMES.filter(p=>progState(p)!=='locked').length;
   $('#progCnt').textContent=nOpen+' of '+PROGRAMMES.length+' open';
+  /* Order is stated twice and enforced once. The numbering and the captions say
+     what the sequence is; only the ladder holds anybody to it, and it says why. */
+  const CAP={'Autogenic training':'In order, and held to it: the next opens when the last has arrived. '
+               +'That is evidence, not a lock \u2014 you cannot skip warmth if warmth has not turned up. '
+               +'Any of it can be read from here.',
+             'Nidra':'Runs alongside the ladder, from the first rung on. Shortest first is easier, since '
+               +'each length adds a stage the ladder trains \u2014 but none of it is locked.'};
   ['Autogenic training','Nidra'].forEach(tr=>{
     const sec=el('div','track'); sec.appendChild(el('h3',null,tr));
+    sec.appendChild(el('p','tcap',CAP[tr]));
     const grid=el('div','tiles');
-    PROGRAMMES.filter(p=>p.track===tr).forEach(p=>{
+    PROGRAMMES.filter(p=>p.track===tr).forEach((p,i)=>{
       const st=progState(p);
       const b=el('button','tile '+st);
-      b.appendChild(el('span','tn',p.n));
+      b.appendChild(el('span','tn',(i+1)+'. '+p.n));
       b.appendChild(el('span','ts',p.sub));
       b.appendChild(el('span','tp',
         st==='done' ? 'Done' : st==='now' ? 'In progress'
-        : st==='open' ? 'Ready' : progUnlock(p)));
+        : st==='open' ? 'Ready' : st==='early' ? 'Usually after '+(ndBlocker(p.kind)||'').toLowerCase()
+        : progUnlock(p)));
       /* An autogenic tile is a chapter you look at, so it scopes the path
          below. A nidra tile is a session, so it starts one. */
+      /* A locked tile is still tappable. It cannot be practised early, but the
+         whole point of stating an order is that you can see what is in it —
+         so it scopes the path below and its steps open the preview, which is
+         the same look-ahead the last step has always had. */
       b.onclick=()=>{
-        if(st==='locked') return;
         if(p.steps){ pathOf=p.id; open=null; renderJourney();
           return requestAnimationFrame(()=>$('#pathHead').scrollIntoView({block:'start'})); }
-        ndState().kind=p.kind; save(); renderNidra(); go('journey');
+        ndOpen=true; ndState().kind=p.kind; save(); renderNidra(); go('journey');
         requestAnimationFrame(()=>$('#ndCard').scrollIntoView({block:'start'}));
       };
       if(p.steps && (pathOf ? p.id===pathOf : st==='now')) b.classList.add('sel');
@@ -1652,11 +1683,11 @@ mode = guidedDefault() ? 'guided' : 'timer';
     const h=el('div','review');
     h.appendChild(el('h2', null, 'Heaviness and warmth are yours'));
     h.appendChild(el('p','note','Those two do most of the work in this method, and they are the part most people who ever learn it actually use.'));
-    /* This card and the first nidra unlock land on the same step, which is not
-       a coincidence — the three-minute session needs refuge, and refuge is
-       grafted onto warmth. A landmark that also opens a door beats a pat on
-       the back. */
-    h.appendChild(el('p','note','They are also exactly what the short nidra session needed. It is on this screen now, below. Keep climbing the ladder as well — the two run alongside each other, and each longer session opens as its parts arrive.'));
+    /* This card and the first trained nidra session land on the same step,
+       which is not a coincidence — the three-minute session needs refuge, and
+       refuge is grafted onto warmth. A landmark that hands you something beats
+       a pat on the back. */
+    h.appendChild(el('p','note','They are also exactly what the short nidra session needed. It is on this screen now, below. Keep climbing the ladder as well — the two run alongside each other, and the longer sessions get easier as their parts arrive.'));
     const hb=el('button','btn ghost','Carry on');
     hb.style.marginTop='14px';
     hb.onclick=()=>{ S.halfway=true; save(); renderJourney(); };
@@ -1912,6 +1943,26 @@ mode = guidedDefault() ? 'guided' : 'timer';
     row.appendChild(el('p','sdesc','Opens when this one lands.'));
     col.appendChild(row); li.appendChild(col); list.appendChild(li);
   }
+
+  /* A programme you have not reached, opened from its tile. Its steps are named
+     in order and each one opens the preview — reading is not advancing, and the
+     order is no use to anybody who cannot see what is in it. */
+  if(shown!==here) shown.steps.filter(i=>i>S.step).forEach(i=>{
+    const sx=STEPS[i];
+    const li=el('li','step later');
+    const rail=el('div','rail');
+    rail.appendChild(el('span','dot')); rail.appendChild(el('span','line'));
+    li.appendChild(rail);
+    const col=document.createElement('div');
+    const row=document.createElement('button'); row.className='srow'; row.type='button';
+    const head=el('div','shead');
+    head.appendChild(el('span','stitle', sx.n + (sx.q ? ' \u2014 '+sx.q : '')));
+    head.appendChild(el('span','pill', 'Step '+(i+1)));
+    row.appendChild(head);
+    row.appendChild(el('p','sdesc','Look at it without taking it on.'));
+    row.onclick=()=>enterPreview(i, false);
+    col.appendChild(row); li.appendChild(col); list.appendChild(li);
+  });
 }
 
 let timer=null, ctx=null;
@@ -2124,13 +2175,13 @@ document.addEventListener('keydown',e=>{
 /* Swipe, with the vertical check that stops a scroll being read as a page
    turn — these screens are taller than a phone and scrolling them is the
    commonest gesture on here. */
-let sx=0, sy=0, stime=0;
+let swX=0, swY=0, swT=0;      /* named apart from the path's per-step `sx` */
 $('#onboard').addEventListener('touchstart',e=>{
-  const t=e.changedTouches[0]; sx=t.clientX; sy=t.clientY; stime=e.timeStamp;
+  const t=e.changedTouches[0]; swX=t.clientX; swY=t.clientY; swT=e.timeStamp;
 },{passive:true});
 $('#onboard').addEventListener('touchend',e=>{
-  const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
-  if(e.timeStamp-stime>600) return;
+  const t=e.changedTouches[0], dx=t.clientX-swX, dy=t.clientY-swY;
+  if(e.timeStamp-swT>600) return;
   if(Math.abs(dx)<48 || Math.abs(dx)<Math.abs(dy)*1.5) return;
   obShow(dx<0 ? Math.min(obSteps.length-1, ob+1) : Math.max(0, ob-1));
 },{passive:true});
@@ -2274,7 +2325,7 @@ STEPS.forEach((st,i)=>{
 (function(){
   const b=el('button', null, 'After the ladder \u00b7 primed nidra');
   b.style.flex='1 1 100%';
-  b.onclick=()=>{ enterPreview(STEPS.length-1, true);
+  b.onclick=()=>{ ndOpen=true; renderNidra(); enterPreview(STEPS.length-1, true);
     requestAnimationFrame(()=>{ const c=$('#ndCard');
       if(c) c.scrollIntoView({block:'start'}); }); };
   $('#pvPick').appendChild(b);
@@ -2337,25 +2388,28 @@ function ndState(){
 }
 function renderNidra(){
   const st=ndState();
-  /* It has no business existing before the ladder is finished. Someone on step
-     two has an entry technique they cannot yet issue and no reason to want
-     somewhere to put it; offering a second practice contradicts the one-thing-
-     at-a-time discipline that is the whole of AT's contribution here. Shown
-     once the ladder is done — or if it has already been used, since taking a
-     thing away from someone using it is worse than having offered it early. */
+  /* Shown once the first session's parts are trained, or if it has already been
+     used, or once it has been asked for. Not before: someone on step two has an
+     entry technique they cannot yet issue, and putting a second practice on the
+     one screen that says what to do now contradicts the one-thing-at-a-time
+     discipline that is the whole of AT's contribution here. That is a claim
+     about what to offer, not about what to allow — Programmes will bring
+     anybody here who wants it. */
   const anyReady=Object.keys(ND_NEEDS).some(ndReady);
-  $('#ndCard').classList.toggle('hidden', !(anyReady || st.count));
-  /* Locked lengths stay visible and say what opens them, because the path is
-     more use than the absence of a button. */
+  $('#ndCard').classList.toggle('hidden', !(anyReady || st.count || ndOpen));
+  /* Untrained lengths are dimmed rather than disabled: the dimming is the
+     expected order, the tap still works. */
   document.querySelectorAll('#ndKind button').forEach(b=>{
     const ok=ndReady(b.dataset.nd);
-    b.disabled=!ok; b.classList.toggle('locked', !ok);
-    b.title = ok ? '' : 'Opens after '+ndBlocker(b.dataset.nd);
+    b.classList.toggle('early', !ok);
+    b.title = ok ? '' : 'Uses '+ndBlocker(b.dataset.nd)+', which you have not trained yet';
   });
-  if(!ndReady(st.kind||'full')){
-    const first=Object.keys(ND_NEEDS).find(ndReady);
-    if(first) st.kind=first;
-  }
+  /* Say what you are walking into rather than preventing it. */
+  const early=!ndReady(st.kind||'full');
+  $('#ndEarly').classList.toggle('hidden', !early);
+  if(early) $('#ndEarly').textContent='This one uses '+(ndBlocker(st.kind)||'').toLowerCase()
+    +', which you have not trained yet. It will still run — you will be following the '
+    +'instruction rather than issuing it, which is the difference the ladder is there to make.';
   /* Only Resolve has one to state. Presence asks for nothing and Question asks
      a question, and a text box under either would invite people to answer
      something the practice is not asking. */
