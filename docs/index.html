@@ -517,13 +517,19 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
          a text link, and the map of the whole product behind that link. Splitting
          it hid the map and left neither half with enough to be a screen. -->
     <section class="screen" id="s-progress">
+      <!-- General to specific, with the log last. It read sequence, week,
+           programmes, path \u2014 detail, detail, high level, detail \u2014 and two of
+           those four answered the same question, because the sequence already
+           ends by naming the step after it and the resting path said it again
+           as a rail. The path is a drill-in now: it appears when you pick a
+           programme, and it gets the screen. -->
       <div class="pathhead" id="seqHead"><h2>Your sequence</h2></div>
       <ol class="seq" id="seqStack"></ol>
-      <div class="pathhead" id="weekHead" style="margin-top:24px"><h2>Turning up</h2><span class="cnt" id="weekCnt"></span></div>
-      <div class="strip" id="weekStrip"></div>
       <div id="seqEnd"></div>
       <div class="pathhead" id="progHead" style="margin-top:26px"><h2>Programmes</h2></div>
       <div id="progTiles"></div>
+      <div class="pathhead" id="weekHead" style="margin-top:26px"><h2>Turning up</h2><span class="cnt" id="weekCnt"></span></div>
+      <div class="strip" id="weekStrip"></div>
       <button class="backrow hidden" id="pathBack">All programmes</button>
       <div class="pathhead hidden" id="pathHead"><h2>Your path</h2><span class="cnt" id="pathCnt"></span></div>
       <p class="tcap hidden" id="pathSub"></p>
@@ -864,7 +870,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="dfed88c+";window.__ASSETS__="3284276";
+window.__BUILD__="ed14e2f+";window.__ASSETS__="3284276";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1987,28 +1993,25 @@ mode = guidedDefault() ? 'guided' : 'timer';
      is a backlog, and a product whose whole promise is that it ends should
      not borrow the endless-ladder look of one that never does. ---- */
   const list=$('#journey'); list.innerHTML='';
-  /* One path, scoped to a programme, rather than one flat list of everything.
-     The tiles above already answer "how far along am I", so a second, longer
-     answer underneath was the same question twice — and at eight steps it was
-     the longest thing on the screen. It shows the programme you are in unless
-     you tap another, which is how a finished chapter's briefings stay
-     reachable without nesting the current step two taps deep. */
+  /* The path is what a programme opens into, and nothing else. It used to sit
+     under the tiles at rest as well, showing the programme you happened to be
+     in — which said, in a rail, exactly what the sequence above it had already
+     said in words: where you are, and the step after it. Two answers to one
+     question, and the longest thing on the screen. */
   const here=PROGRAMMES.find(x=>x.steps && x.steps.indexOf(S.step)>=0)
            || PROGRAMMES.find(x=>x.steps);
   const shown=PROGRAMMES.find(x=>x.id===pathOf) || here;
   const mine=shown.steps.filter(i=>i<=S.step);
   const ahead = (shown===here && S.step+1<STEPS.length
                  && shown.steps.indexOf(S.step+1)>=0) ? 1 : 0;
-  /* Master and detail on one screen. Resting state: the tiles, with the
-     programme you are in laid out underneath. Selected: that programme only. */
+  /* Master and detail on one screen, and only one of them at a time. */
   const focus=!!pathOf;
   ['#seqHead','#seqStack','#weekHead','#weekStrip','#seqEnd','#progHead','#progTiles']
     .forEach(k=>$(k).classList.toggle('hidden', focus));
-  $('#pathBack').classList.toggle('hidden', !focus);
-  $('#pathSub').classList.toggle('hidden', !focus);
-  if(focus) $('#pathSub').textContent = shown.sub
+  ['#pathBack','#pathHead','#pathSub'].forEach(k=>$(k).classList.toggle('hidden', !focus));
+  if(!focus) return;
+  $('#pathSub').textContent = shown.sub
     + (shown===here ? '' : ' Not open yet \u2014 tap a step to look at it.');
-  $('#pathHead').classList.remove('hidden');
   $('#pathHead').querySelector('h2').textContent=shown.n;
   /* The first screen promises you stop needing this, and in the middle that is
      an abstraction. Counted from the pace they are actually going at, it is

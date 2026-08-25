@@ -728,6 +728,29 @@ being asked for, which keeps Practice one-thing-to-do on day one without
 locking anything. And `check_app.py` caught a top-level `sx` — the onboarding
 swipe's start-x — shadowed by the path's per-step `sx`; renamed `swX`.
 
+### Detail, high level, detail
+
+Read back off the merged tab: *progress section, programme section, path
+section \u2014 why? detail, high level, detail.* Correct, and the diagnosis
+understates it, because two of those four sections were answering the same
+question. The sequence already ends by naming the step after it \u2014 `NEXT \u00b7
+BREATHING \u00b7 RIBS` \u2014 and the resting path said the same thing again as a rail:
+where you are, and what is next.
+
+The path only earns its place as a drill-in. It appears when you pick a
+programme and it gets the screen to itself. What is left is three sections,
+general to specific, with the log last:
+
+| | |
+| --- | --- |
+| Your sequence | what you have \u2014 the payload |
+| Programmes | what there is \u2014 the map |
+| Turning up | have you shown up \u2014 the footnote |
+
+Resting state went from 2.4 viewports to **1.6**. Nothing became unreachable:
+revision and a step's briefing live in the path, which is one tap away on the
+tile that is already outlined as the one you are in.
+
 ### Two tabs were both answering "how am I doing"
 
 Observed, correctly: *practice and progress seem to be doing a lot of the same
