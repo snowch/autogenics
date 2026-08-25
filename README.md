@@ -728,6 +728,34 @@ being asked for, which keeps Practice one-thing-to-do on day one without
 locking anything. And `check_app.py` caught a top-level `sx` — the onboarding
 swipe's start-x — shadowed by the path's per-step `sx`; renamed `swX`.
 
+### Programmes is a tab
+
+Third position for the map, and the right one. It was a section of Progress;
+before that a screen behind a text link at the bottom of Progress, which is why
+it got merged back in \u2014 a map nobody can find is not a map. A tab is what was
+missing from both attempts: discoverable, and it leaves the record short again.
+Both screens are ~1.0 viewports now.
+
+The path screen belongs to Programmes rather than Progress, and keeps that tab
+lit while you are on it.
+
+**And the tab bar had to be renamed to survive it.** `PRACTICE · PROGRESS ·
+PROGRAMMES · LEARN` is three tabs beginning *Pr*, two of them adjacent and
+near-synonyms in ordinary English \u2014 a nav bar you have to read rather than
+scan. Progress is **Record** now. The app had called that content "your record"
+all along, in `Your record`, `See your record`, `Keep the record going`; and
+`DESIGN.md` \u00a76 is wary of the word *progress* for the reason it is wary of
+progress bars, which is that it invites the checking this method cannot afford.
+
+Four tabs, each with one job:
+
+| | |
+| --- | --- |
+| Practice | today |
+| Record | the sequence you hold, and turning up |
+| Programmes | the map, and the path into any part of it |
+| Learn | reference |
+
 ### "wtf is refuge"
 
 A nidra tile read **USUALLY AFTER SAKSHI** to a reader who had never met the

@@ -518,10 +518,17 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <div class="pathhead" id="seqHead"><h2>Your sequence</h2></div>
       <ol class="seq" id="seqStack"></ol>
       <div id="seqEnd"></div>
-      <div class="pathhead" id="progHead" style="margin-top:26px"><h2>Programmes</h2></div>
-      <div id="progTiles"></div>
       <div class="pathhead" id="weekHead" style="margin-top:26px"><h2>Turning up</h2><span class="cnt" id="weekCnt"></span></div>
       <div class="strip" id="weekStrip"></div>
+    </section>
+
+    <!-- The map is a tab. It was a section of Progress, and before that a screen
+         behind a text link at the bottom of Progress \u2014 which is why it got
+         merged back in, since a map nobody can find is not a map. A tab is the
+         answer that was missing: discoverable, and it leaves the record short
+         again. The title bar names it, so there is no heading in the page. -->
+    <section class="screen" id="s-programmes">
+      <div id="progTiles"></div>
     </section>
 
     <!-- A programme is a screen, not a state the Progress tab collapses into.
@@ -863,7 +870,9 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <button data-go="journey" class="on">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="12" cy="19" r="2.2"/></svg>Practice</button>
     <button data-go="progress">
-      <svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-4"/><path d="M13 16V8"/><path d="M18 16v-6"/></svg>Progress</button>
+      <svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-4"/><path d="M13 16V8"/><path d="M18 16v-6"/></svg>Record</button>
+    <button data-go="programmes">
+      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></svg>Programmes</button>
     <button data-go="learn">
       <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H11v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H13v16h5.5a1.5 1.5 0 001.5-1.5z"/></svg>Learn</button>
   </div>
@@ -1565,7 +1574,7 @@ function renderNudge(){
    tiles and their captions are three-quarters of a phone screen, so leaving
    them above the path meant the steps you asked for opened below the fold. The
    tiles stand down and the path gets the screen; this brings them back. */
-$('#pathBack').onclick=()=>{ pathOf=null; open=null; renderJourney(); go('progress'); };
+$('#pathBack').onclick=()=>{ pathOf=null; open=null; renderJourney(); go('programmes'); };
 $('#ndRow').onclick=()=>go('nidra');
 
 /* ---------- Progress: what you hold, and whether you are turning up ----------
@@ -2307,8 +2316,12 @@ function paintTop(name){
                 : ($('.screen.on') || {id:'s-journey'}).id.replace('s-',''));
   const prog = name==='path' && PROGRAMMES.find(x=>x.id===pathOf);
   $('#topTitle').textContent = prog ? prog.n
-    : {learn:'Learn', progress:'Progress', nidra:'Primed nidra',
-       settings:'Settings'}[name] || 'Your practice';
+    /* Not "Progress". Three tabs beginning Pr, two of them adjacent and near
+       synonyms, is a nav bar you have to read rather than scan \u2014 and the word
+       invites the score-checking DESIGN.md \u00a76 is built to avoid. The app has
+       called this content "your record" all along. */
+    : {learn:'Learn', progress:'Record', programmes:'Programmes',
+       nidra:'Primed nidra', settings:'Settings'}[name] || 'Your practice';
   $('#topPos').textContent = name==='path' ? pathCount
     : S.step>=STEPS.length-1 ? 'Unaided' : 'Step '+(S.step+1);
   $('#topPos').classList.toggle('hidden', name!=='journey' && name!=='path');
@@ -2319,7 +2332,7 @@ function go(name){
   paintTop(name);
   /* A screen reached by tapping keeps its tab lit, rather than leaving all
      three dark on something you navigated to from one of them. */
-  const OWNS={nidra:'journey', path:'progress'};
+  const OWNS={nidra:'journey', path:'programmes'};
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',
     b.dataset.go===name || b.dataset.go===OWNS[name]));
   window.scrollTo(0,0);
