@@ -728,6 +728,39 @@ being asked for, which keeps Practice one-thing-to-do on day one without
 locking anything. And `check_app.py` caught a top-level `sx` — the onboarding
 swipe's start-x — shadowed by the path's per-step `sx`; renamed `swX`.
 
+### "wtf is refuge"
+
+A nidra tile read **USUALLY AFTER SAKSHI** to a reader who had never met the
+word, and the code was actively making it worse — `ndBlocker` split
+`Pranamaya · counting down` on the separator and kept the half nobody could
+read, throwing away the English gloss that was sitting right there. Two of the
+six drills had no gloss at all.
+
+And it was not confined to the tile. The same names are the **stage labels
+shown during a session**, so mid-practice, eyes open, the screen said `SAKSHI`.
+
+The app had already settled this once, for the three sankalpa modes, and the
+comment in the source says why: they are *"named after what they actually are,
+which is better writing as well as nobody else's vocabulary."* That rule was
+applied to three buttons and nothing else. It applies everywhere now:
+
+| was | is |
+| --- | --- |
+| Refuge | Somewhere safe |
+| Pranamaya · counting down | Counting the breath |
+| Opposites · heavy and light | Heavy and light |
+| Opposites · cool and warm | Cool and warm |
+| Sakshi | Resting as awareness |
+| Sankalpa | The resolve |
+| "At the sankalpa stages" | "When it asks you for something" |
+
+The tile pill changed with them, from *Usually after* to **Easier after** —
+smoother to read, states the benefit rather than a norm, and stays plainly
+distinct from the ladder's *Opens after*, which is an actual lock.
+
+Provenance is not lost, just not in the user's face: `PRIMED-NIDRA.md` keeps the
+traditional names and carries the mapping.
+
 ### A programme is a screen
 
 *Why not clicking a programme tile to full screen it and then show the path?*

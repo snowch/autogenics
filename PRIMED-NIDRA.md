@@ -119,6 +119,28 @@ opening formula: the ramp does one job.
 
 ---
 
+## What the app calls these
+
+This document keeps the traditional names, because that is where they come
+from and the provenance is worth keeping. The app does not put them on screen.
+
+| here | in the app |
+| --- | --- |
+| Refuge | Somewhere safe |
+| Pranamaya (counting down) | Counting the breath |
+| Opposites (heavy/light, cool/warm) | Heavy and light · Cool and warm |
+| Sakshi | Resting as awareness |
+| Sankalpa | The resolve |
+
+The app had already settled this once, for the three sankalpa modes, and the
+comment in the source says why: they are *"named after what they actually are,
+which is better writing as well as nobody else's vocabulary."* The drills and
+the session stages were left behind, so a programme tile read **USUALLY AFTER
+SAKSHI** to somebody who had never met the word — and the code made it worse,
+splitting `Pranamaya · counting down` on the separator and keeping the half
+nobody could read. The stage names also appear on screen *during* a session, so
+the same jargon was in front of you mid-practice.
+
 ## Phase 0 — The integrated ladder (13 weeks)
 
 The obvious mistake is to learn AT first and bolt nidra on afterwards. That
