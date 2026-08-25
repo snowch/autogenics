@@ -530,9 +530,18 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
       <div id="progTiles"></div>
       <div class="pathhead" id="weekHead" style="margin-top:26px"><h2>Turning up</h2><span class="cnt" id="weekCnt"></span></div>
       <div class="strip" id="weekStrip"></div>
-      <button class="backrow hidden" id="pathBack">All programmes</button>
-      <div class="pathhead hidden" id="pathHead"><h2>Your path</h2><span class="cnt" id="pathCnt"></span></div>
-      <p class="tcap hidden" id="pathSub"></p>
+    </section>
+
+    <!-- A programme is a screen, not a state the Progress tab collapses into.
+         It behaved like one already \u2014 everything else hidden, a back row at the
+         top \u2014 but the title bar still said "Progress" over content headed "The
+         deeper four", and an in-page heading repeated the name underneath. Same
+         duplication the nidra screen had. The title bar names it now, the count
+         sits where the step counter sits, and the Progress tab stops mutating:
+         it always shows its three sections, with no hidden state behind it. -->
+    <section class="screen" id="s-path">
+      <button class="backrow" id="pathBack">All programmes</button>
+      <p class="tcap" id="pathSub"></p>
       <ol class="steps" id="journey"></ol>
     </section>
 
@@ -870,7 +879,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="ed14e2f+";window.__ASSETS__="3284276";
+window.__BUILD__="18c424e+";window.__ASSETS__="3284276";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1071,6 +1080,7 @@ let pathOf=null;   /* which programme's path is on Progress */
    is trained, when it has been used before, or the moment you go looking for
    it from Programmes or Look ahead. Asked for is not the same as offered. */
 let ndOpen=false;
+let pathCount='';   /* the open programme's count, shown in the title bar */
 const save=()=>{ if(preview) return;
   try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} };
 
@@ -1517,8 +1527,7 @@ function renderProgrammes(){
          so it scopes the path below and its steps open the preview, which is
          the same look-ahead the last step has always had. */
       b.onclick=()=>{
-        if(p.steps){ pathOf=p.id; open=null; renderJourney();
-          return requestAnimationFrame(()=>window.scrollTo(0,0)); }
+        if(p.steps){ pathOf=p.id; open=null; renderJourney(); return go('path'); }
         ndOpen=true; ndState().kind=p.kind; save(); renderNidra(); go('nidra');
       };
       if(p.steps && (pathOf ? p.id===pathOf : st==='now')) b.classList.add('sel');
@@ -1551,7 +1560,7 @@ function renderNudge(){
    tiles and their captions are three-quarters of a phone screen, so leaving
    them above the path meant the steps you asked for opened below the fold. The
    tiles stand down and the path gets the screen; this brings them back. */
-$('#pathBack').onclick=()=>{ pathOf=null; open=null; renderJourney(); window.scrollTo(0,0); };
+$('#pathBack').onclick=()=>{ pathOf=null; open=null; renderJourney(); go('progress'); };
 $('#ndRow').onclick=()=>go('nidra');
 
 /* ---------- Progress: what you hold, and whether you are turning up ----------
@@ -1643,8 +1652,6 @@ function renderJourney(){
   renderStack();
   ndRow();
   const st=step(), es=todayHere();
-  $('#topPos').textContent = S.step>=STEPS.length-1 ? 'Unaided' : 'Step '+(S.step+1);
-  $('#pathCnt').textContent=S.step+' of '+STEPS.length+' done';
 
   /* ---- hero: the one thing to do now ---- */
   const now=el('div','now'); $('#nowCard').innerHTML=''; $('#nowCard').appendChild(now);
@@ -2004,15 +2011,6 @@ mode = guidedDefault() ? 'guided' : 'timer';
   const mine=shown.steps.filter(i=>i<=S.step);
   const ahead = (shown===here && S.step+1<STEPS.length
                  && shown.steps.indexOf(S.step+1)>=0) ? 1 : 0;
-  /* Master and detail on one screen, and only one of them at a time. */
-  const focus=!!pathOf;
-  ['#seqHead','#seqStack','#weekHead','#weekStrip','#seqEnd','#progHead','#progTiles']
-    .forEach(k=>$(k).classList.toggle('hidden', focus));
-  ['#pathBack','#pathHead','#pathSub'].forEach(k=>$(k).classList.toggle('hidden', !focus));
-  if(!focus) return;
-  $('#pathSub').textContent = shown.sub
-    + (shown===here ? '' : ' Not open yet \u2014 tap a step to look at it.');
-  $('#pathHead').querySelector('h2').textContent=shown.n;
   /* The first screen promises you stop needing this, and in the middle that is
      an abstraction. Counted from the pace they are actually going at, it is
      not — and it is the only number in the app that is supposed to fall. */
@@ -2022,11 +2020,16 @@ mode = guidedDefault() ? 'guided' : 'timer';
   /* "0 of 4" on a programme nobody has reached is a score against you rather
      than a description of it. Somewhere you have not been has a size, not a
      progress bar. */
-  $('#pathCnt').textContent = shown!==here && !doneHere ? shown.steps.length+' steps'
+  pathCount = shown!==here && !doneHere ? shown.steps.length+' steps'
     : (stepsLeft>0 && S.step>0 && allDays>=GATE.minDays && shown===here)
-    ? doneHere+' of '+shown.steps.length+' \u00b7 about '+Math.max(1,Math.round(
-        stepsLeft*Math.max(GATE.minDays, allDays/S.step)/7))+' weeks left overall'
+    ? doneHere+' of '+shown.steps.length+' \u00b7 '+Math.max(1,Math.round(
+        stepsLeft*Math.max(GATE.minDays, allDays/S.step)/7))+'w left'
     : doneHere+' of '+shown.steps.length;
+  paintTop();
+  /* The Progress tab no longer hides half of itself; the path is elsewhere. */
+  if(!pathOf) return;
+  $('#pathSub').textContent = shown.sub
+    + (shown===here ? '' : ' Not open yet \u2014 tap a step to look at it.');
 
   /* The programme film is gone. It described autogenic training and nothing
      else, which stopped being the product two methods ago, and every content
@@ -2289,19 +2292,29 @@ function logRating(r){
   save(); $('#rating').classList.remove('on'); renderJourney();
 }
 
+/* The title bar, for whichever screen is showing. Two writers used to set it —
+   go() on navigation and renderJourney() on every re-render — so toggling a
+   step open on the path screen replaced its name and count with the practice
+   screen's. The count sits in the same slot as the step counter because it
+   answers the same question about whatever you are looking at. */
+function paintTop(name){
+  name = name || ($('#s-path').classList.contains('on') ? 'path'
+                : ($('.screen.on') || {id:'s-journey'}).id.replace('s-',''));
+  const prog = name==='path' && PROGRAMMES.find(x=>x.id===pathOf);
+  $('#topTitle').textContent = prog ? prog.n
+    : {learn:'Learn', progress:'Progress', nidra:'Primed nidra',
+       settings:'Settings'}[name] || 'Your practice';
+  $('#topPos').textContent = name==='path' ? pathCount
+    : S.step>=STEPS.length-1 ? 'Unaided' : 'Step '+(S.step+1);
+  $('#topPos').classList.toggle('hidden', name!=='journey' && name!=='path');
+}
 function go(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   $('#s-'+name).classList.add('on');
-  $('#topTitle').textContent = {learn:'Learn', progress:'Progress',
-    nidra:'Primed nidra', settings:'Settings'}[name]
-    || 'Your practice';
-  /* Progress already says where you are twice — "1 of 3" beside the programme
-     name, and the fill of the dots on the rail. A third copy in the title bar
-     is not reassurance, it is noise. */
-  $('#topPos').classList.toggle('hidden', name!=='journey');
-  /* Programmes is reached from Progress and belongs to it, so the tab stays lit
-     rather than leaving all three dark on a screen you got to by tapping. */
-  const OWNS={nidra:'journey'};
+  paintTop(name);
+  /* A screen reached by tapping keeps its tab lit, rather than leaving all
+     three dark on something you navigated to from one of them. */
+  const OWNS={nidra:'journey', path:'progress'};
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',
     b.dataset.go===name || b.dataset.go===OWNS[name]));
   window.scrollTo(0,0);

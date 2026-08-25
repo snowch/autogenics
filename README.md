@@ -728,6 +728,25 @@ being asked for, which keeps Practice one-thing-to-do on day one without
 locking anything. And `check_app.py` caught a top-level `sx` — the onboarding
 swipe's start-x — shadowed by the path's per-step `sx`; renamed `swX`.
 
+### A programme is a screen
+
+*Why not clicking a programme tile to full screen it and then show the path?*
+It behaved like a full screen already \u2014 everything else hidden, a back row at
+the top \u2014 but it was an in-place collapse, so the title bar said **Progress**
+over content headed **The deeper four**, and an in-page heading repeated the
+name underneath. The same duplication the nidra screen had before it moved out.
+
+It is a screen now. The title bar names the programme, the count sits in the
+slot the step counter uses because it answers the same question about whatever
+you are looking at, and the in-page heading is gone. Progress stops mutating:
+it always shows its three sections, with no hidden state behind it.
+
+That surfaced a real defect in passing. The title bar had **two writers** \u2014
+`go()` on navigation and `renderJourney()` on every re-render \u2014 so toggling a
+step open on the path screen repainted the bar with the practice screen's name
+and step number. One writer now, `paintTop()`, which reads whichever screen is
+showing.
+
 ### Detail, high level, detail
 
 Read back off the merged tab: *progress section, programme section, path
