@@ -62,8 +62,14 @@ def build_id() -> str:
     try:
         sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
                              capture_output=True, text=True, check=True).stdout.strip()
-        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
-                               capture_output=True, text=True).stdout.strip()
+        # Excluding the build outputs, because writing them is what this
+        # function is running inside. Counting them meant the stamp was dirty
+        # on every single build, for ever, which makes a dirty marker useless:
+        # it stopped distinguishing "published from uncommitted work" from
+        # "published at all".
+        dirty = subprocess.run(["git", "status", "--porcelain", "--",
+                                ".", ":(exclude)docs", ":(exclude)build"],
+                               cwd=ROOT, capture_output=True, text=True).stdout.strip()
         return sha + ("+" if dirty else "")
     except Exception:
         return "unknown"
