@@ -473,6 +473,28 @@ nav button{flex:1; padding:11px 4px 13px; display:flex; flex-direction:column; a
   gap:4px; color:var(--muted); font-family:var(--mono); font-size:.61rem;
   letter-spacing:.07em; text-transform:uppercase; text-align:center}
 nav button.on{color:var(--accent)}
+/* ---- v2 preview. Reached with ?v=2; hidden and inert otherwise. ---- */
+/* Hide the whole frame, not its children: #v2 sits after .phone in the
+   document, so emptying .phone still left the preview below the fold. */
+body.v2mode .phone, body.v2mode nav{display:none}
+body.v2mode .v2wrap{display:block}
+.v2wrap{max-width:440px; margin:0 auto; padding:26px 18px 90px}
+.eyebrow2{font-family:var(--mono); font-size:.63rem; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--accent); margin:0 0 14px}
+.v2h{font-family:Georgia,serif; font-weight:400; font-size:1.45rem;
+  line-height:1.25; margin:0 0 4px; color:var(--ink)}
+.v2plan{list-style:none; margin:16px 0 0; padding:0;
+  border-left:2px solid var(--line)}
+.v2plan li{display:grid; grid-template-columns:1fr auto; gap:10px;
+  padding:9px 0 9px 16px; position:relative; align-items:baseline}
+.v2plan li::before{content:''; position:absolute; left:-5px; top:1.05em;
+  width:8px; height:8px; border-radius:50%; background:var(--line)}
+.v2plan li.fixed::before{background:var(--accent)}
+.v2plan .nm{font-size:.95rem; color:var(--ink)}
+.v2plan .sub{display:block; font-size:.78rem; color:var(--muted)}
+.v2plan .sec{font-family:var(--mono); font-size:.72rem; color:var(--muted);
+  font-variant-numeric:tabular-nums}
+#v2pick button{flex:1 1 44%}
 nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.6}
 </style>
 <link rel="manifest" href="./manifest.webmanifest">
@@ -866,6 +888,47 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   </div>
 </div>
 
+<!-- ==================== v2 · the rebuilt session ====================
+     Reached only with ?v=2. It writes nothing to the practice record and
+     shares no state with the app around it, so the two can run side by side
+     on the same phone with no risk to either. Everything here is derived
+     from script/seg-*.md — the round, the rates, the container. -->
+<div class="v2wrap hidden" id="v2">
+  <p class="eyebrow2">Switch &middot; v2 preview</p>
+  <h2 class="v2h">A session is four things, in this order, always.</h2>
+  <ol class="v2plan" id="v2plan"></ol>
+
+  <p class="sublab" style="margin-top:26px">Which arm do you write with?</p>
+  <div class="modes" id="v2limb">
+    <button data-limb="right">Right</button>
+    <button data-limb="left">Left</button>
+  </div>
+
+  <p class="sublab" style="margin-top:20px">What to run</p>
+  <div class="modes" id="v2pick" style="flex-wrap:wrap"></div>
+  <p class="smeta" id="v2meta"></p>
+  <button class="btn" id="v2go" style="margin-top:14px">Begin</button>
+  <p class="note" id="v2note">Silent. A chime marks each part; the words are on
+    screen. Nothing here is recorded and nothing you do affects the app.</p>
+  <button class="linky" id="v2out" style="margin-top:20px">Leave the preview</button>
+</div>
+
+<div class="full" id="v2run">
+  <p class="phase" id="v2phase"></p>
+  <div class="ring">
+    <div class="halo"></div>
+    <svg viewBox="0 0 240 240" aria-hidden="true">
+      <circle class="track" cx="120" cy="120" r="112"></circle>
+      <circle class="prog" id="v2arc" cx="120" cy="120" r="112" stroke-dasharray="703.7" stroke-dashoffset="703.7"></circle>
+    </svg>
+    <span class="time" id="v2time"></span>
+  </div>
+  <p class="cue" id="v2cue"></p>
+  <div class="btnrow" style="max-width:330px;width:100%">
+    <button class="btn ghost" id="v2quit">Stop</button>
+  </div>
+</div>
+
 <div class="full" id="rating">
   <p class="phase">How was it?</p>
   <p class="cue" style="min-height:auto">What actually turned up — not what you hoped for.</p>
@@ -888,7 +951,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="ce318da";window.__ASSETS__="3284276";
+window.__BUILD__="f148911+";window.__ASSETS__="3284276";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1038,6 +1101,11 @@ const TAKEBACK_CUES=['Bend and stretch your arms. Fists clenched, firmly.',
    learn. A record is walked forward through whichever hops it has missed. */
 const LADDER_V=3;
 const HOPS={1:[0,1,1,2,3,4,5,6,7,8], 2:[0,1,1,2,3,4,5,6,7]};
+/* Declared here rather than beside the rest of the v2 block at the foot of the
+   file, because the boot sequence reads it — and a const referenced above its
+   own declaration is a temporal-dead-zone throw that kills the entire script.
+   This file has shipped that bug twice. */
+const V2ON = /(^|[?&])v=2(&|$)/.test(location.search);
 const KEY='autogenics.v2';
 const today=()=>new Date().toISOString().slice(0,10);
 const dayKey=back=>{const d=new Date(); d.setDate(d.getDate()-back); return d.toISOString().slice(0,10);};
@@ -2791,8 +2859,166 @@ $('#buildStamp').textContent = 'Build ' + (window.__BUILD__ || 'dev')
 mode = guidedDefault() ? 'guided' : 'timer';
 $('#obSteps').textContent=STEPS.length;   /* never hand-count the ladder */
 renderJourney();
-if(!S.onboarded) obOpen();
+if(!S.onboarded && !V2ON) obOpen();   /* the preview is not a first run */
 document.documentElement.classList.remove('first');   /* the frame is real now */
+/* ==================== v2 · the rebuilt session ====================
+
+   Steps 2 and 3 of the rework, behind ?v=2 so both versions run on one phone.
+   It writes nothing and reads nothing from the practice record.
+
+   Two things the old model could not do, and this exists to prove out:
+
+   1. A formula is an object with an id, not a string. The app uses formula
+      *text* as a primary key in four places — the shrink map, dropSkipped, the
+      sequence dedupe, the briefing owner lookup — so the moment the wording
+      varies by limb, every one of those silently misses. Ids first, wording
+      rendered late.
+
+   2. Length is derived. The old runner took STEPS[i].secs, a fixed constant per
+      step that included its own settle and take-back. A container whose stack
+      grows cannot work that way, and neither can one monolithic recording per
+      stage.                                                                  */
+
+const CAP = w => w.charAt(0).toUpperCase() + w.slice(1);
+/* Rendered late, from the limb. Every formula after the first two is
+   limb-neutral already, so only two ever need a mirrored recording. */
+const FORMULAE = {
+  heavyArm: {L:true,  t:l=>'My '+l+' arm is heavy.',   s:l=>CAP(l)+' arm, heavy.'},
+  heavyAll: {L:false, t:()=>'My arms and legs are heavy.', s:()=>'Arms and legs, heavy.'},
+  warmArm:  {L:true,  t:l=>'My '+l+' arm is warm.',    s:l=>CAP(l)+' arm, warm.'},
+  warmAll:  {L:false, t:()=>'My arms are warm.',       s:()=>'Arms, warm.'},
+  heart:    {L:false, t:()=>'My heartbeat is calm and regular.', s:()=>'Heartbeat, calm.'},
+  breath:   {L:false, t:()=>'It breathes me.',         s:()=>'It breathes me.'},
+  solar:    {L:false, t:()=>'My solar plexus is warm.',s:()=>'Solar plexus, warm.'},
+  brow:     {L:false, t:()=>'My forehead is cool.',    s:()=>'Forehead, cool.'}
+};
+
+/* Kermani's order, our words. Up the front and out along the arms, then up the
+   back, over the scalp and down the face. Both sides at once throughout, which
+   is what the formulae do too. Twenty-five places; the count is checked against
+   script/seg-scan.md so the two cannot drift. */
+const V2ROUND = ['Toes','Feet','Heels','Ankles','Calves','Shins','Thighs',
+  'Hips and pelvis','Stomach','Chest','Shoulders','Upper arms','Elbows',
+  'Forearms','Wrists','Hands and fingers',
+  'Buttocks','The big muscles of the back','Shoulder blades','Back of the neck',
+  'Scalp','Forehead','Around the eyes','Cheeks','Jaw — teeth apart, not touching'];
+
+const V2T = {posture:15, place:4, reps:6, say:3.5, gap:8.5, close:15};
+
+/* The container, as data. A segment is a cue and a duration; `hold` is how long
+   the cue stays up, which is shorter than the segment for a formula because the
+   gap after it is the exercise and a phrase left on screen invites re-reading.
+   `mark` chimes the boundary. Nothing here knows about stages or fade. */
+function v2Build(stack, limb){
+  const out = [];
+  out.push({p:'Settle', cue:'Sit back, or lie down.', secs:V2T.posture, mark:true});
+  V2ROUND.forEach((place, i) =>
+    out.push({p:'The round', cue:place, secs:V2T.place, mark:i===0}));
+  stack.forEach(id => {
+    const f = FORMULAE[id], words = f.t(limb);
+    for(let r=0; r<V2T.reps; r++)
+      out.push({p:'The formula', cue:words, secs:V2T.say+V2T.gap,
+                hold:V2T.say, mark:r===0});
+  });
+  TAKEBACK_CUES.forEach((c,i) =>
+    out.push({p:'The close', cue:c, secs:V2T.close/TAKEBACK_CUES.length, mark:i===0}));
+  return out;
+}
+const v2Len = segs => segs.reduce((a,x)=>a+x.secs, 0);
+const v2Clock = s => Math.floor(s/60)+':'+String(Math.round(s%60)).padStart(2,'0');
+
+/* Foundation is a stack of one, so its training and sequence sessions are the
+   same thing. Rescue is the container with no stack at all — which is why it
+   needs no script of its own. */
+const V2RUNS = [
+  {id:'rescue', n:'Rescue',      stack:[]},
+  {id:'found',  n:'Foundation',  stack:['heavyArm']},
+  {id:'train',  n:'Training · stage 3', stack:['heart']},
+  {id:'seq',    n:'Sequence · stage 6',
+   stack:['heavyAll','warmAll','heart','breath','solar','brow']}
+];
+
+let v2Limb = 'right', v2Run = V2RUNS[1], v2Timer = null;
+
+function v2Render(){
+  const segs = v2Build(v2Run.stack, v2Limb);
+  const round = V2ROUND.length * V2T.place;
+  const stack = v2Run.stack.length * V2T.reps * (V2T.say + V2T.gap);
+  const plan = [
+    ['Posture', 'structure · never fades', V2T.posture, true],
+    ['The round', V2ROUND.length + ' places, both sides at once', round, true],
+    ['The formula stack',
+      v2Run.stack.length ? v2Run.stack.map(f=>FORMULAE[f].s(v2Limb)).join(' ')
+                         : 'nothing — this one has no stack', stack, false],
+    ['The close', 'structure · never fades', V2T.close, true]
+  ];
+  const ol = $('#v2plan'); ol.innerHTML='';
+  plan.forEach(row=>{
+    const li = el('li', row[3] ? 'fixed' : null);
+    const a = el('div'); a.appendChild(el('span','nm',row[0]));
+    a.appendChild(el('span','sub',row[1]));
+    li.appendChild(a); li.appendChild(el('span','sec', v2Clock(row[2])));
+    ol.appendChild(li);
+  });
+  document.querySelectorAll('#v2limb button').forEach(b=>
+    b.classList.toggle('sel', b.dataset.limb===v2Limb));
+  document.querySelectorAll('#v2pick button').forEach(b=>
+    b.classList.toggle('sel', b.dataset.run===v2Run.id));
+  $('#v2meta').textContent = v2Clock(v2Len(segs)) + ' · ' + segs.length
+    + ' segments · derived, not set';
+}
+
+function v2Start(){
+  const segs = v2Build(v2Run.stack, v2Limb), total = v2Len(segs);
+  $('#v2run').classList.add('on');
+  keepAwake(true); hush();
+  /* Scheduled ahead on the audio clock, exactly as the old runner does, because
+     a sleeping screen stops setInterval and the chime is all that reaches
+     somebody with their eyes shut. */
+  let at = 0;
+  segs.forEach(sg => { if(sg.mark) tone(432,.6,at); at += sg.secs; });
+  tone(324,1.1,total); tone(432,1.3,total+.5);
+  const C = 2*Math.PI*112, t0 = Date.now();
+  let shown = -1;
+  clearInterval(v2Timer);
+  v2Timer = setInterval(()=>{
+    const e = (Date.now()-t0)/1000;
+    let acc = 0, i = segs.length-1;
+    for(let k=0; k<segs.length; k++){ if(e < acc+segs[k].secs){ i=k; break; } acc += segs[k].secs; }
+    if(i !== shown){ shown = i; $('#v2phase').textContent = segs[i].p; }
+    const into = e - acc, sg = segs[i];
+    $('#v2cue').textContent = (sg.hold && into > sg.hold) ? '' : sg.cue;
+    /* No digits. DESIGN.md §6: a countdown is something to check, and checking
+       is a mild form of trying — the one thing the method says not to do. The
+       ring carries "this is going somewhere" without offering anything to
+       measure yourself against. The length is on the plan screen, before you
+       start, which is where a number is useful. */
+    $('#v2arc').style.strokeDashoffset = C*(1-Math.min(1,e/total));
+    if(e >= total) v2Stop();
+  }, 200);
+}
+function v2Stop(){
+  clearInterval(v2Timer); v2Timer=null;
+  hush(); keepAwake(false);
+  $('#v2run').classList.remove('on');
+}
+
+if(V2ON){
+  document.body.classList.add('v2mode');
+  $('#v2').classList.remove('hidden');
+  V2RUNS.forEach(r=>{
+    const b=el('button', null, r.n); b.dataset.run=r.id;
+    b.onclick=()=>{ v2Run=r; v2Render(); };
+    $('#v2pick').appendChild(b);
+  });
+  document.querySelectorAll('#v2limb button').forEach(b=>
+    b.onclick=()=>{ v2Limb=b.dataset.limb; v2Render(); });
+  $('#v2go').onclick=v2Start;
+  $('#v2quit').onclick=v2Stop;
+  $('#v2out').onclick=()=>{ location.search=''; };
+  v2Render();
+}
+
 </script>
 <script>
 (function(){

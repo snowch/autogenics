@@ -124,6 +124,22 @@ def check(path: Path) -> list[str]:
                         f"'{name}' — assignments and calls in that scope will "
                         f"not do what they look like")
 
+    # The round exists twice: as narration in script/seg-scan.md and as V2ROUND
+    # in the app. Nothing tied them together, and a round whose two halves
+    # disagree is worse than either — the recording would name a place the
+    # screen does not. Counted, not eyeballed.
+    scan = ROOT / "script" / "seg-scan.md"
+    m = re.search(r"## Narration — the round(.*?)narration:end", html and scan.read_text(
+        encoding="utf-8") or "", re.S) if scan.exists() else None
+    if m:
+        want = m.group(1).count("[pause 4]") + 1      # the last place has no pause
+        got = re.search(r"const V2ROUND\s*=\s*\[(.*?)\];", html, re.S)
+        if got:
+            have = len(re.findall(r"'", got.group(1))) // 2
+            if have != want:
+                errs.append(f"the round is {have} places in the app and {want} "
+                            f"in seg-scan.md — they have drifted")
+
     # Timer mode shows the cue lines on screen while the practitioner says them
     # silently; guided mode plays the recording. If a cue is not a line the
     # recording actually speaks, the two halves of the same step disagree — and
