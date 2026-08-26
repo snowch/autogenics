@@ -123,6 +123,31 @@ Jaw — teeth apart, not touching.
 
 ---
 
+## Who paces it once the voice is gone
+
+The container never fades, so the round stays twenty-five places however much
+the app has withdrawn. But *timing* it cannot survive the last tier. Section
+boundaries can stay chimed while the voice goes — that is how you know to leave
+the round and start the formula — and they cannot stay once there is nothing
+else, because a round run slightly slow gets a chime through the middle of it,
+which is worse than no mark at all.
+
+So the fade ladder is the app doing less at each rung, and at the last one it
+inverts:
+
+| tier | what the app does |
+| --- | --- |
+| guided | voice, cues, a chime at every section |
+| timer | cues on screen, a chime at each section |
+| silent | one chime to begin. Nothing on screen, no marks, no end. |
+
+At the silent tier you run your own round and tap when you have finished — and
+the app stops **setting** the length and starts **measuring** it. That is the
+first honest number it holds: your own pace, unprompted, rather than a duration
+it handed you. It is also where the probe went. A session with nothing playing
+and nothing to look at was a one-off ceremony gating the ladder; here it is
+every session, which is why demoting it from a gate was right.
+
 ## The criterion, as stated to the user
 
 Shown when the round is first taught, and again beside the button that leaves
