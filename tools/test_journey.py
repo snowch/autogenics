@@ -61,6 +61,32 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(250)
     ck('dismissing it sticks', pg.eval_on_selector('#briefCard','e=>e.classList.contains("hidden")'))
 
+    # The cue line, across a whole unguided practice.
+    #
+    # It used to be chosen by `wake` -- the wake-lock handle, not a local flag --
+    # left behind when a shadowing `const wake` in that interval was renamed to
+    # inTakeback. With the lock held (every Android session) the index went
+    # negative, TAKEBACK_CUES[-5] is undefined, and the formula line was blank
+    # for the whole practice. Without the lock it showed the formula and never
+    # the take-back. The graft cue was written and then overwritten on the next
+    # line, so it never appeared at all. None of it is visible to check_app: the
+    # file parses either way, and the practice is done with the eyes shut, which
+    # is why it survived.
+    band = pg.evaluate("""(()=>{
+      const st=STEPS[S.step], g=drillFor(S.step), gs=g?g.secs:0, TB=15;
+      const total=st.secs+gs, cues=sessionCues({kind:'stack',idx:S.step},false);
+      const at=e=>{ const inTB=e>total-TB, inG=g && !inTB && e>total-TB-gs;
+        return inTB ? TAKEBACK_CUES[Math.min(TAKEBACK_CUES.length-1,
+                        Math.floor((e-(total-TB))/(TB/TAKEBACK_CUES.length)))]
+             : inG  ? drillCue(g)
+             : cues[Math.min(cues.length-1,Math.floor(e/((total-TB-gs)/cues.length)))];};
+      return {start:at(2), mid:at(total*0.45), graft:g?at(total-TB-gs/2):null,
+              close:at(total-2), takebacks:TAKEBACK_CUES};})()""")
+    ck('cue: a formula at the start', bool(band['start']), band['start'])
+    ck('cue: a formula mid-practice', bool(band['mid']), band['mid'])
+    ck('cue: the graft appears', band['graft'] is None or bool(band['graft']), band['graft'])
+    ck('cue: the take-back at the end', band['close'] in band['takebacks'], band['close'])
+
     # ---- walk a whole step to the gate ----
     pg.evaluate("""()=>{const dk=b=>{const d=new Date();d.setDate(d.getDate()-b);return d.toISOString().slice(0,10);};
       S.log=[]; for(let b=0;b<7;b++){for(let i=0;i<2;i++)S.log.push({d:dk(b),t:'',step:0,r:3,m:'timer'});}

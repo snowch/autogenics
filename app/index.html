@@ -2269,15 +2269,28 @@ function runPractice(st, guided, cues, kind, graft){
          while the cue still said "I am completely calm" — no instruction at
          all, in the one part of the practice the cautions call non-optional
          and the onboarding promises the app always runs. */
+      /* One assignment, one branch. This was two bugs at once. The cue was
+         chosen by `wake` \u2014 the wake-lock handle from keepAwake(), not the
+         local flag \u2014 left behind when a shadowing `const wake` here was
+         renamed to inTakeback and this reference was missed. So with the lock
+         held, which is every Android session, the index went negative,
+         TAKEBACK_CUES[-5] is undefined, and the formula line was blank for the
+         whole practice; without the lock it showed the formula but never the
+         take-back. And the graft cue was written on its own line above, then
+         overwritten unconditionally here, so it never appeared either. */
       const inTakeback = e > total - TAKEBACK;
       const inGraft = graft && !inTakeback && e > total - TAKEBACK - gs;
-      if(inTakeback) $('#pxPhase').textContent='Waking up';
-      else if(inGraft){ $('#pxPhase').textContent=graft.n; $('#pxCue').textContent=drillCue(graft); }
-      $('#pxCue').textContent = wake
-        ? TAKEBACK_CUES[Math.min(TAKEBACK_CUES.length-1,
-            Math.floor((e-(total-TAKEBACK))/(TAKEBACK/TAKEBACK_CUES.length)))]
-        : cues[Math.min(cues.length-1,
-            Math.floor(e/((total-TAKEBACK-gs)/cues.length)))];
+      if(inTakeback){
+        $('#pxPhase').textContent='Waking up';
+        $('#pxCue').textContent = TAKEBACK_CUES[Math.min(TAKEBACK_CUES.length-1,
+          Math.floor((e-(total-TAKEBACK))/(TAKEBACK/TAKEBACK_CUES.length)))];
+      }else if(inGraft){
+        $('#pxPhase').textContent=graft.n;
+        $('#pxCue').textContent=drillCue(graft);
+      }else{
+        $('#pxCue').textContent = cues[Math.min(cues.length-1,
+          Math.floor(e/((total-TAKEBACK-gs)/cues.length)))];
+      }
     }
     if(e>=d) finishPractice();
   },250);
