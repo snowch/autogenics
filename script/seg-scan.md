@@ -1,6 +1,6 @@
 # Segment — the round
 
-**~96 seconds · stage 0, and a fixed segment of every session**
+**~96 seconds · sixteen places · stage 0, and a fixed segment of every session**
 
 <!-- render: --speed 0.90 --lead-in 0.4 -->
 
@@ -13,19 +13,23 @@ because the point is that you end up able to run it with nothing playing. That
 is the whole reason it is worth teaching rather than narrating: a recording you
 follow teaches nothing, a round you have memorised is yours.
 
-**The shape, so it can be held:** four points on each limb, three through the
-middle, four up the head, then all of it at once. Twenty-four places, four
-seconds each.
+**Both sides at once.** Not one side and then the other. Kermani teaches the
+bilateral form for autogenic training and he is right for this app in
+particular, because it is what the formulae already do — *my arms and legs are
+heavy* is bilateral, so a one-sided round would train a different shape of
+attention from the thing it is a doorway to. It also halves the count, which
+matters more than anything else here: a round only earns its keep if you can
+hold it.
 
-Four, not two and a half. At two and a half this was a naming drill — you get to
-a place and are moved on before attention has arrived there. That rate was
-picked to hit a session length, which is the wrong way round: the round is the
-first thing taught and has its own criterion, so it gets the time the exercise
-needs and the session total is whatever it is.
+**The shape, so it can be held:** four down the arms, four down the legs, three
+through the middle, four up the head, then all of it at once. Sixteen places,
+six seconds each.
 
-**Dominant side first**, which is not decoration — it is the same convention the
-ladder runs on, and it means attention has already been to the arm the first
-formula is about. `{limb}` is templated from the user's answer.
+Sixteen at six beats twenty-four at four for the same ninety-six seconds — half
+as much to remember, two and a half times as long in each place.
+
+**No limb template here.** The round is the same for everybody; only the
+formulae need `{limb}`.
 
 **Never ask how relaxed it felt.** The criterion is behavioural: did you get to
 the end still following it. That is answerable without judging yourself, and
@@ -52,8 +56,8 @@ week or two you can run it without this.
 
 [pause 0.9]
 
-Four points on each limb, three through the middle, four up the head. Then all
-of it at once.
+Both sides together — not one and then the other. Four down the arms, four down
+the legs, three through the middle, four up the head. Then all of it at once.
 
 [pause 0.9]
 
@@ -68,34 +72,24 @@ moving it on when I say.
 
 <!-- narration:start -->
 
-Your {limb} hand. [pause 4]
-Forearm. [pause 4]
-Upper arm. [pause 4]
-Shoulder. [pause 4]
+Both hands. [pause 6]
+Both forearms. [pause 6]
+Both upper arms. [pause 6]
+Both shoulders. [pause 6]
 
-The other hand. [pause 4]
-Forearm. [pause 4]
-Upper arm. [pause 4]
-Shoulder. [pause 4]
+Both feet. [pause 6]
+Both lower legs. [pause 6]
+Both thighs. [pause 6]
+Both hips. [pause 6]
 
-Your {limb} foot. [pause 4]
-Lower leg. [pause 4]
-Thigh. [pause 4]
-Hip. [pause 4]
+Belly. [pause 6]
+Chest. [pause 6]
+Back. [pause 6]
 
-The other foot. [pause 4]
-Lower leg. [pause 4]
-Thigh. [pause 4]
-Hip. [pause 4]
-
-Belly. [pause 4]
-Chest. [pause 4]
-Back. [pause 4]
-
-Throat. [pause 4]
-Jaw. [pause 4]
-Face. [pause 4]
-Scalp. [pause 4]
+Throat. [pause 6]
+Jaw. [pause 6]
+Face. [pause 6]
+Scalp. [pause 6]
 
 All of it at once.
 
