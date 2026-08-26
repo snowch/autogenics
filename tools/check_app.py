@@ -165,7 +165,13 @@ def check(path: Path) -> list[str]:
             errs.append(f"{md.name}: no render speed — it would silently take "
                         f"the tool default")
             continue
-        want = PRACTICE if md.stem in SCRIPTS.values() else EXPLAIN
+        # seg-* are the segment scripts for the rebuilt session container —
+        # posture, the round, the close, the formulae. They are spoken *into* a
+        # practice, not about one, so they take the practice pace. Without this
+        # they were classified as explainers and the gate failed the moment the
+        # scripts landed, before a line of the container existed.
+        practice = md.stem in SCRIPTS.values() or md.stem.startswith("seg-")
+        want = PRACTICE if practice else EXPLAIN
         if abs(float(m.group(1)) - want) > 0.001:
             kind = "a guided practice" if want == PRACTICE else "an explainer"
             errs.append(f"{md.name}: speed {m.group(1)} but it is {kind}, "
