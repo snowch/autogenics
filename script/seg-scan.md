@@ -1,6 +1,6 @@
 # Segment — the round
 
-**~96 seconds · sixteen places · stage 0, and a fixed segment of every session**
+**~100 seconds · twenty-five places · stage 0, and a segment of every session**
 
 <!-- render: --speed 0.90 --lead-in 0.4 -->
 
@@ -13,20 +13,37 @@ because the point is that you end up able to run it with nothing playing. That
 is the whole reason it is worth teaching rather than narrating: a recording you
 follow teaches nothing, a round you have memorised is yours.
 
-**Both sides at once.** Not one side and then the other. Kermani teaches the
-bilateral form for autogenic training and he is right for this app in
-particular, because it is what the formulae already do — *my arms and legs are
-heavy* is bilateral, so a one-sided round would train a different shape of
-attention from the thing it is a doorway to. It also halves the count, which
-matters more than anything else here: a round only earns its keep if you can
-hold it.
+## Provenance, and where the line is
 
-**The shape, so it can be held:** four down the arms, four down the legs, three
-through the middle, four up the head, then all of it at once. Sixteen places,
-six seconds each.
+The order below is Kermani's, from his autogenic training method. **A sequence
+of anatomical locations is a procedure, and procedures are not what copyright
+protects — expression is.** So the path is followed exactly and not one phrase
+of his is reproduced: every word in the narration here is written from scratch,
+and nothing echoes his cadence. This is not legal advice; it is the conservative
+reading, and it happens to be the one the project constraints already set.
 
-Sixteen at six beats twenty-four at four for the same ninety-six seconds — half
-as much to remember, two and a half times as long in each place.
+His name stays in this file and out of the app, the same rule Schultz's gets.
+
+## The shape
+
+**Up the front, out along the arms. Then up the back, over the scalp, down the
+face.** Sixteen places and then nine — the two passes are what make it holdable,
+not the count.
+
+Three things it does that a limb-by-limb rotation does not, and all three are
+improvements:
+
+- **It starts at the feet and travels up**, ending at the jaw, which is where
+  almost everybody is holding something and is the right place to finish.
+- **It goes up the body and then out along the arms** — shoulders, upper arms,
+  elbows, forearms, wrists, hands — rather than treating the arms as a separate
+  limb to be visited.
+- **It is a sweep, not a station stop.** That sets the pace: four seconds a
+  place, moving. A six-second dwell would turn it into a different exercise.
+
+**Both sides at once**, which is also what the formulae do — *my arms and legs
+are heavy* is bilateral, so a one-sided round would train a different shape of
+attention from the thing it is a doorway to.
 
 **No limb template here.** The round is the same for everybody; only the
 formulae need `{limb}`.
@@ -35,13 +52,11 @@ formulae need `{limb}`.
 the end still following it. That is answerable without judging yourself, and
 judging yourself is the striving this method exists to train out.
 
-**Screen cues:** the place names below, one per point. Kept to one or two words
-each. Short cues, unhurried points: the words name the place, the four seconds
-are for being there.
+**Screen cues:** the place names below, one per point.
 
-**Rescue runs this bare.** The teaching pass below is tied to the first few
-sessions of Foundation and the ladder, never to rescue. A permanently guided
-practice you reach for in a state should not open by explaining itself.
+**Rescue runs this bare.** The teaching pass is tied to the first few sessions
+of Foundation and the ladder, never to rescue. A permanently guided practice you
+reach for in a state should not open by explaining itself.
 
 ---
 
@@ -56,13 +71,18 @@ week or two you can run it without this.
 
 [pause 0.9]
 
-Both sides together — not one and then the other. Four down the arms, four down
-the legs, three through the middle, four up the head. Then all of it at once.
+Up the front and out along the arms. Then up the back, over the scalp, and down
+the face.
+
+[pause 0.9]
+
+Both sides at once. That is harder than it sounds, and losing one of them early
+on is normal — keep going and it settles.
 
 [pause 0.9]
 
 You are not relaxing anything. You are putting your attention somewhere, and
-moving it on when I say.
+moving on when I say.
 
 <!-- narration:end -->
 
@@ -72,26 +92,32 @@ moving it on when I say.
 
 <!-- narration:start -->
 
-Both hands. [pause 6]
-Both forearms. [pause 6]
-Both upper arms. [pause 6]
-Both shoulders. [pause 6]
+Toes. [pause 4]
+Feet. [pause 4]
+Heels. [pause 4]
+Ankles. [pause 4]
+Calves. [pause 4]
+Shins. [pause 4]
+Thighs. [pause 4]
+Hips and pelvis. [pause 4]
+Stomach. [pause 4]
+Chest. [pause 4]
+Shoulders. [pause 4]
+Upper arms. [pause 4]
+Elbows. [pause 4]
+Forearms. [pause 4]
+Wrists. [pause 4]
+Hands and fingers. [pause 4]
 
-Both feet. [pause 6]
-Both lower legs. [pause 6]
-Both thighs. [pause 6]
-Both hips. [pause 6]
-
-Belly. [pause 6]
-Chest. [pause 6]
-Back. [pause 6]
-
-Throat. [pause 6]
-Jaw. [pause 6]
-Face. [pause 6]
-Scalp. [pause 6]
-
-All of it at once.
+Now the back. Buttocks. [pause 4]
+The big muscles of the back. [pause 4]
+Shoulder blades. [pause 4]
+Back of the neck. [pause 4]
+Scalp. [pause 4]
+Forehead. [pause 4]
+Around the eyes. [pause 4]
+Cheeks. [pause 4]
+Jaw — teeth apart, not touching.
 
 <!-- narration:end -->
 
