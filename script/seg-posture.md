@@ -1,6 +1,6 @@
 # Segment — posture
 
-**~10 seconds · structure · fires at the start of every session**
+**~15 seconds · structure · fires at the start of every session**
 
 <!-- render: --speed 0.90 --lead-in 0.4 -->
 
@@ -22,16 +22,16 @@ first formula is about the arm.
 
 Sit back, or lie down.
 
-[pause 0.8]
+[pause 1.5]
 
 Let your hands rest where they fall, palms down. Resting, not placed.
 
-[pause 0.9]
+[pause 1.5]
 
 Close your eyes. If you would rather not, let them rest half open, looking at
 nothing in particular.
 
-[pause 0.8]
+[pause 1.5]
 
 Nothing else to arrange.
 

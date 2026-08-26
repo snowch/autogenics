@@ -14,25 +14,31 @@ and a **body** that is the phrase and the silence after it. The silence is not
 padding. Saying the phrase is the smaller half of the exercise; the gap is where
 you find out whether anything arrived.
 
-## Two rates, because a stack is not six exercises
+## One rate, two kinds of session
 
-The formula belonging to the current stage is **training**. The ones below it
-are **recall** — you are re-entering a response you already have, not building
-one. Running them at the same rate is what makes a long stack long for no
-return, and it starves the one element that needs the exposure.
+Every formula runs the same: **six repetitions, ten seconds apart, 72 seconds**.
+There is no principled reason a formula you already hold gets a worse gap than
+the one you are learning — the gap is the exercise in both cases. An earlier
+draft gave the consolidated ones four seconds, which is not a gap, it is a pause
+between lines. That number existed to hit a session length.
 
-| | reps | gap | segment |
+The real problem it was badly solving is that at stage six the new element gets
+one sixth of the session. `DESIGN.md` §7 names this — *the instructional design
+is inverted: the thing being learned gets the least exposure* — and its fix is
+not to shorten the others. It is two kinds of session:
+
+| | stack | at stage 6 | how often |
 | --- | --- | --- | --- |
-| the stage's own formula | 6 | 8s | 60s |
-| every formula below it | 3 | 4s | 18s |
+| **Training** | the stage's own formula, alone | 3:18 | 2–3× daily |
+| **Sequence** | every formula, in order | 9:18 | once daily |
 
-So a session grows by about twenty seconds a stage: **2:25 at Foundation, 3:55
-at stage 6**, over a container fixed at 85 seconds. Rescue, which has no stack
-at all, is 1:25.
+The container does not change. Posture, round, stack, close, every time. What
+varies is what goes in the stack — which is what "length is derived, not
+configured" means. Foundation has only one formula, so its two kinds are the
+same session: 3:18, four to six times a day. Rescue has no stack at all: 2:06.
 
-This is not a new idea in this app — the existing cue arrays already give the
-new element four of eight slots and the consolidated ones one each. `DESIGN.md`
-§7 argues the split does not go far enough. It goes far enough now.
+Daily total lands at 13–20 minutes throughout, which is the honest cost of the
+method rather than a number reverse-engineered from a target.
 
 **Screen cue:** the phrase itself, shortening as the stage fades —
 `My right arm is heavy.` → `Right arm, heavy.` → `Heavy.`
@@ -55,12 +61,12 @@ Chasing it is the one thing that reliably stops it.
 Body:
 
 <!-- narration:start -->
-My {limb} arm is heavy. [pause 8]
-My {limb} arm is heavy. [pause 8]
-My {limb} arm is heavy. [pause 8]
-My {limb} arm is heavy. [pause 8]
-My {limb} arm is heavy. [pause 8]
-My {limb} arm is heavy. [pause 8]
+My {limb} arm is heavy. [pause 10]
+My {limb} arm is heavy. [pause 10]
+My {limb} arm is heavy. [pause 10]
+My {limb} arm is heavy. [pause 10]
+My {limb} arm is heavy. [pause 10]
+My {limb} arm is heavy. [pause 10]
 <!-- narration:end -->
 
 ---
@@ -74,7 +80,7 @@ Same weight, now named everywhere. The arm taught it; the rest tend to follow
 without being taught separately.
 <!-- narration:end -->
 
-Body: `My arms and legs are heavy.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
+Body: `My arms and legs are heavy.` × 6, ten seconds apart, in either kind of session.
 
 ---
 
@@ -87,13 +93,13 @@ Blood, not muscle. Nothing to picture — no fire, no light. Say it, and notice
 the hand.
 <!-- narration:end -->
 
-Body: `My {limb} arm is warm.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
+Body: `My {limb} arm is warm.` × 6, ten seconds apart, in either kind of session.
 
 ---
 
 ## warm-all · stage 2, once the arm has it
 
-Body: `My arms are warm.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
+Body: `My arms are warm.` × 6, ten seconds apart, in either kind of session.
 
 ---
 
@@ -106,7 +112,7 @@ Find the beat wherever it is easiest. You are not slowing it. Noticing it is the
 whole exercise, and the settling happens on its own or not at all.
 <!-- narration:end -->
 
-Body: `My heartbeat is calm and regular.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
+Body: `My heartbeat is calm and regular.` × 6, ten seconds apart, in either kind of session.
 
 ---
 
@@ -119,7 +125,7 @@ The grammar is deliberate. Breathing is the one of these you can take over
 without meaning to — so you will. Notice, let go of it, go back to watching.
 <!-- narration:end -->
 
-Body: `It breathes me.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
+Body: `It breathes me.` × 6, ten seconds apart, in either kind of session.
 
 ---
 
@@ -133,7 +139,7 @@ everything before it. If the earlier ones are not landing, this will not either,
 and the answer is to go back rather than push.
 <!-- narration:end -->
 
-Body: `My solar plexus is warm.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
+Body: `My solar plexus is warm.` × 6, ten seconds apart, in either kind of session.
 
 ---
 
@@ -146,4 +152,4 @@ The only one that goes the other way. Everything so far has been settling; this
 stays clear. Cool, not cold — keep it light and keep it brief.
 <!-- narration:end -->
 
-Body: `My forehead is cool.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
+Body: `My forehead is cool.` × 6, ten seconds apart, in either kind of session.

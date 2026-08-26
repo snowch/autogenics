@@ -1,6 +1,6 @@
 # Segment — the round
 
-**~60 seconds · stage 0, and a fixed segment of every session**
+**~96 seconds · stage 0, and a fixed segment of every session**
 
 <!-- render: --speed 0.90 --lead-in 0.4 -->
 
@@ -14,8 +14,14 @@ is the whole reason it is worth teaching rather than narrating: a recording you
 follow teaches nothing, a round you have memorised is yours.
 
 **The shape, so it can be held:** four points on each limb, three through the
-middle, four up the head, then all of it at once. Twenty-four places, about two
-and a half seconds each.
+middle, four up the head, then all of it at once. Twenty-four places, four
+seconds each.
+
+Four, not two and a half. At two and a half this was a naming drill — you get to
+a place and are moved on before attention has arrived there. That rate was
+picked to hit a session length, which is the wrong way round: the round is the
+first thing taught and has its own criterion, so it gets the time the exercise
+needs and the session total is whatever it is.
 
 **Dominant side first**, which is not decoration — it is the same convention the
 ladder runs on, and it means attention has already been to the arm the first
@@ -26,8 +32,8 @@ the end still following it. That is answerable without judging yourself, and
 judging yourself is the striving this method exists to train out.
 
 **Screen cues:** the place names below, one per point. Kept to one or two words
-each — at two and a half seconds a point there is no room for a clause, and the
-round is a doorway rather than the practice.
+each. Short cues, unhurried points: the words name the place, the four seconds
+are for being there.
 
 **Rescue runs this bare.** The teaching pass below is tied to the first few
 sessions of Foundation and the ladder, never to rescue. A permanently guided
@@ -62,34 +68,34 @@ moving it on when I say.
 
 <!-- narration:start -->
 
-Your {limb} hand. [pause 2.5]
-Forearm. [pause 2.5]
-Upper arm. [pause 2.5]
-Shoulder. [pause 2.5]
+Your {limb} hand. [pause 4]
+Forearm. [pause 4]
+Upper arm. [pause 4]
+Shoulder. [pause 4]
 
-The other hand. [pause 2.5]
-Forearm. [pause 2.5]
-Upper arm. [pause 2.5]
-Shoulder. [pause 2.5]
+The other hand. [pause 4]
+Forearm. [pause 4]
+Upper arm. [pause 4]
+Shoulder. [pause 4]
 
-Your {limb} foot. [pause 2.5]
-Lower leg. [pause 2.5]
-Thigh. [pause 2.5]
-Hip. [pause 2.5]
+Your {limb} foot. [pause 4]
+Lower leg. [pause 4]
+Thigh. [pause 4]
+Hip. [pause 4]
 
-The other foot. [pause 2.5]
-Lower leg. [pause 2.5]
-Thigh. [pause 2.5]
-Hip. [pause 2.5]
+The other foot. [pause 4]
+Lower leg. [pause 4]
+Thigh. [pause 4]
+Hip. [pause 4]
 
-Belly. [pause 2.5]
-Chest. [pause 2.5]
-Back. [pause 2.5]
+Belly. [pause 4]
+Chest. [pause 4]
+Back. [pause 4]
 
-Throat. [pause 2.5]
-Jaw. [pause 2.5]
-Face. [pause 2.5]
-Scalp. [pause 2.5]
+Throat. [pause 4]
+Jaw. [pause 4]
+Face. [pause 4]
+Scalp. [pause 4]
 
 All of it at once.
 
