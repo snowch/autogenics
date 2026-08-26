@@ -14,6 +14,26 @@ and a **body** that is the phrase and the silence after it. The silence is not
 padding. Saying the phrase is the smaller half of the exercise; the gap is where
 you find out whether anything arrived.
 
+## Two rates, because a stack is not six exercises
+
+The formula belonging to the current stage is **training**. The ones below it
+are **recall** — you are re-entering a response you already have, not building
+one. Running them at the same rate is what makes a long stack long for no
+return, and it starves the one element that needs the exposure.
+
+| | reps | gap | segment |
+| --- | --- | --- | --- |
+| the stage's own formula | 6 | 8s | 60s |
+| every formula below it | 3 | 4s | 18s |
+
+So a session grows by about twenty seconds a stage: **2:25 at Foundation, 3:55
+at stage 6**, over a container fixed at 85 seconds. Rescue, which has no stack
+at all, is 1:25.
+
+This is not a new idea in this app — the existing cue arrays already give the
+new element four of eight slots and the consolidated ones one each. `DESIGN.md`
+§7 argues the split does not go far enough. It goes far enough now.
+
 **Screen cue:** the phrase itself, shortening as the stage fades —
 `My right arm is heavy.` → `Right arm, heavy.` → `Heavy.`
 
@@ -35,11 +55,12 @@ Chasing it is the one thing that reliably stops it.
 Body:
 
 <!-- narration:start -->
-My {limb} arm is heavy. [pause 3.5]
-My {limb} arm is heavy. [pause 3.5]
-My {limb} arm is heavy. [pause 3.5]
-My {limb} arm is heavy. [pause 3.5]
-My {limb} arm is heavy. [pause 3.5]
+My {limb} arm is heavy. [pause 8]
+My {limb} arm is heavy. [pause 8]
+My {limb} arm is heavy. [pause 8]
+My {limb} arm is heavy. [pause 8]
+My {limb} arm is heavy. [pause 8]
+My {limb} arm is heavy. [pause 8]
 <!-- narration:end -->
 
 ---
@@ -53,7 +74,7 @@ Same weight, now named everywhere. The arm taught it; the rest tend to follow
 without being taught separately.
 <!-- narration:end -->
 
-Body: `My arms and legs are heavy.` × 5, 3.5s apart.
+Body: `My arms and legs are heavy.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
 
 ---
 
@@ -66,13 +87,13 @@ Blood, not muscle. Nothing to picture — no fire, no light. Say it, and notice
 the hand.
 <!-- narration:end -->
 
-Body: `My {limb} arm is warm.` × 5, 3.5s apart.
+Body: `My {limb} arm is warm.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
 
 ---
 
 ## warm-all · stage 2, once the arm has it
 
-Body: `My arms are warm.` × 5, 3.5s apart.
+Body: `My arms are warm.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
 
 ---
 
@@ -85,7 +106,7 @@ Find the beat wherever it is easiest. You are not slowing it. Noticing it is the
 whole exercise, and the settling happens on its own or not at all.
 <!-- narration:end -->
 
-Body: `My heartbeat is calm and regular.` × 5, 3.5s apart.
+Body: `My heartbeat is calm and regular.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
 
 ---
 
@@ -98,7 +119,7 @@ The grammar is deliberate. Breathing is the one of these you can take over
 without meaning to — so you will. Notice, let go of it, go back to watching.
 <!-- narration:end -->
 
-Body: `It breathes me.` × 5, 3.5s apart.
+Body: `It breathes me.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
 
 ---
 
@@ -112,7 +133,7 @@ everything before it. If the earlier ones are not landing, this will not either,
 and the answer is to go back rather than push.
 <!-- narration:end -->
 
-Body: `My solar plexus is warm.` × 5, 3.5s apart.
+Body: `My solar plexus is warm.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.
 
 ---
 
@@ -125,4 +146,4 @@ The only one that goes the other way. Everything so far has been settling; this
 stays clear. Cool, not cold — keep it light and keep it brief.
 <!-- narration:end -->
 
-Body: `My forehead is cool.` × 5, 3.5s apart.
+Body: `My forehead is cool.` × 6 at 8s when it is the stage's own; × 3 at 4s once it is below.

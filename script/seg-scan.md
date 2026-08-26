@@ -25,7 +25,13 @@ formula is about. `{limb}` is templated from the user's answer.
 the end still following it. That is answerable without judging yourself, and
 judging yourself is the striving this method exists to train out.
 
-**Screen cues:** the place names below, one per point.
+**Screen cues:** the place names below, one per point. Kept to one or two words
+each — at two and a half seconds a point there is no room for a clause, and the
+round is a doorway rather than the practice.
+
+**Rescue runs this bare.** The teaching pass below is tied to the first few
+sessions of Foundation and the ladder, never to rescue. A permanently guided
+practice you reach for in a state should not open by explaining itself.
 
 ---
 
@@ -78,7 +84,7 @@ Hip. [pause 2.5]
 
 Belly. [pause 2.5]
 Chest. [pause 2.5]
-Back, where it meets what you are lying or sitting on. [pause 2.5]
+Back. [pause 2.5]
 
 Throat. [pause 2.5]
 Jaw. [pause 2.5]

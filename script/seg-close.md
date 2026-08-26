@@ -10,7 +10,9 @@ worked. It is structure: it runs whatever the fade tier, and it is chimed as
 well as spoken, because it is the one part an eyes-closed user must not miss.
 
 The fourth line is a briefing, not a cue — it plays for the first few sessions
-and then stops. The three cues above it never change.
+and then stops. The three cues above it never change. Rescue never plays the
+briefing: it is guided forever, and a practice you reach for in a state should
+not spend its first seconds on explanation.
 
 **Screen cues:** the three lines below, in order.
 
