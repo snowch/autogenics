@@ -130,6 +130,39 @@ Every formula runs at six repetitions, ten seconds apart. There is no principled
 reason a formula you already hold gets a worse gap than the one you are
 learning; the gap is the exercise in both cases.
 
+## Graphics, and what the round is taught through
+
+A ladder or a set of steps is the obvious graphical treatment and it is the
+wrong one twice over: this app deleted its rail for framing the method as a
+syllabus of things you owe, and `DESIGN.md` §6 rules out progress mechanics
+because a rung you have not reached manufactures trying. Nothing during a
+session either — the eyes are shut, and anything watchable invites checking,
+which is why the countdown digits went.
+
+**A figure with the round marked on it was tried twice and does not work.** The
+face alone has five stops inside twenty-five pixels, so the head renders as a
+bunch of grapes; forty-three dots on a body at phone size is noise rather than a
+mnemonic. The first attempt used a front and a back view, which is also
+conceptually wrong — the second sweep goes up the back, over the scalp and down
+the face, so it ends on the front, and a back view has no jaw. The sentence
+beats both: *up the front and out along the arms, then up the back, over the
+scalp, down the face* is four clauses and already how anybody would hold it.
+
+**The channel that teaches the round is haptic, not visual.** `DESIGN.md` §1
+says the craft belongs in audio, haptics and timing rather than screens, because
+the practice is eyes-closed. Twenty-five places at four seconds is a pulse, and
+a pulse is something the body can hold — a tap at each place teaches the shape
+through the body, which is this app's own rule about sensation teaching and
+description not. It fades with the rest: taps while the round is being learned,
+nothing once it is not.
+
+Silently absent where the vibration API is missing, which includes iOS Safari,
+so it is a teaching aid and never the only channel.
+
+The graphics that do earn their place are already here and are typographic: the
+sequence set in Georgia, which grows as you do, and the week strip, where a gap
+is visibly unremarkable.
+
 ## Programmes
 
 - **Foundation** — the container plus heaviness in the dominant arm. Short, four

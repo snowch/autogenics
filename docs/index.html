@@ -499,6 +499,7 @@ body.v2mode .v2wrap{display:block}
    reads as a gauge — something that ought to be filling. The halo stays: a
    dim thing to find if you open your eyes, which promises nothing. */
 #v2run.bare svg{display:none}
+
 nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.6}
 </style>
 <link rel="manifest" href="./manifest.webmanifest">
@@ -902,6 +903,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   <h2 class="v2h">A session is four things, in this order, always.</h2>
   <ol class="v2plan" id="v2plan"></ol>
 
+
   <p class="sublab" style="margin-top:26px">Which arm do you write with?</p>
   <div class="modes" id="v2limb">
     <button data-limb="right">Right</button>
@@ -914,6 +916,14 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
     <button data-tier="silent">Silent</button>
   </div>
   <p class="smeta" style="margin:0 0 8px" id="v2tiernote"></p>
+
+  <div class="modes" id="v2hap" style="margin-top:10px">
+    <button data-hap="1">A tap at each place</button>
+    <button data-hap="0">No taps</button>
+  </div>
+  <p class="smeta" style="margin:0 0 8px">Twenty-five places at four seconds is a
+    pulse, and a pulse is something the body can hold. Android only — iOS Safari
+    has no vibration API, so it is never the only channel.</p>
 
   <p class="sublab" style="margin-top:20px">What to run</p>
   <p class="smeta" style="margin:0 0 8px">In the app you would not pick from a
@@ -964,7 +974,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="eecba18+";window.__ASSETS__="3284276";
+window.__BUILD__="faa9b11+";window.__ASSETS__="3284276";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -2974,7 +2984,33 @@ const V2RUNS = [
    stack:['heavyAll','warmAll','heart','breath','solar','brow']}
 ];
 
+/* ---- the round, and why it is not drawn ----
+
+   Tried twice. A figure with the twenty-five places marked on it is the obvious
+   graphic and it does not survive contact with a phone: the face alone has five
+   stops inside twenty-five pixels, so the head renders as a bunch of grapes,
+   and forty-three dots on a body at that size is noise rather than a mnemonic.
+   The first attempt used a front and a back view, which is also conceptually
+   wrong — the second sweep goes up the back and over the scalp and down the
+   face, so it ends on the front, and a back view has no jaw.
+
+   The sentence beats both. "Up the front and out along the arms, then up the
+   back, over the scalp, down the face" is four clauses and it is already how
+   anybody would hold it.
+
+   And a ladder or a set of steps, the other obvious move, is worse than
+   useless here: this app deleted its rail for framing the method as a syllabus
+   of things you owe, and DESIGN.md §6 rules out progress mechanics because a
+   rung you have not reached manufactures trying.
+
+   The channel that would actually teach the round is not the screen. DESIGN.md
+   §1: the practice is eyes-closed and the craft that matters is audio, haptics
+   and timing. Twenty-five places at four seconds is a pulse — and a tap per
+   place teaches the shape through the body, which is this app's own rule about
+   sensation teaching and description not. That is below.                     */
+
 let v2Limb = 'right', v2Run = V2RUNS[1], v2Timer = null, v2Tier = 'timer';
+let v2Haptic = true;
 
 /* The fade ladder is the app doing less, and at the last rung it inverts.
    Section boundaries can stay chimed while the voice goes, because that is how
@@ -2988,6 +3024,18 @@ let v2Limb = 'right', v2Run = V2RUNS[1], v2Timer = null, v2Tier = 'timer';
    unprompted. It is also where the probe went. A run with nothing playing and
    nothing to look at was a one-off ceremony; here it is every session, which is
    why demoting it from a gate was right. */
+/* A tap per place, while the round is still being learned.
+
+   Twenty-five places at four seconds is a pulse, and a pulse is something the
+   body can hold. This is the channel DESIGN.md §1 says the craft belongs in —
+   eyes closed, so audio, haptics and timing rather than screens — and it is the
+   app's own rule applied to the round: sensation teaches, description does not.
+   You learn where the beat falls, and after a while you keep the beat yourself.
+
+   Silently absent where the API is not there, which includes iOS Safari, so it
+   is a teaching aid and never the only channel. */
+const v2Buzz = ms => { try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} };
+
 const V2TIERS = {
   timer:  'Every part is marked and the words are on screen. What the first weeks look like.',
   silent: 'One chime to begin. Nothing on screen, no marks, no end — you tap when you have finished, and the app records how long you took.'
@@ -3020,6 +3068,8 @@ function v2Render(){
   document.querySelectorAll('#v2tier button').forEach(b=>
     b.classList.toggle('sel', b.dataset.tier===v2Tier));
   $('#v2tiernote').textContent = V2TIERS[v2Tier];
+  document.querySelectorAll('#v2hap button').forEach(b=>
+    b.classList.toggle('sel', (b.dataset.hap==='1')===v2Haptic));
   $('#v2meta').textContent = v2Tier==='silent'
     ? 'About ' + v2Clock(v2Len(segs)) + ' · but nothing holds you to it'
     : v2Clock(v2Len(segs)) + ' · ' + segs.length + ' segments · derived, not set · ' + v2Run.k;
@@ -3052,7 +3102,12 @@ function v2Start(){
     const e = (Date.now()-t0)/1000;
     let acc = 0, i = segs.length-1;
     for(let k=0; k<segs.length; k++){ if(e < acc+segs[k].secs){ i=k; break; } acc += segs[k].secs; }
-    if(i !== shown){ shown = i; $('#v2phase').textContent = segs[i].p; }
+    if(i !== shown){
+      shown = i;
+      $('#v2phase').textContent = segs[i].p;
+      /* Each place gets a tap; a section boundary already has its chime. */
+      if(v2Haptic && segs[i].p === 'The round') v2Buzz(segs[i].mark ? 30 : 12);
+    }
     const into = e - acc, sg = segs[i];
     $('#v2cue').textContent = (sg.hold && into > sg.hold) ? '' : sg.cue;
     /* No digits. DESIGN.md §6: a countdown is something to check, and checking
@@ -3087,6 +3142,8 @@ if(V2ON){
     b.onclick=()=>{ v2Limb=b.dataset.limb; v2Render(); });
   document.querySelectorAll('#v2tier button').forEach(b=>
     b.onclick=()=>{ v2Tier=b.dataset.tier; v2Render(); });
+  document.querySelectorAll('#v2hap button').forEach(b=>
+    b.onclick=()=>{ v2Haptic = b.dataset.hap==='1'; v2Render(); });
   $('#v2go').onclick=v2Start;
   $('#v2quit').onclick=v2Stop;
   $('#v2out').onclick=()=>{ location.search=''; };
