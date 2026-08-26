@@ -905,6 +905,8 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
   </div>
 
   <p class="sublab" style="margin-top:20px">What to run</p>
+  <p class="smeta" style="margin:0 0 8px">In the app you would not pick from a
+    list — the programme decides. Only the first is always one tap away.</p>
   <div class="modes" id="v2pick" style="flex-wrap:wrap"></div>
   <p class="smeta" id="v2meta"></p>
   <button class="btn" id="v2go" style="margin-top:14px">Begin</button>
@@ -951,7 +953,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="f148911+";window.__ASSETS__="3284276";
+window.__BUILD__="fe51f8c+";window.__ASSETS__="3284276";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -2927,14 +2929,23 @@ function v2Build(stack, limb){
 const v2Len = segs => segs.reduce((a,x)=>a+x.secs, 0);
 const v2Clock = s => Math.floor(s/60)+':'+String(Math.round(s%60)).padStart(2,'0');
 
-/* Foundation is a stack of one, so its training and sequence sessions are the
-   same thing. Rescue is the container with no stack at all — which is why it
-   needs no script of its own. */
+/* Named by what they are, not by what the architecture calls them.
+
+   Rescue, Foundation, training, sequence are the words in the design — useful
+   for talking about the thing, meaningless on a button. "Foundation" is a
+   course-app noun that says nothing, and "Rescue" implies an emergency, which
+   is wrong for most of the times you would actually reach for it. Both of them
+   already have honest names sitting in the plan above: rescue *is* the round
+   with nothing after it, foundation *is* one arm, heavy.
+
+   Same rule the drills got. The architecture keeps its vocabulary in the ids
+   and in the repo; the screen says what you are about to do. */
 const V2RUNS = [
-  {id:'rescue', n:'Rescue',      stack:[]},
-  {id:'found',  n:'Foundation',  stack:['heavyArm']},
-  {id:'train',  n:'Training · stage 3', stack:['heart']},
-  {id:'seq',    n:'Sequence · stage 6',
+  {id:'rescue', n:'The round on its own', k:'rescue',     stack:[]},
+  {id:'found',  n:'One arm, heavy',       k:'foundation', stack:['heavyArm']},
+  {id:'train',  n:'Heartbeat, on its own',k:'a training session, stage 3',
+   stack:['heart']},
+  {id:'seq',    n:'The whole sequence',   k:'a sequence session, stage 6',
    stack:['heavyAll','warmAll','heart','breath','solar','brow']}
 ];
 
@@ -2965,7 +2976,7 @@ function v2Render(){
   document.querySelectorAll('#v2pick button').forEach(b=>
     b.classList.toggle('sel', b.dataset.run===v2Run.id));
   $('#v2meta').textContent = v2Clock(v2Len(segs)) + ' · ' + segs.length
-    + ' segments · derived, not set';
+    + ' segments · derived, not set · ' + v2Run.k;
 }
 
 function v2Start(){
