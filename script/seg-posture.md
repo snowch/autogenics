@@ -16,6 +16,24 @@ first formula is about the arm.
 
 ---
 
+## The shrink ladder
+
+Not taught-or-gone. Three rungs at eight and twenty repetitions, which is the
+app's existing convention — `shrink(full, mid, mature)`, `shrinkCue`, and every
+drill's three-element cue array already work exactly this way.
+
+Position was the layer that made this obvious: once you know it, it does not
+disappear, it becomes one line. *Get into position, then we scan.* The segment
+still runs its fifteen seconds either way, because getting into position takes
+as long as it takes whether or not you are being told how. The container never
+fades; only the words do.
+
+| reps | what is said |
+| --- | --- |
+| under 8 | the full narration below |
+| 8–19 | **Into position. Hands where they fall.** |
+| 20+ | **Position.** |
+
 ## Narration
 
 <!-- narration:start -->

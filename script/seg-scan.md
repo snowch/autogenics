@@ -123,6 +123,19 @@ Jaw — teeth apart, not touching.
 
 ---
 
+## The shrink ladder
+
+| reps | what is said |
+| --- | --- |
+| under 8 | the teaching pass, then the twenty-five places |
+| 8–19 | the twenty-five places |
+| 20+ | nothing — you run your own round |
+
+The round is the layer where the last rung has teeth, because the places *are*
+the round. Dropping them is not a shortening, it is handing the whole thing
+over — which is the point, and which is why the round is worth building to be
+memorised rather than followed.
+
 ## Who paces it once the voice is gone
 
 The container never fades, so the round stays twenty-five places however much

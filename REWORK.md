@@ -60,6 +60,40 @@ Restoring guidance is a write to `S.fade[layer]` and is non-destructive. Reps
 keep accruing underneath, so clearing it returns you to where they say you are.
 That is "go back to a previous lesson" — for one layer, not for everything.
 
+### A layer shrinks, it does not switch off
+
+Position is what made this obvious. Once you know it, it does not disappear —
+it becomes one line. *Get into position, then we scan.* So a layer is not
+taught-or-gone; it has three rungs, and the segment keeps its full duration at
+every one, because getting into position takes as long as it takes whether or
+not you are being told how. **The container never fades; only the words do.**
+
+| layer | under 8 reps | 8–19 | 20+ |
+| --- | --- | --- | --- |
+| Position | the full narration | Into position. Hands where they fall. | Position. |
+| The round | teaching pass, then the places | the twenty-five places | nothing — you run your own |
+| A formula | lead-in, then the phrase | the phrase | the short form, then one word |
+| The close | briefing, then three cues | three cues | Take it back. |
+
+This is not a new mechanism. It is the app's existing convention, already
+implemented three times at the same thresholds:
+
+```js
+const shrink = (full,mid,mature) => n => n<8 ? full : n<20 ? mid : mature;
+const shrinkCue = c => { … n<8 ? c : n<20 ? f[0] : f[1] };
+DRILLS[].c = ['the long form…', 'shorter…', 'Two words.']
+```
+
+The container layers were the only things built as a binary, and that was the
+error. Eight and twenty are the app's numbers and there is no reason for new
+ones.
+
+**The close never reaches the last rung.** Every other layer ends at silence and
+you run it yourself; the close keeps a line for ever, because it is the only
+part of the practice with a caution attached and the onboarding promises the app
+always runs it. One line is a cheap price for not quietly dropping the thing
+that stops you standing up light-headed.
+
 ### The tiers, and the inversion at the end
 
 | tier | what the app does |
