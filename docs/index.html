@@ -953,7 +953,7 @@ nav svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.
 
 <script>
 "use strict";
-window.__BUILD__="159fdae+";window.__ASSETS__="3284276";
+window.__BUILD__="a8a6742+";window.__ASSETS__="3284276";
 const AUDIO = window.__AUDIO__ || {
   s1:'./audio/arm-heaviness-example.mp3',
   all:'./audio/at-heaviness-all.mp3',
@@ -1600,10 +1600,17 @@ function renderProgrammes(){
   /* Four lines of prose each, written before the tiles were numbered. The
      numbers say the order now; these say only the thing the numbers cannot,
      which is whether the order is enforced. */
-  const CAP={'Autogenic training':'In order, and held to it \u2014 you cannot skip warmth if '
-               +'warmth has not turned up. Any of it can be read from here.',
-             'Nidra':'Alongside the ladder, from the first rung on. Shortest first is easier; '
-               +'none of it is locked.'};
+  /* Both of these explained a rule and neither said what the track was, so
+     somebody arriving here on day one read the gating policy of a thing they
+     could not identify. What it is comes first now; the rule second. This is
+     also the only place the argument for having two methods is stated where
+     somebody meets them, rather than in Learn where you have to go looking. */
+  const CAP={'Autogenic training':'Six phrases, learned one at a time, that put you '
+               +'into a settled state on purpose \u2014 eventually with nothing playing at all. '
+               +'In order, and held to it: you cannot skip warmth if warmth has not turned up.',
+             'Nidra':'What to do once you are settled. The phrases are the way in; these are '
+               +'what the way in is for. Alongside the ladder from the first rung \u2014 shortest '
+               +'first is easier, and none of it is locked.'};
   ['Autogenic training','Nidra'].forEach(tr=>{
     const sec=el('div','track'); sec.appendChild(el('h3',null,tr));
     sec.appendChild(el('p','tcap',CAP[tr]));
